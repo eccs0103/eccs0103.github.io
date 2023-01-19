@@ -2,6 +2,7 @@
 * {
 	margin: 0;
 	padding: 0;
+	user-select: none;
 }
 
 :root {
@@ -35,6 +36,11 @@ code {
 	tab-size: 4;
 	list-style: none inside;
 	counter-reset: index;
+	user-select: text;
+}
+
+code * {
+	user-select: inherit;
 }
 
 code>span {

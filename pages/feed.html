@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type: text/html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Personal Webpage</title>
+	<link rel="stylesheet" href="../styles/style.css">
+	<link rel="stylesheet" href="../styles/themes/material.css">
+</head>
+
+<body style="display: flex; flex-direction: column; align-items: center; gap: var(--size-gap); padding: var(--size-gap);">
+	<header class="layer" style="min-width: 60%; max-width: calc(var(--size-standart) * 10); position: relative; display: grid; grid-template: max-content 1fr / var(--size-standart-2) 1fr; gap: var(--size-gap); margin-top: calc(var(--size-standart-2) / 2); padding: var(--size-gap); padding-left: calc(var(--size-gap) + var(--size-standart));">
+		<div class="flex" style="grid-row: auto / span 2; width: 100%; aspect-ratio: 2; position: relative;">
+			<div class="flex" style="width: 100%; aspect-ratio: 1; position: absolute; bottom: 0;">
+				<div class="depth flex" style="border-radius: 50%; padding: var(--size-gap);">
+					<div class="layer flex" style="width: 100%; height: 100%; border-radius: inherit;">
+						<img src="../resources/Circuit (Transparent).png" alt="Avatar" style="padding: var(--size-gap);">
+					</div>
+				</div>
+			</div>
+		</div>
+		<h1 style="text-align: right;">ECCS0103</h1>
+		<dfn style="text-align: right;">Студент, программист и модератор на <a href="https://ru.stackoverflow.com/">ru.stackoverflow.com</a></dfn>
+	</header>
+	<main style="min-width: var(--size-standart-2); max-width: 50%; display: flex; flex-direction: column; gap: var(--size-gap); margin-top: var(--size-gap);">
+		<article class="layer" style="display: flex; flex-direction: column; gap: var(--size-gap); padding: var(--size-gap);">
+			<h1>Пара классов</h1>
+			<p>Написал пару полезных классов на Java Script, хотел оставить у себя в странице.</p>
+			<code class="depth" style="display: grid; padding: var(--size-gap); overflow-x: auto;">
+				<span>//#region Random</span>
+				<span>/**</span>
+				<span> * A class that manages with randomness.</span>
+				<span> */</span>
+				<span>class Random {</span>
+				<span>	/**</span>
+				<span>	 * Gives a random number between min and max exclusively.</span>
+				<span>	 * @param {Number} min A minimum value.</span>
+				<span>	 * @param {Number} max A maximum value.</span>
+				<span>	 * @returns A random float float.</span>
+				<span>	 */</span>
+				<span>	static number(min, max) {</span>
+				<span>		return Math.random() * (max - min) + min;</span>
+				<span>	}</span>
+				<span>	/**</span>
+				<span>	 * Gives a random element from an array.</span>
+				<span>	 * @template Type Elements type.</span>
+				<span>	 * @param {Array<Type>} array Given array.</span>
+				<span>	 * @returns An array element.</span>
+				<span>	 */</span>
+				<span>	static element(array) {</span>
+				<span>		return array[Math.floor(Random.number(0, array.length))];</span>
+				<span>	}</span>
+				<span>	/**</span>
+				<span>	 * A function that returns random variant from cases.</span>
+				<span>	 * @template Type Case type.</span>
+				<span>	 * @param {Map<Type, Number>} cases Map of cases.</span>
+				<span>	 * @returns Random case.</span>
+				<span>	 */</span>
+				<span>	static case(cases) {</span>
+				<span>		const summary = Array.from(cases).reduce((previous, current) => previous + current[1], 0);</span>
+				<span>		const random = Random.number(0, summary);</span>
+				<span>		let selection = undefined;</span>
+				<span>		let start = 0;</span>
+				<span>		for (const entry of cases) {</span>
+				<span>			const end = start + entry[1];</span>
+				<span>			if (start <= random && random < end) {</span>
+				<span>				selection = entry[0];</span>
+				<span>				break;</span>
+				<span>			}</span>
+				<span>			start = end;</span>
+				<span>		}</span>
+				<span>		if (typeof (selection) == `undefined`) {</span>
+				<span>			throw new ReferenceError(`Can't select value. Maybe stack is empty.`);</span>
+				<span>		} else {</span>
+				<span>			return selection;</span>
+				<span>		}</span>
+				<span>	}</span>
+				<span>}</span>
+				<span>//#endregion</span>
+				<span>//#region Archive</span>
+				<span>/**</span>
+				<span> * A class for convenient data storage in local storage.</span>
+				<span> * @template Notation Data type stored in archive.</span>
+				<span> */</span>
+				<span>class Archive {</span>
+				<span>	/**</span>
+				<span>	 * @param {String} path The path where the data should be stored.</span>
+				<span>	 * @param {Notation?} initial Initial data.</span>
+				<span>	 */</span>
+				<span>	constructor(path, initial = null) {</span>
+				<span>		this.#path = path;</span>
+				<span>		if (!localStorage.getItem(path) && initial) {</span>
+				<span>			localStorage.setItem(path, JSON.stringify(initial, undefined, `\t`));</span>
+				<span>		}</span>
+				<span>	}</span>
+				<span>	/** @type {String} */ #path;</span>
+				<span>	/**</span>
+				<span>	 * The data stored in the archive.</span>
+				<span>	 */</span>
+				<span>	get data() {</span>
+				<span>		const item = localStorage.getItem(this.#path);</span>
+				<span>		if (item) {</span>
+				<span>			return (/** @type {Notation} */ (JSON.parse(item)));</span>
+				<span>		} else {</span>
+				<span>			throw new ReferenceError(`Key '${this.#path}' is undefined.`);</span>
+				<span>		}</span>
+				<span>	}</span>
+				<span>	/**</span>
+				<span>	 * The data stored in the archive.</span>
+				<span>	 */</span>
+				<span>	set data(value) {</span>
+				<span>		localStorage.setItem(this.#path, JSON.stringify(value, undefined, `\t`));</span>
+				<span>	}</span>
+				<span>	/**</span>
+				<span>	 * Function for receiving and transmitting data. Frequent use is not recommended based on optimization.</span>
+				<span>	 * @param {(value: Notation) => Notation} action A function that transforms the results.</span>
+				<span>	 */</span>
+				<span>	change(action) {</span>
+				<span>		this.data = action(this.data);</span>
+				<span>	}</span>
+				<span>}</span>
+				<span>//#endregion</span>
+			</code>
+			<time datetime="2023-01-19 09:36"></time>
+		</article>
+		<article class="layer" style="display: flex; flex-direction: column; gap: var(--size-gap); padding: var(--size-gap);">
+			<h1>Начало</h1>
+			<p>Начало моей персональной веб страницы.</p>
+			<time datetime="2023-01-19 09:03"></time>
+		</article>
+	</main>
+</body>
+
+</html>

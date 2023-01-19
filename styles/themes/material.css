@@ -1,0 +1,70 @@
+/* Main */
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-foreground: rgb(255, 255, 255);
+		--color-background: rgb(225, 225, 225);
+		--color-highlight: hsl(200deg, 100%, 50%);
+		--color-text: rgb(50, 50, 50);
+		--color-text-description: rgb(150, 150, 150);
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-foreground: rgb(50, 50, 50);
+		--color-background: rgb(25, 25, 25);
+		--color-highlight: hsl(200deg, 100%, 50%);
+		--color-text: rgb(255, 255, 255);
+		--color-text-description: rgb(150, 150, 150);
+	}
+}
+
+/* Global */
+
+body {
+	background-color: var(--color-background);
+	color: var(--color-text);
+}
+
+body *,
+body *::placeholder {
+	color: inherit;
+}
+
+*.layer {
+	background-color: var(--color-foreground);
+	border-radius: var(--size-gap);
+}
+
+*.depth {
+	background-color: var(--color-background);
+	border-radius: var(--size-gap);
+}
+
+*.transparent {
+	background-color: transparent;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:any-link {
+	color: var(--color-highlight);
+}
+
+dfn,
+time {
+	color: var(--color-text-description);
+}
+
+::-webkit-scrollbar {
+	background-color: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--color-highlight);
+}
+
+/* Local */

@@ -1,0 +1,59 @@
+/* Main */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--size-standart: calc(4vmin);
+	--size-standart-2: calc(var(--size-standart) * 8);
+	--size-gap: calc(var(--size-standart) / 4);
+}
+
+body {
+	font-family: system-ui, sans-serif;
+	font-size: calc(var(--size-standart) / 2);
+	line-height: 1;
+}
+
+/* Global */
+*.flex {
+	display: flex;
+}
+
+img.icon {
+	height: var(--size-standart);
+	aspect-ratio: 1;
+}
+
+time::before {
+	content: attr(datetime);
+}
+
+code {
+	white-space: pre-line;
+	tab-size: 4;
+	list-style: none inside;
+	counter-reset: index;
+}
+
+code>span {
+	white-space: pre;
+	display: list-item;
+}
+
+code>span::before {
+	counter-increment: index;
+	content: counters(index, '.', decimal) '	| ';
+}
+
+::-webkit-scrollbar {
+	width: var(--size-gap);
+	height: var(--size-gap);
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 50vmin;
+}
+
+/* Local */

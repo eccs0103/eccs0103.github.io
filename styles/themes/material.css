@@ -27,9 +27,13 @@ body {
 	color: var(--color-text);
 }
 
-body *,
-body *::placeholder {
+body * {
+	background-color: initial;
 	color: inherit;
+}
+
+body *::placeholder {
+	color: var(--color-text-description);
 }
 
 *.layer {
@@ -42,8 +46,52 @@ body *::placeholder {
 	border-radius: var(--size-gap);
 }
 
+*.layer.in-top,
+*.depth.in-top {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+*.layer.in-right,
+*.depth.in-right {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+*.layer.in-bottom,
+*.depth.in-bottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+*.layer.in-left,
+*.depth.in-left {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
 *.transparent {
 	background-color: transparent;
+}
+
+/* *.button {} */
+
+*.button:not(.disabled) {
+	cursor: pointer;
+	color: var(--color-highlight);
+}
+
+*.button:hover {
+	filter: invert(0.1);
+}
+
+*.button:active {
+	filter: invert(0.2);
+}
+
+*.button.disabled {
+	pointer-events: none;
+	filter: opacity(0.5);
 }
 
 a {
@@ -52,6 +100,10 @@ a {
 
 a:any-link {
 	color: var(--color-highlight);
+}
+
+hr {
+	border-color: var(--color-background);
 }
 
 dfn,

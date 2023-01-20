@@ -4,6 +4,8 @@
 	padding: 0;
 	user-select: none;
 	-webkit-user-drag: none;
+	border: none;
+	outline: none;
 }
 
 :root {
@@ -16,9 +18,15 @@ body {
 	font-family: system-ui, sans-serif;
 	font-size: calc(var(--size-standart) / 2);
 	line-height: 1;
+	scroll-behavior: smooth;
 }
 
 /* Global */
+*.layer,
+*.depth {
+	padding: var(--size-gap);
+}
+
 *.flex {
 	display: flex;
 }
@@ -28,8 +36,8 @@ img.icon {
 	aspect-ratio: 1;
 }
 
-time::before {
-	content: attr(datetime);
+hr {
+	margin: var(--size-gap) 0;
 }
 
 code {
@@ -64,3 +72,10 @@ code>span::before {
 }
 
 /* Local */
+article {
+	display: grid;
+	grid-template:
+		"title date" max-content
+		"content content" 1fr
+		/ 1fr max-content;
+}

@@ -72,10 +72,40 @@ code>span::before {
 }
 
 /* Local */
-article {
+article.post {
 	display: grid;
 	grid-template:
-		"title date" max-content
-		"content content" 1fr
-		/ 1fr max-content;
+		"title		date	" max-content
+		"content	content	" 1fr
+		"tags		tags	" max-content /
+		1fr max-content;
+	gap: var(--size-gap);
+}
+
+article.post>h1.title {
+	grid-area: title;
+}
+
+article.post>time.date {
+	grid-area: date;
+}
+
+article.post>div.content,
+article.post>my-markdown.content {
+	grid-area: content;
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-gap);
+}
+
+article.post>div.tags {
+	grid-area: tags;
+}
+
+article.post>div.tags dfn::before {
+	content: "#";
+}
+
+article.post>div.tags dfn:not(:last-child)::after {
+	content: ",";
 }

@@ -6,20 +6,21 @@
 	<meta http-equiv="Content-Type: text/html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Personal Webpage</title>
+	<link rel="shortcut icon" href="../resources/Circuit (Transparent).png">
 	<link rel="stylesheet" href="../styles/style.css">
 	<link rel="stylesheet" href="../styles/themes/material.css">
 	<script src="../scripts/modules.js" defer></script>
-	<script src="../scripts/plugins/article-constructor.js" defer></script>
+	<script src="../scripts/feed.js" defer></script>
 </head>
 
-<body style="min-width: calc(var(--size-standart-2) * 2); max-width: 80%; width: fit-content; display: grid; gap: var(--size-gap); margin: auto; padding: var(--size-gap);">
+<body style="min-width: calc(var(--size-standart-2) * 2); max-width: 60%; width: fit-content; display: grid; gap: var(--size-gap); margin: auto; padding: var(--size-gap);">
 	<header class="layer" style="position: relative; display: grid; grid-template: max-content 1fr / var(--size-standart-2) 1fr; gap: var(--size-gap); margin-top: calc(var(--size-standart-2) / 2); padding-left: calc(var(--size-gap) + var(--size-standart));">
 		<div class="flex" style="grid-row: auto / span 2; width: 100%; aspect-ratio: 2; position: relative;">
 			<div class="flex" style="width: 100%; aspect-ratio: 1; position: absolute; bottom: 0;">
 				<div class="depth flex" style="border-radius: 50%;">
-					<div class="layer flex" style="width: 100%; height: 100%; border-radius: inherit; padding: 0;">
-						<img src="../resources/Circuit (Transparent).gif" alt="Avatar" style="padding: var(--size-gap);">
-					</div>
+					<a href="./feed.html" class="layer flex" style="width: 100%; height: 100%; border-radius: inherit; padding: 0; mask: url('../resources/Circuit (Transparent).gif')">
+						<img src="../resources/Circuit (Transparent).gif" alt="Avatar" style="padding: var(--size-gap); mask: url('../resources/Circuit (Transparent).gif');">
+					</a>
 				</div>
 			</div>
 		</div>
@@ -32,10 +33,30 @@
 		</dfn>
 	</header>
 	<main style="display: flex; flex-direction: column; gap: var(--size-gap);">
-		<article class="layer" style="gap: var(--size-gap);">
-			<h1 style="grid-area: title;">Пара классов</h1>
-			<time datetime="2023-01-19 09:36" style="grid-area: date;"></time>
-			<div style="grid-area: content; display: flex; flex-direction: column; gap: var(--size-gap);">
+		<template>
+			<article class="layer post">
+				<h1 class="title"></h1>
+				<time datetime="" class="date"></time>
+				<div class="content"></div>
+				<div class="tags"></div>
+			</article>
+		</template>
+		<article class="layer post">
+			<h1 class="title">Сертификат</h1>
+			<time datetime="2023-01-20 20:47" class="date"></time>
+			<div class="content">
+				<p>Получил сертификат академии в <a href="https://www.musixmatch.com/">Musixmatch</a></p>
+				<img src="../resources/Graduate Certificate.jpg" alt="Сертификат">
+			</div>
+			<div class="tags">
+				<n>bounties</dfn>
+				<dfn>photo</dfn>
+			</div>
+		</article>
+		<article class="layer post">
+			<h1 class="title">Пара классов</h1>
+			<time datetime="2023-01-19 09:36" class="date"></time>
+			<div class="content">
 				<p>Написал пару полезных классов на Java Script, хотел оставить у себя в странице.</p>
 				<code class="depth" style="	display: flex;				flex-direction: column; padding: var(--size-gap); overflow-x: auto;">
 					<span>//#region Random</span>
@@ -133,12 +154,19 @@
 					<span>//#endregion</span>
 				</code>
 			</div>
+			<div class="tags">
+				<dfn>code</dfn>
+				<dfn>java-script</dfn>
+			</div>
 		</article>
-		<article class="layer" style="gap: var(--size-gap);">
-			<h1 style="grid-area: title;">Начало</h1>
-			<time datetime="2023-01-19 09:03" style="grid-area: date;"></time>
-			<div style="grid-area: content; display: flex; flex-direction: column; gap: var(--size-gap);">
+		<article class="layer post">
+			<h1 class="title">Начало</h1>
+			<time datetime="2023-01-19 09:03" class="date"></time>
+			<div class="content">
 				<p>Начало моей персональной веб страницы.</p>
+			</div>
+			<div class="tags">
+				<dfn>event</dfn>
 			</div>
 		</article>
 	</main>

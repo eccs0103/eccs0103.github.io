@@ -1,6 +1,6 @@
 /* Main */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: light) {
 	:root {
 		--color-foreground: rgb(255, 255, 255);
 		--color-background: rgb(225, 225, 225);
@@ -8,7 +8,7 @@
 		--color-text: rgb(50, 50, 50);
 		--color-text-description: rgb(150, 150, 150);
 	}
-}
+} */
 
 @media (prefers-color-scheme: dark) {
 	:root {
@@ -74,6 +74,12 @@ body *::placeholder {
 	background-color: transparent;
 }
 
+@media (prefers-color-scheme: dark) {
+	img.icon {
+		filter: invert(1);
+	}
+}
+
 /* *.button {} */
 
 *.button:not(.disabled) {
@@ -121,7 +127,7 @@ time {
 
 /* Local */
 body {
-	background-image: url(../../resources/Background.webp);
+	background-image: url(../../resources/Background.png);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: top;

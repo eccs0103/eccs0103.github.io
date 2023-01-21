@@ -2,21 +2,24 @@ const main = document.querySelector(`main`);
 if (!main) {
 	throw new ReferenceError(`Element 'main' isn't defined.`);
 }
-const articlesPost = (/** @type {Array<HTMLElement>} */ (Array.from(main.querySelectorAll(`article.post`))));
-for (let index = 0; index < articlesPost.length; index++) {
-	const articlePost = articlesPost[(articlesPost.length - 1) - index];
+const templatePostStructure = (/** @type {HTMLTemplateElement} */ (document.querySelector(`template#post-structure`)));
+database.forEach((post, index) => {
+	const articlePost = main.appendChild((/** @type {HTMLElement} */ (/** @type {HTMLElement} */(templatePostStructure.content.querySelector(`article#post-`)).cloneNode(true))));
 	articlePost.id = `post-${index}`;
-	const timeDate = (/** @type {HTMLTimeElement} */ (articlePost.querySelector(`time.date`)));
-	const dateValue = Date.parse(timeDate.dateTime);
-	timeDate.innerText = new Date(dateValue).toLocaleString(undefined, {
-		year: `numeric`,
-		month: `long`,
-		day: `numeric`,
-		hourCycle: `h24`,
-		hour: `2-digit`,
-		minute: `2-digit`,
-	});
-	if (!Number.isNaN(dateValue)) {
+	{
+		const h1Title = (/** @type {HTMLHeadingElement} */ (articlePost.querySelector(`h1#title`)));
+		h1Title.innerText = post.title;
+		{ }
+		const timeDate = (/** @type {HTMLTimeElement} */ (articlePost.querySelector(`time#date`)));
+		timeDate.dateTime = post.date.toString();
+		timeDate.innerText = post.date.toLocaleString(undefined, {
+			year: `numeric`,
+			month: `long`,
+			day: `numeric`,
+			hourCycle: `h24`,
+			hour: `2-digit`,
+			minute: `2-digit`,
+		});
 		timeDate.classList.add(`button`);
 		timeDate.addEventListener(`click`, (event) => {
 			navigator.clipboard.writeText(`${location.origin}${location.pathname}#${articlePost.id}`)
@@ -27,10 +30,16 @@ for (let index = 0; index < articlesPost.length; index++) {
 					throw reason instanceof Error ? reason : new Error(reason);
 				});
 		});
+		{ }
+		const divContent = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div#content`)));
+		divContent.innerHTML = post.content;
+		{ }
+		const divTags = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div#tags`)));
+		{
+			post.tags.forEach((tag, index) => {
+				const dfnTag = divTags.appendChild(document.createElement(`dfn`));
+				dfnTag.innerText = tag;
+			});
+		}
 	}
-	const divTags = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.tags`)));
-	const dfnsTag = (/** @type {Array<HTMLElement>} */ (Array.from(divTags.querySelectorAll(`dfn`))));
-	for (const dfnTag of dfnsTag) {
-		// dfnTag.classList.add(`button`);
-	}
-}
+});

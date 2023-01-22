@@ -1,6 +1,6 @@
 /* Main */
 
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
 	:root {
 		--color-foreground: rgb(255, 255, 255);
 		--color-background: rgb(225, 225, 225);
@@ -8,7 +8,7 @@
 		--color-text: rgb(50, 50, 50);
 		--color-text-description: rgb(150, 150, 150);
 	}
-} */
+}
 
 @media (prefers-color-scheme: dark) {
 	:root {
@@ -136,3 +136,15 @@ body {
 	background-origin: border-box;
 	background-blend-mode: color-dodge;
 }
+
+/* @media (prefers-color-scheme: light) {
+	body {
+		
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		
+	}
+} */

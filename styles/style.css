@@ -64,7 +64,7 @@ code>span {
 
 code>span::before {
 	counter-increment: index;
-	content: counters(index, '.', decimal) '	| ';
+	content: counters(index, '.', decimal) '	|';
 }
 
 ::-webkit-scrollbar {

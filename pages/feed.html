@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="../styles/style.css">
 	<link rel="stylesheet" href="../styles/themes/material.css">
 	<script src="../scripts/modules.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 	<script src="../scripts/structure.js" defer></script>
 	<script src="../scripts/database.js" defer></script>
 	<script src="../scripts/feed.js" defer></script>
@@ -37,10 +38,10 @@
 	<main style="display: flex; flex-direction: column-reverse; gap: var(--size-gap);">
 		<template id="post-structure">
 			<article id="post-" class="layer">
-				<h1 id="title"></h1>
-				<time id="date"></time>
-				<div id="content"></div>
-				<div id="tags"></div>
+				<h1 class="title"></h1>
+				<time class="date"></time>
+				<div is="my-markdown" class="content"></div>
+				<div class="tags"></div>
 			</article>
 		</template>
 	</main>

@@ -46,7 +46,7 @@ hr {
 }
 
 code {
-	white-space: pre-line;
+	/* white-space: pre; */
 	tab-size: 4;
 	list-style: none inside;
 	counter-reset: index;
@@ -85,32 +85,44 @@ article[id^="post-"] {
 		"tags		tags	" max-content /
 		1fr max-content;
 	gap: var(--size-gap);
+	overflow: hidden;
 }
 
-article[id^="post-"]>h1#title {
+article[id^="post-"]>h1.title {
 	grid-area: title;
 }
 
-article[id^="post-"]>time#date {
+article[id^="post-"]>time.date {
 	grid-area: date;
 }
 
-article[id^="post-"]>div#content,
-article[id^="post-"]>my-markdown#content {
+article[id^="post-"]>div:not([is="my-markdown"]).content {
 	grid-area: content;
 	display: flex;
 	flex-direction: column;
 	gap: var(--size-gap);
 }
 
-article[id^="post-"]>div#tags {
+article[id^="post-"]>div[is="my-markdown"].content {
+	grid-area: content;
+}
+
+div[is="my-markdown"] img {
+	display: block;
+	width: 100%;
+	margin-top: var(--size-gap);
+}
+
+div[is="my-markdown"] code {
+	display: block;
+	margin-top: var(--size-gap);
+	overflow-x: auto;
+}
+
+article[id^="post-"]>div.tags {
 	grid-area: tags;
 }
 
-article[id^="post-"]>div#tags dfn::before {
+article[id^="post-"]>div.tags dfn::before {
 	content: "#";
-}
-
-article[id^="post-"]>div#tags dfn:not(:last-child)::after {
-	content: ", ";
 }

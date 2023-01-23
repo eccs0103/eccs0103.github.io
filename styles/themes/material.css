@@ -4,7 +4,6 @@
 	:root {
 		--color-foreground: rgb(255, 255, 255);
 		--color-background: rgb(225, 225, 225);
-		--color-highlight: hsl(200deg, 100%, 50%);
 		--color-text: rgb(50, 50, 50);
 		--color-text-description: rgb(150, 150, 150);
 	}
@@ -14,10 +13,14 @@
 	:root {
 		--color-foreground: rgb(50, 50, 50);
 		--color-background: rgb(25, 25, 25);
-		--color-highlight: hsl(200deg, 100%, 50%);
 		--color-text: rgb(255, 255, 255);
 		--color-text-description: rgb(150, 150, 150);
 	}
+}
+
+:root {
+	--color-highlight: hsl(200deg, 100%, 50%);
+	--color-warn: rgb(255, 255, 0);
 }
 
 /* Global */
@@ -98,6 +101,10 @@ body *::placeholder {
 *.button.disabled {
 	pointer-events: none;
 	filter: opacity(0.5);
+}
+
+*.mark {
+	color: var(--color-warn) !important;
 }
 
 a {

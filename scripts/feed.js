@@ -33,7 +33,7 @@ try {
 					hour: `2-digit`,
 					minute: `2-digit`,
 				});
-				timeDate.classList.add(`button`);
+				timeDate.role = `button`;
 				timeDate.addEventListener(`click`, (event) => {
 					navigator.clipboard.writeText(`${location.origin}${location.pathname}#${articlePost.id}`)
 						.then(() => {
@@ -55,7 +55,7 @@ try {
 						if (index != post.tags.length - 1) {
 							dfnTag.replaceWith(dfnTag, document.createTextNode(`, `));
 						}
-						dfnTag.classList.add(`button`);
+						dfnTag.role = `button`;
 						const search = location.search.match(/tags=(.*)(,|$)/);
 						const tags = new Set(search ? search[1].split(`,`) : []);
 						if (tags.has(tag)) {

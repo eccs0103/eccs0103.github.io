@@ -7,17 +7,21 @@
 	-webkit-user-drag: none;
 	border: none;
 	outline: none;
+	border-width: var(--size-serpator);
+	outline-width: var(--size-serpator);
+	outline-offset: calc(-1 * var(--size-serpator));
 }
 
 :root {
 	--size-standart: calc(4vmin);
-	--size-standart-2: calc(var(--size-standart) * 8);
 	--size-gap: calc(var(--size-standart) / 4);
+	--size-serpator: 0.25vmin;
 }
 
 body {
 	font-family: system-ui, sans-serif;
 	font-size: calc(var(--size-standart) / 2);
+	font-weight: normal;
 	line-height: 1;
 	scroll-behavior: smooth;
 }
@@ -30,6 +34,92 @@ body {
 
 *.flex {
 	display: flex;
+}
+
+button,
+*[role="button"],
+input,
+input[type="checkbox"]+label[role="checkbox"],
+*[role="combobox"]:not([aria-checked="true"]),
+select {
+	cursor: pointer;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: bold;
+	/* line-height: inherit; */
+}
+
+*::placeholder {
+	font-weight: normal;
+}
+
+input:read-write {
+	cursor: text;
+}
+
+input[type="checkbox"]+label[role="checkbox"].toggle {
+	aspect-ratio: 2;
+	width: calc(var(--size-standart) * 1.5);
+	display: flex;
+	border-radius: 50vmin;
+	padding: var(--size-serpator);
+}
+
+input[type="checkbox"]+label[role="checkbox"].toggle>span.knob {
+	aspect-ratio: 1;
+	height: 100%;
+	border-radius: inherit;
+	padding: 0;
+	margin-left: 0;
+	margin-right: auto;
+}
+
+input[type="checkbox"]:checked+label[role="checkbox"].toggle>span.knob {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+section.serpator {
+	display: contents;
+}
+
+section.option {
+	display: grid;
+	grid: 'title value' max-content 'definition	value' max-content / 1fr auto;
+	align-items: center;
+	gap: var(--size-serpator) var(--size-gap);
+	padding-top: var(--size-gap);
+}
+
+section.option>section.option {
+	padding-left: 1em;
+	grid-column: auto / span 2;
+}
+
+section.option>input:not(:checked)~section.option {
+	display: none !important;
+}
+
+section.option>p.title {
+	grid-area: title;
+}
+
+section.option>*.value {
+	grid-area: value;
+}
+
+section.option>dfn.definition {
+	grid-area: definition;
+	font-size: smaller;
+}
+
+table {
+	padding: var(--size-gap);
+}
+
+table th,
+table td {
+	padding: 0.25em 0.5em;
 }
 
 img.avatar {
@@ -46,7 +136,6 @@ hr {
 }
 
 code {
-	/* white-space: pre; */
 	tab-size: 4;
 	list-style: none inside;
 	counter-reset: index;
@@ -77,6 +166,10 @@ code>span::before {
 }
 
 /* Local */
+:root {
+	--size-standart-2: calc(var(--size-standart) * 8);
+}
+
 article[id^="post-"] {
 	display: grid;
 	grid-template:

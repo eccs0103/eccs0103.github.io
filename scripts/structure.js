@@ -46,7 +46,23 @@ class MyMarkdownElement extends HTMLDivElement {
 				[/!\[(.*)\]\((.*)\)/gim, substring => {
 					const description = substring.substring(2, substring.search(/\]/));
 					const link = substring.substring(4 + description.length, substring.length - 1);
-					return `<img src="${link}" alt="${description}"/>`;
+					const mime = link.substring(link.search(/(?<=\w+\.)\w+$/));
+					switch (mime) {
+						case `png`:
+						case `jpg`:
+						case `jpeg`:
+							return `<img src="${link}" alt="${description}"/>`;
+						case `mp3`:
+							return `
+								<audio>
+									<source type="audio/mp3" src="${link}">
+									<span>Your browser does not support the audio element.</span>
+								</audio>
+							`;
+						default:
+							throw new TypeError(`Invalid mime type: '${mime}'.`);
+					}
+
 				}],
 				[/```([\s\S]*)```/gim, substring => {
 					return `<code class="depth">${substring.substring(3, substring.length - 3).trim().split(`\n`).map((line) => `<span>${line}</span>`).join(`\n`)}</code>`;

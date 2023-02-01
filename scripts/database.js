@@ -10,6 +10,6 @@ const database = [
 	`, `code java-script`),
 	new Post(`Сертификат Musixmatch`, new Date(`2023-01-20 20:47`), `
 		Получил сертификат академии в [Musixmatch](https://www.musixmatch.com/)  
-		![Сертификат](../resources/Graduate Certificate.jpg)
+		![Сертификат](../resources/archive/Graduate Certificate.jpg)
 	`, `bounties photo`),
 ];

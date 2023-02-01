@@ -75,7 +75,7 @@ class MyMarkdownElement extends HTMLDivElement {
 		}).observe(this, { childList: true, subtree: true });
 	}
 }
-customElements.define(`my-markdown`, MyMarkdownElement, { extends: `div` });
+// customElements.define(`my-markdown`, MyMarkdownElement, { extends: `div` });
 //#endregion
 //#region Metadata
 const safeMode = true;

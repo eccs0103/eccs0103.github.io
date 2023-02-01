@@ -22,7 +22,7 @@ body {
 	font-family: system-ui, sans-serif;
 	font-size: calc(var(--size-standart) / 2);
 	font-weight: normal;
-	line-height: 1;
+	/* line-height: 1; */
 	scroll-behavior: smooth;
 }
 
@@ -189,24 +189,17 @@ article[id^="post-"]>time.date {
 	grid-area: date;
 }
 
-article[id^="post-"]>div:not([is="my-markdown"]).content {
-	grid-area: content;
-	display: flex;
-	flex-direction: column;
-	gap: var(--size-gap);
-}
-
-article[id^="post-"]>div[is="my-markdown"].content {
+article[id^="post-"]>div.content {
 	grid-area: content;
 }
 
-div[is="my-markdown"] img {
+div.content img {
 	display: block;
 	width: 100%;
 	margin-top: var(--size-gap);
 }
 
-div[is="my-markdown"] code {
+div.content code {
 	display: block;
 	margin-top: var(--size-gap);
 	overflow-x: auto;

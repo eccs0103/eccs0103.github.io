@@ -1,3 +1,4 @@
+"use strict";
 try {
 	const main = document.querySelector(`main`);
 	if (!main) {
@@ -55,20 +56,20 @@ try {
 						if (index != post.tags.length - 1) {
 							dfnTag.replaceWith(dfnTag, document.createTextNode(`, `));
 						}
-						dfnTag.role = `button`;
-						const search = location.search.match(/tags=(.*)(,|$)/);
-						const tags = new Set(search ? search[1].split(`,`) : []);
-						if (tags.has(tag)) {
-							dfnTag.classList.add(`mark`);
-						}
-						dfnTag.addEventListener(`click`, (event) => {
-							if (tags.has(tag)) {
-								tags.delete(tag);
-							} else {
-								tags.add(tag);
-							}
-							location.search = tags.size == 0 ? `` : `tags=${Array.from(tags).join(`,`)}`;
-						});
+						// dfnTag.role = `button`;
+						// const search = location.search.match(/tags=(.*)(,|$)/);
+						// const tags = new Set(search ? search[1].split(`,`) : []);
+						// if (tags.has(tag)) {
+						// 	dfnTag.classList.add(`mark`);
+						// }
+						// dfnTag.addEventListener(`click`, (event) => {
+						// 	if (tags.has(tag)) {
+						// 		tags.delete(tag);
+						// 	} else {
+						// 		tags.add(tag);
+						// 	}
+						// 	location.search = tags.size == 0 ? `` : `tags=${Array.from(tags).join(`,`)}`;
+						// });
 					});
 				}
 			}

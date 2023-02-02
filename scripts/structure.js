@@ -7,11 +7,16 @@ class Post {
 	 * @param {String} content 
 	 * @param  {String} tags 
 	 */
-	constructor(title, date, content, tags) {
+	constructor(title, date, content, tags, snippets = false) {
 		this.#title = title;
 		this.#date = date;
 		this.#content = content;
-		this.#tags = tags.split(` `);
+		this.#tags = tags.split(` `).filter((tag) => {
+			if (tag == window.encodeURI(tag)) {
+				return true;
+			} else throw new SyntaxError(`Invalid tag: '${tag}'`);
+		});
+		this.#snippets = snippets;
 	}
 	/** @type {String} */ #title;
 	/** @readonly */ get title() {
@@ -28,6 +33,10 @@ class Post {
 	/** @type {Array<String>} */ #tags;
 	/** @readonly */ get tags() {
 		return Object.freeze(this.#tags);
+	}
+	/** @type {Boolean} */ #snippets;
+	/** @readonly */ get snippets() {
+		return this.#snippets;
 	}
 }
 //#endregion
@@ -78,5 +87,5 @@ class MyMarkdownElement extends HTMLDivElement {
 // customElements.define(`my-markdown`, MyMarkdownElement, { extends: `div` });
 //#endregion
 //#region Metadata
-const safeMode = true;
+const locked = false;
 //#endregion

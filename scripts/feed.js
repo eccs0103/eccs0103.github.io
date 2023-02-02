@@ -1,34 +1,67 @@
 "use strict";
 try {
+	//#region Database
+	const database = [
+		new Post(`Начало`, new Date(`2023-01-19 09:03`), `
+			Начало моей персональной веб страницы.
+		`, `event`),
+		new Post(`Сертификат Musixmatch`, new Date(`2023-01-20 20:47`), `
+			Получил сертификат академии в <a href="https://www.musixmatch.com/">Musixmatch</a></br>
+			<img src="../resources/archive/Graduate Certificate.jpg" alt="Сертификат"/>
+		`, `bounties image`),
+		new Post(`Русская рулетка наоборот`, new Date(`2023-02-02 1:38`), `
+			Предлагаю такую игру. Для начала <a href="https://www.google.com/search?q=%D0%BA%D0%B0%D0%BA+%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8C+%D0%BA%D0%BE%D0%BD%D1%81%D0%BE%D0%BB%D1%8C+%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%B0">открывайте консоль разработчика</a>, потом нажмите на кнопку "Запустить" снизу. В открывшейся всплывающее поле вводите какую-нибудь фразу (не рекомендуется больше 8 слов), к примеру: "Берегите в себе человека.". Я наугад буду смешивать слова фразы и выводить в консоли. Игра заканчивается, когда смешанная фраза будет совпадать с оригиналом. После чего я покажу количество попыток.<br/>
+			Ну что, готов? :)<br/>
+			<button id="launch-mini-game-1" class="depth" style="display: block; margin: var(--size-gap) auto;">Запустить</button>
+		`, `java-script mini-game`, true),
+		new Post(`Игра в стиле песочница`, new Date(`2023-01-20 13:59`), `
+			Моя игрушка на DOM перешла на новый уровень. Полную версию найдете в <a href="https://github.com/eccs0103/Elements">GitHub</a>. А пока можете взглянуть на <a href="https://eccs0103.github.io/Elements/">демо версию</a>.</br>
+			<!-- <iframe src="https://eccs0103.github.io/Elements/"></iframe> -->
+			<img src="../resources/archive/Elements.png" alt="Скриншот"/>
+		`, `projects image`),
+	];
+	//#endregion
+	//#region Filters
+	const search = new Map(window.decodeURI(location.search.replace(/^\??/, ``)).split(`&`).filter(item => item).map((item) => {
+		const [key, value] = item.split(`=`);
+		return [key, value];
+	}));
+	const tags = new Set(search.get(`tags`)?.split(`, `));
+	/**
+	 * @callback Filter
+	 * @param {Post} post
+	 * @param {Number} index
+	 * @returns {Boolean}
+	 */
+	/** @type {Array<Filter>} */ const filters = [
+		//#region Tag filter
+		(post) => tags.size > 0 ? Array.from(tags).every(tag => post.tags.includes(tag)) : true,
+		//#endregion
+	];
+	//#endregion
+	//#region Initialize
 	const main = document.querySelector(`main`);
 	if (!main) {
 		throw new ReferenceError(`Element 'main' isn't defined.`);
 	}
-	const filters = (/** @type {Array<(post: Post, index: Number) => Boolean>} */ ([
-		(post, index) => {
-			const search = location.search.match(/tags=(.*)(,|$)/);
-			if (search) {
-				const tags = search[1].split(`,`);
-				return tags.some(tag => post.tags.includes(tag));
-			} else {
-				return true;
-			}
-		}
-	]));
 	const templatePostStructure = (/** @type {HTMLTemplateElement} */ (document.querySelector(`template#post-structure`)));
 	database.forEach((post, index) => {
 		if (filters.every(filter => filter(post, index))) {
+			//#region Post
 			const articlePost = main.appendChild((/** @type {HTMLElement} */ (/** @type {HTMLElement} */(templatePostStructure.content.querySelector(`article#post-`)).cloneNode(true))));
 			articlePost.id = `post-${index}`;
 			{
+				//#region Post title
 				const h1Title = (/** @type {HTMLHeadingElement} */ (articlePost.querySelector(`h1.title`)));
 				h1Title.innerText = post.title;
 				{ }
+				//#endregion
+				//#region Post date
 				const timeDate = (/** @type {HTMLTimeElement} */ (articlePost.querySelector(`time.date`)));
 				timeDate.dateTime = post.date.toString();
 				timeDate.innerText = post.date.toLocaleString(undefined, {
 					year: `numeric`,
-					month: `long`,
+					month: `numeric`,
 					day: `numeric`,
 					hourCycle: `h24`,
 					hour: `2-digit`,
@@ -45,9 +78,24 @@ try {
 						});
 				});
 				{ }
-				const divContent = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.content`)));
-				divContent.innerHTML = post.content;
-				{ }
+				//#endregion
+				//#region Post container
+				const divContainer = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.container`)));
+				{
+					//#region Post content
+					divContainer.innerHTML = post.content;
+					{ }
+					//#endregion
+					//#region Post snippets
+					if (post.snippets) {
+						const script = divContainer.appendChild(document.createElement(`script`));
+						script.defer = true;
+						script.src = `../scripts/snippets/${articlePost.id}.js`;
+					}
+					//#endregion
+				}
+				//#endregion
+				//#region Post tags
 				const divTags = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.tags`)));
 				{
 					post.tags.forEach((tag, index) => {
@@ -56,27 +104,33 @@ try {
 						if (index != post.tags.length - 1) {
 							dfnTag.replaceWith(dfnTag, document.createTextNode(`, `));
 						}
-						// dfnTag.role = `button`;
-						// const search = location.search.match(/tags=(.*)(,|$)/);
-						// const tags = new Set(search ? search[1].split(`,`) : []);
-						// if (tags.has(tag)) {
-						// 	dfnTag.classList.add(`mark`);
-						// }
-						// dfnTag.addEventListener(`click`, (event) => {
-						// 	if (tags.has(tag)) {
-						// 		tags.delete(tag);
-						// 	} else {
-						// 		tags.add(tag);
-						// 	}
-						// 	location.search = tags.size == 0 ? `` : `tags=${Array.from(tags).join(`,`)}`;
-						// });
+						dfnTag.role = `button`;
+						if (tags.has(tag)) {
+							dfnTag.classList.add(`mark`);
+						}
+						dfnTag.addEventListener(`click`, (event) => {
+							if (tags.has(tag)) {
+								tags.delete(tag);
+							} else {
+								tags.add(tag);
+							}
+							if (tags.size > 0) {
+								search.set(`tags`, Array.from(tags).join(`, `));
+							} else {
+								search.delete(`tags`);
+							}
+							location.search = Array.from(search.entries()).map(([key, value]) => `${key}=${value}`).join(`&`);
+						});
 					});
 				}
+				//#endregion
 			}
+			//#endregion
 		}
 	});
+	//#endregion
 } catch (error) {
-	if (safeMode) {
+	if (locked) {
 		window.alert(error instanceof Error ? error.stack ?? `${error.name}: ${error.message}` : `Invalid exception type.`);
 	} else console.error(error);
 }

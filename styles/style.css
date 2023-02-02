@@ -22,7 +22,6 @@ body {
 	font-family: system-ui, sans-serif;
 	font-size: calc(var(--size-standart) / 2);
 	font-weight: normal;
-	/* line-height: 1; */
 	scroll-behavior: smooth;
 }
 
@@ -46,7 +45,6 @@ select {
 	font-family: inherit;
 	font-size: inherit;
 	font-weight: bold;
-	/* line-height: inherit; */
 }
 
 *::placeholder {
@@ -111,6 +109,10 @@ section.option>*.value {
 section.option>dfn.definition {
 	grid-area: definition;
 	font-size: smaller;
+}
+
+iframe {
+	aspect-ratio: 16 / 9;
 }
 
 table {
@@ -189,17 +191,21 @@ article[id^="post-"]>time.date {
 	grid-area: date;
 }
 
-article[id^="post-"]>div.content {
+article[id^="post-"]>div.container {
 	grid-area: content;
 }
 
-div.content img {
-	display: block;
+div.container img {
 	width: 100%;
 	margin-top: var(--size-gap);
 }
 
-div.content code {
+div.container iframe {
+	width: 100%;
+	margin-top: var(--size-gap);
+}
+
+div.container code {
 	display: block;
 	margin-top: var(--size-gap);
 	overflow-x: auto;

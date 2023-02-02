@@ -171,8 +171,19 @@ time {
 }
 
 /* Local */
+@media (prefers-color-scheme: light) {
+	body {
+		background-image: url("../../resources/Background (Day).jpg");
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-image: url("../../resources/Background (Night).png");
+	}
+}
+
 body {
-	background-image: url(../../resources/Background.png);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: top;

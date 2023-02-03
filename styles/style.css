@@ -218,3 +218,23 @@ article[id^="post-"]>div.tags {
 article[id^="post-"]>div.tags dfn::before {
 	content: "#";
 }
+
+/* #a {
+	--stroke: 0px;
+	--x: calc(var(--size-standart-2) / 2 + var(--stroke) + var(--size-gap));
+	--y: 0;
+	--size: var(--size-standart-2);
+	mask-image:
+		radial-gradient(circle at var(--x) var(--y),
+			transparent calc(var(--size) / 2 + var(--stroke)),
+			white calc(var(--size) / 2 + var(--stroke) + 1px));
+	mask-image:
+		radial-gradient(circle at var(--x) var(--y),
+			transparent -moz-calc(var(--size) / 2 + var(--stroke)),
+			white -moz-calc(var(--size) / 2 + var(--stroke) + 1px));
+	-webkit-mask-image:
+		-webkit-radial-gradient(var(--x) var(--y),
+			circle,
+			transparent -webkit-calc(var(--size) / 2 + var(--stroke)),
+			white -webkit-calc(var(--size) / 2 + var(--stroke) + 1px));
+} */

@@ -191,3 +191,8 @@ body {
 	background-clip: border-box;
 	background-origin: border-box;
 }
+
+header.layer {
+	background: none;
+	background-image: radial-gradient(circle at calc(var(--size-gap) + var(--size-standart) * 5 - 1px) var(--size-gap), #fff0 0 calc(var(--size-standart) * 4), var(--color-foreground) calc(var(--size-standart) * 4 + 1px));
+}

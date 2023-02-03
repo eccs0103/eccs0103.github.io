@@ -194,5 +194,5 @@ body {
 
 header.layer {
 	background: none;
-	background-image: radial-gradient(circle at calc(var(--size-gap) + var(--size-standart) * 5 - 1px) var(--size-gap), #fff0 0 calc(var(--size-standart) * 4), var(--color-foreground) calc(var(--size-standart) * 4 + 1px));
+	background-image: radial-gradient(circle at calc(var(--size-gap) + var(--size-standart) * 5) var(--size-gap), #0000 0 calc(var(--size-standart) * 4), var(--color-foreground) calc(var(--size-standart) * 4 + 1px));
 }

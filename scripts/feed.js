@@ -14,9 +14,8 @@ try {
 			Ну что, готов? :)<br/>
 			<button id="launch-mini-game-1" class="depth" style="display: block; margin: var(--size-gap) auto;">Запустить</button>
 		`, `java-script mini-game`, true),
-		new Post(`Игра в стиле песочница`, new Date(`2023-01-20 13:59`), `
+		new Post(`Игра в стиле песочница`, new Date(`2023-02-06 13:59`), `
 			Моя игрушка на DOM перешла на новый уровень. Полную версию найдете в <a href="https://github.com/eccs0103/Elements">GitHub</a>. А пока можете взглянуть на <a href="https://eccs0103.github.io/Elements/">демо версию</a>.</br>
-			<!-- <iframe src="https://eccs0103.github.io/Elements/"></iframe> -->
 			<img src="../resources/archive/Elements.png" alt="Скриншот"/>
 		`, `projects image`),
 	];

@@ -14,37 +14,36 @@ class Random {
 	}
 	/**
 	 * Gives a random element from an array.
-	 * @template Type Elements type.
-	 * @param {Array<Type>} array Given array.
+	 * @template Item Item type.
+	 * @param {Array<Item>} array Given array.
 	 * @returns An array element.
 	 */
 	static element(array) {
 		return array[Math.floor(Random.number(0, array.length))];
 	}
 	/**
-	 * A function that returns random variant from cases.
-	 * @template Type Case type.
-	 * @param {Map<Type, Number>} cases Map of cases.
-	 * @returns Random case.
+	 * A function that returns random element from cases.
+	 * @template Item Item type.
+	 * @param {Map<Item, Number>} cases Map of cases.
+	 * @returns Random element.
 	 */
 	static case(cases) {
-		const summary = Array.from(cases).reduce((previous, current) => previous + current[1], 0);
-		const random = Random.number(0, summary);
+		const list = Array.from(cases);
+		const random = Random.number(0, list.reduce((previous, [item, chance]) => previous + chance, 0));
 		let selection = undefined;
 		let start = 0;
-		for (const entry of cases) {
-			const end = start + entry[1];
+		for (const [item, chance] of list) {
+			const end = start + chance;
 			if (start <= random && random < end) {
-				selection = entry[0];
+				selection = item;
 				break;
 			}
 			start = end;
 		}
-		if (typeof (selection) == `undefined`) {
+		if (selection === undefined) {
 			throw new ReferenceError(`Can't select value. Maybe stack is empty.`);
-		} else {
-			return selection;
 		}
+		return selection;
 	}
 }
 //#endregion
@@ -70,11 +69,10 @@ class Archive {
 	 */
 	get data() {
 		const item = localStorage.getItem(this.#path);
-		if (item) {
-			return (/** @type {Notation} */ (JSON.parse(item)));
-		} else {
-			throw new ReferenceError(`Key '${this.#path}' is undefined.`);
+		if (!item) {
+			throw new ReferenceError(`Key '${this.#path}' isn't defined.`);
 		}
+		return (/** @type {Notation} */ (JSON.parse(item)));
 	}
 	/**
 	 * The data stored in the archive.

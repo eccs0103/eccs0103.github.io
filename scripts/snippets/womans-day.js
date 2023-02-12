@@ -1,6 +1,6 @@
 let chars, particles, canvas, ctx, w, h, current;
 let duration = 5000;
-let str = ['Շնորհավոր', 'Մարտի 8'];
+let str = ['Շնորհավոր', 'Մարտի', `8`];
 
 init();
 resize();

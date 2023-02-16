@@ -1,100 +1,146 @@
-let chars, particles, canvas, ctx, w, h, current;
-let duration = 5000;
-let str = ['Շնորհավոր', 'Մարտի', `8`];
-
-init();
-resize();
-requestAnimationFrame(render);
-addEventListener('resize', resize);
-
-function makeChar(c) {
-	let tmp = document.createElement('canvas');
-	let size = tmp.width = tmp.height = w < 400 ? 200 : 300;
-	let tmpCtx = tmp.getContext('2d');
-	tmpCtx.font = 'bold ' + size + 'px Arial';
-	tmpCtx.fillStyle = 'white';
-	tmpCtx.textBaseline = "middle";
-	tmpCtx.textAlign = "center";
-	tmpCtx.fillText(c, size / 2, size / 2);
-	let char2 = tmpCtx.getImageData(0, 0, size, size);
-	let char2particles = [];
-	for (var i = 0; char2particles.length < particles; i++) {
-		let x = size * Math.random();
-		let y = size * Math.random();
-		let offset = parseInt(y) * size * 4 + parseInt(x) * 4;
-		if (char2.data[offset])
-			char2particles.push([x - size / 2, y - size / 2]);
+//#region Initialize
+const canvas = document.body.appendChild(document.createElement(`canvas`));
+const context = (() => {
+	const result = canvas.getContext(`2d`);
+	if (!result) {
+		throw new ReferenceError(`Element 'context' isn't defined.`);
 	}
-	return char2particles;
-}
+	return result;
+})();
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener(`resize`, (event) => {
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+});
+//#endregion
 
-function init() {
-	canvas = document.createElement('canvas');
-	document.body.append(canvas);
-	document.body.style.margin = 0;
-	document.body.style.overflow = 'hidden';
-	document.body.style.background = 'black';
-	ctx = canvas.getContext('2d');
-}
+requestAnimationFrame(function handler(time) {
+	repeater(time);
+	requestAnimationFrame(handler);
+});
 
-function resize() {
-	w = canvas.width = innerWidth;
-	h = canvas.height = innerHeight;
-	particles = innerWidth < 400 ? 55 : 199;
-}
+const text = [`Շնորհավոր\nՄարտի\n8`, `Հրավիրում ենք ձեզ\n@name\nմարտի 11-ին`];
+const parts = text[0].split(/\s+/);
+const duration = 3000;
+const maxParticles = 100;
 
-function makeChars(t) {
-	let actual = parseInt(t / duration) % str.length;
-	if (current === actual)
-		return;
-	current = actual;
-	chars = [...str[actual]].map(makeChar);
-}
+/** @type {Number?} */ let current = null;
+/** @type {Array<Array<Array<Number>>>} */ let chars = [];
 
-function render(t) {
-	makeChars(t);
-	requestAnimationFrame(render);
-	ctx.fillStyle = '#00000010';
-	ctx.fillRect(0, 0, w, h);
-	chars.forEach((pts, i) => firework(t, i, pts));
-}
-
-function firework(t, i, pts) {
-	t -= i * 200;
-	let id = i + chars.length * parseInt(t - t % duration);
-	t = t % duration / duration;
-	let dx = (i + 1) * w / (1 + chars.length);
-	dx += Math.min(0.33, t) * 100 * Math.sin(id);
-	let dy = h * 0.5;
-	dy += Math.sin(id * 4547.411) * h * 0.1;
-	if (t < 0.33) {
-		rocket(dx, dy, id, t * 3);
-	} else {
-		explosion(pts, dx, dy, id, Math.min(1, Math.max(0, t - 0.33) * 2));
+/**
+ * 
+ * @param {DOMHighResTimeStamp} time 
+ */
+function repeater(time) {
+	const phase = Math.floor(time / duration) % parts.length;
+	context.fillStyle = `#00000010`;
+	context.fillRect(0, 0, window.innerWidth, window.innerHeight);
+	if (current !== phase) {
+		chars = [...parts[phase]].map((symbol) => visualize(symbol));
+		current = phase;
 	}
-}
-
-function rocket(x, y, id, t) {
-	ctx.fillStyle = 'white';
-	let r = 2 - 2 * t + Math.pow(t, 15 * t) * 16;
-	y = h - y * t;
-	circle(x, y, r);
-}
-
-function explosion(pts, x, y, id, t) {
-	let dy = (t * t * t) * 20;
-	let r = Math.sin(id) * 1 + 3;
-	r = t < 0.5 ? (t + 0.5) * t * r : r - t * r;
-	ctx.fillStyle = `hsl(${id * 55}, 55%, 55%)`;
-	pts.forEach((xy, i) => {
-		if (i % 20 === 0)
-			ctx.fillStyle = `hsl(${id * 55}, 55%, ${55 + t * Math.sin(t * 55 + i) * 45}%)`;
-		circle(t * xy[0] + x, h - y + t * xy[1] + dy, r);
+	chars.forEach((parts, index) => {
+		firework(time, index, parts);
 	});
 }
 
-function circle(x, y, r) {
-	ctx.beginPath();
-	ctx.ellipse(x, y, r, r, 0, 0, 6.283);
-	ctx.fill();
+/**
+ * 
+ * @param {String} symbol 
+ * @returns 
+ */
+function visualize(symbol) {
+	const canvasTemp = document.createElement(`canvas`);
+	const size = canvasTemp.height = 200;
+	const contextTemp = canvasTemp.getContext(`2d`);
+	if (!contextTemp) {
+		throw new ReferenceError(`Element 'contextTemp' isn't defined.`);
+	}
+	contextTemp.font = `bold ${size}px Arial`;
+	contextTemp.fillStyle = `white`;
+	contextTemp.textBaseline = `middle`;
+	contextTemp.textAlign = `center`;
+	contextTemp.fillText(symbol, size / 2, size / 2);
+	const symbolData = contextTemp.getImageData(0, 0, size, size);
+	const particles = [];
+	if (symbolData.data.filter(unit => unit).length > 0) {
+		while (particles.length <= maxParticles) {
+			const x = size * Math.random();
+			const y = size * Math.random();
+			const offset = Math.floor(y) * size * 4 + Math.floor(x) * 4;
+			if (symbolData.data[offset]) {
+				particles.push([x - size / 2, y - size / 2]);
+			}
+		}
+	}
+	return particles;
+}
+
+/**
+ * 
+ * @param {Number} time 
+ * @param {Number} index 
+ * @param {Array<Array<Number>>} parts 
+ */
+function firework(time, index, parts) {
+	time -= index * 200;
+	const id = index + chars.length * Math.floor(time - time % duration);
+	time = time % duration / duration;
+	let dx = (index + 1) * window.innerWidth / (1 + chars.length);
+	dx += Math.min(0.33, time) * 100 * Math.sin(id);
+	let dy = window.innerHeight * 0.5;
+	dy += Math.sin(id * 4547.411) * window.innerHeight * 0.1;
+	if (time < 0.33) {
+		rocket(dx, dy, id, time * 3);
+	} else {
+		explosion(parts, dx, dy, id, Math.min(1, Math.max(0, time - 0.33) * 2));
+	}
+}
+
+/**
+ * 
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {Number} id 
+ * @param {Number} time 
+ */
+function rocket(x, y, id, time) {
+	context.fillStyle = `white`;
+	const radius = 2 - 2 * time + Math.pow(time, 15 * time) * 16;
+	y = window.innerHeight - y * time;
+	circle(x, y, radius);
+}
+
+/**
+ * 
+ * @param {Array<Array<Number>>} parts 
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {Number} id 
+ * @param {Number} time 
+ */
+function explosion(parts, x, y, id, time) {
+	let dy = (time * time * time) * 20;
+	let radius = Math.sin(id) * 1 + 3;
+	radius = time < 0.5 ? (time + 0.5) * time * radius : radius - time * radius;
+	context.fillStyle = `hsl(${id * 55}, 55%, 55%)`;
+	parts.forEach((xy, i) => {
+		if (i % 20 === 0) {
+			context.fillStyle = `hsl(${id * 55}, 55%, ${55 + time * Math.sin(time * 55 + i) * 45}%)`;
+		}
+		circle(time * xy[0] + x, window.innerHeight - y + time * xy[1] + dy, radius);
+	});
+}
+
+/**
+ * 
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {Number} radius 
+ */
+function circle(x, y, radius) {
+	context.beginPath();
+	context.ellipse(x, y, radius, radius, 0, 0, 6.283);
+	context.fill();
 }

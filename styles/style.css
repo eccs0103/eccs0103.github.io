@@ -199,7 +199,12 @@ article[id^="post-"] > div.container {
 div.container img {
 	width: 100%;
 	margin-top: var(--size-gap);
+	/* filter: blur(4px); */
 }
+
+/* div.container img:hover {
+	filter: blur(0);
+} */
 
 div.container iframe {
 	width: 100%;

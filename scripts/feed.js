@@ -6,7 +6,7 @@ try {
 			Начало моей персональной веб страницы.
 		`, `event`),
 		new Post(`Сертификат Musixmatch`, new Date(`2023-01-20 20:47`), `
-			Получил сертификат академии в <a href="https://www.musixmatch.com/">Musixmatch</a></br>
+			Получил сертификат академии в <a href="https://www.musixmatch.com/">Musixmatch</a><br>
 			<img src="../resources/archive/Graduate Certificate.jpg" alt="Сертификат">
 		`, `bounties image`),
 		new Post(`Русская рулетка наоборот`, new Date(`2023-02-02 1:38`), `
@@ -15,9 +15,15 @@ try {
 			<button id="launch-mini-game-1" class="depth" style="display: block; margin: var(--size-gap) auto;">Запустить</button>
 		`, `java-script mini-game`, true),
 		new Post(`Игра в стиле песочница`, new Date(`2023-02-06 13:59`), `
-			Моя игрушка на DOM перешла на новый уровень. Полную версию найдете в <a href="https://github.com/eccs0103/Elements">GitHub</a>. А пока можете взглянуть на <a href="https://eccs0103.github.io/Elements/">демо версию</a>.</br>
+			Моя игрушка на DOM перешла на новый уровень. Полную версию найдете в <a href="https://github.com/eccs0103/Elements">GitHub</a>. А пока можете взглянуть на <a href="https://eccs0103.github.io/Elements/">демо версию</a>.<br>
 			<img src="../resources/archive/Elements.png" alt="Скриншот">
 		`, `projects image`),
+		new Post(`Музыкальный визуализатор`, new Date(`2023-02-24 19:41`), `
+			Те, кто еще помнят, что я программист, удивлятся меньше, но я все таки попробую. 😄<br>
+			Кратко говоря, создал прикольный визуализатор. Загружайте в него любую песню и посмотрите. Заодно скажите как вам.<br>
+			Вот <a href="https://eccs0103.github.io/Visualizer/">ссылка</a>. Работает без проблем на Windows, Mac OS, Android, Linux, но IOS почему-то блокирует.<br>
+			<img src="../resources/archive/Visualizer.png" alt="Скриншот">
+		`, `projects image music`),
 	];
 	//#endregion
 	//#region Filters

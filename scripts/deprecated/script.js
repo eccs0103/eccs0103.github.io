@@ -92,7 +92,7 @@ function firework(time, index, parts) {
 	let dy = window.innerHeight * 0.5;
 	dy += Math.sin(id * 4547.411) * window.innerHeight * 0.1;
 	if (time < 0.33) {
-		rocket(dx, dy, id, time * 3);
+		rocket(dx, dy, time * 3);
 	} else {
 		explosion(parts, dx, dy, id, Math.min(1, Math.max(0, time - 0.33) * 2));
 	}
@@ -102,10 +102,9 @@ function firework(time, index, parts) {
  * 
  * @param {Number} x 
  * @param {Number} y 
- * @param {Number} id 
  * @param {Number} time 
  */
-function rocket(x, y, id, time) {
+function rocket(x, y, time) {
 	context.fillStyle = `white`;
 	const radius = 2 - 2 * time + Math.pow(time, 15 * time) * 16;
 	y = window.innerHeight - y * time;
@@ -114,18 +113,18 @@ function rocket(x, y, id, time) {
 
 /**
  * 
- * @param {Array<Array<Number>>} parts 
+ * @param {Array<Array<Number>>} points 
  * @param {Number} x 
  * @param {Number} y 
  * @param {Number} id 
  * @param {Number} time 
  */
-function explosion(parts, x, y, id, time) {
+function explosion(points, x, y, id, time) {
 	let dy = (time * time * time) * 20;
-	let radius = Math.sin(id) * 1 + 3;
+	let radius = Math.sin(id) + 3;
 	radius = time < 0.5 ? (time + 0.5) * time * radius : radius - time * radius;
 	context.fillStyle = `hsl(${id * 55}, 55%, 55%)`;
-	parts.forEach((xy, i) => {
+	points.forEach((xy, i) => {
 		if (i % 20 === 0) {
 			context.fillStyle = `hsl(${id * 55}, 55%, ${55 + time * Math.sin(time * 55 + i) * 45}%)`;
 		}

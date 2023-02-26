@@ -197,6 +197,7 @@ article[id^="post-"] > div.container {
 }
 
 div.container img {
+	display: inline-block;
 	width: 100%;
 	margin-top: var(--size-gap);
 	/* filter: blur(4px); */
@@ -212,7 +213,7 @@ div.container iframe {
 }
 
 div.container code {
-	display: block;
+	display: inline-block;
 	margin-top: var(--size-gap);
 	overflow-x: auto;
 }

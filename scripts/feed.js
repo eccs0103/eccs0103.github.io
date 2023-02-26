@@ -89,7 +89,14 @@ try {
 				{
 					//#region Post content
 					divContainer.innerHTML = post.content;
-					{ }
+					{
+						for (const image of divContainer.querySelectorAll(`img`)) {
+							const a = divContainer.appendChild(document.createElement(`a`));
+							a.href = image.src;
+							a.target = `_blank`;
+							a.appendChild(image);
+						}
+					}
 					//#endregion
 					//#region Post snippets
 					if (post.snippets) {

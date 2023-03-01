@@ -40,6 +40,3 @@ class Post {
 	}
 }
 //#endregion
-//#region Metadata
-const locked = false;
-//#endregion

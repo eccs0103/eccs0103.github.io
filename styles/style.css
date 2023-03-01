@@ -12,9 +12,40 @@
 	outline-offset: calc(-1 * var(--size-serpator));
 }
 
+@media only screen {
+	:root {
+		--size-standart: calc(8vmin);
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	:root {
+		--size-standart: calc(7vmin);
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	:root {
+		--size-standart: calc(6vmin);
+	}
+}
+
+@media only screen and (min-width: 992px) {
+	:root {
+		--size-standart: calc(5vmin);
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	:root {
+		--size-standart: calc(4vmin);
+	}
+}
+
 :root {
-	--size-standart: calc(4vmin);
 	--size-gap: calc(var(--size-standart) / 4);
+	--size-large-standart: calc(var(--size-standart) * 2);
+	--size-large-gap: calc(var(--size-gap) * 2);
 	--size-serpator: 0.25vmin;
 }
 
@@ -26,6 +57,10 @@ body {
 }
 
 /* Global */
+*[hidden] {
+	display: none !important;
+}
+
 *.layer,
 *.depth {
 	padding: var(--size-gap);
@@ -33,6 +68,10 @@ body {
 
 *.flex {
 	display: flex;
+}
+
+*.contents {
+	display: contents;
 }
 
 button,
@@ -57,7 +96,7 @@ input:read-write {
 
 input[type="checkbox"] + label[role="checkbox"].toggle {
 	aspect-ratio: 2;
-	width: calc(var(--size-standart) * 1.5);
+	height: 1.25em;
 	display: flex;
 	border-radius: 50vmin;
 	padding: var(--size-serpator);
@@ -77,8 +116,23 @@ input[type="checkbox"]:checked + label[role="checkbox"].toggle > span.knob {
 	margin-right: 0;
 }
 
-section.serpator {
-	display: contents;
+dialog {
+	min-width: 60vmin;
+	max-width: calc(100vmin - 2 * var(--size-large-gap));
+	width: fit-content;
+	/* min-height: var(--size-standart); */
+	max-height: calc(100vh - 2 * var(--size-large-gap));
+	height: fit-content;
+	margin: auto;
+	padding: var(--size-gap);
+}
+
+dialog:not([open]) {
+	display: none !important;
+}
+
+*.grid-line {
+	grid-column: 1 / -1;
 }
 
 section.option {
@@ -98,7 +152,7 @@ section.option > input:not(:checked) ~ section.option {
 	display: none !important;
 }
 
-section.option > p.title {
+section.option > *.title {
 	grid-area: title;
 }
 
@@ -106,7 +160,7 @@ section.option > *.value {
 	grid-area: value;
 }
 
-section.option > dfn.definition {
+section.option > *.definition {
 	grid-area: definition;
 	font-size: smaller;
 }
@@ -155,8 +209,8 @@ code > span {
 }
 
 code > span::before {
-	counter-increment: index;
-	content: counters(index, '.', decimal) '	|';
+	counter-increment: line;
+	content: counter(line) '	|';
 }
 
 ::-webkit-scrollbar {
@@ -164,6 +218,7 @@ code > span::before {
 	height: var(--size-gap);
 }
 
+::-webkit-scrollbar,
 ::-webkit-scrollbar-thumb {
 	border-radius: 50vmin;
 }

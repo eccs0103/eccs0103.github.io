@@ -50,7 +50,8 @@ try {
 		throw new ReferenceError(`Element 'main' isn't defined.`);
 	}
 	const templatePostStructure = (/** @type {HTMLTemplateElement} */ (document.querySelector(`template#post-structure`)));
-	database.forEach((post, index) => {
+	for (let index = database.length - 1; index >= 0; index--) {
+		const post = database[index];
 		if (filters.every(filter => filter(post, index))) {
 			//#region Post
 			const articlePost = main.appendChild((/** @type {HTMLElement} */ (/** @type {HTMLElement} */(templatePostStructure.content.querySelector(`article#post-`)).cloneNode(true))));
@@ -139,10 +140,8 @@ try {
 			}
 			//#endregion
 		}
-	});
+	}
 	//#endregion
-} catch (error) {
-	if (locked) {
-		window.alert(error instanceof Error ? error.stack ?? `${error.name}: ${error.message}` : `Invalid exception type.`);
-	} else console.error(error);
+} catch (exception) {
+	Application.prevent(exception);
 }

@@ -97,14 +97,14 @@ button,
 }
 
 *[role="combobox"][aria-checked="true"],
-input[type="checkbox"]:checked+label[role="checkbox"] {
+input[type="checkbox"]:checked + label[role="checkbox"] {
 	background-color: var(--color-highlight);
 	transition: var(--time-duration);
 }
 
 button:hover,
 *[role="button"]:hover,
-input[type="checkbox"]:hover+label[role="checkbox"],
+input[type="checkbox"]:hover + label[role="checkbox"],
 *[role="combobox"]:not([aria-checked="true"]):hover {
 	filter: invert(0.1);
 	transition: var(--time-duration);
@@ -112,7 +112,7 @@ input[type="checkbox"]:hover+label[role="checkbox"],
 
 button:active,
 *[role="button"]:active,
-input[type="checkbox"]:active+label[role="checkbox"],
+input[type="checkbox"]:active + label[role="checkbox"],
 *[role="combobox"]:not([aria-checked="true"]):active {
 	filter: invert(0.2);
 	transition: var(--time-duration);
@@ -121,7 +121,7 @@ input[type="checkbox"]:active+label[role="checkbox"],
 button:disabled,
 *[role="button"][aria-disabled="true"],
 input:disabled,
-input[type="checkbox"]:disabled+label[role="checkbox"],
+input[type="checkbox"]:disabled + label[role="checkbox"],
 *[role="combobox"][aria-disabled="true"],
 select:disabled {
 	pointer-events: none;
@@ -141,16 +141,27 @@ select:invalid.depth {
 	background-color: var(--color-error);
 }
 
-*.mark {
-	color: var(--color-warn) !important;
+dialog::backdrop {
+	background-color: rgba(0, 0, 0, 50%);
 }
 
 a {
 	text-decoration: none;
 }
 
+*.highlight,
 a:any-link {
 	color: var(--color-highlight);
+}
+
+mark,
+*.warn,
+*.mark {
+	color: var(--color-warn);
+}
+
+*.alert {
+	color: var(--color-error);
 }
 
 hr {

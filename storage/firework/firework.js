@@ -3,24 +3,6 @@
 const addressee = Application.search.get(`addressee`) ?? null;
 const text = [`Շնորհավոր\nմարտի 8`][0];
 
-class Engine {
-	/**
-	 * @param {() => void} handler 
-	 */
-	constructor(handler) {
-		const instance = this;
-		requestAnimationFrame(function callback(time) {
-			instance.#time = time;
-			handler();
-			requestAnimationFrame(callback);
-		});
-	}
-	/** @type {DOMHighResTimeStamp} */ #time;
-	/** @readonly */ get time() {
-		return this.#time;
-	}
-}
-
 const canvas = document.body.appendChild(document.createElement(`canvas`));
 canvas.style.width = `100vw`;
 canvas.style.height = `100vh`;

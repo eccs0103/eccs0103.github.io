@@ -1,9 +1,6 @@
+"use strict";
 //#region Initialize
-const search = new Map(window.decodeURI(location.search.replace(/^\??/, ``)).split(`&`).filter(item => item).map((item) => {
-	const [key, value] = item.split(`=`);
-	return [key, value];
-}));
-const addressee = search.get(`addressee`) ?? null;
+const addressee = Application.search.get(`addressee`) ?? null;
 const text = [`Շնորհավոր\nմարտի 8`][0];
 
 class Engine {

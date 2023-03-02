@@ -1,5 +1,4 @@
 "use strict";
-
 const buttonLaunch = (/** @type {HTMLButtonElement} */ (document.querySelector(`button#launch-mini-game-1`)));
 buttonLaunch.addEventListener(`click`, async (event) => {
 	const example = `Берегите в себе человека.`;

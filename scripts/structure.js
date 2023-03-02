@@ -1,3 +1,4 @@
+"use strict";
 //#region Post
 class Post {
 	/**

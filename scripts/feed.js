@@ -27,11 +27,7 @@ try {
 	];
 	//#endregion
 	//#region Filters
-	const search = new Map(window.decodeURI(location.search.replace(/^\??/, ``)).split(`&`).filter(item => item).map((item) => {
-		const [key, value] = item.split(`=`);
-		return [key, value];
-	}));
-	const tags = new Set(search.get(`tags`)?.split(`, `));
+	const tags = new Set(Application.search.get(`tags`)?.split(`, `));
 	/**
 	 * @callback Filter
 	 * @param {Post} post
@@ -128,11 +124,11 @@ try {
 								tags.add(tag);
 							}
 							if (tags.size > 0) {
-								search.set(`tags`, Array.from(tags).join(`, `));
+								Application.search.set(`tags`, Array.from(tags).join(`, `));
 							} else {
-								search.delete(`tags`);
+								Application.search.delete(`tags`);
 							}
-							location.search = Array.from(search.entries()).map(([key, value]) => `${key}=${value}`).join(`&`);
+							location.search = Array.from(Application.search.entries()).map(([key, value]) => `${key}=${value}`).join(`&`);
 						});
 					});
 				}

@@ -11,11 +11,18 @@
 		body {
 			background-image: none;
 		}
+
+		*.fullscreen {
+			position: absolute;
+			inset: 0;
+			width: 100vw;
+			height: 100vh;
+		}
 	</style>
 	<script src="../scripts/modules.js" defer></script>
 	<script src="./firework/deprecated/script.js" defer></script>
 </head>
 
-<body style="overflow: hidden;"></body>
+<body style="position: fixed; overflow: hidden;"></body>
 
 </html>

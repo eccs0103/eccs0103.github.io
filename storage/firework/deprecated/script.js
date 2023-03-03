@@ -7,21 +7,41 @@ const context = (() => {
 	}
 	return result;
 })();
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-window.addEventListener(`resize`, (event) => {
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+canvas.classList.add(`fullscreen`);
+
+const divNotification = document.body.appendChild(document.createElement(`div`));
+divNotification.classList.add(`fullscreen`);
+divNotification.style.backgroundColor = `black`;
+divNotification.style.color = `white`;
+divNotification.style.display = `grid`;
+divNotification.style.placeItems = `center`;
+divNotification.style.fontSize = `5vw`;
+divNotification.innerText = `Поверните пожалуйста устройство`;
+
+const engine = new Engine(() => {
+	repeater(engine.time);
 });
+
+function resize() {
+	const rect = canvas.getBoundingClientRect();
+	canvas.width = rect.width;
+	canvas.height = rect.height;
+}
+resize();
+window.addEventListener(`resize`, resize);
+
+function fix() {
+	const isPortrait = (screen.orientation.type == `portrait-primary` || screen.orientation.type == `portrait-secondary`);
+	divNotification.hidden = !isPortrait;
+	canvas.hidden = isPortrait;
+	engine.launched = !isPortrait;
+}
+fix();
+window.addEventListener(`orientationchange`, fix);
 //#endregion
 
-requestAnimationFrame(function handler(time) {
-	repeater(time);
-	requestAnimationFrame(handler);
-});
-
-const text = [`Շնորհավոր\nՄարտի\n8`, `Հրավիրում ենք ձեզ\n@name\nմարտի 11-ին`];
-const parts = text[0].split(/\s+/);
+const text = [`Շնորհավոր\nՄարտի 8`, `Հրավիրում ենք ձեզ\n@name\nմարտի 11-ին`];
+const parts = text[0].split(/\n+/);
 const duration = 3000;
 const maxParticles = 100;
 
@@ -35,7 +55,7 @@ const maxParticles = 100;
 function repeater(time) {
 	const phase = Math.floor(time / duration) % parts.length;
 	context.fillStyle = `#00000010`;
-	context.fillRect(0, 0, window.innerWidth, window.innerHeight);
+	context.fillRect(0, 0, canvas.width, canvas.height);
 	if (current !== phase) {
 		chars = [...parts[phase]].map((symbol) => visualize(symbol));
 		current = phase;
@@ -87,10 +107,10 @@ function firework(time, index, parts) {
 	time -= index * 200;
 	const id = index + chars.length * Math.floor(time - time % duration);
 	time = time % duration / duration;
-	let dx = (index + 1) * window.innerWidth / (1 + chars.length);
+	let dx = (index + 1) * canvas.width / (1 + chars.length);
 	dx += Math.min(0.33, time) * 100 * Math.sin(id);
-	let dy = window.innerHeight * 0.5;
-	dy += Math.sin(id * 4547.411) * window.innerHeight * 0.1;
+	let dy = canvas.height * 0.5;
+	dy += Math.sin(id * 4547.411) * canvas.height * 0.1;
 	if (time < 0.33) {
 		rocket(dx, dy, time * 3);
 	} else {
@@ -107,7 +127,7 @@ function firework(time, index, parts) {
 function rocket(x, y, time) {
 	context.fillStyle = `white`;
 	const radius = 2 - 2 * time + Math.pow(time, 15 * time) * 16;
-	y = window.innerHeight - y * time;
+	y = canvas.height - y * time;
 	circle(x, y, radius);
 }
 
@@ -128,7 +148,7 @@ function explosion(points, x, y, id, time) {
 		if (i % 20 === 0) {
 			context.fillStyle = `hsl(${id * 55}, 55%, ${55 + time * Math.sin(time * 55 + i) * 45}%)`;
 		}
-		circle(time * xy[0] + x, window.innerHeight - y + time * xy[1] + dy, radius);
+		circle(time * xy[0] + x, canvas.height - y + time * xy[1] + dy, radius);
 	});
 }
 

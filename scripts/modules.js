@@ -142,16 +142,17 @@ class Application {
 	/** @readonly */ static get developer() {
 		return this.#developer;
 	}
-	/** @type {String} */ static #project = `Personal Webpage`;
+	/** @type {String} */ static #project = `Visualizer`;
 	/** @readonly */ static get project() {
 		return this.#project;
 	}
 	static #locked = true;
+	static #search = new Map(window.decodeURI(location.search.replace(/^\??/, ``)).split(`&`).filter(item => item).map((item) => {
+		const [key, value] = item.split(`=`);
+		return [key, value];
+	}));
 	/** @readonly */ static get search() {
-		return new Map(window.decodeURI(location.search.replace(/^\??/, ``)).split(`&`).filter(item => item).map((item) => {
-			const [key, value] = item.split(`=`);
-			return [key, value];
-		}));;
+		return this.#search;
 	}
 	/**
 	 * @param {MessageType} type 
@@ -294,7 +295,7 @@ class Application {
 	 */
 	static async prevent(exception) {
 		if (this.#locked) {
-			await Application.alert(exception instanceof Error ? exception.stack ?? `${exception.name}: ${exception.message}` : `Invalid exception type.`);
+			await Application.alert(exception instanceof Error ? exception.stack ?? `${exception.name}: ${exception.message}` : `Invalid exception type.`, MessageType.error);
 			location.reload();
 		} else console.error(exception);
 	}

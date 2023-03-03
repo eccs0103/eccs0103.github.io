@@ -33,7 +33,7 @@ window.addEventListener(`resize`, resize);
 function fix() {
 	const isPortrait = (screen.orientation.type == `portrait-primary` || screen.orientation.type == `portrait-secondary`);
 	divNotification.hidden = !isPortrait;
-	canvas.hidden = isPortrait;
+	// canvas.hidden = isPortrait;
 	engine.launched = !isPortrait;
 }
 fix();

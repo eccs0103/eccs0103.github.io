@@ -1,7 +1,7 @@
 /* Main */
 
 @media (prefers-color-scheme: light) {
-	:root[data-theme="system"] {
+	:root {
 		--color-foreground: rgb(255, 255, 255);
 		--color-background: rgb(225, 225, 225);
 		--color-text: rgb(50, 50, 50);
@@ -9,27 +9,13 @@
 	}
 }
 
-:root[data-theme="light"] {
-	--color-foreground: rgb(255, 255, 255);
-	--color-background: rgb(225, 225, 225);
-	--color-text: rgb(50, 50, 50);
-	--color-text-description: rgb(150, 150, 150);
-}
-
 @media (prefers-color-scheme: dark) {
-	:root[data-theme="system"] {
+	:root {
 		--color-foreground: rgb(50, 50, 50);
 		--color-background: rgb(25, 25, 25);
 		--color-text: rgb(255, 255, 255);
 		--color-text-description: rgb(150, 150, 150);
 	}
-}
-
-:root[data-theme="dark"] {
-	--color-foreground: rgb(50, 50, 50);
-	--color-background: rgb(25, 25, 25);
-	--color-text: rgb(255, 255, 255);
-	--color-text-description: rgb(150, 150, 150);
 }
 
 :root {
@@ -100,13 +86,9 @@ body *::placeholder {
 }
 
 @media (prefers-color-scheme: dark) {
-	:root[data-theme="system"] img.icon {
+	img.icon {
 		filter: invert(1);
 	}
-}
-
-:root[data-theme="dark"] img.icon {
-	filter: invert(1);
 }
 
 button,
@@ -201,23 +183,15 @@ time {
 
 /* Local */
 @media (prefers-color-scheme: light) {
-	:root[data-theme="system"] body {
+	body {
 		background-image: url("../../resources/Background (Day).jpg");
 	}
 }
 
-:root[data-theme="light"] {
-	background-image: url("../../resources/Background (Day).jpg");
-}
-
 @media (prefers-color-scheme: dark) {
-	:root[data-theme="system"] body {
+	body {
 		background-image: url("../../resources/Background (Night).png");
 	}
-}
-
-:root[data-theme="dark"] {
-	background-image: url("../../resources/Background (Night).png");
 }
 
 body {

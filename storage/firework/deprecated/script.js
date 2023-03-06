@@ -16,7 +16,7 @@ divNotification.style.color = `white`;
 divNotification.style.display = `grid`;
 divNotification.style.placeItems = `center`;
 divNotification.style.fontSize = `5vw`;
-divNotification.innerText = `Поверните пожалуйста устройство`;
+divNotification.innerText = `Пожалуйста, поверните устройство`;
 
 const engine = new Engine(() => {
 	repeater(engine.time);
@@ -40,10 +40,9 @@ fix();
 window.addEventListener(`orientationchange`, fix);
 //#endregion
 
-const text = [`Շնորհավոր\nՄարտի 8`, `Հրավիրում ենք ձեզ\n@name\nմարտի 11-ին`];
-const parts = text[0].split(/\n+/);
+const parts = `Շնորհավոր\nՄարտի 8`.split(/\n+/);
 const duration = 3000;
-const maxParticles = 100;
+const maxParticles = 60;
 
 /** @type {Number?} */ let current = null;
 /** @type {Array<Array<Array<Number>>>} */ let chars = [];

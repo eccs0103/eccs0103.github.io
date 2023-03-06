@@ -1,7 +1,7 @@
 "use strict";
 //#region Initialize
 const addressee = Application.search.get(`addressee`) ?? null;
-const text = [`Շնորհավոր\nմարտի 8`][0];
+const text = `Շնորհավոր\nմարտի 8`;
 
 const canvas = document.body.appendChild(document.createElement(`canvas`));
 canvas.style.width = `100vw`;

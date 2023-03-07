@@ -73,7 +73,7 @@ try {
 				timeDate.addEventListener(`click`, (event) => {
 					navigator.clipboard.writeText(`${location.origin}${location.pathname}#${articlePost.id}`)
 						.then(() => {
-							window.alert(`Ссылка к посту скопирована.`);
+							Application.alert(`Ссылка к посту скопирована.`);
 						})
 						.catch((reason) => {
 							throw reason instanceof Error ? reason : new Error(reason);

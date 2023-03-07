@@ -1,3 +1,4 @@
+"use strict";
 //#region Initialize
 const canvas = document.body.appendChild(document.createElement(`canvas`));
 const context = (() => {

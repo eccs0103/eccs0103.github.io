@@ -24,6 +24,10 @@ try {
 			Вот <a href="https://eccs0103.github.io/Visualizer/">ссылка</a>. Работает без проблем на Windows, Mac OS, Android, Linux, но IOS почему-то блокирует.<br>
 			<img src="../resources/archive/Visualizer.png" alt="Скриншот">
 		`, `projects image music`),
+		new Post(`Работа с цветами`, new Date(`2023-03-14 0:44`), `
+			На данный момент работаю над маленькой библиотекой в JS - <a href="https://gist.github.com/eccs0103/224f6927827dab672d6bcc6df74dbae6">color.js</a>. Позволяет управлять цветами RGB, HSL, HEX с помощью обычной JS DOM API.<br>
+			<img src="../resources/archive/color.js.png" alt="Скриншот">
+			`, `projects image java-script`)
 	];
 	//#endregion
 	//#region Filters
@@ -41,102 +45,119 @@ try {
 	];
 	//#endregion
 	//#region Initialize
-	const main = document.querySelector(`main`);
-	if (!main) {
-		throw new ReferenceError(`Element 'main' isn't defined.`);
-	}
+	const preferences = Preferences.import(archivePreferences.data);
+	document.documentElement.dataset[`theme`] = preferences.theme;
 	const templatePostStructure = (/** @type {HTMLTemplateElement} */ (document.querySelector(`template#post-structure`)));
-	for (let index = database.length - 1; index >= 0; index--) {
-		const post = database[index];
-		if (filters.every(filter => filter(post, index))) {
-			//#region Post
-			const articlePost = main.appendChild((/** @type {HTMLElement} */ (/** @type {HTMLElement} */(templatePostStructure.content.querySelector(`article#post-`)).cloneNode(true))));
-			articlePost.id = `post-${index}`;
-			{
-				//#region Post title
-				const h1Title = (/** @type {HTMLHeadingElement} */ (articlePost.querySelector(`h1.title`)));
-				h1Title.innerText = post.title;
-				{ }
-				//#endregion
-				//#region Post date
-				const timeDate = (/** @type {HTMLTimeElement} */ (articlePost.querySelector(`time.date`)));
-				timeDate.dateTime = post.date.toString();
-				timeDate.innerText = post.date.toLocaleString(undefined, {
-					year: `numeric`,
-					month: `numeric`,
-					day: `numeric`,
-					hourCycle: `h24`,
-					hour: `2-digit`,
-					minute: `2-digit`,
-				});
-				timeDate.role = `button`;
-				timeDate.addEventListener(`click`, (event) => {
-					navigator.clipboard.writeText(`${location.origin}${location.pathname}#${articlePost.id}`)
-						.then(() => {
-							Application.alert(`Ссылка к посту скопирована.`);
-						})
-						.catch((reason) => {
-							throw reason instanceof Error ? reason : new Error(reason);
-						});
-				});
-				{ }
-				//#endregion
-				//#region Post container
-				const divContainer = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.container`)));
+	const container = (() => {
+		const result = templatePostStructure.parentElement;
+		if (!result) {
+			throw new ReferenceError(`Element 'container' isn't defined.`);
+		}
+		return result;
+	})();
+	//#region Render
+	/**
+	 * @param {Array<Filter>} filters 
+	 */
+	function render(filters) {
+		for (let index = database.length - 1; index >= 0; index--) {
+			const post = database[index];
+			if (filters.every(filter => filter(post, index))) {
+				//#region Post
+				const articlePost = container.appendChild((/** @type {HTMLElement} */ (/** @type {HTMLElement} */(templatePostStructure.content.querySelector(`article#post-`)).cloneNode(true))));
+				articlePost.id = `post-${index}`;
 				{
-					//#region Post content
-					divContainer.innerHTML = post.content;
-					{
-						for (const image of divContainer.querySelectorAll(`img`)) {
-							const a = divContainer.appendChild(document.createElement(`a`));
-							a.href = image.src;
-							a.target = `_blank`;
-							a.appendChild(image);
-						}
-					}
-					//#endregion
-					//#region Post snippets
-					if (post.snippets) {
-						const script = divContainer.appendChild(document.createElement(`script`));
-						script.defer = true;
-						script.src = `../scripts/snippets/${articlePost.id}.js`;
-					}
-					//#endregion
-				}
-				//#endregion
-				//#region Post tags
-				const divTags = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.tags`)));
-				{
-					post.tags.forEach((tag, index) => {
-						const dfnTag = divTags.appendChild(document.createElement(`dfn`));
-						dfnTag.innerText = tag;
-						if (index != post.tags.length - 1) {
-							dfnTag.replaceWith(dfnTag, document.createTextNode(`, `));
-						}
-						dfnTag.role = `button`;
-						if (tags.has(tag)) {
-							dfnTag.classList.add(`mark`);
-						}
-						dfnTag.addEventListener(`click`, (event) => {
-							if (tags.has(tag)) {
-								tags.delete(tag);
-							} else {
-								tags.add(tag);
-							}
-							if (tags.size > 0) {
-								Application.search.set(`tags`, Array.from(tags).join(`, `));
-							} else {
-								Application.search.delete(`tags`);
-							}
-							location.search = Array.from(Application.search.entries()).map(([key, value]) => `${key}=${value}`).join(`&`);
-						});
+					//#region Post title
+					const h1Title = (/** @type {HTMLHeadingElement} */ (articlePost.querySelector(`h1.title`)));
+					h1Title.innerText = post.title;
+					h1Title.role = `button`;
+					h1Title.addEventListener(`click`, (event) => {
+						navigator.clipboard.writeText(`${location.origin}${location.pathname}#${articlePost.id}`)
+							.then(() => {
+								Application.alert(`Ссылка к посту скопирована.`);
+							})
+							.catch((reason) => {
+								Application.prevent(reason);
+							});
 					});
+					{ }
+					//#endregion
+					//#region Post date
+					const timeDate = (/** @type {HTMLTimeElement} */ (articlePost.querySelector(`time.date`)));
+					timeDate.dateTime = post.date.toString();
+					timeDate.innerText = post.date.toLocaleString(undefined, {
+						year: `numeric`,
+						month: `numeric`,
+						day: `numeric`,
+						hourCycle: `h24`,
+						hour: `2-digit`,
+						minute: `2-digit`,
+					});
+					{ }
+					//#endregion
+					//#region Post container
+					const divContainer = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.container`)));
+					{
+						//#region Post content
+						divContainer.innerHTML = post.content;
+						{
+							for (const image of divContainer.querySelectorAll(`img`)) {
+								const a = divContainer.appendChild(document.createElement(`a`));
+								a.href = image.src;
+								a.target = `_blank`;
+								a.appendChild(image);
+							}
+						}
+						//#endregion
+						//#region Post snippets
+						if (post.snippets) {
+							const script = divContainer.appendChild(document.createElement(`script`));
+							script.defer = true;
+							script.src = `../scripts/snippets/${articlePost.id}.js`;
+						}
+						//#endregion
+					}
+					//#endregion
+					//#region Post tags
+					const divTags = (/** @type {HTMLDivElement} */ (articlePost.querySelector(`div.tags`)));
+					{
+						post.tags.forEach((tag, index) => {
+							const dfnTag = divTags.appendChild(document.createElement(`dfn`));
+							dfnTag.innerText = tag;
+							if (index != post.tags.length - 1) {
+								dfnTag.replaceWith(dfnTag, document.createTextNode(`, `));
+							}
+							dfnTag.role = `button`;
+							if (tags.has(tag)) {
+								dfnTag.classList.add(`mark`);
+							}
+							dfnTag.addEventListener(`click`, (event) => {
+								if (tags.has(tag)) {
+									tags.delete(tag);
+								} else {
+									tags.add(tag);
+								}
+								if (tags.size > 0) {
+									Application.search.set(`tags`, Array.from(tags).join(`, `));
+								} else {
+									Application.search.delete(`tags`);
+								}
+								location.search = Array.from(Application.search.entries()).map(([key, value]) => `${key}=${value}`).join(`&`);
+							});
+						});
+					}
+					//#endregion
 				}
 				//#endregion
 			}
-			//#endregion
 		}
 	}
+	//#endregion
+	render(filters);
+	// const inputFeedSearch = (/** @type {HTMLInputElement} */ (document.querySelector(`input#feed-search`)));
+	// inputFeedSearch.addEventListener(`change`, (event) => {
+
+	// });
 	//#endregion
 } catch (exception) {
 	Application.prevent(exception);

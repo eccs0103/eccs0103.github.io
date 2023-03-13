@@ -5,37 +5,39 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type: text/html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Персональная страница - Лента</title>
+	<title>Персональная страница - Предпочтения</title>
 	<link rel="shortcut icon" href="../resources/Circuit (Transparent).png">
 	<link rel="stylesheet" href="../styles/style.css">
 	<link rel="stylesheet" href="../styles/themes/material.css">
 	<script src="../scripts/modules/archive.js" defer></script>
 	<script src="../scripts/modules/application.js" defer></script>
 	<script src="../scripts/structure.js" defer></script>
-	<script src="../scripts/feed.js" defer></script>
+	<script src="../scripts/preferences.js" defer></script>
 </head>
 
 <body style="display: flex; justify-content: center; gap: var(--size-gap); padding: var(--size-large-gap);">
 	<main style="width: 100vmin; display: flex; flex-direction: column; gap: var(--size-gap);">
-		<section hidden class="layer" style="display: flex; flex-direction: column; gap: var(--size-gap);">
-			<input id="feed-search" type="text" inputmode="latin" placeholder="Искать в ленте..." class="depth" style="width: 100%;">
-			<dfn>Введите фразу для поиска по заголовке или по контенту. Разделите фразы друг от друга точками с запятой (;). Для поиска среди тегов используйте хештег (#) в начале слова. После ввода нажмите <kbd class="depth" style="padding-block: 0.15em;">Enter</kbd> для начала поиска.</dfn>
+		<section class="layer">
+			<h1>Вид</h1>
+			<section class="option">
+				<h3 class="title">Тема</h3>
+				<dfn class="definition">Внешний вид страницы: цветовая гамма, задний и передний фон, шрифт.</dfn>
+				<select id="dropdown-theme" class="value flex depth"></select>
+			</section>
 		</section>
-		<template id="post-structure">
-			<article id="post-" class="layer">
-				<h1 class="title"></h1>
-				<time class="date"></time>
-				<div class="container"></div>
-				<div class="tags"></div>
-			</article>
-		</template>
 	</main>
 	<nav style="position: sticky; top: var(--size-large-gap); height: calc(100vh - 2 * var(--size-large-gap)); display: grid; grid: max-content 1fr / 1fr; gap: var(--size-gap);">
 		<picture class="layer flex" style="height: calc(4 * var(--size-large-standart)); aspect-ratio: 1;">
 			<img src="../resources/Circuit (Transparent).gif" alt="Avatar" class="depth avatar" style="height: 100%; border-radius: inherit;">
 		</picture>
 		<menu class="layer" style="display: flex; flex-direction: column;">
-			<a href="./feed.html" role="combobox" aria-checked="true" style="display: grid; grid-template-columns: max-content 1fr; align-items: center; border-radius: inherit;">
+			<section style="display: grid; grid-template-columns: 1fr max-content; gap: var(--size-gap);" hidden>
+				<input type="text" inputmode="latin" placeholder="Поиск..." class="depth" style="width: 100%;">
+				<picture class="flex">
+					<img src="../resources/Circuit (Transparent).png" alt="" class="icon">
+				</picture>
+			</section>
+			<a href="./feed.html" role="combobox" style="display: grid; grid-template-columns: max-content 1fr; align-items: center; border-radius: inherit;">
 				<picture class="flex" style="padding: var(--size-gap);">
 					<img src="../resources/feed.png" alt="" class="icon">
 				</picture>
@@ -47,7 +49,7 @@
 				</picture>
 				<span style="padding-inline: var(--size-gap);">Информация</span>
 			</a>
-			<a href="./preferences.html" role="combobox" style="display: grid; grid-template-columns: max-content 1fr; align-items: center; border-radius: inherit;">
+			<a href="./preferences.html" role="combobox" aria-checked="true" style="display: grid; grid-template-columns: max-content 1fr; align-items: center; border-radius: inherit;">
 				<picture class="flex" style="padding: var(--size-gap);">
 					<img src="../resources/palette.png" alt="" class="icon">
 				</picture>

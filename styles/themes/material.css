@@ -114,8 +114,12 @@ button,
 	color: var(--color-highlight);
 }
 
-*[role="combobox"][aria-checked="true"],
-input[type="checkbox"]:checked + label[role="checkbox"] {
+*[role="combobox"] {
+	color: var(--color-text) !important;
+}
+
+input[type="checkbox"]:checked + label[role="checkbox"],
+*[role="combobox"][aria-checked="true"] {
 	background-color: var(--color-highlight);
 	transition: var(--time-duration);
 }
@@ -133,6 +137,11 @@ button:active,
 input[type="checkbox"]:active + label[role="checkbox"],
 *[role="combobox"]:not([aria-checked="true"]):active {
 	filter: invert(0.2);
+	transition: var(--time-duration);
+}
+
+*[role="combobox"][aria-checked="true"] {
+	pointer-events: none;
 	transition: var(--time-duration);
 }
 
@@ -200,36 +209,6 @@ time {
 }
 
 /* Local */
-@media (prefers-color-scheme: light) {
-	:root[data-theme="system"] body {
-		background-image: url("../../resources/Background (Day).jpg");
-	}
-}
-
-:root[data-theme="light"] {
-	background-image: url("../../resources/Background (Day).jpg");
-}
-
-@media (prefers-color-scheme: dark) {
-	:root[data-theme="system"] body {
-		background-image: url("../../resources/Background (Night).png");
-	}
-}
-
-:root[data-theme="dark"] {
-	background-image: url("../../resources/Background (Night).png");
-}
-
-body {
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-position: top;
-	background-size: cover;
-	background-clip: border-box;
-	background-origin: border-box;
-}
-
-header.layer {
-	background: none;
-	background-image: radial-gradient(circle at calc(var(--size-gap) + var(--size-standart) * 5) var(--size-gap), #0000 0 calc(var(--size-standart) * 4), var(--color-foreground) calc(var(--size-standart) * 4 + 1px));
-}
+/* nav picture img[alt="Avatar"] {
+	background-color: hsl(0, 0%, 50%);
+} */

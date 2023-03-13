@@ -41,3 +41,48 @@ class Post {
 	}
 }
 //#endregion
+//#region Preferences
+/**
+ * @typedef PreferencesNotation
+ * @property {String | undefined} theme
+ */
+class Preferences {
+	/**
+	 * @param {PreferencesNotation} source 
+	 */
+	static import(source) {
+		const result = new Preferences();
+		if (source.theme !== undefined) result.#theme = source.theme;
+		return result;
+	}
+	/**
+	 * @param {Preferences} source 
+	 */
+	static export(source) {
+		const result = (/** @type {PreferencesNotation} */ ({}));
+		result.theme = source.#theme;
+		return result;
+	}
+	/** @type {Array<String>} */ static #themes = [`system`, `light`, `dark`];
+	/** @readonly */ static get themes() {
+		return Object.freeze(this.#themes);
+	}
+	constructor() {
+		this.#theme = Preferences.themes[0];
+	}
+	/** @type {String} */ #theme;
+	get theme() {
+		return this.#theme;
+	}
+	set theme(value) {
+		if (Preferences.#themes.includes(value)) {
+			this.#theme = value;
+		} else {
+			throw new TypeError(`Invalid theme type: '${value}'.`);
+		}
+	}
+}
+//#endregion
+//#region Metadata
+/** @type {Archive<PreferencesNotation>} */ const archivePreferences = new Archive(`${Application.developer}\\${Application.title}\\Preferences`, Preferences.export(new Preferences()));
+//#endregion

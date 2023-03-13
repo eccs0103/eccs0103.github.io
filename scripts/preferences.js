@@ -1,3 +1,4 @@
+"use strict";
 try {
 	let preferences = Preferences.import(archivePreferences.data);
 	window.addEventListener(`beforeunload`, (event) => {

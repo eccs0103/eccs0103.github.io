@@ -1,9 +1,7 @@
 "use strict";
 
-import { } from "../Scripts/Structure.js";
+import { } from "../scripts/structure.js";
 
-try {
+await window.ensure(() => {
 	// Your code goes here
-} catch (error) {
-	await window.stabilize(Error.generate(error));
-}
+});

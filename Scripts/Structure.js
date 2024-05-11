@@ -1,13 +1,12 @@
 "use strict";
 
-import { } from "./Modules/Executors.js";
-import { } from "./Modules/Extensions.js";
-import { } from "./Modules/Generators.js";
-import { } from "./Modules/Measures.js";
-import { } from "./Modules/Palette.js";
-import { } from "./Modules/Storage.js";
-import { } from "./Modules/Time.js";
+import { } from "./modules/extensions.js";
+import { } from "./modules/generators.js";
+import { } from "./modules/measures.js";
+import { } from "./modules/palette.js";
+import { } from "./modules/storage.js";
+import { } from "./modules/time.js";
 
-// Your code goes here
+// Your structure goes here
 
 export { };

@@ -18,6 +18,23 @@ interface Number {
 	 * @returns The exported number value.
 	 */
 	export(): number;
+	/**
+	 * Clamps a value between a minimum and maximum.
+	 * @param min The minimum value.
+	 * @param max The maximum value.
+	 * @returns The clamped value.
+	 */
+	clamp(min: number, max: number): number;
+	/**
+	 * Interpolates the number from one range to another.
+	 * @param min1 The minimum value of the original range.
+	 * @param max1 The maximum value of the original range.
+	 * @param min2 The minimum value of the target range.
+	 * @param max2 The maximum value of the target range.
+	 * @returns The interpolated value within the target range.
+	 * @throws {EvalError} If the minimum and maximum values of either range are equal.
+	 */
+	interpolate(min1: number, max1: number, min2?: number, max2?: number): number;
 }
 
 interface BooleanConstructor {
@@ -146,14 +163,6 @@ interface Math {
 	 */
 	sqpw(x: number): number;
 	/**
-	 * Clamps a value between a minimum and maximum.
-	 * @param value The value to clamp.
-	 * @param min The minimum value.
-	 * @param max The maximum value.
-	 * @returns The clamped value.
-	 */
-	between(value: number, min: number, max: number): number;
-	/**
 	 * Converts radians to degrees.
 	 * @param radians The angle in radians.
 	 * @returns The angle in degrees.
@@ -165,20 +174,6 @@ interface Math {
 	 * @returns The angle in radians.
 	 */
 	toRadians(degrees: number): number;
-	/**
-	 * Maps a value to the range [0, 1].
-	 * @param value The value to map.
-	 * @param period The period of the mapping.
-	 * @returns The mapped value.
-	 */
-	toFactor(value: number, period: number): number;
-	/**
-	 * Maps a value to the range [-1, 1].
-	 * @param value The value to map.
-	 * @param period The period of the mapping.
-	 * @returns The mapped value.
-	 */
-	toSignedFactor(value: number, period: number): number;
 }
 
 interface PromiseConstructor {
@@ -189,6 +184,13 @@ interface PromiseConstructor {
 	 * @returns A promise that fulfills with the result of the action.
 	 */
 	fulfill<T>(action: () => T | PromiseLike<T>): Promise<T>;
+	/**
+	 * Creates a promise that can be controlled with an abort signal.
+	 * @template T
+	 * @param callback The callback to execute with an abort signal, resolve, and reject functions.
+	 * @returns A promise that can be controlled with an abort signal.
+	 */
+	withSignal<T>(callback: (signal: AbortSignal, resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void): Promise<T>;
 }
 
 interface ErrorConstructor {
@@ -208,7 +210,7 @@ interface Error {
 	toString(): string;
 }
 
-interface Element {
+interface ParentNode {
 	/**
 	 * Retrieves an element of the specified type and selectors.
 	 * @template T
@@ -228,25 +230,6 @@ interface Element {
 	 * @throws {TypeError} If the element is missing or has an invalid type and strict mode is enabled.
 	 */
 	tryGetElement<T extends typeof Element>(type: T, selectors: string, strict?: boolean): Promise<InstanceType<T>>;
-	/**
-	 * Retrieves the closest ancestor element of the specified type and selectors.
-	 * @template T
-	 * @param type The type of element to retrieve.
-	 * @param selectors The selectors to search for the element.
-	 * @returns The element instance.
-	 * @throws {TypeError} If the element is missing or has an invalid type.
-	 */
-	getClosest<T extends typeof Element>(type: T, selectors: string): InstanceType<T>;
-	/**
-	 * Tries to retrieve the closest ancestor element of the specified type and selectors.
-	 * @template T
-	 * @param type The type of element to retrieve.
-	 * @param selectors The selectors to search for the element.
-	 * @param strict Whether to reject if the element is missing or has an invalid type.
-	 * @returns A promise that resolves to the element instance.
-	 * @throws {TypeError} If the element is missing or has an invalid type and strict mode is enabled.
-	 */
-	tryGetClosest<T extends typeof Element>(type: T, selectors: string, strict?: boolean): Promise<InstanceType<T>>;
 	/**
 	 * Retrieves elements of the specified type and selectors.
 	 * @template T
@@ -268,18 +251,18 @@ interface Element {
 	tryGetElements<T extends typeof Element>(type: T, selectors: string, strict?: boolean): Promise<NodeListOf<InstanceType<T>>>;
 }
 
-interface Document {
+interface Element {
 	/**
-	 * Retrieves an element of the specified type and selectors.
+	 * Retrieves the closest ancestor element of the specified type and selectors.
 	 * @template T
 	 * @param type The type of element to retrieve.
 	 * @param selectors The selectors to search for the element.
 	 * @returns The element instance.
 	 * @throws {TypeError} If the element is missing or has an invalid type.
 	 */
-	getElement<T extends typeof Element>(type: T, selectors: string): InstanceType<T>;
+	getClosest<T extends typeof Element>(type: T, selectors: string): InstanceType<T>;
 	/**
-	 * Tries to retrieve an element of the specified type and selectors.
+	 * Tries to retrieve the closest ancestor element of the specified type and selectors.
 	 * @template T
 	 * @param type The type of element to retrieve.
 	 * @param selectors The selectors to search for the element.
@@ -287,26 +270,7 @@ interface Document {
 	 * @returns A promise that resolves to the element instance.
 	 * @throws {TypeError} If the element is missing or has an invalid type and strict mode is enabled.
 	 */
-	tryGetElement<T extends typeof Element>(type: T, selectors: string, strict?: boolean): Promise<InstanceType<T>>;
-	/**
-	 * Retrieves elements of the specified type and selectors.
-	 * @template T
-	 * @param type The type of elements to retrieve.
-	 * @param selectors The selectors to search for the elements.
-	 * @returns The NodeList of element instances.
-	 * @throws {TypeError} If any element is missing or has an invalid type.
-	 */
-	getElements<T extends typeof Element>(type: T, selectors: string): NodeListOf<InstanceType<T>>;
-	/**
-	 * Tries to retrieve elements of the specified type and selectors.
-	 * @template T
-	 * @param type The type of elements to retrieve.
-	 * @param selectors The selectors to search for the elements.
-	 * @param strict Whether to reject if any element is missing or has an invalid type.
-	 * @returns A promise that resolves to the NodeList of element instances.
-	 * @throws {TypeError} If any element is missing or has an invalid type and strict mode is enabled.
-	 */
-	tryGetElements<T extends typeof Element>(type: T, selectors: string, strict?: boolean): Promise<NodeListOf<InstanceType<T>>>;
+	tryGetClosest<T extends typeof Element>(type: T, selectors: string, strict?: boolean): Promise<InstanceType<T>>;
 }
 
 interface Window {
@@ -357,13 +321,22 @@ interface Window {
 	 */
 	catch(error: Error, reload?: boolean): Promise<void>;
 	/**
-	 * Executes a callback and handles any errors that occur.
+	 * Ensures the execution of an action or stops the program if errors occur.
 	 * @template T
-	 * @param callback The callback function to execute.
+	 * @param action The action to execute.
 	 * @param reload Indicates whether the application should be reloaded after an error.
-	 * @returns A Promise that resolves with the result of the callback or rejects with the error.
+	 * @returns A Promise that resolves with the result of the action or rejects with the error.
+	 * @throws {Error} If the action throws an error.
 	 */
-	ensure<T>(callback: () => T, reload?: boolean): Promise<T>;
+	ensure<T>(action: () => T, reload?: boolean): Promise<T>;
+	/**
+	 * Insures that no errors occur when executing an action.
+	 * @template T
+	 * @param action The action to execute.
+	 * @param eventually The callback to execute after the action is complete.
+	 * @returns A Promise that resolves with the result of the action, or void if it fails.
+	 */
+	insure<T>(action: () => T, eventually?: () => unknown): Promise<T | void>;
 	/**
 	 * Asynchronously loads a promise with a loading animation.
 	 * @template T
@@ -409,13 +382,22 @@ declare function promptAsync(message?: string, _default?: string, title?: string
  */
 declare function warn(message?: any): Promise<void>;
 /**
- * Executes a callback and handles any errors that occur.
+ * Ensures the execution of an action or stops the program if errors occur.
  * @template T
- * @param callback The callback function to execute.
+ * @param action The action to execute.
  * @param reload Indicates whether the application should be reloaded after an error.
- * @returns A Promise that resolves with the result of the callback or rejects with the error.
+ * @returns A Promise that resolves with the result of the action or rejects with the error.
+ * @throws {Error} If the action throws an error.
  */
-declare function ensure<T>(callback: () => T, reload?: boolean): Promise<T>;
+declare function ensure<T>(action: () => T, reload?: boolean): Promise<T>;
+/**
+ * Insures that no errors occur when executing an action.
+ * @template T
+ * @param action The action to execute.
+ * @param eventually The callback to execute after the action is complete.
+ * @returns A Promise that resolves with the result of the action, or void if it fails.
+ */
+declare function insure<T>(action: () => T, eventually?: () => unknown): Promise<T | void>;
 /**
  * Asynchronously loads a promise with a loading animation.
  * @template T

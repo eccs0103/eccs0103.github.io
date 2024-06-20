@@ -134,10 +134,9 @@ class Board {
 	 * @throws {RangeError} If count is less than 0 or greater than the number of fields.
 	 */
 	constructor(size, count) {
-		this.#matrix = new Matrix(size, new Field(0));
+		this.#matrix = new Matrix(size, () => new Field(0));
 
-		const random = Random.global;
-		const mines = random
+		const mines = Random.global
 			.subarray(Array.from(Array(size.x * size.y).keys()), count)
 			.map(field => this.#toPoint(field));
 
@@ -151,9 +150,6 @@ class Board {
 				map.set(index, (map.get(index) ?? 0) + 1);
 			}
 		}
-		// for (const [index, danger] of map) {
-		// 	const position = this.#toPoint(index);
-		// }
 
 		for (const [index, danger] of map) {
 			const position = this.#toPoint(index);
@@ -232,61 +228,62 @@ class Board {
 };
 //#endregion
 //#region Controller
-await window.load(Promise.fulfill(async () => {
-	const size = new Point2D(10, 10);
-	const board = new Board(size, 10);
-
-	const canvas = await window.ensure(() => document.getElement(HTMLCanvasElement, `canvas#display`));
-	function resize() {
-		const { width, height } = canvas.getBoundingClientRect();
-		canvas.width = width;
-		canvas.height = height;
+class Controller {
+	/** @type {Point2D} */
+	#size;
+	/** @type {Board} */
+	#board;
+	/** @type {HTMLCanvasElement} */
+	#canvas;
+	/**
+	 * @returns {void}
+	 */
+	#resize() {
+		const { width, height } = this.#canvas.getBoundingClientRect();
+		this.#canvas.width = width;
+		this.#canvas.height = height;
 	}
-	resize();
-	window.addEventListener(`resize`, (event) => resize());
+	/** @type {CanvasRenderingContext2D} */
+	#context;
+	/**
+	 * @returns {void}
+	 */
+	#render() {
+		this.#context.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
 
-	const context = await window.ensure(() => {
-		const context = canvas.getContext(`2d`);
-		if (!context) throw new EvalError(`Unable to get context`);
-		return context;
-	});
-	function render() {
-		const canvas = context.canvas;
-		context.clearRect(0, 0, canvas.width, canvas.height);
-
-		const scale = new Point2D(canvas.width / size.x, canvas.height / size.y);
-		context.textBaseline = `alphabetic`;
-		context.textAlign = `center`;
-		context.font = `900 ${scale.y / 2}px monospace`;
+		const scale = new Point2D(this.#canvas.width / this.#size.x, this.#canvas.height / this.#size.y);
+		this.#context.textBaseline = `alphabetic`;
+		this.#context.textAlign = `center`;
+		this.#context.font = `900 ${scale.y / 2}px monospace`;
 
 		const gray = Color.GRAY;
 		const darkgray = gray.illuminate(0.2);
 		const green = Color.GREEN;
 		const red = Color.RED;
 
-		for (let y = 0; y < size.y; y++) {
-			for (let x = 0; x < size.x; x++) {
+		for (let y = 0; y < this.#size.y; y++) {
+			for (let x = 0; x < this.#size.x; x++) {
 				const position = new Point2D(x, y);
-				const status = board.getStatus(position);
+				const status = this.#board.getStatus(position);
 
-				context.fillStyle = (status < 0
+				this.#context.fillStyle = (status < 0
 					? gray
 					: darkgray
 				).toString();
-				context.strokeStyle = darkgray.toString();
-				context.beginPath();
-				context.rect(ceil(position.x * scale.x), ceil(position.y * scale.y), ceil(scale.x), ceil(scale.y));
-				context.fill();
-				context.stroke();
+				this.#context.strokeStyle = darkgray.toString();
+				this.#context.beginPath();
+				this.#context.rect(ceil(position.x * scale.x), ceil(position.y * scale.y), ceil(scale.x), ceil(scale.y));
+				this.#context.fill();
+				this.#context.stroke();
 
-				context.fillStyle = (status < 0
+				this.#context.fillStyle = (status < 0
 					? gray
 					: green.mix(red, status / Board.threshold)
 				).toString();
 				if (status > 0 && status < Board.threshold) {
 					const text = status.toString();
-					const { actualBoundingBoxAscent } = context.measureText(text);
-					context.fillText(text,
+					const { actualBoundingBoxAscent } = this.#context.measureText(text);
+					this.#context.fillText(text,
 						scale.x * (position.x + 0.5),
 						scale.y * (position.y + 0.5) + actualBoundingBoxAscent * 0.5,
 						scale.x / 2
@@ -295,15 +292,38 @@ await window.load(Promise.fulfill(async () => {
 			}
 		}
 	}
-	render();
-	window.addEventListener(`resize`, (event) => render());
+	/**
+	 * @returns {Promise<void>}
+	 */
+	async main() {
+		this.#size = new Point2D(10, 10);
+		this.#board = new Board(this.#size, 10);
 
-	canvas.addEventListener(`click`, ({ clientX, clientY }) => {
-		const { width, height, x, y } = canvas.getBoundingClientRect();
-		const scale = new Point2D(width / size.x, height / size.y);
-		const position = new Point2D(trunc((clientX - x) / scale.x), trunc((clientY - y) / scale.y));
-		board.openField(position);
-		render();
-	});
-}));
+		this.#canvas = await window.ensure(() => document.getElement(HTMLCanvasElement, `canvas#display`));
+		this.#resize();
+		window.addEventListener(`resize`, (event) => this.#resize());
+
+		this.#context = await window.ensure(() => {
+			const context = this.#canvas.getContext(`2d`);
+			if (!context) throw new EvalError(`Unable to get context`);
+			return context;
+		});
+		this.#render();
+		window.addEventListener(`resize`, (event) => this.#render());
+
+		this.#canvas.addEventListener(`click`, (event) => {
+			event.preventDefault();
+			const { width, height, x, y } = this.#canvas.getBoundingClientRect();
+			const scale = new Point2D(width / this.#size.x, height / this.#size.y);
+			const position = new Point2D(trunc((event.clientX - x) / scale.x), trunc((event.clientY - y) / scale.y));
+			this.#board.openField(position);
+			this.#render();
+		});
+
+		this.#canvas.addEventListener(`contextmenu`, async (event) => {
+			event.preventDefault();
+		});
+	}
+};
+await window.load(new Controller().main(), 200, 1000);
 //#endregion

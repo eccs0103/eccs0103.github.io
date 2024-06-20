@@ -22,3 +22,7 @@ body {
 		}
 	}
 }
+
+dialog.loader img[alt="Logo"] {
+	content: url(../resources/loading.gif);
+}

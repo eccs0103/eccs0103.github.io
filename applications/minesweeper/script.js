@@ -83,6 +83,22 @@ class Field {
 		if (value === Privacy.opened && this.#danger === Board.threshold) throw new EvalError(`The field blew up`);
 		this.#privacy = value;
 	}
+	/**
+	 * Returns a string representation of a field.
+	 * @returns {string}
+	 */
+	toString() {
+		switch (this.#privacy) {
+			case Privacy.opened: return (this.#danger < Board.threshold
+				? `Opened ${this.#danger} field`
+				: `Opened mine`
+			);
+			case Privacy.unmarked: return `Closed, unmarked field`;
+			case Privacy.marked: return `Closed field, marked as mine`;
+			case Privacy.unknown: return `Closed field, marked as unknown`;
+			default: throw new TypeError(`Invalid privacy ${this.#privacy} status`);
+		}
+	}
 }
 //#endregion
 //#region Board
@@ -135,10 +151,9 @@ class Board {
 				map.set(index, (map.get(index) ?? 0) + 1);
 			}
 		}
-		for (const [index, danger] of map) {
-			const position = this.#toPoint(index);
-			console.log(`${position}: ${danger}`);
-		}
+		// for (const [index, danger] of map) {
+		// 	const position = this.#toPoint(index);
+		// }
 
 		for (const [index, danger] of map) {
 			const position = this.#toPoint(index);
@@ -169,15 +184,9 @@ class Board {
 	/**
 	 * @param {Readonly<Point2D>} position 
 	 * @returns {Point2D[]}
-	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
-	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
 	 */
 	#getNeighborsAt(position) {
 		const size = this.#matrix.size;
-		if (!Number.isInteger(position.x)) throw new TypeError(`The x-coordinate of position ${position} must be finite integer number`);
-		if (0 > position.x || position.x >= size.x) throw new RangeError(`The x-coordinate of position ${position} is out of range [0 - ${size.x})`);
-		if (!Number.isInteger(position.y)) throw new TypeError(`The y-coordinate of position ${position} must be finite integer number`);
-		if (0 > position.y || position.y >= size.y) throw new RangeError(`The x-coordinate of position ${position} is out of range [0 - ${size.y})`);
 		const result = [];
 		for (const offset of Board.#neighborhood) {
 			const neighbor = position["+"](offset);
@@ -187,14 +196,21 @@ class Board {
 		return result;
 	}
 	/**
-	 * Gets the field at the specified position.
+	 * Gets the status at the specified position.
 	 * @param {Readonly<Point2D>} position The position of the field.
-	 * @returns {Field}
+	 * @returns {number}
 	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
 	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
 	 */
-	getField(position) {
-		return this.#matrix.get(position);
+	getStatus(position) {
+		const field = this.#matrix.get(position);
+		switch (field.privacy) {
+			case Privacy.opened: return field.danger;
+			case Privacy.unmarked: return -1;
+			case Privacy.marked: return -2;
+			case Privacy.unknown: return -3;
+			default: throw new TypeError(`Invalid privacy ${field.privacy} status for field at ${position}`);
+		}
 	}
 	/**
 	 * Opens the field at the specified position.
@@ -215,46 +231,79 @@ class Board {
 	}
 };
 //#endregion
+//#region Controller
+await window.load(Promise.fulfill(async () => {
+	const size = new Point2D(10, 10);
+	const board = new Board(size, 10);
 
-const size = new Point2D(10, 10);
-const board = new Board(size, 10);
+	const canvas = await window.ensure(() => document.getElement(HTMLCanvasElement, `canvas#display`));
+	function resize() {
+		const { width, height } = canvas.getBoundingClientRect();
+		canvas.width = width;
+		canvas.height = height;
+	}
+	resize();
+	window.addEventListener(`resize`, (event) => resize());
 
-const canvas = await window.ensure(() => document.getElement(HTMLCanvasElement, `canvas#display`));
-function resize() {
-	const { width, height } = canvas.getBoundingClientRect();
-	canvas.width = width;
-	canvas.height = height;
-}
-resize();
-window.addEventListener(`resize`, (event) => resize());
-canvas.addEventListener(`click`, ({ clientX, clientY }) => {
-	const { width, height, x, y } = canvas.getBoundingClientRect();
-	const scale = new Point2D(width / size.x, height / size.y);
-	const position = new Point2D(trunc((clientX - x) / scale.x), trunc((clientY - y) / scale.y));
-	board.openField(position);
-});
+	const context = await window.ensure(() => {
+		const context = canvas.getContext(`2d`);
+		if (!context) throw new EvalError(`Unable to get context`);
+		return context;
+	});
+	function render() {
+		const canvas = context.canvas;
+		context.clearRect(0, 0, canvas.width, canvas.height);
 
-const context = await window.ensure(() => {
-	const context = canvas.getContext(`2d`);
-	if (!context) throw new EvalError(`Unable to get context`);
-	return context;
-});
-function render() {
-	const canvas = context.canvas;
-	const scale = new Point2D(canvas.width / size.x, canvas.height / size.y);
-	for (let y = 0; y < size.y; y++) {
-		for (let x = 0; x < size.x; x++) {
-			const position = new Point2D(x, y);
-			const field = board.getField(position);
-			context.fillStyle = (field.privacy !== Privacy.opened
-				? Color.GRAY
-				: Color.GREEN.mix(Color.RED, field.danger / Board.threshold)
-			).toString();
-			context.fillRect(ceil(position.x * scale.x), ceil(position.y * scale.y), ceil(scale.x), ceil(scale.y));
+		const scale = new Point2D(canvas.width / size.x, canvas.height / size.y);
+		context.textBaseline = `alphabetic`;
+		context.textAlign = `center`;
+		context.font = `900 ${scale.y / 2}px monospace`;
+
+		const gray = Color.GRAY;
+		const darkgray = gray.illuminate(0.2);
+		const green = Color.GREEN;
+		const red = Color.RED;
+
+		for (let y = 0; y < size.y; y++) {
+			for (let x = 0; x < size.x; x++) {
+				const position = new Point2D(x, y);
+				const status = board.getStatus(position);
+
+				context.fillStyle = (status < 0
+					? gray
+					: darkgray
+				).toString();
+				context.strokeStyle = darkgray.toString();
+				context.beginPath();
+				context.rect(ceil(position.x * scale.x), ceil(position.y * scale.y), ceil(scale.x), ceil(scale.y));
+				context.fill();
+				context.stroke();
+
+				context.fillStyle = (status < 0
+					? gray
+					: green.mix(red, status / Board.threshold)
+				).toString();
+				if (status > 0 && status < Board.threshold) {
+					const text = status.toString();
+					const { actualBoundingBoxAscent } = context.measureText(text);
+					context.fillText(text,
+						scale.x * (position.x + 0.5),
+						scale.y * (position.y + 0.5) + actualBoundingBoxAscent * 0.5,
+						scale.x / 2
+					);
+				}
+			}
 		}
 	}
-}
-render();
-canvas.addEventListener(`click`, (event) => {
 	render();
-});
+	window.addEventListener(`resize`, (event) => render());
+
+	canvas.addEventListener(`click`, ({ clientX, clientY }) => {
+		const { width, height, x, y } = canvas.getBoundingClientRect();
+		const scale = new Point2D(width / size.x, height / size.y);
+		const position = new Point2D(trunc((clientX - x) / scale.x), trunc((clientY - y) / scale.y));
+		board.openField(position);
+		render();
+	});
+}));
+//#endregion

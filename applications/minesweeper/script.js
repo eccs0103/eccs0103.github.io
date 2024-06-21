@@ -508,8 +508,8 @@ class Controller {
 	 * @param {boolean} already Whether the session is already suspended.
 	 * @returns {Promise<boolean>} Whether the session is suspended.
 	 */
-	#isSessionSuspended(already) {
-		return (this.#isSessionWon(already) || this.#isSessionLost(already));
+	async #isSessionSuspended(already) {
+		return (await this.#isSessionWon(already) || await this.#isSessionLost(already));
 	}
 	/**
 	 * The main method to initialize and start the game.

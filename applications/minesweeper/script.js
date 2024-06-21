@@ -5,7 +5,7 @@ import { Matrix, Point2D } from "../../scripts/modules/measures.js";
 import { Color } from "../../scripts/modules/palette.js";
 import { } from "../../scripts/structure.js";
 
-const { trunc, ceil } = Math;
+const { trunc, ceil, min, max } = Math;
 
 //#region Privacy
 /**
@@ -182,15 +182,27 @@ class Board {
 	/** @type {boolean} */
 	#isInitialized = false;
 	/** @type {boolean} */
-	#isBlownUp = false;
+	#isWon = false;
 	/**
-	 * Gets whether the board is blown up.
+	 * Gets whether the board is won.
 	 * @readonly
 	 * @returns {boolean}
 	 */
-	get isBlownUp() {
-		return this.#isBlownUp;
+	get isWon() {
+		return this.#isWon;
 	}
+	/** @type {boolean} */
+	#isLost = false;
+	/**
+	 * Gets whether the board is lost.
+	 * @readonly
+	 * @returns {boolean}
+	 */
+	get isLost() {
+		return this.#isLost;
+	}
+	/** @type {number} */
+	#counter;
 	/**
 	 * Initializes the board by placing mines.
 	 * @param {Readonly<Point2D>} position The position to initialize around.
@@ -202,6 +214,7 @@ class Board {
 		const count = this.#count;
 		const random = Random.global;
 
+		this.#counter = size.x * size.y - count;
 		const indices = new Set(Array(size.x * size.y).keys());
 		indices.delete(this.#toNumber(position));
 		for (const location of this.#getPerimetersAt(position)) {
@@ -236,6 +249,9 @@ class Board {
 	rebuild() {
 		const size = this.#size;
 		this.#matrix = new Matrix(size, () => new Field(0));
+		this.#isInitialized = false;
+		this.#isWon = false;
+		this.#isLost = false;
 	}
 	/**
 	 * Gets the state at the specified position.
@@ -260,15 +276,20 @@ class Board {
 	 * @returns {void}
 	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
 	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
-	 * @throws {EvalError} If the session is lost.
+	 * @throws {EvalError} If the session is won or lost.
 	 */
 	digField(position) {
-		if (this.#isBlownUp) throw new EvalError(`The session is lost. Start a new one`);
+		if (this.#isWon) throw new EvalError(`The session is won. Start a new one`);
+		if (this.#isLost) throw new EvalError(`The session is lost. Start a new one`);
 		if (!this.#isInitialized) this.#initialize(position);
 		const field = this.#matrix.get(position);
 		if (field.privacy !== Privacy.unmarked) return;
 		try {
 			field.privacy = Privacy.opened;
+			this.#counter--;
+			if (this.#counter === 0) {
+				this.#isWon = true;
+			}
 			if (field.danger > 0) return;
 			for (const location of this.#getPerimetersAt(position)) {
 				this.digField(location);
@@ -276,7 +297,7 @@ class Board {
 		} catch (error) {
 			if (!(error instanceof EvalError)) throw error;
 			if (error.message !== `The field blew up`) throw error;
-			this.#isBlownUp = true;
+			this.#isLost = true;
 		}
 	}
 	/**
@@ -285,10 +306,11 @@ class Board {
 	 * @returns {void}
 	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
 	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
-	 * @throws {EvalError} If the session is lost.
+	 * @throws {EvalError} If the session is won or lost.
 	 */
 	markField(position) {
-		if (this.#isBlownUp) throw new EvalError(`The session is lost. Start a new one`);
+		if (this.#isWon) throw new EvalError(`The session is won. Start a new one`);
+		if (this.#isLost) throw new EvalError(`The session is lost. Start a new one`);
 		const field = this.#matrix.get(position);
 		switch (field.privacy) {
 			case Privacy.opened: {
@@ -308,7 +330,7 @@ class Board {
 				}
 				if (marks !== danger) return;
 				for (const location of unmarked) {
-					if (this.#isBlownUp) return;
+					if (this.#isLost) return;
 					this.digField(location);
 				}
 			} break;
@@ -362,12 +384,21 @@ class Controller {
 	#write(position, text) {
 		const context = this.#context;
 		const scale = this.#scale;
+		context.save();
 		const { actualBoundingBoxAscent } = context.measureText(text);
 		context.fillText(text,
 			scale.x * (position.x + 0.5),
 			scale.y * (position.y + 0.5) + actualBoundingBoxAscent * 0.5,
 			scale.x / 2
 		);
+		// context.strokeStyle = Color.WHITE.toString();
+		// context.lineWidth = (min(scale.x, scale.y) >> 6).clamp(1, Infinity);
+		// context.strokeText(text,
+		// 	scale.x * (position.x + 0.5),
+		// 	scale.y * (position.y + 0.5) + actualBoundingBoxAscent * 0.5,
+		// 	scale.x / 2
+		// );
+		context.restore();
 	}
 	/** @type {Color} */
 	#gray = Color.GRAY;
@@ -392,7 +423,8 @@ class Controller {
 		this.#context.textBaseline = `alphabetic`;
 		this.#context.textAlign = `center`;
 		this.#context.font = `900 ${scale.y / 2}px monospace`;
-		this.#context.lineWidth = 2;
+		this.#context.lineCap = `round`;
+		this.#context.lineWidth = min(scale.x, scale.y) >> 5;
 
 		const size = this.#size;
 		const board = this.#board;
@@ -442,6 +474,44 @@ class Controller {
 		return new Point2D(trunc((clientX - x) / scale.x), trunc((clientY - y) / scale.y));
 	}
 	/**
+	 * Checks if the game session is won and optionally displays a confirmation dialog.
+	 * @param {boolean} already Whether the session is already won.
+	 * @returns {Promise<boolean>} Whether the session is won.
+	 */
+	async #isSessionWon(already) {
+		const isWon = this.#board.isWon;
+		let message = `The session is won. Start a new one?`;
+		if (!already) message = `The board is neutralized.\n${message}`;
+		if (isWon && await window.confirmAsync(message)) {
+			this.#board.rebuild();
+			this.#render();
+		}
+		return isWon;
+	}
+	/**
+	 * Checks if the game session is lost and optionally displays a confirmation dialog.
+	 * @param {boolean} already Whether the session is already lost.
+	 * @returns {Promise<boolean>} Whether the session is lost.
+	 */
+	async #isSessionLost(already) {
+		const isLost = this.#board.isLost;
+		let message = `The session is lost. Start a new one?`;
+		if (!already) message = `The field blew up.\n${message}`;
+		if (isLost && await window.confirmAsync(message)) {
+			this.#board.rebuild();
+			this.#render();
+		}
+		return isLost;
+	}
+	/**
+	 * Checks if the game session is suspended.
+	 * @param {boolean} already Whether the session is already suspended.
+	 * @returns {Promise<boolean>} Whether the session is suspended.
+	 */
+	#isSessionSuspended(already) {
+		return (this.#isSessionWon(already) || this.#isSessionLost(already));
+	}
+	/**
 	 * The main method to initialize and start the game.
 	 * @returns {Promise<void>}
 	 */
@@ -458,38 +528,27 @@ class Controller {
 			if (!context) throw new EvalError(`Unable to get context`);
 			return context;
 		});
-		const scale = this.#scale;
 		this.#render();
 		window.addEventListener(`resize`, (event) => this.#render());
 
 		this.#canvas.addEventListener(`click`, async (event) => {
 			event.preventDefault();
-			if (this.#board.isBlownUp) {
-				await window.alertAsync(`The session is lost. Start a new one`);
-				return;
-			}
+			if (await this.#isSessionSuspended(true)) return;
 			const position = this.#getMouseArea(event);
 			this.#board.markField(position);
-			if (this.#board.isBlownUp) {
-				await window.alertAsync(`The field blew up`);
-			}
 			this.#render();
+			if (await this.#isSessionSuspended(false)) return;
 		});
 
 		this.#canvas.addEventListener(`contextmenu`, async (event) => {
 			event.preventDefault();
-			if (this.#board.isBlownUp) {
-				await window.alertAsync(`The session is lost. Start a new one`);
-				return;
-			}
+			if (await this.#isSessionSuspended(true)) return;
 			const position = this.#getMouseArea(event);
 			this.#board.digField(position);
-			if (this.#board.isBlownUp) {
-				await window.alertAsync(`The field blew up`);
-			}
 			this.#render();
+			if (await this.#isSessionSuspended(false)) return;
 		});
 	}
 };
-await window.load(new Controller().main(), 200, 1000);
+await window.load(new Controller().main());
 //#endregion

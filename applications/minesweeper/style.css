@@ -19,3 +19,8 @@ canvas#display {
 	width: 100%;
 	height: 100%;
 }
+
+button#open-settings {
+	position: absolute;
+	inset: 0 0 auto auto;
+}

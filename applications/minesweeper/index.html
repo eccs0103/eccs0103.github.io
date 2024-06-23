@@ -9,8 +9,8 @@
 	<meta name="title" content="Minesweeper">
 	<meta name="author" content="eccs0103">
 	<meta name="color-scheme" content="system">
-	<!-- <meta name="description" content=""> -->
-	<!-- <meta name="keywords" content=""> -->
+	<meta name="description" content="Play Minesweeper for free. Challenge yourself with different difficulty levels and improve your puzzle-solving skills. Enjoy the classic game of Minesweeper with a modern interface and responsive design.">
+	<meta name="keywords" content="minesweeper, free, puzzle game, classic games, brain games, challenges">
 	<meta name="robots" content="index, follow">
 	<meta name="language" content="English">
 	<meta name="revisit-after" content="0 days">
@@ -28,6 +28,12 @@
 	<main class="layer">
 		<canvas id="display"></canvas>
 	</main>
+	<button id="open-settings" hidden class="with-padding large-padding flex secondary-centered">
+		<img src="../../resources/icons/settings.png" alt="Settings" class="icon">
+	</button>
+	<dialog id="settings" class="layer rounded with-padding large-padding">
+		<h3>Settings</h3>
+	</dialog>
 	<script src="../../scripts/templates/loader.js"></script>
 	<script src="../../scripts/templates/popup.js"></script>
 </body>

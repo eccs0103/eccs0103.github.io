@@ -1,11 +1,12 @@
 "use strict";
 
+import { Queue } from "../../scripts/modules/extensions.js";
 import { Random } from "../../scripts/modules/generators.js";
 import { Matrix, Point2D } from "../../scripts/modules/measures.js";
 import { Color } from "../../scripts/modules/palette.js";
 import { } from "../../scripts/structure.js";
 
-const { trunc, ceil, min, max } = Math;
+const { trunc, ceil, min } = Math;
 
 //#region Privacy
 /**
@@ -48,7 +49,7 @@ class Field {
 	 */
 	constructor(danger) {
 		if (!Number.isInteger(danger)) throw new TypeError(`The danger ${danger} must be finite integer number`);
-		if (0 > danger || danger > Board.circumference) throw new RangeError(`The danger ${danger} is out of range [0 - ${Board.circumference}]`);
+		if (0 > danger || danger > Board.peakDanger) throw new RangeError(`The danger ${danger} is out of range [0 - ${Board.peakDanger}]`);
 		this.#danger = danger;
 	}
 	/** @type {number} */
@@ -80,8 +81,8 @@ class Field {
 	 */
 	set privacy(value) {
 		if (this.#privacy === Privacy.opened) return;
-		if (value === Privacy.opened && this.#danger === Board.circumference) throw new EvalError(`The field blew up`);
 		this.#privacy = value;
+		if (value === Privacy.opened && this.#danger === Board.peakDanger) throw new EvalError(`The field blew up`);
 	}
 	/**
 	 * Returns a string representation of a field.
@@ -89,7 +90,7 @@ class Field {
 	 */
 	toString() {
 		switch (this.#privacy) {
-			case Privacy.opened: return (this.#danger < Board.circumference
+			case Privacy.opened: return (this.#danger < Board.peakDanger
 				? `Opened ${this.#danger} field`
 				: `Opened mine`
 			);
@@ -100,6 +101,26 @@ class Field {
 		}
 	}
 }
+//#endregion
+//#region Outcome options
+/**
+ * @enum {boolean?}
+ */
+const OutcomeOptions = {
+	/**
+	 * @readonly
+	 */
+	unknown: null,
+	/**
+	 * @readonly
+	 */
+	victory: true,
+	/**
+	 * @readonly
+	 */
+	defeat: false,
+};
+Object.freeze(OutcomeOptions);
 //#endregion
 //#region Board
 /**
@@ -118,11 +139,11 @@ class Board {
 		new Point2D(1, 1),
 	];
 	/**
-	 * Gets the circumference of the board.
+	 * Gets the peak value of the danger in the board.
 	 * @readonly
 	 * @returns {number}
 	 */
-	static get circumference() {
+	static get peakDanger() {
 		return Board.#perimeter.length + 1;
 	}
 	/**
@@ -135,15 +156,45 @@ class Board {
 	 * @throws {RangeError} If count is less than 0 or greater than the number of fields.
 	 */
 	constructor(size, count) {
+		const maxCount = size.x * size.y - Board.peakDanger;
+		if (count > maxCount) throw new RangeError(`Count ${count} is to much for size ${size}. Max available count is ${maxCount}`);
 		this.#size = size;
 		this.#count = count;
 
 		this.#matrix = new Matrix(size, () => new Field(0));
+		this.#isInitialized = false;
+		this.#excavations = new Queue();
+		this.#outcome = OutcomeOptions.unknown;
+		this.#counter = size.x * size.y - count;
 	}
 	/** @type {Readonly<Point2D>} */
 	#size;
+	/**
+	 * @readonly
+	 * @returns {Readonly<Point2D>}
+	 */
+	get size() {
+		return this.#size;
+	}
+	/**
+	 * Gets the perimeter positions around a given position.
+	 * @param {Readonly<Point2D>} position The central position.
+	 * @returns {Point2D[]} The perimeter positions.
+	 */
+	#getPerimetersAt(position) {
+		const size = this.#size;
+		const result = [];
+		for (const offset of Board.#perimeter) {
+			const location = position["+"](offset);
+			if (0 > location.x || location.x >= size.x || 0 > location.y || location.y >= size.y) continue;
+			result.push(location);
+		}
+		return result;
+	}
 	/** @type {number} */
 	#count;
+	/** @type {number} */
+	#counter;
 	/**
 	 * Converts a point to a number.
 	 * @param {Readonly<Point2D>} point The point to convert.
@@ -162,47 +213,19 @@ class Board {
 		const size = this.#size;
 		return new Point2D(number % size.y, trunc(number / size.y));
 	}
-	/**
-	 * Gets the perimeter positions around a given position.
-	 * @param {Readonly<Point2D>} position The central position.
-	 * @returns {Point2D[]} The perimeter positions.
-	 */
-	#getPerimetersAt(position) {
-		const size = this.#size;
-		const result = [];
-		for (const offset of Board.#perimeter) {
-			const location = position["+"](offset);
-			if (0 > location.x || location.x >= size.x || 0 > location.y || location.y >= size.y) continue;
-			result.push(location);
-		}
-		return result;
-	}
 	/** @type {Matrix<Field>} */
 	#matrix;
 	/** @type {boolean} */
-	#isInitialized = false;
-	/** @type {boolean} */
-	#isWon = false;
+	#isInitialized;
+	/** @type {OutcomeOptions} */
+	#outcome;
 	/**
-	 * Gets whether the board is won.
 	 * @readonly
-	 * @returns {boolean}
+	 * @returns {OutcomeOptions}
 	 */
-	get isWon() {
-		return this.#isWon;
+	get outcome() {
+		return this.#outcome;
 	}
-	/** @type {boolean} */
-	#isLost = false;
-	/**
-	 * Gets whether the board is lost.
-	 * @readonly
-	 * @returns {boolean}
-	 */
-	get isLost() {
-		return this.#isLost;
-	}
-	/** @type {number} */
-	#counter;
 	/**
 	 * Initializes the board by placing mines.
 	 * @param {Readonly<Point2D>} position The position to initialize around.
@@ -214,7 +237,6 @@ class Board {
 		const count = this.#count;
 		const random = Random.global;
 
-		this.#counter = size.x * size.y - count;
 		const indices = new Set(Array(size.x * size.y).keys());
 		indices.delete(this.#toNumber(position));
 		for (const location of this.#getPerimetersAt(position)) {
@@ -233,14 +255,24 @@ class Board {
 			}
 		}
 
+		const matrix = this.#matrix;
 		for (const [index, danger] of map) {
 			const position = this.#toPoint(index);
-			this.#matrix.set(position, new Field(Number.isNaN(danger)
-				? Board.circumference
+			matrix.set(position, new Field(Number.isNaN(danger)
+				? Board.peakDanger
 				: danger
 			));
 		}
 		this.#isInitialized = true;
+	}
+	/** @type {Queue<Readonly<Point2D>>} */
+	#excavations;
+	/**
+	 * @readonly
+	 * @returns {Queue<Readonly<Point2D>>}
+	 */
+	get excavations() {
+		return this.#excavations;
 	}
 	/**
 	 * Rebuilds the board, resetting all fields.
@@ -248,10 +280,12 @@ class Board {
 	 */
 	rebuild() {
 		const size = this.#size;
+		const count = this.#count;
 		this.#matrix = new Matrix(size, () => new Field(0));
 		this.#isInitialized = false;
-		this.#isWon = false;
-		this.#isLost = false;
+		this.#excavations = new Queue();
+		this.#outcome = OutcomeOptions.unknown;
+		this.#counter = size.x * size.y - count;
 	}
 	/**
 	 * Gets the state at the specified position.
@@ -276,19 +310,17 @@ class Board {
 	 * @returns {void}
 	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
 	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
-	 * @throws {EvalError} If the session is won or lost.
 	 */
 	digField(position) {
-		if (this.#isWon) throw new EvalError(`The session is won. Start a new one`);
-		if (this.#isLost) throw new EvalError(`The session is lost. Start a new one`);
 		if (!this.#isInitialized) this.#initialize(position);
 		const field = this.#matrix.get(position);
 		if (field.privacy !== Privacy.unmarked) return;
 		try {
 			field.privacy = Privacy.opened;
-			this.#counter--;
-			if (this.#counter === 0) {
-				this.#isWon = true;
+			if (this.#outcome === OutcomeOptions.unknown) {
+				this.#excavations.push(position);
+				this.#counter--;
+				if (this.#counter === 0) this.#outcome = OutcomeOptions.victory;
 			}
 			if (field.danger > 0) return;
 			for (const location of this.#getPerimetersAt(position)) {
@@ -297,7 +329,9 @@ class Board {
 		} catch (error) {
 			if (!(error instanceof EvalError)) throw error;
 			if (error.message !== `The field blew up`) throw error;
-			this.#isLost = true;
+			if (this.#outcome === OutcomeOptions.unknown) {
+				this.#outcome = OutcomeOptions.defeat;
+			}
 		}
 	}
 	/**
@@ -309,8 +343,6 @@ class Board {
 	 * @throws {EvalError} If the session is won or lost.
 	 */
 	markField(position) {
-		if (this.#isWon) throw new EvalError(`The session is won. Start a new one`);
-		if (this.#isLost) throw new EvalError(`The session is lost. Start a new one`);
 		const field = this.#matrix.get(position);
 		switch (field.privacy) {
 			case Privacy.opened: {
@@ -330,7 +362,6 @@ class Board {
 				}
 				if (marks !== danger) return;
 				for (const location of unmarked) {
-					if (this.#isLost) return;
 					this.digField(location);
 				}
 			} break;
@@ -353,8 +384,8 @@ class Board {
  * Represents the model controller.
  */
 class Controller {
-	/** @type {Point2D} */
-	#size;
+	/** @type {HTMLElement} */
+	#main;
 	/** @type {Board} */
 	#board;
 	/** @type {HTMLCanvasElement} */
@@ -366,11 +397,14 @@ class Controller {
 	 * @returns {void}
 	 */
 	#resize() {
+		const size = this.#board.size;
+		const main = this.#main;
+		main.style.setProperty(`--board-width`, `${size.x}`);
+		main.style.setProperty(`--board-height`, `${size.y}`);
 		const canvas = this.#canvas;
 		const { width, height } = canvas.getBoundingClientRect();
 		canvas.width = width;
 		canvas.height = height;
-		const size = this.#size;
 		this.#scale = new Point2D(width / size.x, height / size.y);
 	}
 	/** @type {CanvasRenderingContext2D} */
@@ -384,21 +418,12 @@ class Controller {
 	#write(position, text) {
 		const context = this.#context;
 		const scale = this.#scale;
-		context.save();
 		const { actualBoundingBoxAscent } = context.measureText(text);
 		context.fillText(text,
 			scale.x * (position.x + 0.5),
 			scale.y * (position.y + 0.5) + actualBoundingBoxAscent * 0.5,
 			scale.x / 2
 		);
-		// context.strokeStyle = Color.WHITE.toString();
-		// context.lineWidth = (min(scale.x, scale.y) >> 6).clamp(1, Infinity);
-		// context.strokeText(text,
-		// 	scale.x * (position.x + 0.5),
-		// 	scale.y * (position.y + 0.5) + actualBoundingBoxAscent * 0.5,
-		// 	scale.x / 2
-		// );
-		context.restore();
 	}
 	/** @type {Color} */
 	#gray = Color.GRAY;
@@ -411,6 +436,51 @@ class Controller {
 	/** @type {Color} */
 	#red = Color.RED;
 	/**
+	 * @param {Readonly<Point2D>} position 
+	 * @returns {void}
+	 */
+	#renderBackground(position) {
+		const context = this.#context;
+		const state = this.#board.getState(position);
+		const gray = this.#gray;
+		const darkgray = this.#darkgray;
+		context.save();
+		context.fillStyle = (state < 0
+			? gray
+			: darkgray
+		).toString();
+		context.strokeStyle = darkgray.toString();
+		const scale = this.#scale;
+		context.beginPath();
+		context.rect(ceil(position.x * scale.x), ceil(position.y * scale.y), ceil(scale.x), ceil(scale.y));
+		context.fill();
+		context.stroke();
+		context.restore();
+	}
+	/**
+	 * @param {Readonly<Point2D>} position 
+	 * @returns {void}
+	 */
+	#renderForeground(position) {
+		const context = this.#context;
+		const state = this.#board.getState(position);
+		const green = this.#green;
+		const yellow = this.#yellow;
+		const red = this.#red;
+		context.save();
+		if (state > 0) {
+			context.fillStyle = green.mix(red, state / Board.peakDanger).toString();
+			this.#write(position, state.toString());
+		} else if (state === -2) {
+			context.fillStyle = red.toString();
+			this.#write(position, `!`);
+		} else if (state === -3) {
+			context.fillStyle = yellow.toString();
+			this.#write(position, `?`);
+		}
+		context.restore();
+	}
+	/**
 	 * Renders the game board on the canvas.
 	 * @returns {void}
 	 */
@@ -420,46 +490,40 @@ class Controller {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 
 		const scale = this.#scale;
-		this.#context.textBaseline = `alphabetic`;
-		this.#context.textAlign = `center`;
-		this.#context.font = `900 ${scale.y / 2}px monospace`;
-		this.#context.lineCap = `round`;
-		this.#context.lineWidth = min(scale.x, scale.y) >> 5;
+		context.textBaseline = `alphabetic`;
+		context.textAlign = `center`;
+		context.font = `900 ${scale.y / 2}px monospace`;
+		context.lineCap = `round`;
+		context.lineWidth = min(scale.x, scale.y) >> 5;
 
-		const size = this.#size;
 		const board = this.#board;
-		const gray = this.#gray;
-		const darkgray = this.#darkgray;
-		const green = this.#green;
-		const yellow = this.#yellow;
-		const red = this.#red;
 
+		// for (const position of board.excavations) {
+		// 	this.#renderBackground(position);
+		// 	this.#renderForeground(position);
+		// }
+
+		const size = board.size;
 		for (let y = 0; y < size.y; y++) {
 			for (let x = 0; x < size.x; x++) {
 				const position = new Point2D(x, y);
-				const state = board.getState(position);
-
-				context.fillStyle = (state < 0
-					? gray
-					: darkgray
-				).toString();
-				context.strokeStyle = darkgray.toString();
-				context.beginPath();
-				context.rect(ceil(position.x * scale.x), ceil(position.y * scale.y), ceil(scale.x), ceil(scale.y));
-				context.fill();
-				context.stroke();
-
-				if (state > 0) {
-					context.fillStyle = green.mix(red, state / Board.circumference).toString();
-					this.#write(position, state.toString());
-				} else if (state === -2) {
-					context.fillStyle = red.toString();
-					this.#write(position, `!`);
-				} else if (state === -3) {
-					context.fillStyle = yellow.toString();
-					this.#write(position, `?`);
-				}
+				this.#renderBackground(position);
+				this.#renderForeground(position);
 			}
+		}
+	}
+	/**
+	 * @returns {Promise<void>}
+	 */
+	async #digBoard() {
+		const board = this.#board;
+		const size = board.size;
+		for (let x = 0; x < size.x; x++) {
+			await Promise.withTimeout(100);
+			for (let y = 0; y < size.x; y++) {
+				board.digField(new Point2D(x, y));
+			}
+			this.#render();
 		}
 	}
 	/**
@@ -468,8 +532,7 @@ class Controller {
 	 * @returns {Point2D} The position of the mouse on the canvas.
 	 */
 	#getMouseArea({ clientX, clientY }) {
-		const canvas = this.#canvas;
-		const { x, y } = canvas.getBoundingClientRect();
+		const { x, y } = this.#canvas.getBoundingClientRect();
 		const scale = this.#scale;
 		return new Point2D(trunc((clientX - x) / scale.x), trunc((clientY - y) / scale.y));
 	}
@@ -479,12 +542,18 @@ class Controller {
 	 * @returns {Promise<boolean>} Whether the session is won.
 	 */
 	async #isSessionWon(already) {
-		const isWon = this.#board.isWon;
-		let message = `The session is won. Start a new one?`;
-		if (!already) message = `The board is neutralized.\n${message}`;
-		if (isWon && await window.confirmAsync(message)) {
-			this.#board.rebuild();
-			this.#render();
+		const board = this.#board;
+		const isWon = (board.outcome === OutcomeOptions.victory);
+		if (isWon) {
+			let message = `The session is won. Start a new one?`;
+			if (!already) {
+				message = `The board is neutralized.\n${message}`;
+				await this.#digBoard();
+			}
+			if (await window.confirmAsync(message)) {
+				board.rebuild();
+				this.#render();
+			}
 		}
 		return isWon;
 	}
@@ -494,12 +563,18 @@ class Controller {
 	 * @returns {Promise<boolean>} Whether the session is lost.
 	 */
 	async #isSessionLost(already) {
-		const isLost = this.#board.isLost;
-		let message = `The session is lost. Start a new one?`;
-		if (!already) message = `The field blew up.\n${message}`;
-		if (isLost && await window.confirmAsync(message)) {
-			this.#board.rebuild();
-			this.#render();
+		const board = this.#board;
+		const isLost = (board.outcome === OutcomeOptions.defeat);
+		if (isLost) {
+			let message = `The session is lost. Start a new one?`;
+			if (!already) {
+				message = `The field blew up.\n${message}`;
+				await this.#digBoard();
+			}
+			if (await window.confirmAsync(message)) {
+				board.rebuild();
+				this.#render();
+			}
 		}
 		return isLost;
 	}
@@ -516,39 +591,39 @@ class Controller {
 	 * @returns {Promise<void>}
 	 */
 	async main() {
-		this.#size = new Point2D(9, 9);
-		this.#board = new Board(this.#size, 10);
+		this.#main = document.getElement(HTMLElement, `main`);
 
-		this.#canvas = await window.ensure(() => document.getElement(HTMLCanvasElement, `canvas#display`));
+		const size = new Point2D(9, 9);
+		const board = new Board(size, 10);
+		this.#board = board;
+
+		const canvas = document.getElement(HTMLCanvasElement, `canvas#display`);
+		this.#canvas = canvas;
 		this.#resize();
 		window.addEventListener(`resize`, (event) => this.#resize());
 
-		this.#context = await window.ensure(() => {
-			const context = this.#canvas.getContext(`2d`);
-			if (!context) throw new EvalError(`Unable to get context`);
-			return context;
-		});
+		const context = canvas.getContext(`2d`);
+		if (context === null) throw new EvalError(`Unable to get context`);
+		this.#context = context;
 		this.#render();
 		window.addEventListener(`resize`, (event) => this.#render());
 
-		this.#canvas.addEventListener(`click`, async (event) => {
+		canvas.addEventListener(`click`, async (event) => {
 			event.preventDefault();
 			if (await this.#isSessionSuspended(true)) return;
-			const position = this.#getMouseArea(event);
-			this.#board.markField(position);
+			board.markField(this.#getMouseArea(event));
 			this.#render();
 			if (await this.#isSessionSuspended(false)) return;
 		});
 
-		this.#canvas.addEventListener(`contextmenu`, async (event) => {
+		canvas.addEventListener(`contextmenu`, async (event) => {
 			event.preventDefault();
 			if (await this.#isSessionSuspended(true)) return;
-			const position = this.#getMouseArea(event);
-			this.#board.digField(position);
+			board.digField(this.#getMouseArea(event));
 			this.#render();
 			if (await this.#isSessionSuspended(false)) return;
 		});
 	}
 };
-await window.load(new Controller().main());
+await window.load(window.ensure(() => new Controller().main()));
 //#endregion

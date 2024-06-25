@@ -2,8 +2,9 @@
 
 import { Queue } from "../../scripts/modules/extensions.js";
 import { Random } from "../../scripts/modules/generators.js";
-import { Matrix, Point2D } from "../../scripts/modules/measures.js";
+import { Matrix, Point, Point2D } from "../../scripts/modules/measures.js";
 import { Color } from "../../scripts/modules/palette.js";
+import { ArchiveManager } from "../../scripts/modules/storage.js";
 import { } from "../../scripts/structure.js";
 
 const { trunc, ceil, min } = Math;
@@ -124,6 +125,10 @@ Object.freeze(OutcomeOptions);
 //#endregion
 //#region Board
 /**
+ * @typedef {Queue<Readonly<Point2D>>} Area
+ */
+
+/**
  * Represents the game board.
  */
 class Board {
@@ -147,26 +152,54 @@ class Board {
 		return Board.#perimeter.length + 1;
 	}
 	/**
+	 * Checks if the given size and mine count are compatible with the game board.
+	 * @param {Readonly<Point2D>} size The size of the board.
+	 * @param {number} count The number of mines.
+	 * @returns {boolean} True if the size and mine count are compatible, otherwise false.
+	 * @throws {TypeError} If the x or y coordinate of the size is not an integer.
+	 * @throws {RangeError} If the x or y coordinate of the size is less than 1.
+	 * @throws {RangeError} If the number of fields is less than the peak value of the danger in the board.
+	 * @throws {TypeError} If count is not a finite integer.
+	 * @throws {RangeError} If count is less than 0.
+	 */
+	static areCompatible(size, count) {
+		if (!Point.isInteger(size)) throw new TypeError(`The size ${size} must be finite integer point`);
+		if (size.x < 1 || size.y < 1) throw new RangeError(`The size ${size} is out of range [(1, 1) - (+∞, +∞))`);
+		const surface = size.x * size.y;
+		const maxCount = surface - Board.peakDanger;
+		if (maxCount < 0) throw new RangeError(`With current perimeter the board must have minimum ${Board.peakDanger} fields`);
+
+		if (!Number.isInteger(count)) throw new TypeError(`The count ${count} must be finite integer number`);
+		if (count < 0) throw new RangeError(`The count ${count} is out of range [0 - +∞)`);
+		return (count <= maxCount);
+	}
+	/**
 	 * Creates a board with the given size and mine count.
 	 * @param {Readonly<Point2D>} size The size of the board.
 	 * @param {number} count The number of mines.
 	 * @throws {TypeError} If the x or y coordinate of the size is not an integer.
-	 * @throws {RangeError} If the x or y coordinate of the size is negative.
+	 * @throws {RangeError} If the x or y coordinate of the size is less than 1.
+	 * @throws {RangeError} If the number of fields is less than the peak value of the danger in the board.
 	 * @throws {TypeError} If count is not a finite integer.
 	 * @throws {RangeError} If count is less than 0 or greater than the number of fields.
 	 */
 	constructor(size, count) {
-		const maxCount = size.x * size.y - Board.peakDanger;
-		if (count > maxCount) throw new RangeError(`Count ${count} is to much for size ${size}. Max available count is ${maxCount}`);
-
+		if (!Point.isInteger(size)) throw new TypeError(`The size ${size} must be finite integer point`);
+		if (size.x < 1 || size.y < 1) throw new RangeError(`The size ${size} is out of range [(1, 1) - (+∞, +∞))`);
+		const surface = size.x * size.y;
+		const maxCount = surface - Board.peakDanger;
+		if (maxCount < 0) throw new RangeError(`With current perimeter the board must have minimum ${Board.peakDanger} fields`);
 		this.#size = size;
+
+		if (!Number.isInteger(count)) throw new TypeError(`The count ${count} must be finite integer number`);
+		if (count < 0 || count > maxCount) throw new RangeError(`The count ${count} is out of range [0 - ${maxCount}]`);
 		this.#count = count;
 
-		this.#modifications = new Queue();
 		this.#matrix = new Matrix(size, (position) => new Field(0));
 		this.#isInitialized = false;
+		this.#modifications = new Queue();
 		this.#outcome = OutcomeOptions.unknown;
-		this.#counter = size.x * size.y - count;
+		this.#counter = surface - count;
 	}
 	/** @type {Readonly<Point2D>} */
 	#size;
@@ -178,9 +211,8 @@ class Board {
 		return this.#size;
 	}
 	/**
-	 * Gets the perimeter positions around a given position.
-	 * @param {Readonly<Point2D>} position The central position.
-	 * @returns {Point2D[]} The perimeter positions.
+	 * @param {Readonly<Point2D>} position 
+	 * @returns {Point2D[]}
 	 */
 	#getPerimetersAt(position) {
 		const size = this.#size;
@@ -197,18 +229,16 @@ class Board {
 	/** @type {number} */
 	#counter;
 	/**
-	 * Converts a point to a number.
-	 * @param {Readonly<Point2D>} point The point to convert.
-	 * @returns {number} The corresponding number.
+	 * @param {Readonly<Point2D>} point 
+	 * @returns {number}
 	 */
 	#toNumber(point) {
 		const size = this.#size;
 		return point.y * size.x + point.x;
 	}
 	/**
-	 * Converts a number to a point.
-	 * @param {number} number The number to convert.
-	 * @returns {Point2D} The corresponding point.
+	 * @param {number} number 
+	 * @returns {Point2D}
 	 */
 	#toPoint(number) {
 		const size = this.#size;
@@ -221,6 +251,7 @@ class Board {
 	/** @type {OutcomeOptions} */
 	#outcome;
 	/**
+	 * Gets the current outcome of the game.
 	 * @readonly
 	 * @returns {OutcomeOptions}
 	 */
@@ -228,8 +259,7 @@ class Board {
 		return this.#outcome;
 	}
 	/**
-	 * Initializes the board by placing mines.
-	 * @param {Readonly<Point2D>} position The position to initialize around.
+	 * @param {Readonly<Point2D>} position 
 	 * @returns {void}
 	 */
 	#initialize(position) {
@@ -266,11 +296,12 @@ class Board {
 		}
 		this.#isInitialized = true;
 	}
-	/** @type {Queue<Readonly<Point2D>>} */
+	/** @type {Queue<Area>} */
 	#modifications;
 	/**
+	 * Gets the queue of modificated areas.
 	 * @readonly
-	 * @returns {Queue<Readonly<Point2D>>}
+	 * @returns {Queue<Area>}
 	 */
 	get modifications() {
 		return this.#modifications;
@@ -279,6 +310,7 @@ class Board {
 	 * @returns {void}
 	 */
 	#onSuspend() {
+		const area = new Queue();
 		const size = this.#size;
 		for (let x = 0; x < size.x; x++) {
 			for (let y = 0; y < size.y; y++) {
@@ -286,7 +318,26 @@ class Board {
 				const field = this.#matrix.get(position);
 				if (field.privacy === Privacy.opened) continue;
 				this.#tryDigField(field);
-				this.#modifications.push(position);
+				area.push(position);
+			}
+		}
+		this.#modifications.push(area);
+	}
+	/**
+	 * @param {boolean} successful 
+	 * @returns {void}
+	 */
+	#checkOutcomeConditions(successful) {
+		if (successful) {
+			if (this.#counter > 0) return;
+			if (this.#outcome === OutcomeOptions.unknown) {
+				this.#outcome = OutcomeOptions.victory;
+				this.#onSuspend();
+			}
+		} else {
+			if (this.#outcome === OutcomeOptions.unknown) {
+				this.#outcome = OutcomeOptions.defeat;
+				this.#onSuspend();
 			}
 		}
 	}
@@ -298,9 +349,9 @@ class Board {
 		const size = this.#size;
 		const count = this.#count;
 
-		this.#modifications.clear();
 		this.#matrix = new Matrix(size, (position) => new Field(0));
 		this.#isInitialized = false;
+		this.#modifications.clear();
 		this.#outcome = OutcomeOptions.unknown;
 		this.#counter = size.x * size.y - count;
 	}
@@ -328,12 +379,35 @@ class Board {
 	#tryDigField(field) {
 		try {
 			field.privacy = Privacy.opened;
+			return true;
 		} catch (error) {
 			if (!(error instanceof EvalError)) throw error;
 			if (error.message !== `The field blew up`) throw error;
 			return false;
 		}
-		return true;
+	}
+	/**
+	 * @param {Readonly<Point2D>} position 
+	 * @param {Area} area 
+	 * @returns {boolean}
+	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
+	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
+	 */
+	#tryDigFieldAt(position, area) {
+		if (!this.#isInitialized) this.#initialize(position);
+		const field = this.#matrix.get(position);
+		if (field.privacy !== Privacy.unmarked) return true;
+		let isSuccessful = this.#tryDigField(field);
+		this.#counter--;
+		area.push(position);
+		if (field.danger === 0) {
+			for (const location of this.#getPerimetersAt(position)) {
+				if (!this.#tryDigFieldAt(location, area)) {
+					isSuccessful = false;
+				}
+			}
+		}
+		return isSuccessful;
 	}
 	/**
 	 * Opens the field at the specified position.
@@ -343,28 +417,39 @@ class Board {
 	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
 	 */
 	digFieldAt(position) {
-		if (!this.#isInitialized) this.#initialize(position);
+		const area = new Queue();
+		const isSuccessful = this.#tryDigFieldAt(position, area);
+		this.#modifications.push(area);
+		this.#checkOutcomeConditions(isSuccessful);
+	}
+	/**
+	 * 
+	 * @param {Readonly<Point2D>} position 
+	 * @param {Area} area 
+	 * @returns {boolean}
+	 */
+	#tryMarkOpenedFieldAt(position, area) {
 		const field = this.#matrix.get(position);
-		if (field.privacy !== Privacy.unmarked) return;
-		const isSuccessful = this.#tryDigField(field);
-		this.#modifications.push(position);
-		this.#counter--;
-		if (!isSuccessful) {
-			if (this.#outcome === OutcomeOptions.unknown) {
-				this.#outcome = OutcomeOptions.defeat;
-				this.#onSuspend();
-			}
-			return;
-		}
-		if (this.#outcome === OutcomeOptions.unknown && this.#counter === 0) {
-			this.#outcome = OutcomeOptions.victory;
-			this.#onSuspend();
-		}
-		if (field.danger === 0) {
-			for (const location of this.#getPerimetersAt(position)) {
-				this.digFieldAt(location);
+		const danger = field.danger;
+		let marks = 0;
+		const unmarked = [];
+		for (const location of this.#getPerimetersAt(position)) {
+			const neighbour = this.#matrix.get(location);
+			switch (neighbour.privacy) {
+				case Privacy.marked:
+				case Privacy.unknown: marks++;
+				case Privacy.opened: break;
+				default: {
+					unmarked.push(location);
+				} break;
 			}
 		}
+		if (marks !== danger) return true;
+		let isSuccessful = true;
+		for (const location of unmarked) {
+			if (!this.#tryDigFieldAt(location, area)) isSuccessful = false;
+		}
+		return isSuccessful;
 	}
 	/**
 	 * Marks the field at the specified position.
@@ -374,50 +459,128 @@ class Board {
 	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
 	 */
 	markFieldAt(position) {
+		const area = new Queue();
+		let isSuccessful = true;
 		const field = this.#matrix.get(position);
 		switch (field.privacy) {
 			case Privacy.opened: {
-				const danger = field.danger;
-				let marks = 0;
-				const unmarked = [];
-				for (const location of this.#getPerimetersAt(position)) {
-					const field = this.#matrix.get(location);
-					switch (field.privacy) {
-						case Privacy.marked:
-						case Privacy.unknown: marks++;
-						case Privacy.opened: break;
-						default: {
-							unmarked.push(location);
-						} break;
-					}
-				}
-				if (marks !== danger) return;
-				for (const location of unmarked) {
-					this.digFieldAt(location);
-				}
+				isSuccessful = this.#tryMarkOpenedFieldAt(position, area);
 			} break;
-			case Privacy.unmarked: {
-				field.privacy = Privacy.marked;
-				this.#modifications.push(position);
-			} break;
-			case Privacy.marked: {
-				field.privacy = Privacy.unknown;
-				this.#modifications.push(position);
-			} break;
+			case Privacy.unmarked:
+			case Privacy.marked:
 			case Privacy.unknown: {
-				field.privacy = Privacy.unmarked;
-				this.#modifications.push(position);
+				field.privacy = (/** @type {Privacy} */ (trunc(field.privacy % 3) + 1));
+				area.push(position);
 			} break;
 			default: throw new TypeError(`Invalid privacy ${field.privacy} state for field at ${position}`);
 		}
+		this.#modifications.push(area);
+		this.#checkOutcomeConditions(isSuccessful);
 	}
 };
+//#endregion
+//#region Settings
+/**
+ * @typedef {Object} SettingsNotation
+ * @property {number} [boardWidth]
+ * @property {number} [boardHeight]
+ * @property {number} [minesCount]
+ * @property {boolean} [invertedControl]
+ */
+
+class Settings {
+	/**
+	 * @param {unknown} source 
+	 * @returns {Settings}
+	 */
+	static import(source, name = `source`) {
+		try {
+			const shell = Object.import(source);
+			const boardWidth = Number.import(shell[`boardWidth`], `property boardWidth`);
+			const boardHeight = Number.import(shell[`boardHeight`], `property boardHeight`);
+			const boardSize = Object.freeze(new Point2D(boardWidth, boardHeight));
+			if (!Point.isInteger(boardSize)) throw new TypeError(`The size ${boardSize} must be finite integer point`);
+			if (boardSize.x < 1 || boardSize.y < 1) throw new RangeError(`The size ${boardSize} is out of range [(1, 1) - (+∞, +∞))`);
+			const minesCount = Number.import(shell[`minesCount`], `property minesCount`);
+			if (!Number.isInteger(minesCount)) throw new TypeError(`The mines count ${minesCount} must be finite integer number`);
+			if (minesCount < 0) throw new RangeError(`The mines count ${minesCount} is out of range [0 - +∞)`);
+			const invertedControl = Boolean.import(shell[`invertedControl`], `property invertedControl`);
+			const result = new Settings();
+			result.boardSize = boardSize;
+			result.minesCount = minesCount;
+			result.invertedControl = invertedControl;
+			return result;
+		} catch (error) {
+			throw new TypeError(`Unable to import ${(name)} due its ${typename(source)} type`, { cause: error });
+		}
+	}
+	/**
+	 * @returns {SettingsNotation}
+	 */
+	export() {
+		return {
+			boardWidth: this.boardSize.x,
+			boardHeight: this.boardSize.y,
+			minesCount: this.minesCount,
+			invertedControl: this.invertedControl,
+		};
+	}
+	/** @type {Readonly<Point2D>} */
+	#boardSize = Object.freeze(Point2D.repeat(9));
+	/**
+	 * @returns {Readonly<Point2D>}
+	 */
+	get boardSize() {
+		return this.#boardSize;
+	}
+	/**
+	 * @param {Readonly<Point2D>} value 
+	 * @returns {void}
+	 */
+	set boardSize(value) {
+		if (!Board.areCompatible(value, this.#minesCount)) throw new RangeError(`Size ${value} is too small for count ${this.#minesCount}. It must contain minimum ${this.#minesCount + Board.peakDanger} fields`);
+		this.#boardSize = value;
+	}
+	/** @type {number} */
+	#minesCount = 10;
+	/**
+	 * @returns {number}
+	 */
+	get minesCount() {
+		return this.#minesCount;
+	}
+	/**
+	 * @param {number} value 
+	 * @returns {void}
+	 */
+	set minesCount(value) {
+		if (!Board.areCompatible(this.#boardSize, value)) throw new RangeError(`Count ${value} is too large for size ${this.#boardSize}. It can contain maximum ${this.#boardSize.x * this.#boardSize.y - Board.peakDanger} mines`);
+		this.#minesCount = value;
+	}
+	/** @type {boolean} */
+	#invertedControl = true;
+	/**
+	 * @returns {boolean}
+	 */
+	get invertedControl() {
+		return this.#invertedControl;
+	}
+	/**
+	 * @param {boolean} value 
+	 * @returns {void}
+	 */
+	set invertedControl(value) {
+		this.#invertedControl = value;
+	}
+}
 //#endregion
 //#region Controller
 /**
  * Represents the model controller.
  */
 class Controller {
+	/** @type {ArchiveManager<SettingsNotation, Settings>} */
+	#managerSettings;
 	/** @type {HTMLElement} */
 	#main;
 	/** @type {Board} */
@@ -427,7 +590,6 @@ class Controller {
 	/** @type {Point2D} */
 	#scale;
 	/**
-	 * Resizes the canvas and adjusts the scale.
 	 * @returns {void}
 	 */
 	#resizeCanvas() {
@@ -446,16 +608,15 @@ class Controller {
 	/**
 	 * @returns {void}
 	 */
-	resizeContext() {
+	#resizeContext() {
 		const context = this.#context;
 		const scale = this.#scale;
 		context.font = `900 ${scale.y / 2}px monospace`;
 		context.lineWidth = min(scale.x, scale.y) >> 5;
 	}
 	/**
-	 * Writes text on the canvas at a specified position.
-	 * @param {Readonly<Point2D>} position The position to write the text at.
-	 * @param {string} text The text to write.
+	 * @param {Readonly<Point2D>} position 
+	 * @param {string} text 
 	 * @returns {void}
 	 */
 	#writeAt(position, text) {
@@ -468,60 +629,75 @@ class Controller {
 			scale.x / 2
 		);
 	}
-	/** @type {Color} */
-	#gray = Color.GRAY;
-	/** @type {Color} */
-	#darkgray = this.#gray.illuminate(0.2);
-	/** @type {Color} */
-	#green = Color.GREEN;
-	/** @type {Color} */
-	#yellow = Color.YELLOW;
-	/** @type {Color} */
-	#red = Color.RED;
+	/**
+	 * @param {Readonly<Point2D>} position 
+	 * @param {CanvasImageSource} image 
+	 */
+	#drawAt(position, image) {
+		const context = this.#context;
+		const scale = this.#scale;
+		context.drawImage(image,
+			ceil(position.x * scale.x),
+			ceil(position.y * scale.y),
+			ceil(scale.x),
+			ceil(scale.y)
+		);
+	}
+	/** @type {HTMLImageElement} */
+	#svgField;
+	/** @type {HTMLImageElement} */
+	#svgDiggedField;
 	/**
 	 * @param {Readonly<Point2D>} position 
 	 * @returns {void}
+	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
+	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
 	 */
 	#renderBackgroundAt(position) {
-		const context = this.#context;
-		const state = this.#board.getStateAt(position);
-		const gray = this.#gray;
-		const darkgray = this.#darkgray;
-		context.save();
-		context.fillStyle = (state < 0
-			? gray
-			: darkgray
-		).toString();
-		context.strokeStyle = darkgray.toString();
-		const scale = this.#scale;
-		context.beginPath();
-		context.rect(ceil(position.x * scale.x), ceil(position.y * scale.y), ceil(scale.x), ceil(scale.y));
-		context.fill();
-		context.stroke();
-		context.restore();
+		this.#drawAt(position, (this.#board.getStateAt(position) < 0
+			? this.#svgField
+			: this.#svgDiggedField
+		));
 	}
+	/** @type {Color[]} */
+	#colors = [
+		Color.TRANSPARENT,
+		Color.viaRGB(0, 0, 255),
+		Color.viaRGB(0, 128, 0),
+		Color.viaRGB(255, 0, 0),
+		Color.viaRGB(0, 0, 139),
+		Color.viaRGB(128, 0, 0),
+		Color.viaRGB(0, 255, 255),
+		Color.viaRGB(128, 0, 128),
+		Color.viaRGB(128, 128, 128),
+	];
+	/** @type {HTMLImageElement} */
+	#svgMine;
+	/** @type {HTMLImageElement} */
+	#svgFlag;
+	/** @type {HTMLImageElement} */
+	#svgUnknown;
 	/**
 	 * @param {Readonly<Point2D>} position 
 	 * @returns {void}
+	 * @throws {TypeError} If the x or y coordinate of the position is not an integer.
+	 * @throws {RangeError} If the x or y coordinate of the position is out of range.
 	 */
 	#renderForegroundAt(position) {
 		const context = this.#context;
 		const state = this.#board.getStateAt(position);
-		const green = this.#green;
-		const yellow = this.#yellow;
-		const red = this.#red;
-		context.save();
-		if (state > 0) {
-			context.fillStyle = green.mix(red, state / Board.peakDanger).toString();
+		if (state === Board.peakDanger) {
+			this.#drawAt(position, this.#svgMine);
+		} else if (0 < state && state < Board.peakDanger) {
+			context.save();
+			context.fillStyle = this.#colors[state].toString();
 			this.#writeAt(position, state.toString());
+			context.restore();
 		} else if (state === -2) {
-			context.fillStyle = red.toString();
-			this.#writeAt(position, `!`);
+			this.#drawAt(position, this.#svgFlag);
 		} else if (state === -3) {
-			context.fillStyle = yellow.toString();
-			this.#writeAt(position, `?`);
+			this.#drawAt(position, this.#svgUnknown);
 		}
-		context.restore();
 	}
 	/**
 	 * @returns {void}
@@ -537,11 +713,12 @@ class Controller {
 		}
 	}
 	/**
-	 * Renders the game board on the canvas.
 	 * @returns {void}
 	 */
 	#renderChanges() {
-		for (const position of this.#board.modifications.clear()) {
+		const modifications = this.#board.modifications;
+		if (modifications.size < 1) return;
+		for (const position of modifications.shift()) {
 			this.#renderBackgroundAt(position);
 			this.#renderForegroundAt(position);
 		}
@@ -549,43 +726,50 @@ class Controller {
 	/**
 	 * @returns {Promise<void>}
 	 */
-	async #renderImutable() {
+	async #renderByColumn() {
 		const modifications = this.#board.modifications;
-		while (modifications.size > 0) {
-			const locator = modifications.shift();
-			let position = locator;
-			do {
+		if (modifications.size < 1) return;
+		const area = modifications.shift();
+		while (area.size > 0) {
+			const anchor = area.peek;
+			while (true) {
+				const position = area.peek;
+				if (position.x !== anchor.x) break;
 				this.#renderBackgroundAt(position);
 				this.#renderForegroundAt(position);
-				if (modifications.size === 0) break;
-				position = modifications.shift();
-			} while (position.x === locator.x);
+				area.shift();
+				if (area.size < 1) break;
+			}
 			await Promise.withTimeout(100);
 		}
 	}
 	/**
-	 * Gets the area of the canvas under the mouse pointer.
-	 * @param {MouseEvent} event The mouse event.
-	 * @returns {Point2D} The position of the mouse on the canvas.
+	 * @param {MouseEvent} event 
+	 * @returns {Point2D}
 	 */
 	#getMouseArea({ clientX, clientY }) {
 		const { x, y } = this.#canvas.getBoundingClientRect();
 		const scale = this.#scale;
-		return new Point2D(trunc((clientX - x) / scale.x), trunc((clientY - y) / scale.y));
+		return new Point2D(
+			trunc((clientX - x) / scale.x),
+			trunc((clientY - y) / scale.y)
+		);
 	}
 	/**
-	 * Checks if the game session is suspended.
-	 * @param {boolean} already Whether the session is already suspended.
-	 * @returns {Promise<boolean>} Whether the session is suspended.
+	 * @param {boolean} already 
+	 * @returns {Promise<boolean>}
 	 */
 	async #isSessionSuspended(already) {
 		const board = this.#board;
 		const isVictory = (board.outcome === OutcomeOptions.victory);
 		const isSuspended = (isVictory || board.outcome === OutcomeOptions.defeat);
 		if (isSuspended) {
+			if (!already) {
+				await this.#renderByColumn();
+			}
 			let message = `The session${(already ? ` already` : ``)} is ${(isVictory ? `won` : `lost`)}. Start a new one?`;
 			if (!already) message = `${(isVictory ? `The board is neutralized.` : `The field blew up.`)}\n${message}`;
-			if (await window.confirmAsync(message)) {
+			if (await window.confirmAsync(message, isVictory ? `Victory` : `Defeat`)) {
 				board.rebuild();
 				this.#renderBoard();
 			}
@@ -597,14 +781,20 @@ class Controller {
 	/** @type {HTMLDialogElement} */
 	#dialogSettings;
 	/**
+	 * @returns {Promise<void>}
+	 */
+	async awake() {
+		this.#managerSettings = await ArchiveManager.construct(`${navigator.dataPath}.Settings`, Settings);
+	}
+	/**
 	 * The main method to initialize and start the game.
 	 * @returns {Promise<void>}
 	 */
 	async main() {
 		this.#main = document.getElement(HTMLElement, `main`);
 
-		const size = new Point2D(9, 9);
-		const board = new Board(size, 10);
+		const size = this.#managerSettings.data.boardSize;
+		const board = new Board(size, this.#managerSettings.data.minesCount);
 		this.#board = board;
 
 		const canvas = document.getElement(HTMLCanvasElement, `canvas#display`);
@@ -612,28 +802,37 @@ class Controller {
 		this.#resizeCanvas();
 		window.addEventListener(`resize`, (event) => this.#resizeCanvas());
 
+		this.#svgField = await document.loadResource(`../../resources/icons/minesweeper/field.svg`);
+		this.#svgDiggedField = await document.loadResource(`../../resources/icons/minesweeper/digged-field.svg`);
+		this.#svgMine = await document.loadResource(`../../resources/icons/minesweeper/mine.svg`);
+		this.#svgFlag = await document.loadResource(`../../resources/icons/minesweeper/flag.svg`);
+		this.#svgUnknown = await document.loadResource(`../../resources/icons/minesweeper/unknown.svg`);
+
 		const context = canvas.getContext(`2d`);
 		if (context === null) throw new EvalError(`Unable to get context`);
 		this.#context = context;
 		context.textBaseline = `alphabetic`;
 		context.textAlign = `center`;
 		context.lineCap = `round`;
-		this.resizeContext();
-		window.addEventListener(`resize`, (event) => this.resizeContext());
+		this.#resizeContext();
+		window.addEventListener(`resize`, (event) => this.#resizeContext());
 		this.#renderBoard();
 		window.addEventListener(`resize`, (event) => this.#renderBoard());
 
+		const invertedControl = this.#managerSettings.data.invertedControl;
 		canvas.addEventListener(`click`, async (event) => {
 			event.preventDefault();
 			if (await this.#isSessionSuspended(true)) return;
-			board.markFieldAt(this.#getMouseArea(event));
+			if (invertedControl) board.markFieldAt(this.#getMouseArea(event));
+			else board.digFieldAt(this.#getMouseArea(event));
 			this.#renderChanges();
 			if (await this.#isSessionSuspended(false)) return;
 		});
 		canvas.addEventListener(`contextmenu`, async (event) => {
 			event.preventDefault();
 			if (await this.#isSessionSuspended(true)) return;
-			board.digFieldAt(this.#getMouseArea(event));
+			if (invertedControl) board.digFieldAt(this.#getMouseArea(event));
+			else board.markFieldAt(this.#getMouseArea(event));
 			this.#renderChanges();
 			if (await this.#isSessionSuspended(false)) return;
 		});
@@ -651,5 +850,7 @@ class Controller {
 		});
 	}
 }
-await window.load(window.ensure(() => new Controller().main()));
+const controller = new Controller();
+await window.ensure(() => controller.awake());
+await window.load(window.ensure(() => controller.main()));
 //#endregion

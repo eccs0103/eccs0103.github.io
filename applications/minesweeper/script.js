@@ -819,11 +819,11 @@ class Controller {
 		this.#renderBoard();
 		window.addEventListener(`resize`, (event) => this.#renderBoard());
 
-		const invertedControl = this.#managerSettings.data.invertedControl;
+		const managerSettings = this.#managerSettings;
 		canvas.addEventListener(`click`, async (event) => {
 			event.preventDefault();
 			if (await this.#isSessionSuspended(true)) return;
-			if (invertedControl) board.markFieldAt(this.#getMouseArea(event));
+			if (managerSettings.data.invertedControl) board.markFieldAt(this.#getMouseArea(event));
 			else board.digFieldAt(this.#getMouseArea(event));
 			this.#renderChanges();
 			if (await this.#isSessionSuspended(false)) return;
@@ -831,7 +831,7 @@ class Controller {
 		canvas.addEventListener(`contextmenu`, async (event) => {
 			event.preventDefault();
 			if (await this.#isSessionSuspended(true)) return;
-			if (invertedControl) board.digFieldAt(this.#getMouseArea(event));
+			if (managerSettings.data.invertedControl) board.digFieldAt(this.#getMouseArea(event));
 			else board.markFieldAt(this.#getMouseArea(event));
 			this.#renderChanges();
 			if (await this.#isSessionSuspended(false)) return;
@@ -847,6 +847,11 @@ class Controller {
 		});
 		buttonOpenSettings.addEventListener(`click`, (event) => {
 			dialogSettings.showModal();
+		});
+		const inputToggleInvertedControl = document.getElement(HTMLInputElement, `input#toggle-inverted-control`);
+		inputToggleInvertedControl.checked = managerSettings.data.invertedControl;
+		inputToggleInvertedControl.addEventListener(`change`, (event) => {
+			managerSettings.data.invertedControl = inputToggleInvertedControl.checked;
 		});
 	}
 }

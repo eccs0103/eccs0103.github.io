@@ -28,11 +28,19 @@
 	<main class="layer">
 		<canvas id="display"></canvas>
 	</main>
-	<button id="open-settings" hidden class="with-padding large-padding flex secondary-centered">
-		<img src="../../resources/icons/settings.png" alt="Settings" class="icon">
+	<button id="open-settings" class="with-padding large-padding flex secondary-centered">
+		<img src="../../resources/icons/minesweeper/settings.png" alt="Settings" class="icon">
 	</button>
 	<dialog id="settings" class="layer rounded with-padding large-padding">
 		<h3>Settings</h3>
+		<section class="option">
+			<p class="title">Inverted control</p>
+			<input id="toggle-inverted-control" type="checkbox" hidden>
+			<label for="toggle-inverted-control" role="checkbox" class="value depth toggle">
+				<span class="layer knob"></span>
+			</label>
+			<dfn class="definition">Invert control for primary and secondary actions.</dfn>
+		</section>
 	</dialog>
 	<script src="../../scripts/templates/loader.js"></script>
 	<script src="../../scripts/templates/popup.js"></script>

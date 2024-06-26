@@ -15,8 +15,8 @@
 	<meta name="language" content="English">
 	<meta name="revisit-after" content="0 days">
 	<title>Minesweeper</title>
-	<link rel="shortcut icon" href="../../resources/loading.gif" media="(prefers-color-scheme: light)">
-	<link rel="shortcut icon" href="../../resources/loading.gif" media="(prefers-color-scheme: dark)">
+	<link rel="shortcut icon" href="../../resources/icons/minesweeper/mine.svg" media="(prefers-color-scheme: light)">
+	<link rel="shortcut icon" href="../../resources/icons/minesweeper/mine-inverted.svg" media="(prefers-color-scheme: dark)">
 	<link rel="preload" as="image" href="../../resources/loading.gif">
 	<link rel="stylesheet" href="../../styles/global.css">
 	<link rel="stylesheet" href="../../styles/themes/material.css">
@@ -34,13 +34,18 @@
 	<dialog id="settings" class="layer rounded with-padding large-padding">
 		<h3>Settings</h3>
 		<section class="option">
+			<p class="title">Board size</p>
+			<input id="size-textbox" type="text" class="value depth rounded with-padding">
+			<dfn class="definition">The dimensions of the board separated by comma.</dfn>
+		</section>
+		<!-- <section class="option">
 			<p class="title">Inverted control</p>
 			<input id="toggle-inverted-control" type="checkbox" hidden>
 			<label for="toggle-inverted-control" role="checkbox" class="value depth toggle">
 				<span class="layer knob"></span>
 			</label>
 			<dfn class="definition">Invert control for primary and secondary actions.</dfn>
-		</section>
+		</section> -->
 	</dialog>
 	<script src="../../scripts/templates/loader.js"></script>
 	<script src="../../scripts/templates/popup.js"></script>

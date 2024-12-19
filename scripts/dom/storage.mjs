@@ -1,6 +1,6 @@
 "use strict";
 
-import { DataPair } from "./extensions.js";
+import { DataPair } from "../core/extensions.mjs";
 
 //#region Archive
 /**
@@ -30,7 +30,7 @@ class Archive {
 	 */
 	get data() {
 		const item = localStorage.getItem(this.#key);
-		if (item === null) throw new EvalError(`Key '${this.#key}' isn't defined`);
+		if (item === null) throw new Error(`Key '${this.#key}' isn't defined`);
 		return JSON.parse(item);
 	}
 	/**
@@ -50,6 +50,7 @@ class Archive {
 	/**
 	 * Modifies the data in the archive using the provided action.
 	 * @param {(value: T) => T} action The action to be applied to the data.
+	 * @returns {void}
 	 */
 	change(action) {
 		this.data = action(this.data);
@@ -91,7 +92,7 @@ class ArchiveManager {
 		window.addEventListener(`beforeunload`, (event) => {
 			try {
 				archive.data = self.#content.export();
-			} catch (error) {
+			} catch (reason) {
 				event.preventDefault();
 			}
 		});
@@ -126,7 +127,7 @@ class ArchiveManager {
 //#endregion
 //#region Database
 /**
- * @typedef {InstanceType<Database.Store>} DatabaseStore
+ * @typedef {InstanceType<typeof Database.Store>} DatabaseStore
  */
 
 /**
@@ -344,13 +345,13 @@ class Database {
 	 * @returns {Promise<Readonly<string[]>>}
 	 */
 	static get databases() {
-		return Promise.fulfill(async () => {
+		return new Promise(async (resolve) => {
 			const databases = [];
 			for (const { name } of await indexedDB.databases()) {
 				if (name === undefined) continue;
 				databases.push(name);
 			}
-			return Object.freeze(databases);
+			resolve(Object.freeze(databases));
 		});
 	}
 	/**

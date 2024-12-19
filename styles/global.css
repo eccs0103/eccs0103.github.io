@@ -3,9 +3,9 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	-moz-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;
-	-webkit-user-drag: none;
 	border-style: none;
 	outline-style: none;
 	border-width: var(--size-serpator);
@@ -13,6 +13,12 @@
 	outline-offset: calc(-1 * var(--size-serpator));
 	text-overflow: ellipsis;
 	scroll-behavior: smooth;
+}
+
+@supports (-webkit-user-drag: none) {
+	* {
+		-webkit-user-drag: none;
+	}
 }
 
 @media only screen {
@@ -105,8 +111,16 @@ body {
 *.flex {
 	display: flex;
 
+	&.reversed {
+		flex-direction: row-reverse;
+	}
+
 	&.column {
 		flex-direction: column;
+
+		&.reversed {
+			flex-direction: column-reverse;
+		}
 	}
 
 	&:where(.primary-centered, .centered) {
@@ -140,6 +154,12 @@ body {
 *:read-write {
 	cursor: text;
 	text-overflow: revert;
+}
+
+input[type="radio"]:checked,
+input[type="radio"]:checked + label,
+[role="combobox"][aria-checked="true"] {
+	cursor: revert;
 }
 
 *::placeholder {
@@ -213,8 +233,10 @@ input[type="range"] {
 	}
 }
 
-*[draggable="true"] {
-	-webkit-user-drag: element;
+@supports (-webkit-user-drag: element) {
+	*[draggable="true"] {
+		-webkit-user-drag: element;
+	}
 }
 
 dialog {
@@ -239,8 +261,9 @@ dialog {
 	}
 
 	&.pop-up div.container {
-		overflow: hidden auto;
-		word-wrap: break-word;
+		overflow: auto;
+		text-overflow: clip;
+		white-space: pre;
 	}
 }
 
@@ -300,15 +323,23 @@ table {
 	}
 }
 
-img {
+img,
+*.fittable {
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
+}
+
+img {
 
 	&.icon,
 	&.avatar {
-		height: var(--size-standart);
 		aspect-ratio: 1;
+		height: var(--size-standart);
+
+		&.large-image {
+			height: var(--size-large-standart);
+		}
 	}
 
 	&.in-line {
@@ -319,7 +350,7 @@ img {
 hr {
 	width: 100%;
 	margin: var(--size-gap) 0;
-	padding: calc(var(--size-serpator) / 2) !important;
+	padding: calc(var(--size-serpator) / 2);
 }
 
 kbd {
@@ -333,12 +364,14 @@ code {
 	white-space: pre;
 	tab-size: 4;
 	counter-reset: line;
+	-moz-user-select: text;
 	-webkit-user-select: text;
 	user-select: text;
 	overflow-x: auto;
 	text-overflow: revert;
 
 	& * {
+		-moz-user-select: inherit;
 		-webkit-user-select: inherit;
 		user-select: inherit;
 	}

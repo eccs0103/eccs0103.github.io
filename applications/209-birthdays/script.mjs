@@ -506,14 +506,6 @@ class Controller {
 	/**
 	 * @returns {[GroupMember, HTMLButtonElement]?}
 	 */
-	#findSavedSelection() {
-		const pairMemberWithButton = this.#pairMemberWithButton;
-		const settings = this.#settings;
-		return pairMemberWithButton.at(settings.selection) ?? null;
-	}
-	/**
-	 * @returns {[GroupMember, HTMLButtonElement]?}
-	 */
 	#findPickerClosest() {
 		const divScrollPicker = this.#divScrollPicker;
 		const pairMemberWithButton = this.#pairMemberWithButton;
@@ -524,6 +516,14 @@ class Controller {
 			const { y, height } = buttonPickerItem.getBoundingClientRect();
 			return (y <= center && center < y + height);
 		}) ?? null;
+	}
+	/**
+	 * @returns {[GroupMember, HTMLButtonElement]?}
+	 */
+	#findSavedSelection() {
+		const pairMemberWithButton = this.#pairMemberWithButton;
+		const settings = this.#settings;
+		return pairMemberWithButton.at(settings.selection) ?? this.#findPickerClosest();
 	}
 	/** @type {HTMLButtonElement?} */
 	#buttonPickerSelection = null;

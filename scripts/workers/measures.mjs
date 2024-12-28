@@ -120,7 +120,7 @@ class Stopwatch {
 		this.#launched = launch;
 
 		const engine = new FastEngine(true);
-		engine.addEventListener(`trigger`, event => this.#callback.bind(this, performance.now()));
+		engine.addEventListener(`trigger`, event => this.#callback(performance.now()));
 	}
 	/** @type {DOMHighResTimeStamp} */
 	#elapsed = 0;

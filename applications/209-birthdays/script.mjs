@@ -460,9 +460,8 @@ class Controller {
 		const members = this.#members;
 		const index = members.indexOf(memberSelection);
 		const settings = this.#settings;
-		if (index > 0) {
-			settings.selection = index;
-		}
+		if (index < 0) return;
+		settings.selection = index;
 	}
 	//#endregion
 	//#region View

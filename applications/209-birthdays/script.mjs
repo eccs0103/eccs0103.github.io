@@ -625,22 +625,22 @@ class Controller {
 		this.#setPickerSelection(this.#findSavedSelection());
 		this.#updatePickerChange();
 
-		divScrollPicker.addEventListener(`scroll`, event => this.#setPickerSelection(this.#findPickerClosest()));
-		divScrollPicker.addEventListener(`scrollend`, event => this.#updatePickerChange());
+		divScrollPicker.addEventListener(`scroll`, _event => this.#setPickerSelection(this.#findPickerClosest()));
+		divScrollPicker.addEventListener(`scrollend`, _event => this.#updatePickerChange());
 
-		window.addEventListener(`resize`, (event) => {
+		window.addEventListener(`resize`, (_event) => {
 			this.#setPickerSelection(this.#findPickerClosest());
 			this.#updatePickerChange();
 		});
 
 		for (const [member, buttonPickerItem] of pairMemberWithButton) {
-			buttonPickerItem.addEventListener(`click`, (event) => {
+			buttonPickerItem.addEventListener(`click`, (_event) => {
 				this.#setPickerSelection([member, buttonPickerItem]);
 				this.#updatePickerChange();
 			});
 		}
 
-		timer.addEventListener(`update`, event => this.#updatePickerContainer(true));
+		timer.addEventListener(`update`, _event => this.#updatePickerContainer(true));
 	}
 	//#endregion
 

@@ -1,12 +1,5 @@
 "use strict";
 
-import { } from "../scripts/structure.mjs";
-
-import { } from "../scripts/dom/generators.mjs";
-import { } from "../scripts/dom/extensions.mjs";
-import { } from "../scripts/dom/palette.mjs";
-import { } from "../scripts/dom/storage.mjs";
-
 //#region Alert severity
 /**
  * @enum {number}

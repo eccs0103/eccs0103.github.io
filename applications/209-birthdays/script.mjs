@@ -1,10 +1,6 @@
 "use strict";
 
-import { } from "../../scripts/structure.mjs";
-
-import { } from "../../scripts/dom/generators.mjs";
 import { } from "../../scripts/dom/extensions.mjs";
-import { } from "../../scripts/dom/palette.mjs";
 import { ArchiveManager } from "../../scripts/dom/storage.mjs";
 import { Random } from "../../scripts/core/generators.mjs";
 import { Timespan } from "../../scripts/core/measures.mjs";
@@ -127,7 +123,7 @@ class Group {
 		 * @readonly
 		 * @returns {string?}
 		 */
-		get askWish() {
+		askWish() {
 			const importance = this.#importance;
 			if (importance.size === 0) return null;
 			const random = Random.global;
@@ -499,7 +495,7 @@ class Controller {
 		const divScrollPicker = this.#divScrollPicker = document.getElement(HTMLDivElement, `div#scroll-picker`);
 		const pairMemberWithButton = this.#pairMemberWithButton = members.map(member => [member, divScrollPicker.appendChild(Controller.#createPickerItem(member))]);
 
-		const h2SelectionTitle = this.#h2SelectionTitle = document.getElement(HTMLHeadingElement, `h2#selection-title`);
+		const h4SelectionTitle = this.#h4SelectionTitle = document.getElement(HTMLHeadingElement, `h4#selection-title`);
 
 		const timer = this.#timer = new Timer(false);
 	}
@@ -543,18 +539,28 @@ class Controller {
 		this.#memberSelection = member;
 	}
 	/** @type {HTMLHeadingElement} */
-	#h2SelectionTitle;
+	#h4SelectionTitle;
+	/**
+	 * @param {string} easing 
+	 * @param {string} opacity 
+	 * @returns {Keyframe}
+	 */
+	#createAppearanceKeyframe(opacity, easing) {
+		return { opacity, easing };
+	}
 	/**
 	 * @param {string} text 
 	 * @param {boolean} animate 
 	 * @returns {Promise<void>}
 	 */
 	async #writeSelectionTitle(text, animate) {
-		const h2SelectionTitle = this.#h2SelectionTitle;
+		const h4SelectionTitle = this.#h4SelectionTitle;
+		const disappearance = this.#createAppearanceKeyframe(`0`, `ease-in`);
+		const appearance = this.#createAppearanceKeyframe(`1`, `ease-out`);
 		const duration = 500, fill = `both`;
-		if (animate) await h2SelectionTitle.animate([{ opacity: `1` }, { opacity: `0` }], { duration, fill }).finished;
-		h2SelectionTitle.textContent = text;
-		if (animate) await h2SelectionTitle.animate([{ opacity: `0` }, { opacity: `1` }], { duration, fill }).finished;
+		if (animate) await h4SelectionTitle.animate([appearance, disappearance], { duration, fill }).finished;
+		h4SelectionTitle.textContent = text;
+		if (animate) await h4SelectionTitle.animate([disappearance, appearance], { duration, fill }).finished;
 	}
 	/** @type {Timer} */
 	#timer;
@@ -579,16 +585,22 @@ class Controller {
 		if (memberSelection === null) return this.#provideContainerLifecycle(String.empty, false);
 
 		const date = new Date();
-		const event = memberSelection.birthday.setFullYear(date.getFullYear());
+		date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 		const now = Number(date);
-		const wish = memberSelection.askWish;
-		if (event > now || wish === null) {
-				const { negativity, hours, minutes, seconds } = Timespan.viaDuration(event - now);
-				return this.#provideContainerLifecycle(`${negativity ? `Անցավ` : `Մնաց`} ${trunc(hours / 24)}օր ${hours % 24}ժ․ ${minutes}ր․ ${seconds}վ․`, false, 1000);
+		const { birthday } = memberSelection;
+		const begin = birthday.setFullYear(date.getFullYear());
+		const end = birthday.setDate(birthday.getDate() + 1);
+		const wish = memberSelection.askWish();
 
+		if (wish !== null) {
+			return this.#provideContainerLifecycle(wish, animate, 5000);
 		}
 
-		return this.#provideContainerLifecycle(wish, animate, 5000);
+		const timespan = Timespan.viaDuration(begin - now);
+		const days = trunc(timespan.hours / 24);
+		const hours = timespan.hours % 24;
+		const { negativity, minutes, seconds } = timespan;
+		return this.#provideContainerLifecycle(`${negativity ? `Անցավ` : `Մնաց`} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, false, 1000);
 	}
 	/**
 	 * @returns {void}

@@ -4,6 +4,7 @@ import { } from "../../scripts/dom/extensions.mjs";
 import { ArchiveManager } from "../../scripts/dom/storage.mjs";
 import { Random } from "../../scripts/core/generators.mjs";
 import { Timespan } from "../../scripts/core/measures.mjs";
+import { Timer } from "../../scripts/workers/measures.mjs";
 
 const { trunc } = Math;
 
@@ -263,103 +264,6 @@ class Settings {
 }
 //#endregion
 
-//#region Timer
-/**
- * @typedef {object} TimerEventMap
- * @property {Event} update
- */
-
-class Timer extends EventTarget {
-	constructor(multiple = false) {
-		super();
-
-		this.#multiple = multiple;
-		setInterval(this.#update.bind(this));
-	}
-	/**
-	 * @template {keyof TimerEventMap} K
-	 * @overload
-	 * @param {K} type 
-	 * @param {(this: Timer, ev: TimerEventMap[K]) => any} listener 
-	 * @param {boolean | AddEventListenerOptions} [options] 
-	 * @returns {void}
-	 */
-	/**
-	 * @overload
-	 * @param {string} type 
-	 * @param {EventListenerOrEventListenerObject} listener 
-	 * @param {boolean | AddEventListenerOptions} [options] 
-	 * @returns {void}
-	 */
-	/**
-	 * @param {string} type 
-	 * @param {EventListenerOrEventListenerObject} listener 
-	 * @param {boolean | AddEventListenerOptions} options 
-	 * @returns {void}
-	 */
-	addEventListener(type, listener, options = false) {
-		return super.addEventListener(type, listener, options);
-	}
-	/**
-	 * @template {keyof TimerEventMap} K
-	 * @overload
-	 * @param {K} type 
-	 * @param {(this: Timer, ev: TimerEventMap[K]) => any} listener 
-	 * @param {boolean | EventListenerOptions} [options] 
-	 * @returns {void}
-	 */
-	/**
-	 * @overload
-	 * @param {string} type 
-	 * @param {EventListenerOrEventListenerObject} listener 
-	 * @param {boolean | EventListenerOptions} [options] 
-	 * @returns {void}
-	 */
-	/**
-	 * @param {string} type 
-	 * @param {EventListenerOrEventListenerObject} listener 
-	 * @param {boolean | EventListenerOptions} options 
-	 * @returns {void}
-	 */
-	removeEventListener(type, listener, options = false) {
-		return super.removeEventListener(type, listener, options);
-	}
-	/** @type {boolean} */
-	#multiple;
-	/** @type {number} */
-	#counter = 0;
-	/**
-	 * @returns {number}
-	 */
-	get counter() {
-		return this.#counter;
-	}
-	/**
-	 * @param {number} value 
-	 * @returns {void}
-	 */
-	set counter(value) {
-		this.#counter = value;
-	}
-	/** @type {number} */
-	#previous = performance.now();
-	/**
-	 * @returns {void}
-	 */
-	#update() {
-		if (!this.#multiple && this.#counter === 0) return;
-		const current = performance.now();
-		const difference = current - this.#previous;
-		this.#counter -= difference;
-		if (this.#counter <= 0) {
-			this.#counter = 0;
-			if (!this.dispatchEvent(new Event(`update`))) return;
-		}
-		this.#previous = current;
-	}
-}
-//#endregion
-
 //#region Alert severity
 /**
  * @enum {number}
@@ -428,7 +332,6 @@ class Controller {
 		}
 	}
 	//#endregion
-	//#region Implementation
 	//#region Model
 	/**
 	 * @returns {Promise<void>}
@@ -572,7 +475,7 @@ class Controller {
 	#provideContainerLifecycle(text, animate, counter = 0) {
 		const timer = this.#timer;
 		this.#writeSelectionTitle(text, animate);
-		timer.counter = counter;
+		timer.setTimeout(counter);
 	}
 	/**
 	 * @param {boolean} animate
@@ -624,22 +527,22 @@ class Controller {
 		this.#setPickerSelection(this.#findSavedSelection());
 		this.#updatePickerChange();
 
-		divScrollPicker.addEventListener(`scroll`, _event => this.#setPickerSelection(this.#findPickerClosest()));
-		divScrollPicker.addEventListener(`scrollend`, _event => this.#updatePickerChange());
+		divScrollPicker.addEventListener(`scroll`, event => this.#setPickerSelection(this.#findPickerClosest()));
+		divScrollPicker.addEventListener(`scrollend`, event => this.#updatePickerChange());
 
-		window.addEventListener(`resize`, (_event) => {
+		window.addEventListener(`resize`, (event) => {
 			this.#setPickerSelection(this.#findPickerClosest());
 			this.#updatePickerChange();
 		});
 
 		for (const [member, buttonPickerItem] of pairMemberWithButton) {
-			buttonPickerItem.addEventListener(`click`, (_event) => {
+			buttonPickerItem.addEventListener(`click`, (event) => {
 				this.#setPickerSelection([member, buttonPickerItem]);
 				this.#updatePickerChange();
 			});
 		}
 
-		timer.addEventListener(`update`, _event => this.#updatePickerContainer(true));
+		timer.addEventListener(`trigger`, event => this.#updatePickerContainer(true));
 	}
 	//#endregion
 
@@ -652,7 +555,6 @@ class Controller {
 		await this.#buildView();
 		await this.#runViewInitialization();
 	}
-	//#endregion
 }
 //#endregion
 

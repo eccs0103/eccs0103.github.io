@@ -1,11 +1,11 @@
 body {
 	position: fixed;
 	inset: 0;
-	overflow: hidden auto;
 }
 
 main {
 	height: fit-content;
+	overflow-y: auto;
 }
 
 div#feed {

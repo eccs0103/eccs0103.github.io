@@ -1,28 +1,9 @@
 "use strict";
 
-//#region Alert severity
-/**
- * @enum {number}
- */
-const AlertSeverity = {
-	/**
-	 * Ignore the response, taking no action.
-	 * @readonly
-	 */
-	ignore: 0,
-	/**
-	 * Log the response for informational purposes.
-	 * @readonly
-	 */
-	log: 1,
-	/**
-	 * Throw an error in response to a critical event.
-	 * @readonly
-	 */
-	throw: 2,
-};
-Object.freeze(AlertSeverity);
-//#endregion
+import { } from "../scripts/dom/extensions.mjs";
+import { } from "../scripts/dom/palette.mjs";
+import { } from "../scripts/dom/storage.mjs";
+
 //#region Controller
 /**
  * Represents the controller for the application.
@@ -31,6 +12,17 @@ class Controller {
 	//#region Internal
 	/** @type {boolean} */
 	static #locked = true;
+	/**
+	 * @param {any} reason 
+	 * @returns {Promise<void>}
+	 */
+	static async #catch(reason) {
+		const error = Error.from(reason);
+		let message = String(error);
+		message += `\n\nAn error occurred. Any further actions may result in errors. To prevent this from happening, would you like to reload?`;
+		if (await window.confirmAsync(message)) location.reload();
+		throw reason;
+	}
 	/**
 	 * Starts the main application flow.
 	 * @returns {Promise<void>}
@@ -43,39 +35,20 @@ class Controller {
 		try {
 			await self.#main();
 		} catch (reason) {
-			await self.#catch(Error.from(reason));
+			await Controller.#catch(reason);
 		}
 	}
 	constructor() {
 		if (Controller.#locked) throw new TypeError(`Illegal constructor`);
 	}
-	/** @type {AlertSeverity} */
-	#severity = AlertSeverity.throw;
-	/**
-	 * @param {Error} error 
-	 * @returns {Promise<void>}
-	 */
-	async #catch(error) {
-		switch (this.#severity) {
-			case AlertSeverity.ignore: break;
-			case AlertSeverity.log: {
-				console.error(error);
-			} break;
-			case AlertSeverity.throw: {
-				await window.alertAsync(error);
-				location.reload();
-			} break;
-		}
-	}
 	//#endregion
-	//#region Implementation
+
 	/**
 	 * @returns {Promise<void>}
 	 */
 	async #main() {
 		// Your run logic goes here
 	}
-	//#endregion
 }
 //#endregion
 

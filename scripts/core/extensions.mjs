@@ -2,7 +2,7 @@
 
 "use strict";
 
-const { PI, trunc } = Math;
+const { PI, trunc, pow } = Math;
 
 //#region Number
 /**
@@ -42,15 +42,29 @@ Number.prototype.clamp = function (min, max) {
  * Interpolates the number from one range to another.
  * @param {number} min1 The minimum value of the original range.
  * @param {number} max1 The maximum value of the original range.
- * @param {number} min2 The minimum value of the target range.
- * @param {number} max2 The maximum value of the target range.
+ * @param {number} min2 The minimum value of the target range. Defaults to 0.
+ * @param {number} max2 The maximum value of the target range. Defaults to 1.
  * @returns {number} The interpolated value within the target range.
- * @throws {Error} If the minimum and maximum values of either range are equal.
+ * @throws {Error} If the minimum and maximum of either range are equal.
  */
 Number.prototype.interpolate = function (min1, max1, min2 = 0, max2 = 1) {
 	if (min1 === max1) throw new Error(`Minimum and maximum of the original range cant be equal`);
 	if (min2 === max2) throw new Error(`Minimum and maximum of the target range cant be equal`);
 	return min2 + (max2 - min2) * ((this.valueOf() - min1) / (max1 - min1));
+};
+
+/**
+ * Modulates the current number within a specified range.
+ * @param {number} length The range length.
+ * @param {number} start The start of the range. Defaults to 0.
+ * @returns {number} The number constrained within the range.
+ * @throws {Error} If the range is zero.
+ */
+Number.prototype.modulate = function (length, start = 0) {
+	if (length === 0) throw new Error(`Range can't be zero`);
+	let value = (this.valueOf() - start) % length;
+	if (value < 0) value += length;
+	return value + start;
 };
 
 /**
@@ -172,38 +186,11 @@ String.prototype.toLocalTitleCase = function (locales) {
  * @returns {string} The reversed string.
  */
 String.prototype.reverse = function () {
-	let result = String.empty;
+	let string = String.empty;
 	for (let index = this.length - 1; index >= 0; index--) {
-		result += this[index];
+		string += this[index];
 	}
-	return result;
-};
-//#endregion
-//#region Function
-/**
- * Checks if the given function is implemented by running it and seeing if it throws a specific `ReferenceError`.
- * @param {(...args: any) => unknown} action The function to check for implementation.
- * @returns {Promise<boolean>} A promise that resolves to `true` if the function is implemented, `false` otherwise.
- */
-Function.isImplemented = async function (action) {
-	try {
-		await action();
-		return true;
-	} catch (reason) {
-		if (!(reason instanceof ImplementationError)) return true;
-		return false;
-	}
-};
-
-/**
- * Ensures the given function is implemented by checking it and throwing an error if it is not.
- * @param {(...args: any) => unknown} action The function to check for implementation.
- * @param {string} name The name of the function to be used in the error message if the function is not implemented.
- * @returns {Promise<void>} A promise that resolves if the function is implemented, otherwise it rejects with an error.
- * @throws {Error} Throws an error if the function is not implemented.
- */
-Function.ensureImplementation = async function (action, name) {
-	if (!(await Function.isImplemented(action))) throw new Error(`Function '${name}' not implemented`);
+	return string;
 };
 //#endregion
 //#region Object
@@ -316,6 +303,21 @@ Array.prototype.swap = function (index1, index2) {
 	this[index1] = this[index2];
 	this[index2] = temporary;
 };
+
+/**
+ * Resizes an array to the specified length. 
+ * If the new length is greater than the current length, fills the extra slots with the default value.
+ * If the new length is smaller, truncates the array.
+ * @template T
+ * @param {number} length The new length for the array.
+ * @param {T} _default The default value to fill new slots if the array is extended.
+ * @returns {T[]} The resized array.
+ */
+Array.prototype.resize = function (length, _default) {
+	while (length > this.length) this.push(_default);
+	this.length = length;
+	return this;
+};
 //#endregion
 //#region Data pair
 /**
@@ -384,6 +386,9 @@ class DataPair {
  * Splits a number into its integer and fractional parts.
  * @param {number} x The number to be split.
  * @returns {[number, number]} A tuple where the first element is the integer part and the second element is the fractional part.
+ * ```ts
+ * const [integer, fractional] = Math.split(x);
+ * ```
  */
 Math.split = function (x) {
 	const integer = trunc(x);
@@ -393,7 +398,7 @@ Math.split = function (x) {
 /**
  * Calculates the square of a number.
  * @param {number} x The number to square.
- * @returns {number} The square of the input number.
+ * @returns {number}
  */
 Math.sqpw = function (x) {
 	return x * x;
@@ -403,7 +408,7 @@ const toDegreeFactor = 180 / PI;
 /**
  * Converts radians to degrees.
  * @param {number} radians The angle in radians.
- * @returns {number} The angle in degrees.
+ * @returns {number}
  */
 Math.toDegrees = function (radians) {
 	return radians * toDegreeFactor;
@@ -413,25 +418,76 @@ const toRadianFactor = PI / 180;
 /**
  * Converts degrees to radians.
  * @param {number} degrees The angle in degrees.
- * @returns {number} The angle in radians.
+ * @returns {number}
  */
 Math.toRadians = function (degrees) {
 	return degrees * toRadianFactor;
 };
+
+/**
+ * Calculates the arithmetic mean of the given numbers.
+ * @param {number[]} values The numbers to calculate the mean from.
+ * @returns {number}
+ */
+Math.meanArithmetic = function (...values) {
+	let summary = 0;
+	for (let index = 0; index < values.length; index++) {
+		summary += values[index];
+	}
+	return summary / values.length;
+};
+
+/**
+ * Calculates the geometric mean of the given numbers.
+ * @param {number[]} values The numbers to calculate the mean from.
+ * @returns {number}
+ */
+Math.meanGeometric = function (...values) {
+	let product = 1;
+	for (let index = 0; index < values.length; index++) {
+		product *= values[index];
+	}
+	return pow(product, 1 / values.length);
+};
+
+/**
+ * Calculates the harmonic mean of the given numbers.
+ * @param {number[]} values The numbers to calculate the mean from.
+ * @returns {number}
+ */
+Math.meanHarmonic = function (...values) {
+	let summary = 0;
+	for (let index = 0; index < values.length; index++) {
+		const value = values[index];
+		if (value === 0) return NaN;
+		summary += 1 / value;
+	}
+	return values.length / summary;
+};
 //#endregion
 //#region Promise
-Object.defineProperty(Promise.prototype, `fulfilled`, {
+Object.defineProperty(Promise.prototype, `isFulfilled`, {
+	/**
+	 * @template T
+	 * @this {Promise<T>}
+	 * @returns {Promise<boolean>}
+	 */
 	async get() {
+		const symbol = Symbol();
 		try {
-			await this;
-			return true;
+			return (await Promise.race([this, Promise.resolve(symbol)]) !== symbol);
 		} catch (reason) {
-			return false;
+			return true;
 		}
 	}
 });
 
 Object.defineProperty(Promise.prototype, `value`, {
+	/**
+	 * @template T
+	 * @this {Promise<T>}
+	 * @returns {Promise<T>}
+	 */
 	async get() {
 		try {
 			return await this;
@@ -442,6 +498,11 @@ Object.defineProperty(Promise.prototype, `value`, {
 });
 
 Object.defineProperty(Promise.prototype, `reason`, {
+	/**
+	 * @template T
+	 * @this {Promise<T>}
+	 * @returns {Promise<any>}
+	 */
 	async get() {
 		try {
 			await this;

@@ -2,6 +2,8 @@
 
 import { ImplementationError } from "../core/extensions.mjs";
 
+const { trunc } = Math;
+
 //#region Engine
 /**
  * @typedef {object} EngineEventMap
@@ -103,11 +105,11 @@ class Engine extends EventTarget {
 		throw new ImplementationError();
 	}
 	/**
-	 * Gets the Frames Per Second (FPS) of the engine.
+	 * Gets the Frames Per Second  of the engine.
 	 * @abstract
 	 * @returns {number}
 	 */
-	get FPS() {
+	get fps() {
 		throw new ImplementationError();
 	}
 	/**
@@ -220,10 +222,10 @@ class FastEngine extends Engine {
 		const difference = current - this.#previous;
 		if (difference > this.#gap) {
 			if (this.launched) {
-				this.#FPS = (1000 / difference);
+				this.#fps = (1000 / difference);
 				this.dispatchEvent(new Event(`trigger`));
 			} else {
-				this.#FPS = 0;
+				this.#fps = 0;
 			}
 			this.#previous = current;
 		}
@@ -249,14 +251,14 @@ class FastEngine extends Engine {
 		this.#gap = 1000 / value;
 	}
 	/** @type {number} */
-	#FPS = 0;
+	#fps = 0;
 	/**
 	 * Gets the current FPS of the engine.
 	 * @readonly
 	 * @returns {number}
 	 */
-	get FPS() {
-		return this.#FPS;
+	get fps() {
+		return this.#fps;
 	}
 	/**
 	 * Gets the time delta between frames.
@@ -264,7 +266,7 @@ class FastEngine extends Engine {
 	 * @returns {number}
 	 */
 	get delta() {
-		return 1 / this.#FPS;
+		return 1 / this.#fps;
 	}
 }
 //#endregion
@@ -366,10 +368,10 @@ class PreciseEngine extends Engine {
 	#callback(current) {
 		const difference = current - this.#previous;
 		if (this.launched) {
-			this.#FPS = (1000 / difference);
+			this.#fps = (1000 / difference);
 			this.dispatchEvent(new Event(`trigger`));
 		} else {
-			this.#FPS = 0;
+			this.#fps = 0;
 		}
 		this.#previous = current;
 		setTimeout(this.#callback.bind(this), this.#gap, performance.now());
@@ -394,14 +396,14 @@ class PreciseEngine extends Engine {
 		this.#gap = 1000 / value;
 	}
 	/** @type {number} */
-	#FPS = 0;
+	#fps = 0;
 	/**
 	 * Gets the current FPS of the engine.
 	 * @readonly
 	 * @returns {number}
 	 */
-	get FPS() {
-		return this.#FPS;
+	get fps() {
+		return this.#fps;
 	}
 	/**
 	 * Gets the time delta between frames.
@@ -409,7 +411,152 @@ class PreciseEngine extends Engine {
 	 * @returns {number}
 	 */
 	get delta() {
-		return 1 / this.#FPS;
+		return 1 / this.#fps;
+	}
+}
+//#endregion
+//#region Static engine
+/**
+ * @typedef {{ }} Extendable.StaticEngineEventMap
+ * 
+ * @typedef {EngineEventMap & Extendable.StaticEngineEventMap} StaticEngineEventMap
+ */
+
+/**
+ * Constructs a static type engine.
+ */
+class StaticEngine extends Engine {
+	/**
+	 * @param {boolean} launch Whether the engine should be launched initially. Default is false.
+	 */
+	constructor(launch = false) {
+		super();
+
+		this.#launched = launch;
+		this.addEventListener(`trigger`, event => this.dispatchEvent(new Event(`start`)), { once: true });
+		setTimeout(this.#callback.bind(this));
+	}
+	/**
+	 * @template {keyof StaticEngineEventMap} K
+	 * @overload
+	 * @param {K} type 
+	 * @param {(this: StaticEngine, ev: StaticEngineEventMap[K]) => any} listener 
+	 * @param {boolean | AddEventListenerOptions} [options] 
+	 * @returns {void}
+	 */
+	/**
+	 * @overload
+	 * @param {string} type 
+	 * @param {EventListenerOrEventListenerObject} listener 
+	 * @param {boolean | AddEventListenerOptions} [options] 
+	 * @returns {void}
+	 */
+	/**
+	 * @param {string} type 
+	 * @param {EventListenerOrEventListenerObject} listener 
+	 * @param {boolean | AddEventListenerOptions} options 
+	 * @returns {void}
+	 */
+	addEventListener(type, listener, options = false) {
+		return super.addEventListener(type, listener, options);
+	}
+	/**
+	 * @template {keyof StaticEngineEventMap} K
+	 * @overload
+	 * @param {K} type 
+	 * @param {(this: StaticEngine, ev: StaticEngineEventMap[K]) => any} listener 
+	 * @param {boolean | EventListenerOptions} [options] 
+	 * @returns {void}
+	 */
+	/**
+	 * @overload
+	 * @param {string} type 
+	 * @param {EventListenerOrEventListenerObject} listener 
+	 * @param {boolean | EventListenerOptions} [options] 
+	 * @returns {void}
+	 */
+	/**
+	 * @param {string} type 
+	 * @param {EventListenerOrEventListenerObject} listener 
+	 * @param {boolean | EventListenerOptions} options 
+	 * @returns {void}
+	 */
+	removeEventListener(type, listener, options = false) {
+		return super.removeEventListener(type, listener, options);
+	}
+	/** @type {boolean} */
+	#launched;
+	/**
+	 * Gets the launch status of the engine.
+	 * @returns {boolean}
+	 */
+	get launched() {
+		return this.#launched;
+	}
+	/**
+	 * Sets the launch status of the engine.
+	 * @param {boolean} value 
+	 * @returns {void}
+	 */
+	set launched(value) {
+		const previous = this.#launched;
+		this.#launched = value;
+		if (previous !== value) this.dispatchEvent(new Event(`change`));
+		if (value) this.dispatchEvent(new Event(`launch`));
+	}
+	/** @type {number} */
+	#previous = 0;
+	/**
+	 * @returns {void}
+	 */
+	#callback() {
+		const current = performance.now();
+		const difference = current - this.#previous;
+		const count = trunc(difference / this.#gap);
+		this.#delta = difference / count;
+		for (let index = 0; index < count; index++) {
+			if (this.launched) this.dispatchEvent(new Event(`trigger`));
+			this.#previous = current;
+		}
+		setTimeout(this.#callback.bind(this));
+	};
+	/** @type {number} */
+	#gap = 1000 / 120;
+	/**
+	 * Gets the FPS limit of the engine.
+	 * @returns {number}
+	 */
+	get limit() {
+		return 1000 / this.#gap;
+	}
+	/**
+	 * Sets the FPS limit of the engine.
+	 * @param {number} value 
+	 * @returns {void}
+	 */
+	set limit(value) {
+		if (Number.isNaN(value)) return;
+		if (value <= 0) return;
+		this.#gap = 1000 / value;
+		this.#delta = this.#gap;
+	}
+	/** @type {number} */
+	#delta = this.#gap;
+	/**
+	 * Gets the current FPS of the engine.
+	 * @readonly
+	 * @returns {number}
+	 */
+	get fps() {
+		return 1000 / this.#delta;
+	}
+	/**
+	 * Gets the time delta between frames.
+	 * @readonly
+	 * @returns {number}
+	 */
+	get delta() {
+		return this.#delta / 1000;
 	}
 }
 //#endregion
@@ -625,4 +772,4 @@ class SocketManager extends EventTarget {
 }
 //#endregion
 
-export { Engine, FastEngine, PreciseEngine, SocketManager };
+export { Engine, FastEngine, PreciseEngine, StaticEngine, SocketManager };

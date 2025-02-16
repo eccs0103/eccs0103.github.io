@@ -39,12 +39,20 @@ interface Number {
 	 * Interpolates the number from one range to another.
 	 * @param min1 The minimum value of the original range.
 	 * @param max1 The maximum value of the original range.
-	 * @param min2 The minimum value of the target range.
-	 * @param max2 The maximum value of the target range.
+	 * @param min2 The minimum value of the target range. Defaults to 0.
+	 * @param max2 The maximum value of the target range. Defaults to 1.
 	 * @returns The interpolated value within the target range.
-	 * @throws {Error} If the minimum and maximum values of either range are equal.
+	 * @throws {Error} If the minimum and maximum of either range are equal.
 	 */
 	interpolate(min1: number, max1: number, min2?: number, max2?: number): number;
+	/**
+	 * Modulates the current number within a specified range.
+	 * @param length The range length.
+	 * @param start The start of the range. Defaults to 0.
+	 * @returns The number constrained within the range.
+	 * @throws {Error} If the range is zero.
+	 */
+	modulate(length: number, start?: number): number;
 	/**
 	 * Returns the current number or a default value if the current number is NaN.
 	 * @param value The default value to return if the current number is NaN.
@@ -135,23 +143,6 @@ interface String {
 	 * @returns The reversed string.
 	 */
 	reverse(): string;
-}
-
-interface FunctionConstructor {
-	/**
-	 * Checks if the given function is implemented by running it and seeing if it throws a specific `ReferenceError`.
-	 * @param action The function to check for implementation.
-	 * @returns A promise that resolves to `true` if the function is implemented, `false` otherwise.
-	 */
-	isImplemented(action: (...args: any) => unknown): Promise<boolean>;
-	/**
-	 * Ensures the given function is implemented by checking it and throwing an error if it is not.
-	 * @param action The function to check for implementation.
-	 * @param name The name of the function to be used in the error message if the function is not implemented.
-	 * @returns A promise that resolves if the function is implemented, otherwise it rejects with an error.
-	 * @throws {Error} Throws an error if the function is not implemented.
-	 */
-	ensureImplementation(action: (...args: any) => unknown, name: string): Promise<void>;
 }
 
 /**
@@ -266,6 +257,16 @@ interface Array<T> {
 	 * @param index2 The index of the second element.
 	 */
 	swap(index1: number, index2: number): void;
+	/**
+	 * Resizes an array to the specified length. 
+	 * If the new length is greater than the current length, fills the extra slots with the default value.
+	 * If the new length is smaller, truncates the array.
+	 * @template T
+	 * @param length The new length for the array.
+	 * @param _default The default value to fill new slots if the array is extended.
+	 * @returns The resized array.
+	 */
+	resize(length: number, _default: T): T[];
 }
 
 interface Math {
@@ -273,33 +274,48 @@ interface Math {
 	 * Splits a number into its integer and fractional parts.
 	 * @param x The number to be split.
 	 * @returns A tuple where the first element is the integer part and the second element is the fractional part.
+	 * ```ts
+	 * const [integer, fractional] = Math.split(x);
+	 * ```
 	 */
 	split(x: number): [number, number];
 	/**
 	 * Calculates the square of a number.
 	 * @param x The number to square.
-	 * @returns The square of the input number.
 	 */
 	sqpw(x: number): number;
 	/**
 	 * Converts radians to degrees.
 	 * @param radians The angle in radians.
-	 * @returns The angle in degrees.
 	 */
 	toDegrees(radians: number): number;
 	/**
 	 * Converts degrees to radians.
 	 * @param degrees The angle in degrees.
-	 * @returns The angle in radians.
 	 */
 	toRadians(degrees: number): number;
+	/**
+	 * Calculates the arithmetic mean of the given numbers.
+	 * @param values The numbers to calculate the mean from.
+	 */
+	meanArithmetic(...values: number[]): number;
+	/**
+	 * Calculates the geometric mean of the given numbers.
+	 * @param values The numbers to calculate the mean from.
+	 */
+	meanGeometric(...values: number[]): number;
+	/**
+	 * Calculates the harmonic mean of the given numbers.
+	 * @param values The numbers to calculate the mean from.
+	 */
+	meanHarmonic(...values: number[]): number;
 }
 
 interface Promise<T> {
 	/**
 	 * Checks if the promise is fulfilled.
 	 */
-	readonly fulfilled: Promise<boolean>;
+	readonly isFulfilled: Promise<boolean>;
 	/**
 	 * Retrieves the value of a resolved promise.
 	 * @throws {Error} Throws an error if the promise is rejected.

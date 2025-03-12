@@ -50,6 +50,10 @@
 		{ "member": 18, "addressee": 12, "content": "Շնորհավոր Սաշա ջան 🎉", "importance": 1 },
 		{ "member": 9, "addressee": 12, "content": "Շնորհավոր Սաշ ջան", "importance": 1 },
 		{ "member": 5, "addressee": 12, "content": "Շնորհավոր", "importance": 1 },
-		{ "member": 1, "addressee": 12, "content": "Shnorhavoor", "importance": 1 }
+		{ "member": 1, "addressee": 12, "content": "Shnorhavoor", "importance": 1 },
+
+		{ "member": 1, "addressee": 11, "content": "Mariam jan cnundd shnorhavorr", "importance": 1 },
+		{ "member": 9, "addressee": 11, "content": "Ծնունդդ շնորհավոր Մարիամ ջան ու հաճելի ժամանց ձեզ", "importance": 1 },
+		{ "member": 2, "addressee": 11, "content": "shnorhavor Mariam jan", "importance": 1 }
 	]
 }

@@ -24,6 +24,18 @@
 		{ "identifier": 20, "name": "Գոռ", "surname": "Սիմոնյան", "patronymic": "Էդուարդի", "birthday": "2004-09-21" }
 	],
 	"wishes": [
+		{ "member": 19, "addressee": 16, "content": "Լենա ջան, շնորհավոր 🍸", "importance": 1 },
+		{ "member": 9, "addressee": 16, "content": "Շնորհավոր Լենա ջան 🎉🎉", "importance": 1 },
+		{ "member": 12, "addressee": 16, "content": "Շնորհավոր Լեն, ամենալավն ու բարին եմ մաղթում", "importance": 1 },
+		{ "member": 5, "addressee": 16, "content": "Շնորհավոր", "importance": 1 },
+		{ "member": 18, "addressee": 16, "content": "Շնորհավոր ամենայն բարիք🎉", "importance": 1 },
+		{ "member": 7, "addressee": 16, "content": "Շնորհավոր☺️", "importance": 1 },
+		{ "member": 8, "addressee": 16, "content": "Շնորհավոր🎉", "importance": 1 },
+		{ "member": 17, "addressee": 16, "content": "Շնորհաով 🥳", "importance": 1 },
+		{ "member": 1, "addressee": 16, "content": "Shnorhavorr", "importance": 1 },
+		{ "member": 10, "addressee": 16, "content": "Շնորհավոր🎉", "importance": 1 },
+		{ "member": 20, "addressee": 16, "content": "Շնորհավոր Լենա ջան 🥳", "importance": 1 },
+
 		{ "member": 11, "addressee": 19, "content": "Արման ջան ծնունդդ շնորհավոր, քեզ ամենալավն ու բարին եմ մաղթում🥳", "importance": 1 },
 		{ "member": 12, "addressee": 19, "content": "Շնորհավոր Արման ջան🥂", "importance": 1 },
 		{ "member": 16, "addressee": 19, "content": "Շնորհավոր 🎂", "importance": 1 },

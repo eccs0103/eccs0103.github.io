@@ -24,6 +24,21 @@
 		{ "identifier": 20, "name": "Գոռ", "surname": "Սիմոնյան", "patronymic": "Էդուարդի", "birthday": "2004-09-21" }
 	],
 	"wishes": [
+		{ "member": 17, "addressee": 8, "content": "Անի ջան, ծնունդդ շնորհավոր", "importance": 1 },
+		{ "member": 12, "addressee": 8, "content": "Շնորհավոոր", "importance": 1 },
+		{ "member": 9, "addressee": 8, "content": "Շնորհավոր Անի ջան", "importance": 1 },
+		{ "member": 18, "addressee": 8, "content": "Շնորհավոր🎉", "importance": 1 },
+		{ "member": 15, "addressee": 8, "content": "Շնորհավոր Անի ջան🤍", "importance": 1 },
+		{ "member": 7, "addressee": 8, "content": "Շնորհավոր😊", "importance": 1 },
+		{ "member": 16, "addressee": 8, "content": "Shnorhavor Ani jan💕💕", "importance": 1 },
+		{ "member": 17, "addressee": 8, "content": "Շնորհավոր!", "importance": 1 },
+		{ "member": 13, "addressee": 8, "content": "Շնորհավոր Անի ջան ամենալավն եմ ցանկանում🤍", "importance": 1 },
+		{ "member": 5, "addressee": 8, "content": "Շնորհավոր", "importance": 1 },
+		{ "member": 8, "addressee": 8, "content": "Շնորհավոր Անի ջան 🥰♥️", "importance": 1 },
+		{ "member": 1, "addressee": 8, "content": "Dhnorhavor An jan", "importance": 1 },
+		{ "member": 20, "addressee": 8, "content": "Շնորհավոր 🥂", "importance": 1 },
+		{ "member": 2, "addressee": 8, "content": "shnorhavor Ani jan🥳", "importance": 1 },
+
 		{ "member": 4, "addressee": 2, "content": "Գևոր ջան շնորհավոր ծնունդդ, քեզ շատ հաջողություններ🥳", "importance": 1 },
 		{ "member": 10, "addressee": 2, "content": "Շնորհավոր  Գևոր  ջան 🎉🎉", "importance": 1 },
 		{ "member": 13, "addressee": 2, "content": "Շնորհավոր🎉🎉", "importance": 1 },

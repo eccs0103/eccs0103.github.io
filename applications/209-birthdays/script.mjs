@@ -122,14 +122,15 @@ class Group {
 		}
 		/**
 		 * @readonly
-		 * @returns {string?}
+		 * @returns {[GroupMember, string]?}
 		 */
 		askWish() {
 			const importance = this.#importance;
 			if (importance.size === 0) return null;
 			const random = Random.global;
 			const addressee = random.case(importance);
-			return this.#wishes.get(addressee) ?? Error.throws(`Unable to ask for the non-existing wish`);
+			const wish = this.#wishes.get(addressee) ?? Error.throws(`Unable to ask for the non-existing wish`);
+			return [addressee, wish];
 		}
 	};
 	//#endregion
@@ -398,6 +399,7 @@ class Controller {
 		const pairMemberWithButton = this.#pairMemberWithButton = members.map(member => [member, divScrollPicker.appendChild(Controller.#createPickerItem(member))]);
 
 		const h4SelectionTitle = this.#h4SelectionTitle = document.getElement(HTMLHeadingElement, `h4#selection-title`);
+		const dfnSelectionAuxiliary = this.#dfnSelectionAuxiliary = document.getElement(HTMLElement, `dfn#selection-auxiliary`);
 
 		const timer = this.#timer = new Timer(false);
 	}
@@ -442,6 +444,8 @@ class Controller {
 	}
 	/** @type {HTMLHeadingElement} */
 	#h4SelectionTitle;
+	/** @type {HTMLElement} */
+	#dfnSelectionAuxiliary;
 	/**
 	 * @param {string} easing 
 	 * @param {string} opacity 
@@ -464,17 +468,33 @@ class Controller {
 		h4SelectionTitle.textContent = text;
 		if (animate) await h4SelectionTitle.animate([disappearance, appearance], { duration, fill }).finished;
 	}
+	/**
+	 * @param {string} text 
+	 * @param {boolean} animate 
+	 * @returns {Promise<void>}
+	 */
+	async #writeSelectionAuxiliary(text, animate) {
+		const dfnSelectionAuxiliary = this.#dfnSelectionAuxiliary;
+		const disappearance = this.#createAppearanceKeyframe(`0`, `ease-in`);
+		const appearance = this.#createAppearanceKeyframe(`1`, `ease-out`);
+		const duration = 500, fill = `both`;
+		if (animate) await dfnSelectionAuxiliary.animate([appearance, disappearance], { duration, fill }).finished;
+		dfnSelectionAuxiliary.textContent = text;
+		if (animate) await dfnSelectionAuxiliary.animate([disappearance, appearance], { duration, fill }).finished;
+	}
 	/** @type {Timer} */
 	#timer;
 	/**
 	 * @param {string} text 
+	 * @param {string} author 
 	 * @param {boolean} animate 
 	 * @param {number} counter 
 	 * @returns {void}
 	 */
-	#provideContainerLifecycle(text, animate, counter = 0) {
+	#provideContainerLifecycle(text, author, animate, counter = 0) {
 		const timer = this.#timer;
 		this.#writeSelectionTitle(text, animate);
+		this.#writeSelectionAuxiliary(author, animate);
 		timer.setTimeout(counter);
 	}
 	/**
@@ -484,7 +504,7 @@ class Controller {
 	#updatePickerContainer(animate) {
 		const memberSelection = this.#memberSelection;
 
-		if (memberSelection === null) return this.#provideContainerLifecycle(String.empty, false);
+		if (memberSelection === null) return this.#provideContainerLifecycle(String.empty, String.empty, false);
 
 		const date = new Date();
 		date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
@@ -495,14 +515,15 @@ class Controller {
 		const wish = memberSelection.askWish();
 
 		if (wish !== null) {
-			return this.#provideContainerLifecycle(wish, animate, 5000);
+			const [addressee, content] = wish;
+			return this.#provideContainerLifecycle(content, addressee.name, animate, 5000);
 		}
 
 		const timespan = Timespan.viaDuration(begin - now);
 		const days = trunc(timespan.hours / 24);
 		const hours = timespan.hours % 24;
 		const { negativity, minutes, seconds } = timespan;
-		return this.#provideContainerLifecycle(`${negativity ? `Անցավ` : `Մնաց`} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, false, 1000);
+		return this.#provideContainerLifecycle(`${negativity ? `Անցավ` : `Մնաց`} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
 	}
 	/**
 	 * @returns {void}

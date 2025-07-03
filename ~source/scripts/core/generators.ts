@@ -7,80 +7,76 @@ const { random, trunc } = Math;
  * Random values generator.
  */
 class Random {
-	/** @type {Random} */
-	static #global = new Random();
+	static #global: Random = new Random();
 	/**
 	 * The global instance.
 	 * @readonly
-	 * @returns {Random}
 	 */
-	static get global() {
+	static get global(): Random {
 		return Random.#global;
 	}
 	/**
 	 * Generates a random boolean value.
-	 * @param {number} factor Probability for `true` (0 to 1, default is 0.5).
-	 * @returns {boolean} Random boolean value.
+	 * @param factor Probability for `true` (0 to 1, default is 0.5).
+	 * @returns Random boolean value.
 	 * @throws {TypeError} If factor is not finite.
 	 * @throws {RangeError} If factor is out of range.
 	 */
-	boolean(factor = 0.5) {
-		if (!Number.isFinite(factor)) throw new TypeError(`The factor ${factor} must be a finite number`);
+	boolean(factor: number = 0.5): boolean {
+		if (!Number.isFinite(factor)) throw new TypeError(`The factor $must be a finite number`);
 		if (0 > factor || factor > 1) throw new RangeError(`The factor ${factor} is out of range [0 - 1]`);
 		return random() < factor;
 	}
 	/**
 	 * Returns a random number in range [min - max).
-	 * @param {number} min The minimum value.
-	 * @param {number} max The maximum value.
-	 * @returns {number} A random number.
+	 * @param min The minimum value.
+	 * @param max The maximum value.
+	 * @returns A random number.
 	 */
-	number(min, max) {
+	number(min: number, max: number): number {
 		return random() * (max - min) + min;
 	}
 	/**
 	 * Returns a random integer in range [min - max).
-	 * @param {number} min The minimum value.
-	 * @param {number} max The maximum value.
-	 * @returns {number} A random integer.
+	 * @param min The minimum value.
+	 * @param max The maximum value.
+	 * @returns A random integer.
 	 */
-	integer(min, max) {
+	integer(min: number, max: number): number {
 		return trunc(this.number(min, max));
 	}
 	/**
 	 * Returns a random element from an array.
-	 * @template T
-	 * @param {Readonly<T[]>} array The array of elements.
-	 * @returns {T} A random element.
+	 * @param array The array of elements.
+	 * @returns A random element.
 	 * @throws {Error} If the array is empty.
 	 */
-	item(array) {
+	item<T>(array: readonly T[]): T {
 		if (1 > array.length) throw new Error(`Array must have at least 1 item`);
 		return array[this.integer(0, array.length)];
 	}
 	/**
 	 * Generates a range of random numbers from min to max (exclusive).
-	 * @param {number} min The minimum value.
-	 * @param {number} max The maximum value.
-	 * @returns {number[]} An array of random numbers.
+	 * @param min The minimum value.
+	 * @param max The maximum value.
+	 * @returns An array of random numbers.
 	 */
-	range(min, max) {
+	range(min: number, max: number): number[] {
 		const array = Array.range(min, max);
 		this.shuffle(array);
 		return array;
-	};
+	}
 	/**
 	 * Returns a random subarray of elements from an array.
-	 * @template T
-	 * @param {Readonly<T[]>} array The array of elements.
-	 * @param {number} count The number of elements to select.
-	 * @returns {T[]} A random subarray of elements.
+	 * @param array The array of elements.
+	 * @param count The number of elements to select.
+	 * @returns A random subarray of elements.
 	 * @throws {TypeError} If count is not a finite integer.
 	 * @throws {RangeError} If count is less than 0 or greater than array length.
 	 */
-	subarray(array, count = 1) {
-		if (!Number.isInteger(count)) throw new TypeError(`The count ${count} must be a finite integer number`);
-		if (0 > count || count > array.length) throw new RangeError(`The count ${count} is out of range [0 - ${array.length}]`);
+	subarray<T>(array: readonly T[], count: number = 1): T[] {
+		if (!Number.isInteger(count)) throw new TypeError(`The count $must be a finite integer number`);
+		if (0 > count || count > array.length) throw new RangeError(`The count $is out of range [0 - $]`);
 		const clone = Array.from(array);
 		const subarray = [];
 		for (let index = 0; index < count; index++) {
@@ -90,11 +86,9 @@ class Random {
 	}
 	/**
 	 * Shuffles the elements of an array in place using the Fisher-Yates algorithm.
-	 * @template T
-	 * @param {T[]} array The array to shuffle.
-	 * @returns {void}
+	 * @param array The array to shuffle.
 	 */
-	shuffle(array) {
+	shuffle<T>(array: T[]): void {
 		for (let index = 0; index < array.length - 1; index++) {
 			const pair = this.integer(index, array.length);
 			if (pair === index) continue;
@@ -103,12 +97,11 @@ class Random {
 	}
 	/**
 	 * Selects a random element from a list according to their weights.
-	 * @template T
-	 * @param {Readonly<Map<T, number>>} cases The map with elements and their weights.
-	 * @returns {T} A random element.
+	 * @param cases The map with elements and their weights.
+	 * @returns A random element.
 	 * @throws {RangeError} If the map is empty.
 	 */
-	case(cases) {
+	case<T>(cases: Readonly<Map<T, number>>): T {
 		if (1 > cases.size) throw new RangeError(`The cases must have at least 1 item`);
 		const summary = Array.from(cases).reduce((previous, [, weight]) => previous + weight, 0);
 		const random = this.number(0, summary);

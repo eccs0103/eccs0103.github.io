@@ -1,29 +1,28 @@
 "use strict";
 
-import { Matrix, Vector2D } from "../core/measures.mjs";
-import { Color } from "../core/palette.mjs";
-import { } from "../workers/extensions.mjs";
+import { Matrix, Vector2D } from "../core/measures.js";
+import { Color } from "../core/palette.js";
+
+import "../worker/extensions.js";
 
 const { trunc } = Math;
 
 //#region Texture
 /**
  * Represents a texture.
- * @extends {Matrix<Color>}
  */
-class Texture extends Matrix {
+class Texture extends Matrix<Color> {
 	//#region Converters
 	/**
 	 * Converts the texture to ImageData.
-	 * @param {Readonly<Texture>} texture The texture to convert.
-	 * @returns {ImageData} The converted ImageData.
+	 * @param texture The texture to convert.
+	 * @returns The converted ImageData.
 	 */
-	static toImageData(texture) {
+	static toImageData(texture: Readonly<Texture>): ImageData {
 		const size = texture.size;
 		const imageData = new ImageData(size.x, size.y);
 		const data = imageData.data;
-		/** @type {Vector2D} */
-		const position = Vector2D.newNaN;
+		const position: Vector2D = Vector2D.newNaN;
 		for (let y = 0; y < size.y; y++) {
 			for (let x = 0; x < size.x; x++) {
 				position.x = x;
@@ -40,10 +39,10 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Creates a texture from ImageData.
-	 * @param {Readonly<ImageData>} imageData The ImageData to create the texture from.
-	 * @returns {Texture} The created texture.
+	 * @param imageData The ImageData to create the texture from.
+	 * @returns The created texture.
 	 */
-	static fromImageData(imageData) {
+	static fromImageData(imageData: Readonly<ImageData>): Texture {
 		const size = new Vector2D(imageData.width, imageData.height);
 		const texture = new Texture(size);
 		const data = imageData.data;
@@ -53,7 +52,7 @@ class Texture extends Matrix {
 				position.x = x;
 				position.y = y;
 				const index = size.x * y + x;
-				const color = Color.viaRGB(
+				const color = Color.fromRGB(
 					data[index * 4 + 0],
 					data[index * 4 + 1],
 					data[index * 4 + 2],
@@ -67,18 +66,16 @@ class Texture extends Matrix {
 	//#endregion
 	//#region Contructors
 	/**
-	 * @overload
-	 * @param {Readonly<Vector2D>} size The size of the texture.
+	 * @param size The size of the texture.
 	 * @throws {TypeError} If the x or y coordinate of the size is not an integer.
 	 * @throws {RangeError} If the x or y coordinate of the size is negative.
-	 * 
-	 * @overload
-	 * @param {Readonly<Texture>} source The texture to clone.
 	 */
+	constructor(size: Readonly<Vector2D>);
 	/**
-	 * @param {Readonly<Texture> | Readonly<Vector2D>} arg1 
+	 * @param source The texture to clone.
 	 */
-	constructor(arg1) {
+	constructor(source: Readonly<Texture>);
+	constructor(arg1: Readonly<Texture> | Readonly<Vector2D>) {
 		if (arg1 instanceof Texture) {
 			super(arg1.size, () => Color.newTransparent);
 			const position = Vector2D.newNaN;
@@ -95,139 +92,139 @@ class Texture extends Matrix {
 			super(arg1, () => Color.newTransparent);
 			return;
 		}
-		throw new TypeError(`No overload with [${typename(arg1)}] arguments`);
+		throw new TypeError(`No overload with (${[arg1].map(typename).join(`, `)}) arguments`);
 	}
 	//#endregion
 	//#region Methods
 	/**
 	 * Mixes two textures.
-	 * @param {Readonly<Texture>} first The first texture.
-	 * @param {Readonly<Texture>} second The second texture.
-	 * @param {number} ratio The ratio of mixing [0 - 1].
-	 * @returns {Texture} The mixed new texture.
+	 * @param first The first texture.
+	 * @param second The second texture.
+	 * @param ratio The ratio of mixing [0 - 1].
+	 * @returns The mixed new texture.
 	 * @throws {TypeError} If the ratio is not finite.
 	 */
-	static mix(first, second, ratio = 0.5) {
+	static mix(first: Readonly<Texture>, second: Readonly<Texture>, ratio: number = 0.5): Texture {
 		return new Texture(first).mix(second, ratio);
 	}
 	/**
 	 * Converts the texture to grayscale.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of the grayscale effect [0 - 1].
-	 * @returns {Texture} The grayscale new texture.
+	 * @param source The source texture.
+	 * @param scale The scale of the grayscale effect [0 - 1].
+	 * @returns The grayscale new texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static grayscale(source, scale = 1) {
+	static grayscale(source: Readonly<Texture>, scale: number = 1): Texture {
 		return new Texture(source).grayscale(scale);
 	}
 	/**
 	 * Enhances the red component of the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of the red emphasis [0 - 1].
-	 * @returns {Texture} The red-emphasized new texture.
+	 * @param source The source texture.
+	 * @param scale The scale of the red emphasis [0 - 1].
+	 * @returns The red-emphasized new texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static redEmphasis(source, scale = 1) {
+	static redEmphasis(source: Readonly<Texture>, scale: number = 1): Texture {
 		return new Texture(source).redEmphasis(scale);
 	}
 	/**
 	 * Enhances the green component of the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of the green emphasis [0 - 1].
-	 * @returns {Texture} The green-emphasized new texture.
+	 * @param source The source texture.
+	 * @param scale The scale of the green emphasis [0 - 1].
+	 * @returns The green-emphasized new texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static greenEmphasis(source, scale = 1) {
+	static greenEmphasis(source: Readonly<Texture>, scale: number = 1): Texture {
 		return new Texture(source).greenEmphasis(scale);
 	}
 	/**
 	 * Enhances the blue component of the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of the blue emphasis [0 - 1].
-	 * @returns {Texture} The blue-emphasized new texture.
+	 * @param source The source texture.
+	 * @param scale The scale of the blue emphasis [0 - 1].
+	 * @returns The blue-emphasized new texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static blueEmphasis(source, scale = 1) {
+	static blueEmphasis(source: Readonly<Texture>, scale: number = 1): Texture {
 		return new Texture(source).blueEmphasis(scale);
 	}
 	/**
 	 * Inverts the colors of the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of the inversion effect [0 - 1].
-	 * @returns {Texture} The inverted new texture.
+	 * @param source The source texture.
+	 * @param scale The scale of the inversion effect [0 - 1].
+	 * @returns The inverted new texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static invert(source, scale = 1) {
+	static invert(source: Readonly<Texture>, scale: number = 1): Texture {
 		return new Texture(source).invert(scale);
 	}
 	/**
 	 * Applies sepia effect to the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of the sepia effect [0 - 1].
-	 * @returns {Texture} The new texture with sepia effect.
+	 * @param source The source texture.
+	 * @param scale The scale of the sepia effect [0 - 1].
+	 * @returns The new texture with sepia effect.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static sepia(source, scale = 1) {
+	static sepia(source: Readonly<Texture>, scale: number = 1): Texture {
 		return new Texture(source).sepia(scale);
 	}
 	/**
 	 * Rotates the hue of the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} angle The angle of rotation.
-	 * @returns {Texture} The rotated new texture.
+	 * @param source The source texture.
+	 * @param angle The angle of rotation.
+	 * @returns The rotated new texture.
 	 * @throws {TypeError} If the angle is not finite.
 	 */
-	static rotate(source, angle) {
+	static rotate(source: Readonly<Texture>, angle: number): Texture {
 		return new Texture(source).rotate(angle);
 	}
 	/**
 	 * Saturates the colors of the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of saturation effect [0 - 1].
-	 * @returns {Texture} The saturated new texture.
+	 * @param source The source texture.
+	 * @param scale The scale of saturation effect [0 - 1].
+	 * @returns The saturated new texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static saturate(source, scale) {
+	static saturate(source: Readonly<Texture>, scale: number): Texture {
 		return new Texture(source).saturate(scale);
 	}
 	/**
 	 * Illuminates the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of illumination [0 - 1].
-	 * @returns {Texture} The illuminated new texture.
+	 * @param source The source texture.
+	 * @param scale The scale of illumination [0 - 1].
+	 * @returns The illuminated new texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static illuminate(source, scale) {
+	static illuminate(source: Readonly<Texture>, scale: number): Texture {
 		return new Texture(source).illuminate(scale);
 	}
 	/**
 	 * Sets the transparency of the texture.
-	 * @param {Readonly<Texture>} source The source texture.
-	 * @param {number} scale The scale of transparency [0 - 1].
-	 * @returns {Texture} The new texture with transparency.
+	 * @param source The source texture.
+	 * @param scale The scale of transparency [0 - 1].
+	 * @returns The new texture with transparency.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static pass(source, scale) {
+	static pass(source: Readonly<Texture>, scale: number): Texture {
 		return new Texture(source).pass(scale);
 	}
 	//#endregion
 	//#region Modifiers
 	/**
 	 * Iterates over each pixel in the texture and applies a callback function.
-	 * @param {(pixel: Color, position: Vector2D, texture: Texture) => void} callback 
-	 * @returns {void}
+	 * @param callback 
+	 * @returns 
 	 */
-	forEach(callback) {
-		return super.forEach(/** @type {(value: Color, position: Vector2D, matrix: Matrix<Color>) => void} */(callback));
+	forEach(callback: (pixel: Color, position: Vector2D, texture: Texture) => void): void {
+		return super.forEach(callback as (value: Color, position: Vector2D, matrix: Matrix<Color>) => void);
 	}
 	/**
 	 * Mixes this texture with another texture.
-	 * @param {Readonly<Texture>} other The other texture to mix.
-	 * @param {number} ratio The ratio of mixing [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param other The other texture to mix.
+	 * @param ratio The ratio of mixing [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the ratio is not finite.
 	 */
-	mix(other, ratio = 0.5) {
+	mix(other: Readonly<Texture>, ratio: number = 0.5): Texture {
 		if (!Number.isFinite(ratio)) throw new TypeError(`The ratio ${ratio} must be a finite number`);
 		ratio = ratio.clamp(0, 1);
 		this.forEach((pixel, position) => pixel.mix(other.get(position), ratio));
@@ -235,11 +232,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Converts the current texture to grayscale.
-	 * @param {number} scale The scale of the grayscale effect [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of the grayscale effect [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	grayscale(scale = 1) {
+	grayscale(scale: number = 1): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.grayscale(scale));
@@ -247,11 +244,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Enhances the red component of the current texture.
-	 * @param {number} scale The scale of the red emphasis [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of the red emphasis [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	redEmphasis(scale = 1) {
+	redEmphasis(scale: number = 1): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.redEmphasis(scale));
@@ -259,11 +256,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Enhances the green component of the current texture.
-	 * @param {number} scale The scale of the green emphasis [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of the green emphasis [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	greenEmphasis(scale = 1) {
+	greenEmphasis(scale: number = 1): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.greenEmphasis(scale));
@@ -271,11 +268,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Enhances the blue component of the current texture.
-	 * @param {number} scale The scale of the blue emphasis [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of the blue emphasis [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	blueEmphasis(scale = 1) {
+	blueEmphasis(scale: number = 1): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.blueEmphasis(scale));
@@ -283,11 +280,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Inverts the colors of the current texture.
-	 * @param {number} scale The scale of the inversion effect [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of the inversion effect [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	invert(scale = 1) {
+	invert(scale: number = 1): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.invert(scale));
@@ -295,11 +292,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Applies sepia effect to the current texture.
-	 * @param {number} scale The scale of the sepia effect [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of the sepia effect [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	sepia(scale = 1) {
+	sepia(scale: number = 1): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.sepia(scale));
@@ -307,22 +304,22 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Rotates the hue of the current texture.
-	 * @param {number} angle The angle of rotation.
-	 * @returns {Texture} The current texture.
+	 * @param angle The angle of rotation.
+	 * @returns The current texture.
 	 * @throws {TypeError} If the angle is not finite.
 	 */
-	rotate(angle) {
+	rotate(angle: number): Texture {
 		if (!Number.isFinite(angle)) throw new TypeError(`The angle ${angle} must be a finite number`);
 		this.forEach(pixel => pixel.rotate(angle));
 		return this;
 	}
 	/**
 	 * Saturates the colors of the current texture.
-	 * @param {number} scale The scale of saturation effect [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of saturation effect [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	saturate(scale) {
+	saturate(scale: number): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.saturate(scale));
@@ -330,11 +327,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Illuminates the current texture.
-	 * @param {number} scale The scale of illumination [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of illumination [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	illuminate(scale) {
+	illuminate(scale: number): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.illuminate(scale));
@@ -342,11 +339,11 @@ class Texture extends Matrix {
 	}
 	/**
 	 * Sets the transparency of the current texture.
-	 * @param {number} scale The scale of transparency [0 - 1].
-	 * @returns {Texture} The current texture.
+	 * @param scale The scale of transparency [0 - 1].
+	 * @returns The current texture.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	pass(scale) {
+	pass(scale: number): Texture {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.forEach(pixel => pixel.pass(scale));

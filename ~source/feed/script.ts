@@ -1,8 +1,8 @@
 "use strict";
 
-import { } from "../scripts/dom/extensions.mjs";
-import { } from "../scripts/dom/palette.mjs";
-import { } from "../scripts/dom/storage.mjs";
+import "../scripts/dom/extensions.js";
+import { } from "../scripts/dom/palette.js";
+import { } from "../scripts/dom/storage.js";
 
 //#region Controller
 /**
@@ -11,12 +11,12 @@ import { } from "../scripts/dom/storage.mjs";
 class Controller {
 	//#region Internal
 	/** @type {boolean} */
-	static #locked = true;
+	static #locked: boolean = true;
 	/**
 	 * @param {any} reason 
 	 * @returns {Promise<void>}
 	 */
-	static async #catch(reason) {
+	static async #catch(reason: any): Promise<void> {
 		const error = Error.from(reason);
 		let message = String(error);
 		message += `\n\nAn error occurred. Any further actions may result in errors. To prevent this from happening, would you like to reload?`;
@@ -27,7 +27,7 @@ class Controller {
 	 * Starts the main application flow.
 	 * @returns {Promise<void>}
 	 */
-	static async build() {
+	static async build(): Promise<void> {
 		Controller.#locked = false;
 		const self = new Controller();
 		Controller.#locked = true;
@@ -46,7 +46,7 @@ class Controller {
 	/**
 	 * @returns {Promise<void>}
 	 */
-	async #main() {
+	async #main(): Promise<void> {
 		// Your run logic goes here
 	}
 }

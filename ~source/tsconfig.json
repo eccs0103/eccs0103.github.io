@@ -32,7 +32,14 @@
 		"checkJs": true,
 		"allowSyntheticDefaultImports": true,
 		"target": "ESNext",
-		"lib": [ "ESNext", "WebWorker", "DOM" ]
+		"lib": [ "ESNext", /* "WebWorker", */ "DOM" ],
+
+		// "module": "ESNext",
+		// "declaration": true,
+		"rootDir": "./",
+		"outDir": "../",
+		"forceConsistentCasingInFileNames": true,
 	},
-	"include": [ "**/*.js", "**/*.mjs" ]
+	"include": [ "./**/*.ts", "./**/*.mts" ],
+	"exclude": [ "node_modules" ]
 }

@@ -1,18 +1,17 @@
 "use strict";
 
-import { DataPair } from "../core/extensions.mjs";
+import { ArchivableInstance, ArchivablePrototype, DataPair } from "../core/extensions.js";
 
 //#region Archive
 /**
  * Represents an archive that stores data in localStorage.
- * @template T
  */
-class Archive {
+class Archive<T> {
 	/**
-	 * @param {string} key The key to use for storing the data in localStorage.
-	 * @param {T} initial The initial data to be stored if no data exists with the provided key.
+	 * @param key The key to use for storing the data in localStorage.
+	 * @param initial The initial data to be stored if no data exists with the provided key.
 	 */
-	constructor(key, initial) {
+	constructor(key: string, initial: T) {
 		this.#key = key;
 		this.#initial = initial;
 
@@ -20,39 +19,33 @@ class Archive {
 			this.data = this.#initial;
 		}
 	}
-	/** @type {string} */
-	#key;
-	/** @type {T} */
-	#initial;
+	#key: string;
+	#initial: T;
 	/**
 	 * Gets the data stored in the archive.
-	 * @returns {T} The data stored in the archive.
 	 */
-	get data() {
+	get data(): T {
 		const item = localStorage.getItem(this.#key);
 		if (item === null) throw new Error(`Key '${this.#key}' isn't defined`);
 		return JSON.parse(item);
 	}
 	/**
 	 * Sets the data in the archive.
-	 * @param {T} value The data to be stored in the archive.
 	 */
-	set data(value) {
+	set data(value: T) {
 		localStorage.setItem(this.#key, JSON.stringify(value, undefined, `\t`));
 	}
 	/**
 	 * Resets the data in the archive to its initial value.
-	 * @returns {void}
 	 */
-	reset() {
+	reset(): void {
 		this.data = this.#initial;
 	}
 	/**
 	 * Modifies the data in the archive using the provided action.
-	 * @param {(value: T) => T} action The action to be applied to the data.
-	 * @returns {void}
+	 * @param action The action to be applied to the data.
 	 */
-	change(action) {
+	change(action: (value: T) => T): void {
 		this.data = action(this.data);
 	}
 }
@@ -61,25 +54,23 @@ class Archive {
 /**
  * Class to manage archives with archivable instances.
  * @template N The type of the archived data.
- * @template {ArchivableInstance<N>} I The type of the archivable instance.
+ * @template I The type of the archivable instance.
  */
-class ArchiveManager {
-	/** @type {boolean} */
-	static #locked = true;
+class ArchiveManager<N, I extends ArchivableInstance<N>> {
+	static #locked: boolean = true;
 	/**
 	 * Constructs a new archive manager instance.
 	 * @template N
-	 * @template {ArchivableInstance<N>} I
-	 * @template {readonly any[]} A
-	 * @param {string} path The path to the archive.
-	 * @param {ArchivablePrototype<N, I, A>} prototype The prototype for creating instances.
-	 * @param {A} args The arguments for the constructor.
-	 * @returns {Promise<ArchiveManager<N, I>>} A promise with expected manager instance.
+	 * @template I
+	 * @template A
+	 * @param path The path to the archive.
+	 * @param prototype The prototype for creating instances.
+	 * @param args The arguments for the constructor.
+	 * @returns A promise with expected manager instance.
 	 */
-	static async construct(path, prototype, ...args) {
+	static async construct<N, I extends ArchivableInstance<N>, A extends readonly any[]>(path: string, prototype: ArchivablePrototype<N, I, A>, ...args: A): Promise<ArchiveManager<N, I>> {
 		ArchiveManager.#locked = false;
-		/** @type {ArchiveManager<N, I>} */
-		const self = new ArchiveManager();
+		const self: ArchiveManager<N, I> = new ArchiveManager();
 		ArchiveManager.#locked = true;
 
 		self.#construct = () => Reflect.construct(prototype, args);
@@ -105,30 +96,26 @@ class ArchiveManager {
 	constructor() {
 		if (ArchiveManager.#locked) throw new TypeError(`Illegal constructor`);
 	}
-	/** @type {() => I} */
-	#construct;
-	/** @type {I} */
-	#content;
+	#construct: () => I;
+	#content: I;
 	/**
 	 * Gets the content of the archive.
-	 * @returns {I}
+	 * @returns 
 	 */
-	get content() {
+	get content(): I {
 		return this.#content;
 	}
 	/**
 	 * Reconstructs the content of the archive.
-	 * @returns {void}
+	 * @returns 
 	 */
-	reconstruct() {
+	reconstruct(): void {
 		this.#content = this.#construct();
 	}
 }
 //#endregion
 //#region Database
-/**
- * @typedef {InstanceType<typeof Database.Store>} DatabaseStore
- */
+type DatabaseStore = InstanceType<typeof Database.Store>;
 
 /**
  * Represents a database for storing data.
@@ -139,14 +126,13 @@ class Database {
 	 * Represents a store within a database.
 	 */
 	static Store = class DatabaseStore {
-		/** @type {boolean} */
-		static #locked = true;
+		static #locked: boolean = true;
 		/**
-		 * @param {string} nameDatabase 
-		 * @param {string} nameStore 
-		 * @returns {Promise<DatabaseStore>}
+		 * @param nameDatabase 
+		 * @param nameStore 
+		 * @returns 
 		 */
-		static async #newStore(nameDatabase, nameStore) {
+		static async #newStore(nameDatabase: string, nameStore: string): Promise<DatabaseStore> {
 			const database = await Database.#newDatabase(nameDatabase);
 			DatabaseStore.#locked = false;
 			const store = new DatabaseStore();
@@ -157,11 +143,11 @@ class Database {
 		}
 		/**
 		 * Opens an store in the database.
-		 * @param {string} nameDatabase The name of the database.
-		 * @param {string} nameStore The name of the store.
-		 * @returns {Promise<DatabaseStore>} The opened store.
+		 * @param nameDatabase The name of the database.
+		 * @param nameStore The name of the store.
+		 * @returns The opened store.
 		 */
-		static async open(nameDatabase, nameStore) {
+		static async open(nameDatabase: string, nameStore: string): Promise<DatabaseStore> {
 			const store = await DatabaseStore.#newStore(nameDatabase, nameStore);
 			const database = store.#database;
 			if (!(await database.#openDatabaseWith(database => database.objectStoreNames.contains(nameStore)))) {
@@ -171,11 +157,11 @@ class Database {
 		}
 		/**
 		 * Suspends a store in the database.
-		 * @param {string} nameDatabase The name of the database.
-		 * @param {string} nameStore The name of the store.
-		 * @returns {Promise<void>} A promise that resolves when the store is suspended.
+		 * @param nameDatabase The name of the database.
+		 * @param nameStore The name of the store.
+		 * @returns A promise that resolves when the store is suspended.
 		 */
-		static async suspend(nameDatabase, nameStore) {
+		static async suspend(nameDatabase: string, nameStore: string): Promise<void> {
 			const database = await Database.#newDatabase(nameDatabase);
 			if (await database.#openDatabaseWith(database => database.objectStoreNames.contains(nameStore))) {
 				await database.#upgradeDatabaseWith((database) => database.deleteObjectStore(nameStore));
@@ -187,32 +173,30 @@ class Database {
 		constructor() {
 			if (DatabaseStore.#locked) throw new TypeError(`Illegal constructor`);
 		}
-		/** @type {string} */
-		#name;
+		#name: string;
 		/**
 		 * Gets the name of the store.
 		 * @readonly
-		 * @returns {string}
+		 * @returns 
 		 */
-		get name() {
+		get name(): string {
 			return this.#name;
 		}
-		/** @type {Database} */
-		#database;
+		#database: Database;
 		/**
 		 * Gets the database the store belongs to.
 		 * @readonly
-		 * @returns {Database}
+		 * @returns 
 		 */
-		get database() {
+		get database(): Database {
 			return this.#database;
 		}
 		/**
 		 * @template T
-		 * @param {(idbos: IDBObjectStore) => T | PromiseLike<T>} action 
-		 * @returns {Promise<T>}
+		 * @param action 
+		 * @returns 
 		 */
-		#openStoreWith(action) {
+		#openStoreWith<T>(action: (idbos: IDBObjectStore) => T | PromiseLike<T>): Promise<T> {
 			return this.#database.#openDatabaseWith(async (idb) => {
 				const idbos = idb.transaction([this.#name], `readwrite`).objectStore(this.#name);
 				const result = await action(idbos);
@@ -222,12 +206,12 @@ class Database {
 		}
 		/**
 		 * Inserts values into the store.
-		 * @param {any[]} values The values to insert.
-		 * @returns {Promise<number[]>} The keys of the inserted values.
+		 * @param values The values to insert.
+		 * @returns The keys of the inserted values.
 		 */
-		insert(...values) {
+		insert(...values: any[]): Promise<number[]> {
 			return this.#openStoreWith(async (idbos) => {
-				const keys = (/** @type {number[]} */ ([]));
+				const keys = new Array<number>();
 				for (const value of values) {
 					keys.push(Number(await Database.#resolve(idbos.add(value))));
 				}
@@ -236,12 +220,12 @@ class Database {
 		}
 		/**
 		 * Selects values from the store by keys.
-		 * @param {number[]} keys The keys of the values to select.
-		 * @returns {Promise<any[]>} The selected values.
+		 * @param keys The keys of the values to select.
+		 * @returns The selected values.
 		 */
-		select(...keys) {
+		select(...keys: number[]): Promise<any[]> {
 			return this.#openStoreWith(async (idbos) => {
-				const values = (/** @type {any[]} */ ([]));
+				const values = new Array<any>();
 				for (const key of keys) {
 					values.push(await Database.#resolve(idbos.get(Number(key))));
 				}
@@ -250,10 +234,10 @@ class Database {
 		}
 		/**
 		 * Updates values in the store.
-		 * @param {DataPair<number, any>[]} pairs The key-value pairs to update.
-		 * @returns {Promise<void>}
+		 * @param pairs The key-value pairs to update.
+		 * @returns 
 		 */
-		update(...pairs) {
+		update(...pairs: DataPair<number, any>[]): Promise<void> {
 			return this.#openStoreWith(async (idbos) => {
 				for (const { value, key } of pairs) {
 					await Database.#resolve(idbos.put(value, key));
@@ -262,10 +246,10 @@ class Database {
 		}
 		/**
 		 * Removes values from the store by keys.
-		 * @param {number[]} keys The keys of the values to remove.
-		 * @returns {Promise<void>}
+		 * @param keys The keys of the values to remove.
+		 * @returns 
 		 */
-		remove(...keys) {
+		remove(...keys: number[]): Promise<void> {
 			return this.#openStoreWith(async (idbos) => {
 				for (const key of keys) {
 					await Database.#resolve(idbos.delete(key));
@@ -274,9 +258,9 @@ class Database {
 		}
 		/**
 		 * Suspends the store.
-		 * @returns {Promise<void>}
+		 * @returns 
 		 */
-		suspend() {
+		suspend(): Promise<void> {
 			return Database.Store.suspend(this.#database.name, this.#name);
 		}
 	};
@@ -284,22 +268,21 @@ class Database {
 
 	/**
 	 * @template T
-	 * @param {IDBRequest<T>} request 
-	 * @returns {Promise<T>}
+	 * @param request 
+	 * @returns 
 	 */
-	static #resolve(request) {
+	static #resolve<T>(request: IDBRequest<T>): Promise<T> {
 		return Promise.withSignal((signal, resolve, reject) => {
 			request.addEventListener(`success`, (event) => resolve(request.result), { signal });
 			request.addEventListener(`error`, (event) => reject(request.error), { signal });
 		});
 	}
-	/** @type {boolean} */
-	static #locked = true;
+	static #locked: boolean = true;
 	/**
-	 * @param {string} nameDatabase 
-	 * @returns {Promise<Database>}
+	 * @param nameDatabase 
+	 * @returns 
 	 */
-	static async #newDatabase(nameDatabase) {
+	static async #newDatabase(nameDatabase: string): Promise<Database> {
 		Database.#locked = false;
 		const database = new Database();
 		Database.#locked = true;
@@ -308,10 +291,10 @@ class Database {
 		return database;
 	}
 	/**
-	 * @param {string} nameDatabase 
-	 * @returns {Promise<number>}
+	 * @param nameDatabase 
+	 * @returns 
 	 */
-	static async #getVersion(nameDatabase) {
+	static async #getVersion(nameDatabase: string): Promise<number> {
 		for (const { name, version } of await indexedDB.databases()) {
 			if (name === nameDatabase && version !== undefined) return version;
 		}
@@ -319,20 +302,20 @@ class Database {
 	}
 	/**
 	 * Opens an existing database.
-	 * @param {string} nameDatabase The name of the database.
-	 * @returns {Promise<Database>} The opened database.
+	 * @param nameDatabase The name of the database.
+	 * @returns The opened database.
 	 */
-	static async open(nameDatabase) {
+	static async open(nameDatabase: string): Promise<Database> {
 		const database = await Database.#newDatabase(nameDatabase);
 		await database.#openDatabaseWith((database) => database);
 		return database;
 	}
 	/**
 	 * Suspends (deletes) a database.
-	 * @param {string} nameDatabase The name of the database.
-	 * @returns {Promise<void>}
+	 * @param nameDatabase The name of the database.
+	 * @returns 
 	 */
-	static async suspend(nameDatabase) {
+	static async suspend(nameDatabase: string): Promise<void> {
 		return Promise.withSignal((signal, resolve, reject) => {
 			const requestIDBOpen = indexedDB.deleteDatabase(nameDatabase);
 			requestIDBOpen.addEventListener(`success`, (event) => resolve(), { signal });
@@ -342,9 +325,9 @@ class Database {
 	/**
 	 * Gets a list of all databases.
 	 * @readonly
-	 * @returns {Promise<Readonly<string[]>>}
+	 * @returns 
 	 */
-	static get databases() {
+	static get databases(): Promise<Readonly<string[]>> {
 		return new Promise(async (resolve) => {
 			const databases = [];
 			for (const { name } of await indexedDB.databases()) {
@@ -360,24 +343,22 @@ class Database {
 	constructor() {
 		if (Database.#locked) throw new TypeError(`Illegal constructor`);
 	}
-	/** @type {string} */
-	#name;
+	#name: string;
 	/**
 	 * Gets the name of the database.
 	 * @readonly
-	 * @returns {string}
+	 * @returns 
 	 */
-	get name() {
+	get name(): string {
 		return this.#name;
 	}
-	/** @type {number} */
-	#version;
+	#version: number;
 	/**
 	 * @template T
-	 * @param {(idb: IDBDatabase) => T} action 
-	 * @returns {Promise<T>}
+	 * @param action 
+	 * @returns 
 	 */
-	#upgradeDatabaseWith(action) {
+	#upgradeDatabaseWith<T>(action: (idb: IDBDatabase) => T): Promise<T> {
 		return Promise.withSignal(async (signal, resolve, reject) => {
 			const requestIDBOpen = indexedDB.open(this.#name, ++this.#version);
 			requestIDBOpen.addEventListener(`upgradeneeded`, (event) => {
@@ -391,10 +372,10 @@ class Database {
 	}
 	/**
 	 * @template T
-	 * @param {(idb: IDBDatabase) => T | PromiseLike<T>} action 
-	 * @returns {Promise<T>}
+	 * @param action 
+	 * @returns 
 	 */
-	#openDatabaseWith(action) {
+	#openDatabaseWith<T>(action: (idb: IDBDatabase) => T | PromiseLike<T>): Promise<T> {
 		if (this.#version < 1) this.#upgradeDatabaseWith((idb) => idb);
 		return Promise.withSignal((signal, resolve, reject) => {
 			const requestIDBOpen = indexedDB.open(this.#name);
@@ -410,16 +391,16 @@ class Database {
 	/**
 	 * Gets a list of all stores in the database.
 	 * @readonly
-	 * @returns {Promise<Readonly<string[]>>}
+	 * @returns 
 	 */
-	get stores() {
+	get stores(): Promise<Readonly<string[]>> {
 		return this.#openDatabaseWith((database) => Object.freeze(Array.from(database.objectStoreNames)));
 	}
 	/**
 	 * Suspends the database.
-	 * @returns {Promise<void>}
+	 * @returns 
 	 */
-	suspend() {
+	suspend(): Promise<void> {
 		return Database.suspend(this.#name);
 	}
 }

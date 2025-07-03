@@ -11,47 +11,35 @@ class Color {
 	/**
 	 * RGB color format.
 	 * @readonly
-	 * @returns {0}
 	 */
-	static get RGB_FORMAT() {
+	static get RGB_FORMAT(): 0 {
 		return 0;
 	}
 	/**
 	 * HSL color format.
 	 * @readonly
-	 * @returns {1}
 	 */
-	static get HSL_FORMAT() {
+	static get HSL_FORMAT(): 1 {
 		return 1;
 	}
 	/**
 	 * HEX color format.
 	 * @readonly
-	 * @returns {2}
 	 */
-	static get HEX_FORMAT() {
+	static get HEX_FORMAT(): 2 {
 		return 2;
 	}
 	//#endregion
-
 	//#region Converters
-	/**
-	 * @param {number} offset 
-	 * @param {number} hue 
-	 * @param {number} saturation 
-	 * @param {number} lightness 
-	 * @returns {number}
-	 */
-	static #toChannel(offset, hue, saturation, lightness) {
+	static #toChannel(offset: number, hue: number, saturation: number, lightness: number): number {
 		const sector = (offset + hue) % 12;
 		return lightness - (saturation * min(lightness, 1 - lightness)) * min(sector - 3, 9 - sector).clamp(-1, 1);
 	}
 	/**
-	 * @param {Readonly<Uint16Array>} hsl [0 - 360], [0 - 100], [0 - 100]
-	 * @param {Uint8ClampedArray} rgb [0 - 255], [0 - 255], [0 - 255]
-	 * @returns {void}
+	 * @param hsl [0 - 360], [0 - 100], [0 - 100]
+	 * @param rgb [0 - 255], [0 - 255], [0 - 255]
 	 */
-	static #HSLtoRGB(hsl, rgb) {
+	static #HSLtoRGB(hsl: Readonly<Uint16Array>, rgb: Uint8ClampedArray): void {
 		const hue = hsl[0] / 30;
 		const saturation = hsl[1] / 100;
 		const lightness = hsl[2] / 100;
@@ -59,15 +47,7 @@ class Color {
 		rgb[1] = Color.#toChannel(8, hue, saturation, lightness) * 255;
 		rgb[2] = Color.#toChannel(4, hue, saturation, lightness) * 255;
 	}
-	/**
-	 * @param {number} maximum 
-	 * @param {number} red 
-	 * @param {number} green 
-	 * @param {number} blue 
-	 * @param {number} difference 
-	 * @returns {number}
-	 */
-	static #toHue(maximum, red, green, blue, difference) {
+	static #toHue(maximum: number, red: number, green: number, blue: number, difference: number): number {
 		switch (maximum) {
 			case red: return (green - blue) / difference + 0;
 			case green: return (blue - red) / difference + 2;
@@ -76,11 +56,10 @@ class Color {
 		}
 	}
 	/**
-	 * @param {Readonly<Uint8ClampedArray>} rgb [0 - 255], [0 - 255], [0 - 255]
-	 * @param {Uint16Array} hsl [0 - 360], [0 - 100], [0 - 100]
-	 * @returns {void}
+	 * @param rgb [0 - 255], [0 - 255], [0 - 255]
+	 * @param hsl [0 - 360], [0 - 100], [0 - 100]
 	 */
-	static #RGBtoHSL(rgb, hsl) {
+	static #RGBtoHSL(rgb: Readonly<Uint8ClampedArray>, hsl: Uint16Array): void {
 		const red = rgb[0] / 255;
 		const green = rgb[1] / 255;
 		const blue = rgb[2] / 255;
@@ -95,11 +74,7 @@ class Color {
 		hsl[1] = (median && (difference / median)) * 100;
 		hsl[2] = (maximum + minimum) / 2 * 100;
 	}
-	/**
-	 * @param {number} number 
-	 * @returns {string}
-	 */
-	static #toHEXString(number) {
+	static #toHEXString(number: number): string {
 		return number.toString(16).padStart(2, `0`);
 	}
 	//#endregion
@@ -107,168 +82,141 @@ class Color {
 	/**
 	 * Transparent color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newTransparent() { return Color.viaRGB(0, 0, 0, 0); };
+	static get newTransparent(): Color { return Color.fromRGB(0, 0, 0, 0); };
 	/**
 	 * Maroon color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newMaroon() { return Color.viaRGB(128, 0, 0); };
+	static get newMaroon(): Color { return Color.fromRGB(128, 0, 0); };
 	/**
 	 * Red color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newRed() { return Color.viaRGB(255, 0, 0); };
+	static get newRed(): Color { return Color.fromRGB(255, 0, 0); };
 	/**
 	 * Orange color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newOrange() { return Color.viaRGB(255, 165, 0); };
+	static get newOrange(): Color { return Color.fromRGB(255, 165, 0); };
 	/**
 	 * Yellow color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newYellow() { return Color.viaRGB(255, 255, 0); };
+	static get newYellow(): Color { return Color.fromRGB(255, 255, 0); };
 	/**
 	 * Olive color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newOlive() { return Color.viaRGB(128, 128, 0); };
+	static get newOlive(): Color { return Color.fromRGB(128, 128, 0); };
 	/**
 	 * Green color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newGreen() { return Color.viaRGB(0, 128, 0); };
+	static get newGreen(): Color { return Color.fromRGB(0, 128, 0); };
 	/**
 	 * Purple color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newPurple() { return Color.viaRGB(128, 0, 128); };
+	static get newPurple(): Color { return Color.fromRGB(128, 0, 128); };
 	/**
 	 * Fuchsia color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newFuchsia() { return Color.viaRGB(255, 0, 255); };
+	static get newFuchsia(): Color { return Color.fromRGB(255, 0, 255); };
 	/**
 	 * Lime color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newLime() { return Color.viaRGB(0, 255, 0); };
+	static get newLime(): Color { return Color.fromRGB(0, 255, 0); };
 	/**
 	 * Teal color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newTeal() { return Color.viaRGB(0, 128, 128); };
+	static get newTeal(): Color { return Color.fromRGB(0, 128, 128); };
 	/**
 	 * Aqua color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newAqua() { return Color.viaRGB(0, 255, 255); };
+	static get newAqua(): Color { return Color.fromRGB(0, 255, 255); };
 	/**
 	 * Blue color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newBlue() { return Color.viaRGB(0, 0, 255); };
+	static get newBlue(): Color { return Color.fromRGB(0, 0, 255); };
 	/**
 	 * Navy color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newNavy() { return Color.viaRGB(0, 0, 128); };
+	static get newNavy(): Color { return Color.fromRGB(0, 0, 128); };
 	/**
 	 * Black color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newBlack() { return Color.viaRGB(0, 0, 0); };
+	static get newBlack(): Color { return Color.fromRGB(0, 0, 0); };
 	/**
 	 * Gray color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newGray() { return Color.viaRGB(128, 128, 128); };
+	static get newGray(): Color { return Color.fromRGB(128, 128, 128); };
 	/**
 	 * Silver color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newSilver() { return Color.viaRGB(192, 192, 192); };
+	static get newSilver(): Color { return Color.fromRGB(192, 192, 192); };
 	/**
 	 * White color preset.
 	 * @readonly
-	 * @returns {Color}
 	 */
-	static get newWhite() { return Color.viaRGB(255, 255, 255); };
+	static get newWhite(): Color { return Color.fromRGB(255, 255, 255); };
 	//#endregion
 	//#region Builders
-	/** @type {RegExp} */
-	static #patternRGB = /^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i;
-	/** @type {RegExp} */
-	static #patternRGBA = /^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\S+)\s*\)$/i;
-	/** @type {RegExp} */
-	static #patternHSL = /^hsl\(\s*(\d+)(?:deg)?\s*,\s*(\d+)(?:%)?\s*,\s*(\d+)(?:%)?\s*\)$/i;
-	/** @type {RegExp} */
-	static #patternHSLA = /^hsla\(\s*(\d+)(?:deg)?\s*,\s*(\d+)(?:%)?\s*,\s*(\d+)(?:%)?\s*,\s*(\S+)\s*\)$/i;
-	/** @type {RegExp} */
-	static #patternHEX = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i;
-	/** @type {RegExp} */
-	static #patternHEXA = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i;
+	static #patternRGB: RegExp = /^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i;
+	static #patternRGBA: RegExp = /^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\S+)\s*\)$/i;
+	static #patternHSL: RegExp = /^hsl\(\s*(\d+)(?:deg)?\s*,\s*(\d+)(?:%)?\s*,\s*(\d+)(?:%)?\s*\)$/i;
+	static #patternHSLA: RegExp = /^hsla\(\s*(\d+)(?:deg)?\s*,\s*(\d+)(?:%)?\s*,\s*(\d+)(?:%)?\s*,\s*(\S+)\s*\)$/i;
+	static #patternHEX: RegExp = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i;
+	static #patternHEXA: RegExp = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i;
 	/**
 	 * Parses a string representation of a color into a Color object.
-	 * @param {string} string The string representation of the color.
-	 * @param {boolean} deep Indicates whether the color representation includes alpha channel.
-	 * @param {number} format The format of the string representation.
-	 * @returns {Color}
+	 * @param string The string representation of the color.
+	 * @param deep Indicates whether the color representation includes alpha channel.
+	 * @param format The format of the string representation.
 	 * @throws {SyntaxError} If the provided string has invalid syntax for the specified format.
 	 */
-	static parseAs(string, deep = true, format = Color.RGB_FORMAT) {
+	static parseAs(string: string, deep: boolean = true, format: number = Color.RGB_FORMAT): Color {
 		switch (format) {
 			case Color.RGB_FORMAT: {
 				const regex = (deep ? Color.#patternRGBA : Color.#patternRGB);
 				const match = regex.exec(string.trim());
 				if (match === null) throw new SyntaxError(`Invalid ${format} color '${string}' syntax`);
 				const [, red, green, blue, alpha] = match.map(part => Number(part));
-				return Color.viaRGB(red, green, blue, deep ? alpha : 1);
+				return Color.fromRGB(red, green, blue, deep ? alpha : 1);
 			};
 			case Color.HSL_FORMAT: {
 				const regex = (deep ? Color.#patternHSLA : Color.#patternHSL);
 				const match = regex.exec(string.trim());
 				if (match === null) throw new SyntaxError(`Invalid ${format} color '${string}' syntax`);
 				const [, hue, saturation, lightness, alpha] = match.map(part => Number(part));
-				return Color.viaHSL(hue, saturation, lightness, deep ? alpha : 1);
+				return Color.fromHSL(hue, saturation, lightness, deep ? alpha : 1);
 			};
 			case Color.HEX_FORMAT: {
 				const regex = (deep ? Color.#patternHEXA : Color.#patternHEX);
 				const match = regex.exec(string.trim());
 				if (match === null) throw new SyntaxError(`Invalid ${format} color '${string}' syntax`);
 				const [, red, green, blue, alpha] = match.map(part => Number.parseInt(part, 16));
-				return Color.viaRGB(red, green, blue, deep ? (alpha / 255) : 1);
+				return Color.fromRGB(red, green, blue, deep ? (alpha / 255) : 1);
 			};
 			default: throw new TypeError(`Invalid ${format} color format`);
 		}
 	}
-	/** @type {[number, boolean][]} */
-	static #patterns = [Color.RGB_FORMAT, Color.HSL_FORMAT, Color.HEX_FORMAT].flatMap(format => [[format, false], [format, true]]);
+	static #patterns: [number, boolean][] = [Color.RGB_FORMAT, Color.HSL_FORMAT, Color.HEX_FORMAT].flatMap<[number, boolean]>(format => [[format, false], [format, true]]);
 	/**
 	 * Parses a color string in any format and returns a Color object.
-	 * @param {string} string The string representation of the color.
-	 * @returns {Color}
+	 * @param string The string representation of the color.
 	 * @throws {SyntaxError} If the color string is invalid.
 	 */
-	static parse(string) {
+	static parse(string: string): Color {
 		for (const [format, deep] of Color.#patterns) {
 			try {
 				return Color.parseAs(string, deep, format);
@@ -280,14 +228,13 @@ class Color {
 	}
 	/**
 	 * Creates a Color object from RGB values.
-	 * @param {number} red The red value [0 - 255].
-	 * @param {number} green The green value [0 - 255].
-	 * @param {number} blue The blue value [0 - 255].
-	 * @param {number} alpha The alpha value [0 - 1].
-	 * @returns {Color}
+	 * @param red The red value [0 - 255].
+	 * @param green The green value [0 - 255].
+	 * @param blue The blue value [0 - 255].
+	 * @param alpha The alpha value [0 - 1].
 	 * @throws {TypeError} If any value is not finite.
 	 */
-	static viaRGB(red, green, blue, alpha = 1) {
+	static fromRGB(red: number, green: number, blue: number, alpha: number = 1): Color {
 		if (!Number.isFinite(red)) throw new TypeError(`The red ${red} must be a finite number`);
 		if (!Number.isFinite(green)) throw new TypeError(`The green ${green} must be a finite number`);
 		if (!Number.isFinite(blue)) throw new TypeError(`The blue ${blue} must be a finite number`);
@@ -302,13 +249,13 @@ class Color {
 	}
 	/**
 	 * Creates a Color object from HSL values.
-	 * @param {number} hue The hue value [0 - 360).
-	 * @param {number} saturation The saturation value [0 - 100].
-	 * @param {number} lightness The lightness value [0 - 100].
-	 * @param {number} alpha The alpha value [0 - 1].
-	 * @returns {Color} The created Color object.
+	 * @param hue The hue value [0 - 360).
+	 * @param saturation The saturation value [0 - 100].
+	 * @param lightness The lightness value [0 - 100].
+	 * @param alpha The alpha value [0 - 1].
+	 * @throws {TypeError} If any value is not finite.
 	 */
-	static viaHSL(hue, saturation, lightness, alpha = 1) {
+	static fromHSL(hue: number, saturation: number, lightness: number, alpha: number = 1): Color {
 		if (!Number.isFinite(hue)) throw new TypeError(`The hue ${hue} must be a finite number`);
 		if (!Number.isFinite(saturation)) throw new TypeError(`The saturation ${saturation} must be a finite number`);
 		if (!Number.isFinite(lightness)) throw new TypeError(`The lightness ${lightness} must be a finite number`);
@@ -324,15 +271,13 @@ class Color {
 		return color;
 	}
 	/**
-	 * @overload
-	 * 
-	 * @overload
-	 * @param {Readonly<Color>} source The source Color object.
 	 */
+	constructor();
 	/**
-	 * @param {Readonly<Color> | void} arg1 
+	 * @param source The source Color object.
 	 */
-	constructor(arg1) {
+	constructor(source: Readonly<Color>);
+	constructor(arg1: Readonly<Color> | void) {
 		if (arg1 instanceof Color) {
 			this.#rgb = Uint8ClampedArray.from(arg1.#rgb);
 			this.#hsl = Uint16Array.from(arg1.#hsl);
@@ -345,246 +290,220 @@ class Color {
 			this.#alpha = 1;
 			return;
 		}
-		throw new TypeError(`No overload with [${typename(arg1)}] arguments`);
+		throw new TypeError(`No overload with (${[arg1].map(typename).join(`, `)}) arguments`);
 	}
 	//#endregion
 	//#region Methods
 	/**
 	 * Mixes two colors based on a given ratio.
-	 * @param {Readonly<Color>} first The first color to mix.
-	 * @param {Readonly<Color>} second The second color to mix.
-	 * @param {number} ratio The ratio of the mix [0 - 1].
-	 * @returns {Color} The mixed color new instance.
+	 * @param first The first color to mix.
+	 * @param second The second color to mix.
+	 * @param ratio The ratio of the mix [0 - 1].
+	 * @returns The mixed color new instance.
 	 * @throws {TypeError} If the ratio is not finite.
 	 */
-	static mix(first, second, ratio = 0.5) {
+	static mix(first: Readonly<Color>, second: Readonly<Color>, ratio: number = 0.5): Color {
 		return new Color(first).mix(second, ratio);
 	}
 	/**
 	 * Converts a color to grayscale.
-	 * @param {Readonly<Color>} source The color to convert to grayscale.
-	 * @param {number} scale The scale of the conversion [0 - 1].
-	 * @returns {Color} The grayscale color new instance.
+	 * @param source The color to convert to grayscale.
+	 * @param scale The scale of the conversion [0 - 1].
+	 * @returns The grayscale color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static grayscale(source, scale = 1) {
+	static grayscale(source: Readonly<Color>, scale: number = 1): Color {
 		return new Color(source).grayscale(scale);
 	}
 	/**
 	 * Emphasizes the red component of a color.
-	 * @param {Readonly<Color>} source The color to emphasize red.
-	 * @param {number} scale The scale of the emphasis [0 - 1].
-	 * @returns {Color} The red-emphasized color new instance.
+	 * @param source The color to emphasize red.
+	 * @param scale The scale of the emphasis [0 - 1].
+	 * @returns The red-emphasized color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static redEmphasis(source, scale = 1) {
+	static redEmphasis(source: Readonly<Color>, scale: number = 1): Color {
 		return new Color(source).redEmphasis(scale);
 	}
 	/**
 	 * Emphasizes the green component of a color.
-	 * @param {Readonly<Color>} source The color to emphasize green.
-	 * @param {number} scale The scale of the emphasis [0 - 1].
-	 * @returns {Color} The green-emphasized color new instance.
+	 * @param source The color to emphasize green.
+	 * @param scale The scale of the emphasis [0 - 1].
+	 * @returns The green-emphasized color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static greenEmphasis(source, scale = 1) {
+	static greenEmphasis(source: Readonly<Color>, scale: number = 1): Color {
 		return new Color(source).greenEmphasis(scale);
 	}
 	/**
 	 * Emphasizes the blue component of a color.
-	 * @param {Readonly<Color>} source The color to emphasize blue.
-	 * @param {number} scale The scale of the emphasis [0 - 1].
-	 * @returns {Color} The blue-emphasized color new instance.
+	 * @param source The color to emphasize blue.
+	 * @param scale The scale of the emphasis [0 - 1].
+	 * @returns The blue-emphasized color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static blueEmphasis(source, scale = 1) {
+	static blueEmphasis(source: Readonly<Color>, scale: number = 1): Color {
 		return new Color(source).blueEmphasis(scale);
 	}
 	/**
 	 * Inverts a color.
-	 * @param {Readonly<Color>} source The color to invert.
-	 * @param {number} scale The scale of the inversion [0 - 1].
-	 * @returns {Color} The inverted color new instance.
+	 * @param source The color to invert.
+	 * @param scale The scale of the inversion [0 - 1].
+	 * @returns The inverted color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static invert(source, scale = 1) {
+	static invert(source: Readonly<Color>, scale: number = 1): Color {
 		return new Color(source).invert(scale);
 	}
 	/**
 	 * Applies a sepia tone effect to a color.
-	 * @param {Readonly<Color>} source The color to apply the sepia effect to.
-	 * @param {number} scale The scale of the effect [0 - 1].
-	 * @returns {Color} The sepia color new instance.
+	 * @param source The color to apply the sepia effect to.
+	 * @param scale The scale of the effect [0 - 1].
+	 * @returns The sepia color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static sepia(source, scale = 1) {
+	static sepia(source: Readonly<Color>, scale: number = 1): Color {
 		return new Color(source).sepia(scale);
 	}
 	/**
 	 * Rotates the hue of a color.
-	 * @param {Readonly<Color>} source The color to rotate.
-	 * @param {number} angle The angle of rotation.
-	 * @returns {Color} The rotated color new instance.
+	 * @param source The color to rotate.
+	 * @param angle The angle of rotation.
+	 * @returns The rotated color new instance.
 	 * @throws {TypeError} If the angle is not finite.
 	 */
-	static rotate(source, angle) {
+	static rotate(source: Readonly<Color>, angle: number): Color {
 		return new Color(source).rotate(angle);
 	}
 	/**
 	 * Saturates a color.
-	 * @param {Readonly<Color>} source The color to saturate.
-	 * @param {number} scale The scale of saturation [0 - 1].
-	 * @returns {Color} The saturated color new instance.
+	 * @param source The color to saturate.
+	 * @param scale The scale of saturation [0 - 1].
+	 * @returns The saturated color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static saturate(source, scale) {
+	static saturate(source: Readonly<Color>, scale: number): Color {
 		return new Color(source).saturate(scale);
 	}
 	/**
 	 * Illuminates a color.
-	 * @param {Readonly<Color>} source The color to illuminate.
-	 * @param {number} scale The scale of illumination [0 - 1].
-	 * @returns {Color} The illuminated color new instance.
+	 * @param source The color to illuminate.
+	 * @param scale The scale of illumination [0 - 1].
+	 * @returns The illuminated color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static illuminate(source, scale) {
+	static illuminate(source: Readonly<Color>, scale: number): Color {
 		return new Color(source).illuminate(scale);
 	}
 	/**
 	 * Changes the alpha transparency of a color.
-	 * @param {Readonly<Color>} source The color to change the transparency of.
-	 * @param {number} scale The scale of transparency [0 - 1].
-	 * @returns {Color} The passed color new instance.
+	 * @param source The color to change the transparency of.
+	 * @param scale The scale of transparency [0 - 1].
+	 * @returns The passed color new instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	static pass(source, scale) {
+	static pass(source: Readonly<Color>, scale: number): Color {
 		return new Color(source).pass(scale);
 	}
 	//#endregion
 	//#region Properties
-	/** @type {Uint8ClampedArray} */
-	#rgb;
+	#rgb: Uint8ClampedArray;
 	/**
 	 * Gets the red color component.
-	 * @returns {number}
 	 */
-	get red() {
+	get red(): number {
 		return this.#rgb[0];
 	}
 	/**
 	 * Sets the red color component.
-	 * @param {number} value 
-	 * @returns {void}
 	 */
-	set red(value) {
+	set red(value: number) {
 		if (!Number.isFinite(value)) return;
 		this.#rgb[0] = value;
 		Color.#RGBtoHSL(this.#rgb, this.#hsl);
 	}
 	/**
 	 * Gets the green color component.
-	 * @returns {number}
 	 */
-	get green() {
+	get green(): number {
 		return this.#rgb[1];
 	}
 	/**
 	 * Sets the green color component.
-	 * @param {number} value 
-	 * @returns {void}
 	 */
-	set green(value) {
+	set green(value: number) {
 		if (!Number.isFinite(value)) return;
 		this.#rgb[1] = value;
 		Color.#RGBtoHSL(this.#rgb, this.#hsl);
 	}
 	/**
 	 * Gets the blue color component.
-	 * @returns {number}
 	 */
-	get blue() {
+	get blue(): number {
 		return this.#rgb[2];
 	}
 	/**
 	 * Sets the blue color component.
-	 * @param {number} value 
-	 * @returns {void}
 	 */
-	set blue(value) {
+	set blue(value: number) {
 		if (!Number.isFinite(value)) return;
 		this.#rgb[2] = value;
 		Color.#RGBtoHSL(this.#rgb, this.#hsl);
 	}
-	/** @type {Uint16Array} */
-	#hsl;
+	#hsl: Uint16Array;
 	/**
 	 * Gets the hue color component.
-	 * @returns {number}
 	 */
-	get hue() {
+	get hue(): number {
 		return this.#hsl[0];
 	}
 	/**
 	 * Sets the hue color component.
-	 * @param {number} value 
-	 * @returns {void}
 	 */
-	set hue(value) {
+	set hue(value: number) {
 		if (!Number.isFinite(value)) return;
-		value %= 360;
-		if (value < 0) value += 360;
-		this.#hsl[0] = value;
+		this.#hsl[0] = value.modulate(360);
 		Color.#HSLtoRGB(this.#hsl, this.#rgb);
 	}
 	/**
 	 * Gets the saturation color component.
-	 * @returns {number}
 	 */
-	get saturation() {
+	get saturation(): number {
 		return this.#hsl[1];
 	}
 	/**
 	 * Sets the saturation color component.
-	 * @param {number} value 
-	 * @returns {void}
 	 */
-	set saturation(value) {
+	set saturation(value: number) {
 		if (!Number.isFinite(value)) return;
 		this.#hsl[1] = value.clamp(0, 100);
 		Color.#HSLtoRGB(this.#hsl, this.#rgb);
 	}
 	/**
 	 * Gets the lightness color component.
-	 * @returns {number}
 	 */
-	get lightness() {
+	get lightness(): number {
 		return this.#hsl[2];
 	}
 	/**
 	 * Sets the lightness color component.
-	 * @param {number} value 
-	 * @returns {void}
 	 */
-	set lightness(value) {
+	set lightness(value: number) {
 		if (!Number.isFinite(value)) return;
 		this.#hsl[2] = value.clamp(0, 100);
 		Color.#HSLtoRGB(this.#hsl, this.#rgb);
 	}
-	/** @type {number} */
-	#alpha;
+	#alpha: number;
 	/**
 	 * Gets the alpha color component.
-	 * @returns {number}
 	 */
-	get alpha() {
+	get alpha(): number {
 		return this.#alpha;
 	}
 	/**
 	 * Sets the alpha color component.
-	 * @param {number} value 
-	 * @returns {void}
 	 */
-	set alpha(value) {
+	set alpha(value: number) {
 		if (!Number.isFinite(value)) return;
 		this.#alpha = value.clamp(0, 1);
 	}
@@ -592,11 +511,10 @@ class Color {
 	//#region Modifiers
 	/**
 	 * Converts the color to a string representation in the specified format.
-	 * @param {boolean} deep Whether to include alpha channel.
-	 * @param {number} format The format to convert the color to.
-	 * @returns {string}
+	 * @param deep Whether to include alpha channel.
+	 * @param format The format to convert the color to.
 	 */
-	toString(deep = true, format = Color.RGB_FORMAT) {
+	toString(deep: boolean = true, format: number = Color.RGB_FORMAT): string {
 		switch (format) {
 			case Color.RGB_FORMAT: return `rgb${deep ? `a` : String.empty}(${this.red}, ${this.green}, ${this.blue}${deep ? `, ${this.alpha}` : String.empty})`;
 			case Color.HSL_FORMAT: return `hsl${deep ? `a` : String.empty}(${this.hue}deg, ${this.saturation}%, ${this.lightness}%${deep ? `, ${this.alpha}` : String.empty})`;
@@ -606,12 +524,12 @@ class Color {
 	}
 	/**
 	 * Mixes the current color with another color based on a given ratio.
-	 * @param {Readonly<Color>} other The color to mix with.
-	 * @param {number} ratio The ratio of the mix [0 - 1].
-	 * @returns {Color} The current color.
+	 * @param other The color to mix with.
+	 * @param ratio The ratio of the mix [0 - 1].
+	 * @returns The current color.
 	 * @throws {TypeError} If the ratio is not finite.
 	 */
-	mix(other, ratio = 0.5) {
+	mix(other: Readonly<Color>, ratio: number = 0.5): Color {
 		if (!Number.isFinite(ratio)) throw new TypeError(`The ratio ${ratio} must be a finite number`);
 		ratio = ratio.clamp(0, 1);
 		this.red += (other.red - this.red) * ratio;
@@ -621,11 +539,11 @@ class Color {
 	}
 	/**
 	 * Converts the current color to grayscale.
-	 * @param {number} scale The scale of the conversion [0 - 1].
-	 * @returns {Color} The current color.
+	 * @param scale The scale of the conversion [0 - 1].
+	 * @returns The current color.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	grayscale(scale = 1) {
+	grayscale(scale: number = 1): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		const achromatic = (this.red + this.green + this.blue) / 3;
@@ -636,11 +554,11 @@ class Color {
 	}
 	/**
 	 * Emphasizes the red component of the current color.
-	 * @param {number} scale The scale of the emphasis [0 - 1].
-	 * @returns {Color} The current color instance.
+	 * @param scale The scale of the emphasis [0 - 1].
+	 * @returns The current color instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	redEmphasis(scale = 1) {
+	redEmphasis(scale: number = 1): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		const average = (this.green + this.blue) / 2;
@@ -650,11 +568,11 @@ class Color {
 	}
 	/**
 	 * Emphasizes the green component of the current color.
-	 * @param {number} scale The scale of the emphasis [0 - 1].
-	 * @returns {Color} The current color instance.
+	 * @param scale The scale of the emphasis [0 - 1].
+	 * @returns The current color instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	greenEmphasis(scale = 1) {
+	greenEmphasis(scale: number = 1): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		const average = (this.red + this.blue) / 2;
@@ -664,11 +582,11 @@ class Color {
 	}
 	/**
 	 * Emphasizes the blue component of the current color.
-	 * @param {number} scale The scale of the emphasis [0 - 1].
-	 * @returns {Color} The current color instance.
+	 * @param scale The scale of the emphasis [0 - 1].
+	 * @returns The current color instance.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	blueEmphasis(scale = 1) {
+	blueEmphasis(scale: number = 1): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		const average = (this.red + this.green) / 2;
@@ -678,11 +596,11 @@ class Color {
 	}
 	/**
 	 * Inverts the current color.
-	 * @param {number} scale The scale of the inversion [0 - 1].
-	 * @returns {Color} The current color.
+	 * @param scale The scale of the inversion [0 - 1].
+	 * @returns The current color.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	invert(scale = 1) {
+	invert(scale: number = 1): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.red += ((255 - this.red) - this.red) * scale;
@@ -692,11 +610,11 @@ class Color {
 	}
 	/**
 	 * Applies a sepia tone effect to the current color.
-	 * @param {number} scale The scale of the sepia effect [0 - 1].
-	 * @returns {Color} The current color.
+	 * @param scale The scale of the sepia effect [0 - 1].
+	 * @returns The current color.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	sepia(scale = 1) {
+	sepia(scale: number = 1): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		const redness = (this.red * 0.393) + (this.green * 0.769) + (this.blue * 0.189);
@@ -709,22 +627,22 @@ class Color {
 	}
 	/**
 	 * Rotates the hue of the current color.
-	 * @param {number} angle The angle by which to rotate the hue.
-	 * @returns {Color} The current color.
+	 * @param angle The angle by which to rotate the hue.
+	 * @returns The current color.
 	 * @throws {TypeError} If the angle is not finite.
 	 */
-	rotate(angle) {
+	rotate(angle: number): Color {
 		if (!Number.isFinite(angle)) throw new TypeError(`The angle ${angle} must be a finite number`);
 		this.hue += angle;
 		return this;
 	}
 	/**
 	 * Saturates the current color by increasing its saturation.
-	 * @param {number} scale The scale of saturation increase [0 - 1].
-	 * @returns {Color} The current color.
+	 * @param scale The scale of saturation increase [0 - 1].
+	 * @returns The current color.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	saturate(scale) {
+	saturate(scale: number): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.saturation = 100 * scale;
@@ -732,11 +650,11 @@ class Color {
 	}
 	/**
 	 * Illuminates the current color by increasing its lightness.
-	 * @param {number} scale The scale of lightness increase [0 - 1].
-	 * @returns {Color} The current color.
+	 * @param scale The scale of lightness increase [0 - 1].
+	 * @returns The current color.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	illuminate(scale) {
+	illuminate(scale: number): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.lightness = 100 * scale;
@@ -744,11 +662,11 @@ class Color {
 	}
 	/**
 	 * Passes the current color through a filter, adjusting its alpha channel.
-	 * @param {number} scale The scale of alpha channel adjustment [0 - 1].
-	 * @returns {Color} The current color.
+	 * @param scale The scale of alpha channel adjustment [0 - 1].
+	 * @returns The current color.
 	 * @throws {TypeError} If the scale is not finite.
 	 */
-	pass(scale) {
+	pass(scale: number): Color {
 		if (!Number.isFinite(scale)) throw new TypeError(`The scale ${scale} must be a finite number`);
 		scale = scale.clamp(0, 1);
 		this.alpha = scale;

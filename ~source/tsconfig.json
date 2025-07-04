@@ -4,6 +4,7 @@
 		"allowUnusedLabels": true,
 		"alwaysStrict": true,
 		"exactOptionalPropertyTypes": false,
+		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitAny": true,
 		"noImplicitOverride": false,
@@ -32,13 +33,11 @@
 		"checkJs": true,
 		"allowSyntheticDefaultImports": true,
 		"target": "ESNext",
-		"lib": [ "ESNext", /* "WebWorker", */ "DOM" ],
-
+		"lib": [ "ESNext", "DOM" ],
 		// "module": "ESNext",
 		// "declaration": true,
 		"rootDir": "./",
 		"outDir": "../",
-		"forceConsistentCasingInFileNames": true,
 	},
 	"include": [ "./**/*.ts", "./**/*.mts" ],
 	"exclude": [ "node_modules" ]

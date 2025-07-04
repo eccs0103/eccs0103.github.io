@@ -4,6 +4,7 @@ import { ArchiveManager } from "../../scripts/dom/storage.js";
 import { Random } from "../../scripts/core/generators.js";
 import { Timespan } from "../../scripts/core/measures.js";
 import { Timer } from "../../scripts/worker/measures.js";
+import { WebpageController } from "../../scripts/dom/extensions.js";
 const { trunc } = Math;
 class Group {
     //#region Member
@@ -25,6 +26,7 @@ class Group {
             this.#birthday = Number(birthday);
             this.#wishes = new Map();
             this.#importance = new Map();
+            this.#cases = new Map();
         }
         #name;
         get name() {
@@ -43,6 +45,8 @@ class Group {
             return new Date(this.#birthday);
         }
         #wishes;
+        #importance;
+        #cases;
         askWish() {
             const importance = this.#importance;
             if (importance.size === 0)
@@ -52,14 +56,29 @@ class Group {
             const wish = this.#wishes.get(addressee) ?? Error.throws("Unable to ask for the non-existing wish");
             return [addressee, wish];
         }
+        *askWishes() {
+            const random = Random.global;
+            const wishes = this.#wishes;
+            let importance = new Map(this.#importance);
+            while (true) {
+                if (importance.size === 0)
+                    return null;
+                const member = random.case(importance);
+                const wish = wishes.get(member) ?? Error.throws("Unable to ask for the non-existing wish");
+                importance.delete(member);
+                yield [member, wish];
+                if (importance.size > 0)
+                    continue;
+                importance = new Map(this.#importance);
+            }
+        }
         toWish(addressee, content) {
             addressee.#wishes.set(this, content);
         }
-        #importance;
-        setImportanceFrom(addressee, importance) {
-            if (!this.#wishes.has(addressee))
+        setImportanceFrom(member, importance) {
+            if (!this.#wishes.has(member))
                 throw new ReferenceError("Unable to set importance for the non-existing wish");
-            this.#importance.set(addressee, importance);
+            this.#importance.set(member, importance);
         }
     };
     static #lockMember = true;
@@ -82,7 +101,7 @@ class Group {
             members.set(member, identifier);
         });
         Array.import(Reflect.get(object, "wishes"), `${name}.wishes`).forEach((row, index) => {
-            const identifier1 = Number.import(Reflect.get(row, "member"), `${name}.wishes[${index}].identifier`);
+            const identifier1 = Number.import(Reflect.get(row, "member"), `${name}.wishes[${index}].member`);
             const identifier2 = Number.import(Reflect.get(row, "addressee"), `${name}.wishes[${index}].addressee`);
             const content = String.import(Reflect.get(row, "content"), `${name}.wishes[${index}].content`);
             const importance = Number.import(Reflect.get(row, "importance"), `${name}.wishes[${index}].importance`);
@@ -140,49 +159,8 @@ class Settings {
     }
 }
 //#endregion
-//#region Controller
-var AlertSeverity;
-(function (AlertSeverity) {
-    AlertSeverity[AlertSeverity["ignore"] = 0] = "ignore";
-    AlertSeverity[AlertSeverity["log"] = 1] = "log";
-    AlertSeverity[AlertSeverity["throw"] = 2] = "throw";
-})(AlertSeverity || (AlertSeverity = {}));
-class Controller {
-    //#region Internal
-    static #locked = true;
-    static async build() {
-        Controller.#locked = false;
-        const self = new Controller();
-        Controller.#locked = true;
-        try {
-            await self.#main();
-        }
-        catch (reason) {
-            await self.#catch(Error.from(reason));
-        }
-    }
-    constructor() {
-        if (Controller.#locked)
-            throw new TypeError(`Illegal constructor`);
-    }
-    #severity = AlertSeverity.throw;
-    async #catch(error) {
-        switch (this.#severity) {
-            case AlertSeverity.ignore: break;
-            case AlertSeverity.log:
-                {
-                    console.error(error);
-                }
-                break;
-            case AlertSeverity.throw:
-                {
-                    await window.alertAsync(error);
-                    location.reload();
-                }
-                break;
-        }
-    }
-    //#endregion
+//#region Main controller
+class MainController extends WebpageController {
     //#region Model
     async #buildModel() {
         const response = await fetch("./database-2025.json");
@@ -229,7 +207,7 @@ class Controller {
     async #buildView() {
         const members = this.#members;
         const divScrollPicker = this.#divScrollPicker = document.getElement(HTMLDivElement, "div#scroll-picker");
-        const pairMemberWithButton = this.#pairMemberWithButton = members.map(member => [member, divScrollPicker.appendChild(Controller.#createPickerItem(member))]);
+        const pairMemberWithButton = this.#pairMemberWithButton = members.map(member => [member, divScrollPicker.appendChild(MainController.#createPickerItem(member))]);
         const h4SelectionTitle = this.#h4SelectionTitle = document.getElement(HTMLHeadingElement, "h4#selection-title");
         const dfnSelectionAuxiliary = this.#dfnSelectionAuxiliary = document.getElement(HTMLElement, "dfn#selection-auxiliary");
         const timer = this.#timer = new Timer(false);
@@ -263,8 +241,8 @@ class Controller {
     }
     #h4SelectionTitle;
     #dfnSelectionAuxiliary;
-    #appearance = Controller.#createAppearanceKeyframe("1", "ease-out");
-    #disappearance = Controller.#createAppearanceKeyframe("0", "ease-in");
+    #appearance = MainController.#createAppearanceKeyframe("1", "ease-out");
+    #disappearance = MainController.#createAppearanceKeyframe("0", "ease-in");
     #duration = 500;
     #fill = "both";
     async #writeSelectionTitle(text, animate) {
@@ -310,8 +288,8 @@ class Controller {
         const end = birthday.setDate(birthday.getDate() + 1);
         const wish = memberSelection.askWish();
         if (wish !== null) {
-            const [addressee, content] = wish;
-            return this.#provideContainerLifecycle(content, addressee.name, animate, 5000);
+            const [member, content] = wish;
+            return this.#provideContainerLifecycle(content, member.name, animate, 5000);
         }
         const timespan = Timespan.viaDuration(begin - now);
         const days = trunc(timespan.hours / 24);
@@ -349,11 +327,12 @@ class Controller {
         timer.addEventListener("trigger", event => this.#updatePickerContainer(true));
     }
     //#endregion
-    async #main() {
+    async run() {
         await this.#buildModel();
         await this.#buildView();
         await this.#runViewInitialization();
     }
 }
+;
 //#endregion
-Controller.build();
+MainController.Factory.build(new MainController);

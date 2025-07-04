@@ -5,6 +5,7 @@ import { ArchiveManager } from "../../scripts/dom/storage.js";
 import { Random } from "../../scripts/core/generators.js";
 import { Timespan } from "../../scripts/core/measures.js";
 import { Timer } from "../../scripts/worker/measures.js";
+import { WebpageController } from "../../scripts/dom/extensions.js";
 
 const { trunc } = Math;
 
@@ -30,6 +31,7 @@ class Group {
 			this.#birthday = Number(birthday);
 			this.#wishes = new Map();
 			this.#importance = new Map();
+			this.#cases = new Map();
 		}
 		#name: string;
 		get name(): string {
@@ -48,6 +50,8 @@ class Group {
 			return new Date(this.#birthday);
 		}
 		#wishes: Map<GroupMember, string>;
+		#importance: Map<GroupMember, number>;
+		#cases: Map<GroupMember, number>;
 		askWish(): [GroupMember, string] | null {
 			const importance = this.#importance;
 			if (importance.size === 0) return null;
@@ -56,13 +60,26 @@ class Group {
 			const wish = this.#wishes.get(addressee) ?? Error.throws("Unable to ask for the non-existing wish");
 			return [addressee, wish];
 		}
+		*askWishes(): Generator<[GroupMember, string], null> {
+			const random = Random.global;
+			const wishes = this.#wishes;
+			let importance = new Map(this.#importance);
+			while (true) {
+				if (importance.size === 0) return null;
+				const member = random.case(importance);
+				const wish = wishes.get(member) ?? Error.throws("Unable to ask for the non-existing wish");
+				importance.delete(member);
+				yield [member, wish];
+				if (importance.size > 0) continue;
+				importance = new Map(this.#importance);
+			}
+		}
 		toWish(addressee: GroupMember, content: string): void {
 			addressee.#wishes.set(this, content);
 		}
-		#importance: Map<GroupMember, number>;
-		setImportanceFrom(addressee: GroupMember, importance: number): void {
-			if (!this.#wishes.has(addressee)) throw new ReferenceError("Unable to set importance for the non-existing wish");
-			this.#importance.set(addressee, importance);
+		setImportanceFrom(member: GroupMember, importance: number): void {
+			if (!this.#wishes.has(member)) throw new ReferenceError("Unable to set importance for the non-existing wish");
+			this.#importance.set(member, importance);
 		}
 	};
 
@@ -87,7 +104,7 @@ class Group {
 			members.set(member, identifier);
 		});
 		Array.import(Reflect.get(object, "wishes"), `${name}.wishes`).forEach((row, index) => {
-			const identifier1 = Number.import(Reflect.get(row, "member"), `${name}.wishes[${index}].identifier`);
+			const identifier1 = Number.import(Reflect.get(row, "member"), `${name}.wishes[${index}].member`);
 			const identifier2 = Number.import(Reflect.get(row, "addressee"), `${name}.wishes[${index}].addressee`);
 			const content = String.import(Reflect.get(row, "content"), `${name}.wishes[${index}].content`);
 			const importance = Number.import(Reflect.get(row, "importance"), `${name}.wishes[${index}].importance`);
@@ -152,44 +169,8 @@ class Settings {
 }
 //#endregion
 
-//#region Controller
-enum AlertSeverity {
-	ignore = 0,
-	log = 1,
-	throw = 2,
-}
-
-class Controller {
-	//#region Internal
-	static #locked: boolean = true;
-	static async build(): Promise<void> {
-		Controller.#locked = false;
-		const self = new Controller();
-		Controller.#locked = true;
-
-		try {
-			await self.#main();
-		} catch (reason) {
-			await self.#catch(Error.from(reason));
-		}
-	}
-	constructor() {
-		if (Controller.#locked) throw new TypeError(`Illegal constructor`);
-	}
-	#severity: AlertSeverity = AlertSeverity.throw;
-	async #catch(error: Error): Promise<void> {
-		switch (this.#severity) {
-			case AlertSeverity.ignore: break;
-			case AlertSeverity.log: {
-				console.error(error);
-			} break;
-			case AlertSeverity.throw: {
-				await window.alertAsync(error);
-				location.reload();
-			} break;
-		}
-	}
-	//#endregion
+//#region Main controller
+class MainController extends WebpageController {
 	//#region Model
 	async #buildModel(): Promise<void> {
 		const response = await fetch("./database-2025.json");
@@ -240,7 +221,7 @@ class Controller {
 		const members = this.#members;
 
 		const divScrollPicker = this.#divScrollPicker = document.getElement(HTMLDivElement, "div#scroll-picker");
-		const pairMemberWithButton = this.#pairMemberWithButton = members.map(member => [member, divScrollPicker.appendChild(Controller.#createPickerItem(member))]);
+		const pairMemberWithButton = this.#pairMemberWithButton = members.map(member => [member, divScrollPicker.appendChild(MainController.#createPickerItem(member))]);
 
 		const h4SelectionTitle = this.#h4SelectionTitle = document.getElement(HTMLHeadingElement, "h4#selection-title");
 		const dfnSelectionAuxiliary = this.#dfnSelectionAuxiliary = document.getElement(HTMLElement, "dfn#selection-auxiliary");
@@ -275,8 +256,8 @@ class Controller {
 	}
 	#h4SelectionTitle: HTMLHeadingElement;
 	#dfnSelectionAuxiliary: HTMLElement;
-	#appearance: Keyframe = Controller.#createAppearanceKeyframe("1", "ease-out");
-	#disappearance: Keyframe = Controller.#createAppearanceKeyframe("0", "ease-in");
+	#appearance: Keyframe = MainController.#createAppearanceKeyframe("1", "ease-out");
+	#disappearance: Keyframe = MainController.#createAppearanceKeyframe("0", "ease-in");
 	#duration: number = 500;
 	#fill: FillMode = "both";
 	async #writeSelectionTitle(text: string, animate: boolean): Promise<void> {
@@ -320,8 +301,8 @@ class Controller {
 		const wish = memberSelection.askWish();
 
 		if (wish !== null) {
-			const [addressee, content] = wish;
-			return this.#provideContainerLifecycle(content, addressee.name, animate, 5000);
+			const [member, content] = wish;
+			return this.#provideContainerLifecycle(content, member.name, animate, 5000);
 		}
 
 		const timespan = Timespan.viaDuration(begin - now);
@@ -366,13 +347,13 @@ class Controller {
 	}
 	//#endregion
 
-	async #main(): Promise<void> {
+	async run(): Promise<void> {
 		await this.#buildModel();
 
 		await this.#buildView();
 		await this.#runViewInitialization();
 	}
-}
+};
 //#endregion
 
-Controller.build();
+MainController.Factory.build(new MainController);

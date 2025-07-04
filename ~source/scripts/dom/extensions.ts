@@ -1,5 +1,6 @@
 "use strict";
 
+import { Controller } from "../core/extensions.js";
 import "../worker/extensions.js";
 import { bSubtitle, dialogLoader } from "./loader.js";
 import { buttonConfirmAccept, buttonConfirmDecline, buttonPromptAccept, dialogAlert, dialogConfirm, dialogPrompt, divAlertCoontainer, divConfirmContainer, divPromptContainer, inputPrompt } from "./popup.js";
@@ -429,5 +430,75 @@ Navigator.prototype.download = function (file: File): void {
 	aLink.remove();
 };
 //#endregion
+//#region Webpage controller
+/**
+ * Abstract base class for webpage controllers.
+ * @abstract
+ */
+abstract class WebpageController extends Controller {
+	static #IGNORE_ERRORS: string = "ignore";
+	/**
+	 * Returns the string literal for ignoring errors.
+	 * @readonly
+	 */
+	static get IGNORE_ERRORS(): string {
+		return this.#IGNORE_ERRORS;
+	}
 
-export { };
+	static #LOG_ERRORS: string = "log";
+	/**
+	 * Returns the string literal for logging errors to the console.
+	 * @readonly
+	 */
+	static get LOG_ERRORS(): string {
+		return this.#LOG_ERRORS;
+	}
+
+	static #POP_UP_ERRORS: string = "pop-up";
+	/**
+	 * Returns the string literal for showing errors as popup alerts.
+	 * @readonly
+	 */
+	static get POP_UP_ERRORS(): string {
+		return this.#POP_UP_ERRORS;
+	}
+
+	static #log(error: Error): void {
+		console.error(error);
+	}
+
+	static async #popup(error: Error): Promise<void> {
+		await window.alertAsync(error.toString());
+		location.reload();
+	}
+
+	/**
+	 * @param handling The error handling strategy to use.
+	 * @throws {TypeError} If instantiated directly instead of via subclass.
+	 */
+	constructor(handling: string = WebpageController.POP_UP_ERRORS) {
+		super();
+		if (new.target === WebpageController) throw new TypeError("Unable to create an instance of an abstract class");
+		this.#handling = handling;
+	}
+
+	#handling: string;
+
+	/**
+	 * Handles an error according to the selected strategy.
+	 * @param error The error to handle.
+	 * @throws {TypeError} If an unknown strategy is provided.
+	 */
+	async catch(error: Error): Promise<void> {
+		switch (this.#handling) {
+			case WebpageController.IGNORE_ERRORS: return;
+			case WebpageController.LOG_ERRORS: return WebpageController.#log(error);
+			case WebpageController.POP_UP_ERRORS: return await WebpageController.#popup(error);
+			default: throw new TypeError(`Invalid '${this.#handling}' error handling`);
+		}
+	}
+}
+//#endregion
+
+
+export { WebpageController };

@@ -372,5 +372,55 @@ globalThis.typename = function (value) {
         default: return prototype(value).name;
     }
 };
+/**
+ * Abstract base class representing a controller with lifecycle hooks.
+ */
+class Controller {
+    //#region Factory
+    /**
+     * A factory class for building and executing controllers.
+     */
+    static Factory = class ControllerFactory {
+        /**
+         * @throws {TypeError} If the constructor is called.
+         */
+        constructor() {
+            throw new TypeError("Illegal constructor");
+        }
+        static async #run(controller) {
+            try {
+                await controller.run();
+            }
+            catch (reason) {
+                await controller.catch(Error.from(reason));
+            }
+        }
+        /**
+         * Builds and runs the provided controller.
+         */
+        static build(controller) {
+            Controller.Factory.#run(controller);
+        }
+    };
+    //#endregion
+    /**
+     * @throws {TypeError} If instantiated directly instead of via subclass.
+     */
+    constructor() {
+        if (new.target === Controller)
+            throw new TypeError("Unable to create an instance of an abstract class");
+    }
+    /**
+     * Called to run the controller logic.
+     */
+    async run() {
+    }
+    /**
+     * Called when an error occurs during controller execution.
+     * @param error The error that was thrown.
+     */
+    async catch(error) {
+    }
+}
 //#endregion
-export { DataPair, PromiseFactory, ImplementationError };
+export { DataPair, PromiseFactory, ImplementationError, Controller };

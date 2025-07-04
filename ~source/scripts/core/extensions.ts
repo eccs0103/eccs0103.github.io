@@ -2,6 +2,7 @@
 
 const { PI, trunc, pow } = Math;
 
+//#region Primitives
 /**
  * A mapping interface that associates primitive types with string keys.
  * This is used to handle conversions to different primitive types.
@@ -11,7 +12,7 @@ interface PrimitivesHintMap {
 	"boolean": boolean;
 	"string": string;
 }
-
+//#endregion
 //#region Number
 declare global {
 	interface NumberConstructor {
@@ -283,7 +284,7 @@ String.prototype.reverse = function (): string {
 	return string;
 };
 //#endregion
-
+//#region Archivable
 /**
  * Interface representing an instance that can be archived.
  * @template N The type of the archived data.
@@ -315,7 +316,7 @@ interface ArchivablePrototype<N, I extends ArchivableInstance<N>, A extends read
 	 */
 	new(...args: A): I;
 }
-
+//#endregion
 //#region Object
 declare global {
 	interface ObjectConstructor {
@@ -802,7 +803,63 @@ globalThis.typename = function (value: any): string {
 	}
 };
 //#endregion
+//#region Controller
+/**
+ * A utility type representing an instance of the Controller.Factory class.
+ */
+type ControllerFactory = InstanceType<typeof Controller.Factory>;
 
-export { DataPair, PromiseFactory, ImplementationError };	
-export type { PrimitivesHintMap, ArchivableInstance, ArchivablePrototype };
+/**
+ * Abstract base class representing a controller with lifecycle hooks.
+ */
+abstract class Controller {
+	//#region Factory
+	/**
+	 * A factory class for building and executing controllers.
+	 */
+	static Factory = class ControllerFactory {
+		/**
+		 * @throws {TypeError} If the constructor is called.
+		 */
+		constructor() {
+			throw new TypeError("Illegal constructor");
+		}
+		static async #run<T extends Controller>(controller: T): Promise<void> {
+			try {
+				await controller.run();
+			} catch (reason) {
+				await controller.catch(Error.from(reason));
+			}
+		}
+		/**
+		 * Builds and runs the provided controller.
+		 */
+		static build<T extends Controller>(controller: T): void {
+			Controller.Factory.#run(controller);
+		}
+	};
+	//#endregion
+
+	/**
+	 * @throws {TypeError} If instantiated directly instead of via subclass.
+	 */
+	constructor() {
+		if (new.target === Controller) throw new TypeError("Unable to create an instance of an abstract class");
+	}
+	/**
+	 * Called to run the controller logic.
+	 */
+	async run(): Promise<void> {
+	}
+	/**
+	 * Called when an error occurs during controller execution.
+	 * @param error The error that was thrown.
+	 */
+	async catch(error: Error): Promise<void> {
+	}
+}
+//#endregion
+
+export { DataPair, PromiseFactory, ImplementationError, Controller };
+export type { PrimitivesHintMap, ArchivableInstance, ArchivablePrototype, ControllerFactory };
 

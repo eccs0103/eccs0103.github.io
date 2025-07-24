@@ -1,7 +1,6 @@
 {
 	"name": "209",
 	"members": [
-		{ "identifier": 0, "name": "Ռոման", "surname": "Աբաղյան", "patronymic": "Մհերի", "birthday": "2004-11-25" },
 		{ "identifier": 1, "name": "Վրույր", "surname": "Ասատրյան", "patronymic": "Դանիելի", "birthday": "2004-05-01" },
 		{ "identifier": 2, "name": "Գևորգ", "surname": "Բոյախչյան", "patronymic": "Պետրոսի", "birthday": "2004-06-27" },
 		{ "identifier": 3, "name": "Անահիտ", "surname": "Գաբրիելյան", "patronymic": "Կարենի", "birthday": "2004-09-18" },
@@ -24,6 +23,24 @@
 		{ "identifier": 20, "name": "Գոռ", "surname": "Սիմոնյան", "patronymic": "Էդուարդի", "birthday": "2004-09-21" }
 	],
 	"wishes": [
+		{ "member": 12, "addressee": 18, "content": "𝒯𝒶𝓇𝑜𝓃 ✞ ջան ծնունդդ շնորհավոր🎉🎉", "importance": 1 },
+		{ "member": 16, "addressee": 18, "content": "shnorhavor Taron jan", "importance": 1 },
+		{ "member": 13, "addressee": 18, "content": "Շնորհավոր Տարոն ջան 🎉🎉", "importance": 1 },
+		{ "member": 14, "addressee": 18, "content": "Շնորհավոր Տարոն ջան", "importance": 1 },
+		{ "member": 15, "addressee": 18, "content": "Տարոն ջան շնորհավոր, ամենալավն ու բարին 🎉🤍", "importance": 1 },
+		{ "member": 9, "addressee": 18, "content": "Շնորհավոր Տարոն ջան", "importance": 1 },
+		{ "member": 3, "addressee": 18, "content": "Տարոն ջան, շնորհավոր🥳🥳", "importance": 1 },
+		{ "member": 11, "addressee": 18, "content": "Շնորհավոր Տարոն ջան", "importance": 1 },
+		{ "member": 6, "addressee": 18, "content": "Շնորհավոր Տարոն ջան🎉", "importance": 1 },
+		{ "member": 5, "addressee": 18, "content": "Շնորհավոր", "importance": 1 },
+		{ "member": 7, "addressee": 18, "content": "Շնորհավոր😊", "importance": 1 },
+		{ "member": 8, "addressee": 18, "content": "Շնորհավոր Տարոն ջան", "importance": 1 },
+		{ "member": 20, "addressee": 18, "content": "Շնորհավոր Տարոն ջան", "importance": 1 },
+		{ "member": 4, "addressee": 18, "content": "Շնորհավոր Տարոն ջան🎉", "importance": 1 },
+		{ "member": 10, "addressee": 18, "content": "Շնորհավոր 🎉🎉", "importance": 1 },
+		{ "member": 17, "addressee": 18, "content": "Շնորհավոր!", "importance": 1 },
+		{ "member": 19, "addressee": 18, "content": "Տարոն ջան, ծնունդդ շնորհավոր", "importance": 1 },
+
 		{ "member": 19, "addressee": 13, "content": "Հեղինե ջան, շնորհավոր", "importance": 1 },
 		{ "member": 6, "addressee": 13, "content": "Շնորհավոր Հեղինե ջան 🎉", "importance": 1 },
 		{ "member": 5, "addressee": 13, "content": "Շնորհավոր ամենայն բարիք🎉", "importance": 1 },

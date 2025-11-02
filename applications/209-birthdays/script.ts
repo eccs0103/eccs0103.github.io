@@ -1,28 +1,37 @@
 "use strict";
 
-import "../../scripts/dom/extensions.js";
-import { ArchiveManager } from "../../scripts/dom/storage.js";
-import { Random } from "../../scripts/core/generators.js";
-import { Timespan } from "../../scripts/core/measures.js";
-import { Timer } from "../../scripts/worker/measures.js";
-import { WebpageController } from "../../scripts/dom/extensions.js";
+import "adaptive-extender/web";
+import { ArchiveRepository, Random, Timespan } from "adaptive-extender/web";
 
 const { trunc } = Math;
 
 //#region Group
-type GroupMember = InstanceType<typeof Group.Member>;
+interface GroupMember {
+	get name(): string;
+	get surname(): string;
+	get patronymic(): string;
+	get birthday(): Date;
+	askWish(): [GroupMember, string] | null;
+	askWishes(): Generator<[GroupMember, string], null>;
+	toWish(addressee: GroupMember, content: string): void;
+	setImportanceFrom(member: GroupMember, importance: number): void;
+}
+
+interface GroupMemberConstructor {
+	new(name: string, surname: string, patronymic: string, birthday: Date): GroupMember;
+	import(source: any, name?: string): GroupMember;
+}
 
 class Group {
 	//#region Member
-	static Member = class GroupMember {
-		static import(source: any, name: string = "[source]"): GroupMember {
-			const object = Object.import(source, name);
-			const name2 = String.import(Reflect.get(object, "name"), `${name}.name`);
-			const surname = String.import(Reflect.get(object, "surname"), `${name}.surname`);
-			const patronymic = String.import(Reflect.get(object, "patronymic"), `${name}.patronymic`);
-			const birthday = new Date(String.import(Reflect.get(object, "birthday"), `${name}.birthday`));
-			return Group.#newMember(name2, surname, patronymic, birthday);
-		}
+	static #Member: GroupMemberConstructor = class Member implements GroupMember {
+		#name: string;
+		#surname: string;
+		#patronymic: string;
+		#birthday: number;
+		#wishes: Map<GroupMember, string>;
+		#importance: Map<GroupMember, number>;
+
 		constructor(name: string, surname: string, patronymic: string, birthday: Date) {
 			if (Group.#lockMember) throw new TypeError("Illegal constructor");
 			this.#name = name;
@@ -31,35 +40,42 @@ class Group {
 			this.#birthday = Number(birthday);
 			this.#wishes = new Map();
 			this.#importance = new Map();
-			this.#cases = new Map();
 		}
-		#name: string;
+
+		static import(source: any, name: string = "[source]"): GroupMember {
+			const object = Object.import(source, name);
+			const name2 = String.import(Reflect.get(object, "name"), `${name}.name`);
+			const surname = String.import(Reflect.get(object, "surname"), `${name}.surname`);
+			const patronymic = String.import(Reflect.get(object, "patronymic"), `${name}.patronymic`);
+			const birthday = new Date(String.import(Reflect.get(object, "birthday"), `${name}.birthday`));
+			return Group.#newMember(name2, surname, patronymic, birthday);
+		}
+
 		get name(): string {
 			return this.#name;
 		}
-		#surname: string;
+
 		get surname(): string {
 			return this.#surname;
 		}
-		#patronymic: string;
+
 		get patronymic(): string {
 			return this.#patronymic;
 		}
-		#birthday: number;
+
 		get birthday(): Date {
 			return new Date(this.#birthday);
 		}
-		#wishes: Map<GroupMember, string>;
-		#importance: Map<GroupMember, number>;
-		#cases: Map<GroupMember, number>;
+
 		askWish(): [GroupMember, string] | null {
 			const importance = this.#importance;
 			if (importance.size === 0) return null;
 			const random = Random.global;
 			const addressee = random.case(importance);
-			const wish = this.#wishes.get(addressee) ?? Error.throws("Unable to ask for the non-existing wish");
+			const wish = ReferenceError.suppress(this.#wishes.get(addressee), "Unable to ask for the non-existing wish");
 			return [addressee, wish];
 		}
+
 		*askWishes(): Generator<[GroupMember, string], null> {
 			const random = Random.global;
 			const wishes = this.#wishes;
@@ -67,21 +83,26 @@ class Group {
 			while (true) {
 				if (importance.size === 0) return null;
 				const member = random.case(importance);
-				const wish = wishes.get(member) ?? Error.throws("Unable to ask for the non-existing wish");
+				const wish = ReferenceError.suppress(wishes.get(member), "Unable to ask for the non-existing wish");
 				importance.delete(member);
 				yield [member, wish];
 				if (importance.size > 0) continue;
 				importance = new Map(this.#importance);
 			}
 		}
-		toWish(addressee: GroupMember, content: string): void {
+
+		toWish(addressee: Member, content: string): void {
 			addressee.#wishes.set(this, content);
 		}
+
 		setImportanceFrom(member: GroupMember, importance: number): void {
 			if (!this.#wishes.has(member)) throw new ReferenceError("Unable to set importance for the non-existing wish");
 			this.#importance.set(member, importance);
 		}
 	};
+	static get Member(): GroupMemberConstructor {
+		return this.#Member;
+	}
 
 	static #lockMember: boolean = true;
 	static #newMember(name: string, surname: string, patronymic: string, birthday: Date): GroupMember {
@@ -91,6 +112,16 @@ class Group {
 		return self;
 	}
 	//#endregion
+
+	#name: string;
+	#identifiers: Map<number, GroupMember>;
+	#members: Map<GroupMember, number>;
+
+	constructor(name: string) {
+		this.#name = name;
+		this.#identifiers = new Map();
+		this.#members = new Map();
+	}
 
 	static import(source: any, name: string = "[source]"): Group {
 		const object = Object.import(source, name);
@@ -108,27 +139,22 @@ class Group {
 			const identifier2 = Number.import(Reflect.get(row, "addressee"), `${name}.wishes[${index}].addressee`);
 			const content = String.import(Reflect.get(row, "content"), `${name}.wishes[${index}].content`);
 			const importance = Number.import(Reflect.get(row, "importance"), `${name}.wishes[${index}].importance`);
-			const member = identifiers.get(identifier1) ?? Error.throws(`Member with identifier '${identifier1}' not registered in this group`);
-			const addressee = identifiers.get(identifier2) ?? Error.throws(`Member with identifier '${identifier2}' not registered in this group`);
+			const member = ReferenceError.suppress(identifiers.get(identifier1), `Member with identifier '${identifier1}' not registered in this group`);
+			const addressee = ReferenceError.suppress(identifiers.get(identifier2), `Member with identifier '${identifier2}' not registered in this group`);
 			member.toWish(addressee, content);
 			addressee.setImportanceFrom(member, importance);
 		});
 		return group;
 	}
-	constructor(name: string) {
-		this.#name = name;
-		this.#identifiers = new Map();
-		this.#members = new Map();
-	}
-	#name: string;
+
 	get name(): string {
 		return this.#name;
 	}
-	#identifiers: Map<number, GroupMember>;
-	#members: Map<GroupMember, number>;
+
 	get members(): GroupMember[] {
 		return Array.from(this.#members.keys());
 	}
+
 	register(name: string, surname: string, patronymic: string, birthday: Date): GroupMember {
 		const identifiers = this.#identifiers;
 		const members = this.#members;
@@ -141,30 +167,88 @@ class Group {
 }
 //#endregion
 
+//#region Timer
+interface TimerEventMap {
+	"trigger": Event;
+}
+
+interface TimerOptions {
+	multiple: boolean;
+}
+
+class Timer extends EventTarget {
+	#multiple: boolean;
+	#remaining: number = 0;
+	#previous: number = performance.now();
+
+	constructor();
+	constructor(options: Partial<TimerOptions>);
+	constructor(options: Partial<TimerOptions> = {}) {
+		super();
+
+		const { multiple } = options;
+		this.#multiple = multiple ?? false;
+
+		setInterval(this.#callback.bind(this));
+	}
+
+	addEventListener<K extends keyof TimerEventMap>(type: K, listener: (this: Timer, ev: TimerEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+	addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+	addEventListener(type: string, listener: EventListenerOrEventListenerObject, options: boolean | AddEventListenerOptions = false): void {
+		return super.addEventListener(type, listener, options);
+	}
+
+	removeEventListener<K extends keyof TimerEventMap>(type: K, listener: (this: Timer, ev: TimerEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+	removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+	removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options: boolean | EventListenerOptions = false): void {
+		return super.removeEventListener(type, listener, options);
+	}
+
+	get remaining(): number {
+		return this.#remaining;
+	}
+
+	setTimeout(milliseconds: number): void {
+		this.#remaining = milliseconds.clamp(0, Infinity);
+	}
+
+	#callback(): void {
+		if (!this.#multiple && this.#remaining === 0) return;
+		const current = performance.now();
+		const difference = current - this.#previous;
+		this.#remaining -= difference;
+		if (this.#remaining <= 0) {
+			this.#remaining = 0;
+			this.dispatchEvent(new Event("trigger"));
+		}
+		this.#previous = current;
+	}
+}
+//#endregion
+
 //#region Settings
-interface SettingsNotation {
+interface SettingsScheme {
 	selection: number;
 }
 
 class Settings {
-	static import(source: any, name: string = "[source]"): Settings {
-		const object = Object.import(source, name);
-		const settings = new Settings();
-		const selection = Reflect.get(object, "selection");
-		if (selection !== undefined) settings.selection = Number.import(selection, `${name}.selection`);
-		return settings;
-	}
-	export(): SettingsNotation {
-		return {
-			selection: this.selection,
-		};
-	}
 	#selection: number = 0;
 	get selection(): number {
 		return this.#selection;
 	}
 	set selection(value: number) {
 		this.#selection = value;
+	}
+	static import(source: any, name: string = "[source]"): Settings {
+		const object = Object.import(source, name);
+		const selection = Reflect.get(object, "selection");
+		const result = new Settings();
+		if (selection !== undefined) result.selection = Number.import(selection, `${name}.selection`);
+		return result;
+	}
+	static export(source: Settings): SettingsScheme {
+		const selection = source.selection;
+		return { selection };
 	}
 }
 //#endregion
@@ -179,8 +263,8 @@ class MainController extends WebpageController {
 		const members = this.#members = group.members
 			.sort((member1, member2) => member1.birthday.getDate() - member2.birthday.getDate())
 			.sort((member1, member2) => member1.birthday.getMonth() - member2.birthday.getMonth());
-
-		const settings = this.#settings = (await ArchiveManager.construct(`${navigator.dataPath}.Settings`, Settings)).content;
+		const repositorySettings = new ArchiveRepository(`Personal webpage\\Settings`, Settings);
+		const settings = this.#settings = repositorySettings.content;
 
 		this.#memberSelection = members.at(settings.selection) ?? null;
 	}
@@ -226,7 +310,7 @@ class MainController extends WebpageController {
 		const h4SelectionTitle = this.#h4SelectionTitle = document.getElement(HTMLHeadingElement, "h4#selection-title");
 		const dfnSelectionAuxiliary = this.#dfnSelectionAuxiliary = document.getElement(HTMLElement, "dfn#selection-auxiliary");
 
-		const timer = this.#timer = new Timer(false);
+		const timer = this.#timer = new Timer({ multiple: false });
 	}
 	#divScrollPicker: HTMLDivElement;
 	#pairMemberWithButton: [GroupMember, HTMLButtonElement][];
@@ -305,7 +389,7 @@ class MainController extends WebpageController {
 			return this.#provideContainerLifecycle(content, member.name, animate, 5000);
 		}
 
-		const timespan = Timespan.viaDuration(begin - now);
+		const timespan = Timespan.fromValue(begin - now);
 		const days = trunc(timespan.hours / 24);
 		const hours = timespan.hours % 24;
 		const { negativity, minutes, seconds } = timespan;
@@ -324,7 +408,7 @@ class MainController extends WebpageController {
 		const pairMemberWithButton = this.#pairMemberWithButton;
 		const timer = this.#timer;
 
-		await Promise.withTimeout(1000);
+		await Promise.asTimeout(1000);
 		this.#setPickerSelection(this.#findSavedSelection());
 		this.#updatePickerChange();
 

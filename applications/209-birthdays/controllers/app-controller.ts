@@ -5,7 +5,7 @@ import { Controller } from "adaptive-extender/web";
 import { GroupService } from "../services/group-service.js";
 import { SettingsService } from "../services/settings-service.js";
 import { PickerView } from "../view/picker-view.js";
-import { GroupController } from "./group-controller";
+import { GroupController } from "./group-controller.js";
 
 class AppController extends Controller {
 	async run(): Promise<void> {

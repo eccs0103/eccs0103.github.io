@@ -124,6 +124,9 @@ class PickerView extends EventTarget {
 
 		this.dispatchEvent(new Event("initializelayout"));
 
+		// this.#setPickerSelection(this.#findSavedSelection());
+		// this.#updatePickerChange();
+
 		divScrollPicker.addEventListener("scroll", event => this.#setPickerSelection(this.#findPickerClosest()));
 		divScrollPicker.addEventListener("scrollend", event => this.#updatePickerChange());
 

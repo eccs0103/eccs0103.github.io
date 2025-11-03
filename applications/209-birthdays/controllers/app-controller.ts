@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller } from "../../../controller.js";
+import { Controller } from "adaptive-extender/web";
 import { GroupService } from "../services/group-service.js";
 import { SettingsService } from "../services/settings-service.js";
 import { PickerView } from "../view/picker-view.js";

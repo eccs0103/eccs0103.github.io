@@ -1,8 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Timespan } from "adaptive-extender/web";
-import { Controller } from "../../../controller.js";
+import { Timespan, Controller } from "adaptive-extender/web";
 import { type GroupService } from "../services/group-service.js";
 import { type SettingsService } from "../services/settings-service.js";
 import { type PickerView } from "../view/picker-view.js";

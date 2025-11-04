@@ -121,11 +121,7 @@ class PickerView extends EventTarget {
 		const timer = this.#timer;
 
 		await Promise.asTimeout(1000);
-
 		this.dispatchEvent(new Event("initializelayout"));
-
-		// this.#setPickerSelection(this.#findSavedSelection());
-		// this.#updatePickerChange();
 
 		divScrollPicker.addEventListener("scroll", event => this.#setPickerSelection(this.#findPickerClosest()));
 		divScrollPicker.addEventListener("scrollend", event => this.#updatePickerChange());

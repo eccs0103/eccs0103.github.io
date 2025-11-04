@@ -5,48 +5,45 @@ import { Timespan, Controller } from "adaptive-extender/web";
 import { type GroupService } from "../services/group-service.js";
 import { type SettingsService } from "../services/settings-service.js";
 import { type PickerView } from "../view/picker-view.js";
-import { type GroupMember } from "../models/group.js";
-
-const { trunc } = Math;
+import { Group, type GroupMember } from "../models/group.js";
 
 class GroupController extends Controller {
-	#groupRepository: GroupService;
-	#settingsRepository: SettingsService;
-	#pickerView: PickerView;
+	#serviceGroup: GroupService;
+	#serviceSettings: SettingsService;
+	#viewPicker: PickerView;
 
 	#members: GroupMember[] = [];
-	#selectionIndex: number = 0;
+	#indexSlection: number = 0;
 	#memberSelection: GroupMember | null = null;
 
-	constructor(groupRepository: GroupService, settingsRepository: SettingsService, pickerView: PickerView) {
+	constructor(serviceGroup: GroupService, serviceSettings: SettingsService, viewPicker: PickerView) {
 		super();
-		this.#groupRepository = groupRepository;
-		this.#settingsRepository = settingsRepository;
-		this.#pickerView = pickerView;
+		this.#serviceGroup = serviceGroup;
+		this.#serviceSettings = serviceSettings;
+		this.#viewPicker = viewPicker;
 	}
 
 	async #buildModel(): Promise<void> {
-		const group = await this.#groupRepository.getGroup();
-		this.#selectionIndex = this.#settingsRepository.loadSelection();
+		const group = await this.#serviceGroup.readGroup();
 		this.#members = group.members
 			.sort((member1, member2) => member1.birthday.getDate() - member2.birthday.getDate())
 			.sort((member1, member2) => member1.birthday.getMonth() - member2.birthday.getMonth());
-		this.#memberSelection = this.#members.at(this.#selectionIndex) ?? null;
+		this.#indexSlection = this.#serviceSettings.readSelection();
+		this.#memberSelection = this.#members.at(this.#indexSlection) ?? null;
 	}
 
 	#bindViewEvents(): void {
-		this.#pickerView.addEventListener("initializelayout", this.#onInitializeLayout.bind(this));
-		this.#pickerView.addEventListener("selectionchange", this.#onSelectionChange.bind(this));
-		this.#pickerView.addEventListener("selectioncommit", this.#onSelectionCommit.bind(this));
-		this.#pickerView.addEventListener("timertrigger", this.#onTimerTrigger.bind(this));
+		this.#viewPicker.addEventListener("initializelayout", this.#onInitializeLayout.bind(this));
+		this.#viewPicker.addEventListener("selectionchange", this.#onSelectionChange.bind(this));
+		this.#viewPicker.addEventListener("selectioncommit", this.#onSelectionCommit.bind(this));
+		this.#viewPicker.addEventListener("timertrigger", this.#onTimerTrigger.bind(this));
 	}
 
 	#updatePickerContainer(member: GroupMember | null, animate: boolean): void {
-
 		this.#memberSelection = member;
 
 		if (member === null) {
-			return this.#pickerView.updateContent(String.empty, String.empty, false);
+			return this.#viewPicker.updateContent(String.empty, String.empty, false);
 		}
 
 		const date = new Date();
@@ -59,33 +56,33 @@ class GroupController extends Controller {
 
 		if (wish !== null) {
 			const [member, content] = wish;
-			return this.#pickerView.updateContent(content, member.name, animate, 5000);
+			return this.#viewPicker.updateContent(content, member.name, animate, 5000);
 		}
 
 		const timespan = Timespan.fromValue(begin - now);
-		const days = trunc(timespan.hours / 24);
-		const hours = timespan.hours % 24;
-		const { negativity, minutes, seconds } = timespan;
-		return this.#pickerView.updateContent(`${negativity ? "Աнցավ" : "Մնաց"} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
+		const { days, hours, minutes, seconds } = timespan.duration();
+		const negativity = timespan.valueOf() < 0;
+		return this.#viewPicker.updateContent(`${negativity ? "Անցավ" : "Մնաց"} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
 	}
 
 	#onInitializeLayout(event: Event): void {
-		const pair = this.#pickerView.findSavedSelection(this.#selectionIndex);
+		const pair = this.#viewPicker.findSavedSelection(this.#indexSlection);
 		this.#updatePickerContainer(pair?.[0] ?? null, false);
 		this.#onSelectionCommit();
 	}
 
-	#onSelectionChange(event: CustomEvent): void {
+	#onSelectionChange(event: Event): void {
+		if (!(event instanceof CustomEvent)) return;
 		const { member } = event.detail;
+		if (!(member instanceof Group.Member)) return;
 		this.#updatePickerContainer(member, false);
 	}
 
 	#onSelectionCommit(): void {
 		const memberSelection = this.#memberSelection;
 		if (memberSelection === null) return;
-
 		const index = this.#members.indexOf(memberSelection);
-		this.#settingsRepository.saveSelection(index);
+		this.#serviceSettings.writeSelection(index);
 	}
 
 	#onTimerTrigger(): void {
@@ -94,9 +91,9 @@ class GroupController extends Controller {
 
 	async run(): Promise<void> {
 		await this.#buildModel();
-		this.#pickerView.buildPickerItems(this.#members);
+		this.#viewPicker.buildPickerItems(this.#members);
 		this.#bindViewEvents();
-		await this.#pickerView.initializeListeners();
+		await this.#viewPicker.initializeListeners();
 	}
 }
 

@@ -9,10 +9,10 @@ import { GroupController } from "./group-controller.js";
 
 class AppController extends Controller {
 	async run(): Promise<void> {
-		const groupRepository = new GroupService();
-		const settingsRepository = new SettingsService();
+		const groupService = new GroupService();
+		const settingsService = new SettingsService();
 		const pickerView = new PickerView();
-		const groupController = new GroupController(groupRepository, settingsRepository, pickerView);
+		const groupController = new GroupController(groupService, settingsService, pickerView);
 		await groupController.run();
 	}
 

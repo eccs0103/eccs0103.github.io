@@ -12,12 +12,12 @@ class SettingsService {
 		this.#repository = new ArchiveRepository(`Personal webpage\\Settings`, Settings);
 	}
 
-	loadSelection(): number {
+	readSelection(): number {
 		const repository = this.#repository;
 		return repository.content.selection;
 	}
 
-	saveSelection(index: number): void {
+	writeSelection(index: number) {
 		if (index < 0) return;
 		const repository = this.#repository;
 		repository.content.selection = index;

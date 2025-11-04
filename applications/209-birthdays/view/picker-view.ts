@@ -4,6 +4,12 @@ import { Timer } from "../../../timer.js";
 import { type GroupMember } from "../models/group.js";
 
 //#region Picker view
+interface PickerEventMap {
+	"selectionchange": CustomEvent<GroupMember | null>;
+	"selectioncommit": Event;
+	"timertrigger": Event;
+}
+
 class PickerView extends EventTarget {
 	#divScrollPicker: HTMLDivElement;
 	#h4SelectionTitle: HTMLHeadingElement;
@@ -25,6 +31,18 @@ class PickerView extends EventTarget {
 		this.#h4SelectionTitle = document.getElement(HTMLHeadingElement, "h4#selection-title");
 		this.#dfnSelectionAuxiliary = document.getElement(HTMLElement, "dfn#selection-auxiliary");
 		this.#timer = new Timer({ multiple: false });
+	}
+
+	addEventListener<K extends keyof PickerEventMap>(type: K, listener: (this: Timer, ev: PickerEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+	addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+	addEventListener(type: string, listener: EventListenerOrEventListenerObject, options: boolean | AddEventListenerOptions = false): void {
+		return super.addEventListener(type, listener, options);
+	}
+
+	removeEventListener<K extends keyof PickerEventMap>(type: K, listener: (this: Timer, ev: PickerEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+	removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+	removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options: boolean | EventListenerOptions = false): void {
+		return super.removeEventListener(type, listener, options);
 	}
 
 	static #createAppearanceKeyframe(opacity: string, easing: string): Keyframe {
@@ -65,17 +83,38 @@ class PickerView extends EventTarget {
 		}) ?? null;
 	}
 
-	findSavedSelection(selectionIndex: number): [GroupMember, HTMLButtonElement] | null {
-		const pairMemberWithButton = this.#pairMemberWithButton;
-		return pairMemberWithButton.at(selectionIndex) ?? this.#findPickerClosest();
+	/**
+	 * НОВЫЙ МЕТОД (Заменяет 'findSavedSelection'):
+	 * Контроллер приказывает Отображению выделиться.
+	 */
+	setInitialSelection(selectionIndex: number): void {
+		const pair = this.#pairMemberWithButton.at(selectionIndex) ?? this.#findPickerClosest();
+		this.#highlightSelection(pair);
+		// При инициализации прокручиваем без анимации
+		this.#scrollToSelection(false);
 	}
 
-	#setPickerSelection(pair: [GroupMember, HTMLButtonElement] | null): void {
+	/**
+	 * НОВЫЙ МЕТОД (SRP):
+	 * Только управляет DOM-выделением.
+	 */
+	#highlightSelection(pair: [GroupMember, HTMLButtonElement] | null): void {
 		if (this.#buttonPickerSelection !== null) this.#buttonPickerSelection.classList.remove("selected");
-		const [member, button] = pair ?? [null, null];
+		const [, button] = pair ?? [, null];
 		this.#buttonPickerSelection = button;
 		if (this.#buttonPickerSelection !== null) this.#buttonPickerSelection.classList.add("selected");
+	}
 
+	/**
+	 * ИЗМЕНЕНО: Теперь вызывает #highlightSelection
+	 * и отправляет событие.
+	 */
+	#setPickerSelection(pair: [GroupMember, HTMLButtonElement] | null): void {
+		this.#highlightSelection(pair);
+		// Отправляем 'member' (или 'null') в Контроллер
+		const [member] = pair ?? [null, null];
+		const a = new CustomEvent<GroupMember | null>("selectionchange", { detail: member });
+		a.detail
 		this.dispatchEvent(new CustomEvent("selectionchange", { detail: { member } }));
 	}
 
@@ -107,35 +146,58 @@ class PickerView extends EventTarget {
 		this.#timer.setTimeout(counter);
 	}
 
-	#updatePickerChange(): void {
+	/**
+	 * НОВЫЙ МЕТОД (SRP):
+	 * Только прокручивает элемент в центр.
+	 */
+	#scrollToSelection(smooth: boolean): void {
 		const buttonPickerSelection = this.#buttonPickerSelection;
 		if (buttonPickerSelection === null) return;
-		buttonPickerSelection.scrollIntoView({ behavior: "smooth", block: "center" });
+		buttonPickerSelection.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
+	}
 
+	/**
+	 * ИЗМЕНЕНО: Обработчик 'scrollend'.
+	 * Раньше назывался #updatePickerChange (плохое имя).
+	 */
+	#onScrollEnd(): void {
+		this.#scrollToSelection(true); // Плавно доводим до центра
+		this.dispatchEvent(new Event("selectioncommit")); // Говорим Контроллеру сохранить
+	}
+
+	/**
+	 * НОВЫЙ МЕТОД: Обработчик клика.
+	 */
+	#onClick(pair: [GroupMember, HTMLButtonElement]): void {
+		this.#setPickerSelection(pair);
+		this.#scrollToSelection(true);
 		this.dispatchEvent(new Event("selectioncommit"));
 	}
 
-	async initializeListeners(): Promise<void> {
+	/**
+	 * ИЗМЕНЕНО: Больше не управляет логикой
+	 * инициализации. Только 'вешает' слушателей.
+	 */
+	initializeListeners(): void {
 		const divScrollPicker = this.#divScrollPicker;
 		const pairMemberWithButton = this.#pairMemberWithButton;
 		const timer = this.#timer;
 
-		await Promise.asTimeout(1000);
-		this.dispatchEvent(new Event("initializelayout"));
+		// УДАЛЕНО: Задержка и событие 'initializelayout'
+		// этим теперь управляет Контроллер.
 
 		divScrollPicker.addEventListener("scroll", event => this.#setPickerSelection(this.#findPickerClosest()));
-		divScrollPicker.addEventListener("scrollend", event => this.#updatePickerChange());
+		divScrollPicker.addEventListener("scrollend", this.#onScrollEnd.bind(this));
 
 		window.addEventListener("resize", (event) => {
+			// При ресайзе просто выделяем ближайший и доводим
 			this.#setPickerSelection(this.#findPickerClosest());
-			this.#updatePickerChange();
+			this.#onScrollEnd();
 		});
 
-		for (const [member, buttonPickerItem] of pairMemberWithButton) {
-			buttonPickerItem.addEventListener("click", (event) => {
-				this.#setPickerSelection([member, buttonPickerItem]);
-				this.#updatePickerChange();
-			});
+		for (const pair of pairMemberWithButton) {
+			const [, buttonPickerItem] = pair;
+			buttonPickerItem.addEventListener("click", () => this.#onClick(pair));
 		}
 
 		timer.addEventListener("trigger", event => this.dispatchEvent(new Event("timertrigger")));

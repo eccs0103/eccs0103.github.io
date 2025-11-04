@@ -5,7 +5,7 @@ import { Timespan, Controller } from "adaptive-extender/web";
 import { type GroupService } from "../services/group-service.js";
 import { type SettingsService } from "../services/settings-service.js";
 import { type PickerView } from "../view/picker-view.js";
-import { Group, type GroupMember } from "../models/group.js";
+import { type GroupMember } from "../models/group.js";
 
 class GroupController extends Controller {
 	#serviceGroup: GroupService;
@@ -33,7 +33,6 @@ class GroupController extends Controller {
 	}
 
 	#bindViewEvents(): void {
-		this.#viewPicker.addEventListener("initializelayout", this.#onInitializeLayout.bind(this));
 		this.#viewPicker.addEventListener("selectionchange", this.#onSelectionChange.bind(this));
 		this.#viewPicker.addEventListener("selectioncommit", this.#onSelectionCommit.bind(this));
 		this.#viewPicker.addEventListener("timertrigger", this.#onTimerTrigger.bind(this));
@@ -62,20 +61,27 @@ class GroupController extends Controller {
 		const timespan = Timespan.fromValue(begin - now);
 		const { days, hours, minutes, seconds } = timespan.duration();
 		const negativity = timespan.valueOf() < 0;
-		return this.#viewPicker.updateContent(`${negativity ? "Անցավ" : "Մնաց"} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
+		return this.#viewPicker.updateContent(`${negativity ? "Աнցավ" : "Մնաց"} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
 	}
 
-	#onInitializeLayout(event: Event): void {
-		const pair = this.#viewPicker.findSavedSelection(this.#indexSlection);
-		this.#updatePickerContainer(pair?.[0] ?? null, false);
+	/**
+	 * НОВЫЙ МЕТОД: Логика, которая запускается после
+	 * инициализации и задержки.
+	 */
+	#executeInitialLayout(): void {
+		// 1. ПРИКАЗЫВАЕМ Отображению выделиться.
+		this.#viewPicker.setInitialSelection(this.#indexSlection);
+
+		// 2. ОБНОВЛЯЕМ контент, используя состояние,
+		//    которое мы УЖЕ знаем из #buildModel().
+		this.#updatePickerContainer(this.#memberSelection, false);
+
+		// 3. СОХРАНЯЕМ это начальное состояние.
 		this.#onSelectionCommit();
 	}
 
-	#onSelectionChange(event: Event): void {
-		if (!(event instanceof CustomEvent)) return;
-		const { member } = event.detail;
-		if (!(member instanceof Group.Member)) return;
-		this.#updatePickerContainer(member, false);
+	#onSelectionChange(event: CustomEvent<GroupMember | null>): void {
+		this.#updatePickerContainer(event.detail, false);
 	}
 
 	#onSelectionCommit(): void {
@@ -93,7 +99,9 @@ class GroupController extends Controller {
 		await this.#buildModel();
 		this.#viewPicker.buildPickerItems(this.#members);
 		this.#bindViewEvents();
-		await this.#viewPicker.initializeListeners();
+		this.#viewPicker.initializeListeners();
+		await Promise.asTimeout(1000);
+		this.#executeInitialLayout();
 	}
 }
 

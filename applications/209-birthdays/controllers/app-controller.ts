@@ -7,6 +7,7 @@ import { SettingsService } from "../services/settings-service.js";
 import { PickerView } from "../view/picker-view.js";
 import { GroupController } from "./group-controller.js";
 
+//#region App controller
 class AppController extends Controller {
 	async run(): Promise<void> {
 		const groupService = new GroupService();
@@ -20,5 +21,6 @@ class AppController extends Controller {
 		console.error(error);
 	}
 }
+//#endregion
 
 await AppController.launch();

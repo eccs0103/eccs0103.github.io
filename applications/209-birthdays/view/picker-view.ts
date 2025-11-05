@@ -83,21 +83,12 @@ class PickerView extends EventTarget {
 		}) ?? null;
 	}
 
-	/**
-	 * НОВЫЙ МЕТОД (Заменяет 'findSavedSelection'):
-	 * Контроллер приказывает Отображению выделиться.
-	 */
 	setInitialSelection(selectionIndex: number): void {
 		const pair = this.#pairMemberWithButton.at(selectionIndex) ?? this.#findPickerClosest();
 		this.#highlightSelection(pair);
-		// При инициализации прокручиваем без анимации
 		this.#scrollToSelection(false);
 	}
 
-	/**
-	 * НОВЫЙ МЕТОД (SRP):
-	 * Только управляет DOM-выделением.
-	 */
 	#highlightSelection(pair: [GroupMember, HTMLButtonElement] | null): void {
 		if (this.#buttonPickerSelection !== null) this.#buttonPickerSelection.classList.remove("selected");
 		const [, button] = pair ?? [, null];
@@ -105,17 +96,10 @@ class PickerView extends EventTarget {
 		if (this.#buttonPickerSelection !== null) this.#buttonPickerSelection.classList.add("selected");
 	}
 
-	/**
-	 * ИЗМЕНЕНО: Теперь вызывает #highlightSelection
-	 * и отправляет событие.
-	 */
 	#setPickerSelection(pair: [GroupMember, HTMLButtonElement] | null): void {
 		this.#highlightSelection(pair);
-		// Отправляем 'member' (или 'null') в Контроллер
-		const [member] = pair ?? [null, null];
-		const a = new CustomEvent<GroupMember | null>("selectionchange", { detail: member });
-		a.detail
-		this.dispatchEvent(new CustomEvent("selectionchange", { detail: { member } }));
+		const [detail] = pair ?? [null];
+		this.dispatchEvent(new CustomEvent("selectionchange", { detail }));
 	}
 
 	async #writeSelectionTitle(text: string, animate: boolean): Promise<void> {
@@ -146,51 +130,32 @@ class PickerView extends EventTarget {
 		this.#timer.setTimeout(counter);
 	}
 
-	/**
-	 * НОВЫЙ МЕТОД (SRP):
-	 * Только прокручивает элемент в центр.
-	 */
 	#scrollToSelection(smooth: boolean): void {
 		const buttonPickerSelection = this.#buttonPickerSelection;
 		if (buttonPickerSelection === null) return;
 		buttonPickerSelection.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
 	}
 
-	/**
-	 * ИЗМЕНЕНО: Обработчик 'scrollend'.
-	 * Раньше назывался #updatePickerChange (плохое имя).
-	 */
 	#onScrollEnd(): void {
-		this.#scrollToSelection(true); // Плавно доводим до центра
-		this.dispatchEvent(new Event("selectioncommit")); // Говорим Контроллеру сохранить
+		this.#scrollToSelection(true);
+		this.dispatchEvent(new Event("selectioncommit"));
 	}
 
-	/**
-	 * НОВЫЙ МЕТОД: Обработчик клика.
-	 */
 	#onClick(pair: [GroupMember, HTMLButtonElement]): void {
 		this.#setPickerSelection(pair);
 		this.#scrollToSelection(true);
 		this.dispatchEvent(new Event("selectioncommit"));
 	}
 
-	/**
-	 * ИЗМЕНЕНО: Больше не управляет логикой
-	 * инициализации. Только 'вешает' слушателей.
-	 */
 	initializeListeners(): void {
 		const divScrollPicker = this.#divScrollPicker;
 		const pairMemberWithButton = this.#pairMemberWithButton;
 		const timer = this.#timer;
 
-		// УДАЛЕНО: Задержка и событие 'initializelayout'
-		// этим теперь управляет Контроллер.
-
 		divScrollPicker.addEventListener("scroll", event => this.#setPickerSelection(this.#findPickerClosest()));
 		divScrollPicker.addEventListener("scrollend", this.#onScrollEnd.bind(this));
 
 		window.addEventListener("resize", (event) => {
-			// При ресайзе просто выделяем ближайший и доводим
 			this.#setPickerSelection(this.#findPickerClosest());
 			this.#onScrollEnd();
 		});

@@ -5,8 +5,9 @@ import { Timespan, Controller } from "adaptive-extender/web";
 import { type GroupService } from "../services/group-service.js";
 import { type SettingsService } from "../services/settings-service.js";
 import { type PickerView } from "../view/picker-view.js";
-import { type GroupMember } from "../models/group.js";
+import { Group, type GroupMember } from "../models/group.js";
 
+//#region Group controller
 class GroupController extends Controller {
 	#serviceGroup: GroupService;
 	#serviceSettings: SettingsService;
@@ -64,19 +65,9 @@ class GroupController extends Controller {
 		return this.#viewPicker.updateContent(`${negativity ? "Աнցավ" : "Մնաց"} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
 	}
 
-	/**
-	 * НОВЫЙ МЕТОД: Логика, которая запускается после
-	 * инициализации и задержки.
-	 */
 	#executeInitialLayout(): void {
-		// 1. ПРИКАЗЫВАЕМ Отображению выделиться.
 		this.#viewPicker.setInitialSelection(this.#indexSlection);
-
-		// 2. ОБНОВЛЯЕМ контент, используя состояние,
-		//    которое мы УЖЕ знаем из #buildModel().
 		this.#updatePickerContainer(this.#memberSelection, false);
-
-		// 3. СОХРАНЯЕМ это начальное состояние.
 		this.#onSelectionCommit();
 	}
 
@@ -104,5 +95,6 @@ class GroupController extends Controller {
 		this.#executeInitialLayout();
 	}
 }
+//#endregion
 
 export { GroupController };

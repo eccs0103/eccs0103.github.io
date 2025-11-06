@@ -1,21 +1,24 @@
+"use strict";
+
+import "adaptive-extender/node";
 import { defineConfig } from "vite";
 import { resolve } from "path";
+import fsa from "fs/promises";
 import fs from "fs";
 
 const root: string = process.cwd();
 
-const rollupInput: Record<string, string> = {
+const input: Record<string, string> = {
 	["main"]: resolve(root, "index.html"),
 	["feed/index"]: resolve(root, "feed/index.html"),
 	["applications/209-birthdays/index"]: resolve(root, "applications/209-birthdays/index.html"),
-	["404"]: resolve(root, "404/index.html"),
+	["404/index"]: resolve(root, "404/index.html"),
 };
 
-const knownHtmlRoutes: string[] = Object.keys(rollupInput).map(key => {
+const routes: Set<string> = new Set(Object.keys(input).map((key) => {
 	if (key === "main") return "/";
-	if (key === "404") return "/404/index.html";
-	return `/${key.replace(/\/index$/, "")}/`;
-});
+	return `/${key.replace(/\/index$/, String.empty)}/`;
+}));
 
 export default defineConfig({
 	root,
@@ -24,7 +27,7 @@ export default defineConfig({
 	build: {
 		outDir: "dist",
 		rollupOptions: {
-			input: rollupInput,
+			input,
 			output: {
 				entryFileNames: "scripts/[name]-[hash].js",
 				chunkFileNames: "scripts/chunks/[name]-[hash].js",
@@ -39,35 +42,32 @@ export default defineConfig({
 	},
 	plugins: [
 		{
-			name: "clean-mpa-dev-server-plugin",
+			name: "server-plugin",
 			configureServer(server): void {
 				server.middlewares.use(async (request, response, next) => {
 					const { originalUrl, url, headers } = request;
-					const { pathname } = new URL(originalUrl ?? url ?? "/", `http://${headers.host}`);
-
-					const accept = headers.accept ?? String.empty;
-					if (!accept.includes("text/html") && !accept.includes("*/*")) return next();
-
+					const { pathname } = new URL((originalUrl ?? url ?? "/"), `http://${headers.host}`);
+					const { accept } = headers;
+					if (accept === undefined) return next();
+					if (!accept.includes("text/html")) return next();
 					if (!pathname.endsWith("/") && fs.existsSync(resolve(root, pathname.substring(1), "index.html"))) {
 						response.statusCode = 301;
-						response.setHeader("Location", `${pathname}/`);
+						response.writeHead(301, { ["location"]: `${pathname}/` });
 						response.end();
 						return;
 					}
 
-					if (knownHtmlRoutes.includes(pathname)) return next();
-
+					if (routes.has(pathname)) return next();
 					try {
-						const html404 = fs.readFileSync(rollupInput["404"], "utf-8");
-						const transformedHtml = await server.transformIndexHtml(pathname, html404);
-						response.statusCode = 404;
-						response.setHeader("Content-Type", "text/html");
-						response.end(transformedHtml);
+						const content404 = await fsa.readFile(input["404/index"], "utf-8");
+						const html404 = await server.transformIndexHtml(pathname, content404);
+						response.writeHead(404, { ["content-type"]: "text/html" });
+						response.end(html404);
 						return;
 					} catch (reason) {
-						response.statusCode = 500;
-						response.setHeader("Content-Type", "text/plain");
-						response.end(Error.from(reason).toString());
+						console.error(Error.from(reason).toString());
+						response.writeHead(404, { ["content-type"]: "text/plain" });
+						response.end("404: Page not found");
 						return;
 					}
 				});

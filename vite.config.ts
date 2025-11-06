@@ -1,24 +1,30 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import { existsSync, readFileSync } from "fs";
+import fs from "fs";
 
-const rootDirectory: string = process.cwd();
+const root: string = process.cwd();
 
-const knownHtmlRoutes: string[] = ["/", "/feed/", "/applications/209-birthdays/", "/404.html"];
+const rollupInput: Record<string, string> = {
+	["main"]: resolve(root, "index.html"),
+	["feed/index"]: resolve(root, "feed/index.html"),
+	["applications/209-birthdays/index"]: resolve(root, "applications/209-birthdays/index.html"),
+	["404"]: resolve(root, "404/index.html"),
+};
+
+const knownHtmlRoutes: string[] = Object.keys(rollupInput).map(key => {
+	if (key === "main") return "/";
+	if (key === "404") return "/404/index.html";
+	return `/${key.replace(/\/index$/, "")}/`;
+});
 
 export default defineConfig({
-	root: rootDirectory,
-	publicDir: resolve(rootDirectory, "resources"),
+	root,
+	publicDir: resolve(root, "resources"),
 	base: "/",
 	build: {
 		outDir: "dist",
 		rollupOptions: {
-			input: {
-				main: resolve(rootDirectory, "index.html"),
-				"feed/index": resolve(rootDirectory, "feed/index.html"),
-				"applications/209-birthdays/index": resolve(rootDirectory, "applications/209-birthdays/index.html"),
-				"404": resolve(rootDirectory, "404.html"), // Убедись, что 404.html есть
-			},
+			input: rollupInput,
 			output: {
 				entryFileNames: "scripts/[name]-[hash].js",
 				chunkFileNames: "scripts/chunks/[name]-[hash].js",
@@ -33,52 +39,35 @@ export default defineConfig({
 	},
 	plugins: [
 		{
-			name: "minimal-mpa-dev-server-plugin",
+			name: "clean-mpa-dev-server-plugin",
 			configureServer(server): void {
 				server.middlewares.use(async (request, response, next) => {
-					const url = request.url || "/";
+					const { originalUrl, url, headers } = request;
+					const { pathname } = new URL(originalUrl ?? url ?? "/", `http://${headers.host}`);
 
-					// --- 1. Правило "any-path и any-path/ одинаковые" ---
-					// (Игнорируем файлы с расширением, типа .css, .js)
-					if (!url.endsWith("/") && !url.includes(".")) {
-						// Проверяем, существует ли .../any-path/index.html
-						const potentialHtmlPath = resolve(rootDirectory, url.substring(1), "index.html");
+					const accept = headers.accept ?? String.empty;
+					if (!accept.includes("text/html") && !accept.includes("*/*")) return next();
 
-						if (existsSync(potentialHtmlPath)) {
-							// Если да, делаем 301 редирект на URL со слешем
-							response.statusCode = 301; // Moved Permanently
-							response.setHeader("Location", url + "/");
-							return response.end();
-						}
+					if (!pathname.endsWith("/") && fs.existsSync(resolve(root, pathname.substring(1), "index.html"))) {
+						response.statusCode = 301;
+						response.setHeader("Location", `${pathname}/`);
+						response.end();
+						return;
 					}
 
-					// --- 2. Правило "при 404 НЕ перенаправлять на главную" ---
+					if (knownHtmlRoutes.includes(pathname)) return next();
 
-					// Проверяем, является ли запрос известным HTML-маршрутом
-					if (knownHtmlRoutes.includes(url)) return next(); // Да, это известный HTML, пусть Vite работает
-
-					// Проверяем, является ли это запросом к файлу (CSS, JS, PNG)
-					// или внутренним запросом Vite
-					if (url.includes(".") || url.startsWith("/@") || url.startsWith("/node_modules")) return next();
-
-					// --- Если мы дошли сюда, это 404 ---
-					// (Неизвестный путь без расширения)
-
-					// Мы не вызываем 'next()'. Вместо этого мы вручную 
-					// отдаем 404.html ДО того, как Vite отдаст index.html.
 					try {
-
-						const html404 = readFileSync(resolve(rootDirectory, "404.html"), "utf-8");
-
-						// "Скармливаем" HTML Vite, чтобы он вставил HMR и т.д.
-						const transformedHtml = await server.transformIndexHtml(url, html404);
+						const html404 = fs.readFileSync(rollupInput["404"], "utf-8");
+						const transformedHtml = await server.transformIndexHtml(pathname, html404);
 						response.statusCode = 404;
 						response.setHeader("Content-Type", "text/html");
 						response.end(transformedHtml);
 						return;
-					} catch (e: any) {
+					} catch (reason) {
 						response.statusCode = 500;
-						response.end(`Internal Server Error: 404.html not found. ${e.message}`);
+						response.setHeader("Content-Type", "text/plain");
+						response.end(Error.from(reason).toString());
 						return;
 					}
 				});

@@ -2,13 +2,12 @@
 
 import "adaptive-extender/web";
 import { Group } from "../models/group.js";
+import database from "../data/database-2025.json";
 
 //#region Group service
 class GroupService {
 	async readGroup(): Promise<Group> {
-		const response = await fetch("./data/database-2025.json");
-		const object = await response.json();
-		return Group.import(object, "database-2025.json");
+		return Group.import(database, "database-2025.json");
 	}
 }
 //#endregion

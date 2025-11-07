@@ -12,7 +12,7 @@ const input: Record<string, string> = {
 	["main"]: resolve(root, "index.html"),
 	["feed/index"]: resolve(root, "feed/index.html"),
 	["applications/209-birthdays/index"]: resolve(root, "applications/209-birthdays/index.html"),
-	["404/index"]: resolve(root, "404/index.html"),
+	// ["404/index"]: resolve(root, "404/index.html"),
 };
 
 const routes: Set<string> = new Set(Object.keys(input).map((key) => {

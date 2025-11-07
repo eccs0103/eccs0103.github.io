@@ -31,7 +31,7 @@ package-lock.json
 .*
 !.gitignore
 !.npmignore
-!.mocharc.json
+!.github
 
 # TypeScript / JS build artifacts
 *.tsbuildinfo

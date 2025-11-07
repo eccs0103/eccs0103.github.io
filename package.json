@@ -6,9 +6,8 @@
 	"author": "eccs0103",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc -p ./src/tsconfig.json && vite build",
-		"preview": "vite preview",
-		"start": ""
+		"build": "vite build",
+		"preview": "vite preview"
 	},
 	"devDependencies": {
 		"@types/node": "^24.7.2",

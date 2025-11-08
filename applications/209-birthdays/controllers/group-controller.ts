@@ -62,7 +62,7 @@ class GroupController extends Controller {
 		const timespan = Timespan.fromValue(begin - now);
 		const { days, hours, minutes, seconds } = timespan.duration();
 		const negativity = timespan.valueOf() < 0;
-		return this.#viewPicker.updateContent(`${negativity ? "Աнցավ" : "Մնաց"} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
+		return this.#viewPicker.updateContent(`${negativity ? "Անցավ" : "Մնաց"} ${days}օր ${hours}ժ․ ${minutes}ր․ ${seconds}վ․`, String.empty, false, 1000);
 	}
 
 	#executeInitialLayout(): void {

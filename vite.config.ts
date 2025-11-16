@@ -12,6 +12,7 @@ const input: Record<string, string> = {
 	["main"]: resolve(root, "index.html"),
 	["feed/index"]: resolve(root, "feed/index.html"),
 	["applications/209-birthdays/index"]: resolve(root, "applications/209-birthdays/index.html"),
+	["shortcuts/vscode-quartz/index"]: resolve(root, "shortcuts/vscode-quartz/index.html"),
 	// ["404/index"]: resolve(root, "404/index.html"),
 };
 

@@ -1,12 +1,9 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { writeFile } from "fs/promises";
 import { EventWalker } from "./event-walker.js";
-import { type GitHubEvent } from "../models/gitHub-event.js";
+import { type GitHubEvent } from "../models/github-event.js";
 import { UserActivity } from "../models/user-activity.js";
-import { Controller } from "adaptive-extender/web";
-import { env } from "./local-environment.js";
 
 //#region GitHub walker
 class GitHubWalker extends EventWalker<GitHubEvent> {
@@ -48,33 +45,4 @@ class GitHubWalker extends EventWalker<GitHubEvent> {
 }
 //#endregion
 
-class GdasdadsaController extends Controller {
-	async *#readActivities(walker: GitHubWalker): AsyncIterable<UserActivity> {
-		const events = await walker.readEvents();
-		for (const event of events) {
-			const activity = await walker.castToActivity(event);
-			if (activity === null) continue;
-			yield activity;
-		}
-	}
-
-	async run(): Promise<void> {
-		const walker = new GitHubWalker(env.usernameGitHub, env.tokenGitHub);
-		console.log("Launching GitHub walker");
-
-		const activities: UserActivity[] = [];
-		for await (const activity of this.#readActivities(walker)) {
-			activities.push(activity);
-		}
-
-		// Save to file (in a real scenario, you might merge this with existing data)
-		await writeFile("./data/activity-feed.json", JSON.stringify(activities, null, "\t"));
-		console.log(`Successfully saved ${activities.length} activities.`);
-	}
-
-	async catch(error: Error): Promise<void> {
-		console.error("Error during collection:", error);
-	}
-}
-
-await GdasdadsaController.launch();
+export { GitHubWalker };

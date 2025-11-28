@@ -21,8 +21,8 @@ class LocalEnvironment {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
 		const name = typename(env);
-		this.#tokenGitHub = String.import(env.readValue("GITHUB_TOKEN"), `${name}.GITHUB_TOKEN`);
-		this.#usernameGitHub = String.import(env.readValue("GITHUB_USERNAME"), `${name}.GITHUB_USERNAME`);
+		this.#tokenGitHub = String.import(env.readValue("TOKEN_GITHUB"), `${name}.TOKEN_GITHUB`);
+		this.#usernameGitHub = String.import(env.readValue("USERNAME_GITHUB"), `${name}.USERNAME_GITHUB`);
 	}
 
 	static get env(): LocalEnvironment {

@@ -10,11 +10,11 @@ class UserActivity {
 	#url: string;
 	#timestamp: string;
 
-	constructor(platform: string, type: string, description: string, uel: string, timestamp: string) {
+	constructor(platform: string, type: string, description: string, url: string, timestamp: string) {
 		this.#platform = platform;
 		this.#type = type;
 		this.#description = description;
-		this.#url = uel;
+		this.#url = url;
 		this.#timestamp = timestamp;
 	}
 

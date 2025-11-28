@@ -27,8 +27,9 @@ jobs:
 
             - name: Run Collector Script
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: npx tsx feed/services/github-walker.ts
+                  TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+                  USERNAME_GITHUB: ${{ vars.USERNAME_GITHUB }}
+              run: npx tsx feed/controllers/feed-controller.ts
 
             - name: Commit and Push changes
               run: |

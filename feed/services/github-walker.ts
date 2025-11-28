@@ -11,7 +11,7 @@ class GitHubWalker extends EventWalker<GitHubEvent> {
 	#token: string;
 
 	constructor(username: string, token: string) {
-		super();
+		super("GitHub");
 		this.#username = username;
 		this.#token = token;
 	}

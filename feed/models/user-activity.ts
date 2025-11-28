@@ -3,6 +3,14 @@
 import "adaptive-extender/node";
 
 //#region User activity
+interface UserActivityScheme {
+	platform: string;
+	type: string;
+	description: string;
+	url: string;
+	timestamp: string;
+}
+
 class UserActivity {
 	#platform: string;
 	#type: string;
@@ -36,6 +44,26 @@ class UserActivity {
 
 	get timestamp(): string {
 		return this.#timestamp;
+	}
+
+	static import(source: any, name: string = "[source]"): UserActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
+		const description = String.import(Reflect.get(object, "description"), `${name}.description`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const timestamp = String.import(Reflect.get(object, "timestamp"), `${name}.timestamp`);
+		const result = new UserActivity(platform, type, description, url, timestamp);
+		return result;
+	}
+
+	static export(source: UserActivity): UserActivityScheme {
+		const platform = source.#platform;
+		const type = source.#type;
+		const description = source.#description;
+		const url = source.#url;
+		const timestamp = source.#timestamp;
+		return { platform, type, description, url, timestamp };
 	}
 }
 //#endregion

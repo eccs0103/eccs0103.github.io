@@ -1,39 +1,26 @@
 "use strict";
 
 import "adaptive-extender/node";
-import { writeFile } from "fs/promises";
 import { Controller } from "adaptive-extender/node";
 import { GitHubWalker } from "../services/github-walker.js";
 import { env } from "../services/local-environment.js";
-import { UserActivity } from "../models/user-activity.js";
+import { WalkersDispatcher } from "../services/walkers-dispatcher.js";
 
 //#region Feed controller
 class FeedController extends Controller {
-	async *#readActivities(walker: GitHubWalker): AsyncIterable<UserActivity> {
-		const events = await walker.readEvents();
-		for (const event of events) {
-			const activity = await walker.castToActivity(event);
-			if (activity === null) continue;
-			yield activity;
-		}
-	}
-
 	async run(): Promise<void> {
-		const walker = new GitHubWalker(env.usernameGitHub, env.tokenGitHub);
-		console.log("Launching GitHub walker...");
+		const dispatcher = new WalkersDispatcher("feed/data/activity.json");
+		const { usernameGitHub, tokenGitHub } = env;
 
-		const activities: UserActivity[] = [];
-		for await (const activity of this.#readActivities(walker)) {
-			activities.push(activity);
-		}
+		dispatcher.connect(new GitHubWalker(usernameGitHub, tokenGitHub));
 
-		const outputPath = "feed/data/activity.json";
-		await writeFile(outputPath, JSON.stringify(activities, null, "\t"));
-		console.log(`Successfully saved ${activities.length} activities to ${outputPath}.`);
+		console.log("Starting feed update...");
+		await dispatcher.execute();
+		console.log("Feed update completed");
 	}
 
 	async catch(error: Error): Promise<void> {
-		console.error("Error during collection:", error);
+		console.log(`Feed update failed cause of ${error}`);
 	}
 }
 //#endregion

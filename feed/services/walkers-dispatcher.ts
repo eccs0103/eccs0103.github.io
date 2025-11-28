@@ -23,8 +23,13 @@ class WalkersDispatcher {
 		this.#walkers.delete(walker);
 	}
 
-	static async #ensureDirectory(path: string): Promise<void> {
+	static async #ensureStorage(path: string): Promise<void> {
 		await AsyncFileSystem.mkdir(dirname(path), { recursive: true });
+		try {
+			await AsyncFileSystem.access(path, AsyncFileSystem.constants.F_OK);
+		} catch {
+			await WalkersDispatcher.#writeActivities([], path);
+		}
 	}
 
 	static async #readActivities(path: string, activities: UserActivity[]): Promise<void> {
@@ -74,7 +79,7 @@ class WalkersDispatcher {
 	async execute(): Promise<void> {
 		const path = this.#path;
 		const activities: UserActivity[] = [];
-		await WalkersDispatcher.#ensureDirectory(path);
+		await WalkersDispatcher.#ensureStorage(path);
 		await WalkersDispatcher.#readActivities(path, activities);
 		await WalkersDispatcher.#runWalkers(this.#walkers, activities);
 		await WalkersDispatcher.#writeActivities(activities, path);

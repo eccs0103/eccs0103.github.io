@@ -1,0 +1,41 @@
+"use strict";
+
+import { Environment } from "../../environment.js";
+
+//#region Local environment
+class LocalEnvironment {
+	static #lock: boolean = true;
+	static #instance: LocalEnvironment | null = null;
+	#tokenGitHub: string;
+	#usernameGitHub: string;
+
+	get tokenGitHub(): string {
+		return this.#tokenGitHub;
+	}
+
+	get usernameGitHub(): string {
+		return this.#usernameGitHub;
+	}
+
+	constructor() {
+		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
+		const { env } = Environment;
+		const name = typename(env);
+		this.#tokenGitHub = String.import(env.readValue("GITHUB_TOKEN"), `${name}.GITHUB_TOKEN`);
+		this.#usernameGitHub = String.import(env.readValue("GITHUB_USERNAME"), `${name}.GITHUB_USERNAME`);
+	}
+
+	static get env(): LocalEnvironment {
+		if (LocalEnvironment.#instance === null) {
+			LocalEnvironment.#lock = false;
+			LocalEnvironment.#instance = new LocalEnvironment();
+			LocalEnvironment.#lock = true;
+		}
+		return LocalEnvironment.#instance;
+	}
+}
+
+const { env } = LocalEnvironment;
+//#endregion
+
+export { env };

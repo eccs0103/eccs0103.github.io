@@ -1,0 +1,39 @@
+name: Update Activity Feed
+
+on:
+    schedule:
+        - cron: '0 */3 * * *'
+    workflow_dispatch:
+
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: write
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run Collector Script
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: npx tsx feed/services/github-walker.ts
+
+            - name: Commit and Push changes
+              run: |
+                  git config --global user.name "GitHub Actions Bot"
+                  git config --global user.email "actions@github.com"
+                  git add feed/data/activity.json
+                  git commit -m "chore: update activity feed [skip ci]" || exit 0
+                  git push

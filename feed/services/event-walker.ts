@@ -1,7 +1,7 @@
 "use strict";
 
-import "adaptive-extender/web";
-import { ImplementationError } from "adaptive-extender/web";
+import "adaptive-extender/node";
+import { ImplementationError } from "adaptive-extender/node";
 import type { UserActivity } from "../models/user-activity.js";
 
 //#region Event walker

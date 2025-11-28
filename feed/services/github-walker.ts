@@ -1,6 +1,6 @@
 "use strict";
 
-import "adaptive-extender/web";
+import "adaptive-extender/node";
 import { EventWalker } from "./event-walker.js";
 import { type GitHubEvent } from "../models/github-event.js";
 import { UserActivity } from "../models/user-activity.js";

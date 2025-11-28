@@ -1,8 +1,8 @@
 "use strict";
 
-import "adaptive-extender/web";
+import "adaptive-extender/node";
 import { writeFile } from "fs/promises";
-import { Controller } from "adaptive-extender/web";
+import { Controller } from "adaptive-extender/node";
 import { GitHubWalker } from "../services/github-walker.js";
 import { env } from "../services/local-environment.js";
 import { UserActivity } from "../models/user-activity.js";

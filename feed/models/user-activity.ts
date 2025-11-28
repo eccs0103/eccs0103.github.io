@@ -1,6 +1,6 @@
 "use strict";
 
-import "adaptive-extender/web";
+import "adaptive-extender/node";
 
 //#region User activity
 class UserActivity {

@@ -1,4 +1,4 @@
-name: Update Activity Feed
+name: Update activity feed
 
 on:
     schedule:

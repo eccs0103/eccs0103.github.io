@@ -1,6 +1,6 @@
 "use strict";
 
-import { Environment } from "../../environment.js";
+import { Environment } from "adaptive-extender/node";
 
 //#region Local environment
 class LocalEnvironment {

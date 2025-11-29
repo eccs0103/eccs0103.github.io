@@ -62,7 +62,8 @@ export class GitHubWalker extends EventWalker {
 
 	async *crawl(): AsyncIterable<UserActivity> {
 		for await (const event of this.#importEvents(3)) {
-			const { repo: repo, type, payload, created_at } = event;
+			const { repo: repo, type, payload, created_at, public: _public } = event;
+			if (!_public) continue;
 			const timestamp = Date.parse(created_at);
 			const { name } = repo;
 			const platform = this.name;

@@ -8,7 +8,7 @@ import type { UserActivity } from "../models/user-activity.js";
 /**
  * @abstract
  */
-class EventWalker<T = any> {
+export class EventWalker {
 	#name: string;
 
 	constructor(name: string) {
@@ -20,14 +20,8 @@ class EventWalker<T = any> {
 		return this.#name;
 	}
 
-	async *readEvents(): AsyncIterable<T> {
-		throw new ImplementationError();
-	}
-
-	async castToActivity(event: T): Promise<UserActivity | null> {
+	async *crawl(): AsyncIterable<UserActivity> {
 		throw new ImplementationError();
 	}
 }
 //#endregion
-
-export { EventWalker };

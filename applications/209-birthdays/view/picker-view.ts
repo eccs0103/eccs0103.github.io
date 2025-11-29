@@ -10,7 +10,7 @@ interface PickerEventMap {
 	"timertrigger": Event;
 }
 
-class PickerView extends EventTarget {
+export class PickerView extends EventTarget {
 	#divScrollPicker: HTMLDivElement;
 	#h4SelectionTitle: HTMLHeadingElement;
 	#dfnSelectionAuxiliary: HTMLElement;
@@ -169,5 +169,3 @@ class PickerView extends EventTarget {
 	}
 }
 //#endregion
-
-export { PickerView };

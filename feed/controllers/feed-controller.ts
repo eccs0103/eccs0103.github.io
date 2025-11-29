@@ -20,7 +20,7 @@ class FeedController extends Controller {
 	}
 
 	async catch(error: Error): Promise<void> {
-		console.log(`Feed update failed cause of ${error}`);
+		console.error(`Feed update failed cause of ${error}`);
 	}
 }
 //#endregion

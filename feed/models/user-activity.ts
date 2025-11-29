@@ -11,19 +11,50 @@ interface UserActivityScheme {
 	timestamp: number;
 }
 
-class UserActivity {
+export class UserActivity {
 	#platform: string;
 	#type: string;
 	#description: string;
 	#url: string;
-	#timestamp: Date;
+	#timestamp: number;
 
-	constructor(platform: string, type: string, description: string, url: string, timestamp: Date) {
+	constructor(platform: string, type: string, description: string, url: string, timestamp: number) {
 		this.#platform = platform;
 		this.#type = type;
 		this.#description = description;
 		this.#url = url;
 		this.#timestamp = timestamp;
+	}
+
+	static import(source: any, name: string = "[source]"): UserActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
+		const description = String.import(Reflect.get(object, "description"), `${name}.description`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const timestamp = Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`);
+		const result = new UserActivity(platform, type, description, url, timestamp);
+		return result;
+	}
+
+	static export(source: UserActivity): UserActivityScheme {
+		const platform = source.#platform;
+		const type = source.#type;
+		const description = source.#description;
+		const url = source.#url;
+		const timestamp = Number(source.#timestamp);
+		return { platform, type, description, url, timestamp };
+	}
+
+	static earlier(first: UserActivity, second: UserActivity): number {
+		return second.#timestamp - first.#timestamp;
+	}
+
+	static isSame(first: UserActivity, second: UserActivity): boolean {
+		if (first.#platform !== second.#platform) return false;
+		if (first.#timestamp !== second.#timestamp) return false;
+		if (first.#description !== second.#description) return false;
+		return true;
 	}
 
 	get platform(): string {
@@ -42,30 +73,8 @@ class UserActivity {
 		return this.#url;
 	}
 
-	get timestamp(): Date {
+	get timestamp(): number {
 		return this.#timestamp;
-	}
-
-	static import(source: any, name: string = "[source]"): UserActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
-		const description = String.import(Reflect.get(object, "description"), `${name}.description`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const result = new UserActivity(platform, type, description, url, timestamp);
-		return result;
-	}
-
-	static export(source: UserActivity): UserActivityScheme {
-		const platform = source.#platform;
-		const type = source.#type;
-		const description = source.#description;
-		const url = source.#url;
-		const timestamp = Number(source.#timestamp);
-		return { platform, type, description, url, timestamp };
 	}
 }
 //#endregion
-
-export { UserActivity };

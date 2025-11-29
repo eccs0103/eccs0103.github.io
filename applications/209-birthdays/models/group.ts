@@ -4,7 +4,7 @@ import "adaptive-extender/web";
 import { Random } from "adaptive-extender/web";
 
 //#region Group
-interface GroupMember {
+export interface GroupMember {
 	get name(): string;
 	get surname(): string;
 	get patronymic(): string;
@@ -15,12 +15,12 @@ interface GroupMember {
 	setImportanceFrom(member: GroupMember, importance: number): void;
 }
 
-interface GroupMemberConstructor {
+export interface GroupMemberConstructor {
 	new(name: string, surname: string, patronymic: string, birthday: Date): GroupMember;
 	import(source: any, name?: string): GroupMember;
 }
 
-class Group {
+export class Group {
 	//#region Member
 	static #Member: GroupMemberConstructor = class Member implements GroupMember {
 		#name: string;
@@ -164,5 +164,3 @@ class Group {
 	}
 }
 //#endregion
-
-export { type GroupMember, type GroupMemberConstructor, Group };

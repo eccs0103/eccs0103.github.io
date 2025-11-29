@@ -5,7 +5,7 @@ import { ArchiveRepository } from "adaptive-extender/web";
 import { Settings } from "../models/settings.js";
 
 //#region Settings service
-class SettingsService {
+export class SettingsService {
 	#repository: ArchiveRepository<typeof Settings>;
 
 	constructor() {
@@ -25,5 +25,3 @@ class SettingsService {
 	}
 }
 //#endregion
-
-export { SettingsService };

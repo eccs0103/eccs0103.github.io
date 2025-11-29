@@ -2,11 +2,11 @@
 
 import "adaptive-extender/node";
 import { EventWalker } from "./event-walker.js";
-import { GitHubEvent } from "../models/github-event.js";
+import { GitHubCreateEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
 import { UserActivity } from "../models/user-activity.js";
 
 //#region GitHub walker
-class GitHubWalker extends EventWalker<GitHubEvent> {
+export class GitHubWalker extends EventWalker {
 	#username: string;
 	#token: string;
 
@@ -16,7 +16,7 @@ class GitHubWalker extends EventWalker<GitHubEvent> {
 		this.#token = token;
 	}
 
-	async *#readEvents(page: number, count: number): AsyncIterable<GitHubEvent> {
+	async #fetchPaginatedEvents(page: number, count: number): Promise<GitHubEvent> {
 		const url = new URL(`https://api.github.com/users/${this.#username}/events`);
 		url.searchParams.set("per_page", String(count));
 		url.searchParams.set("page", String(page));
@@ -27,20 +27,25 @@ class GitHubWalker extends EventWalker<GitHubEvent> {
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		return await response.json();
+	}
+
+	async *#importPaginatedEvents(page: number, count: number): AsyncIterable<GitHubEvent> {
+		const source = await this.#fetchPaginatedEvents(page, count);
 		const name = "event";
 		let index = 0;
-		for (const item of Array.import(await response.json(), name)) {
+		for (const item of Array.import(source, name)) {
 			yield GitHubEvent.import(item, `${name}[${index}]`);
 			index++;
 		}
 	}
 
-	async *readEvents(): AsyncIterable<GitHubEvent> {
+	async *#importEvents(pages: number): AsyncIterable<GitHubEvent> {
 		let attempt = 0;
 		let page = 1;
-		while (page <= 3) {
+		while (page <= pages) {
 			try {
-				yield* this.#readEvents(page, 100);
+				yield* this.#importPaginatedEvents(page, 100);
 				page++;
 				attempt = 0;
 			} catch (reason) {
@@ -51,25 +56,27 @@ class GitHubWalker extends EventWalker<GitHubEvent> {
 		}
 	}
 
-	async castToActivity(event: GitHubEvent): Promise<UserActivity | null> {
-		const { repository: repo, type, payload } = event;
-		const timestamp = new Date(event.createdAt);
-		const { name } = repo;
-		const { commits, size } = payload;
-		const platform = this.name;
-		const url = `https://github.com/${name}`;
-		switch (type) {
-			case "PushEvent": {
-				const count = size ?? commits?.length;
-				if (count === undefined) return null;
-				return new UserActivity(platform, type, `Pushed ${count} commits to ${name}`, url, timestamp);
+	async *crawl(): AsyncIterable<UserActivity> {
+		for await (const event of this.#importEvents(3)) {
+			const { repo: repo, type, payload, created_at } = event;
+			const timestamp = Date.parse(created_at);
+			const { name } = repo;
+			const platform = this.name;
+			const url = `https://github.com/${name}`;
+			if (payload instanceof GitHubPushEventPayload) {
+				const branch = payload.ref?.replace("refs/heads/", "") ?? "repository";
+				yield new UserActivity(platform, type, `Pushed to ${branch} in ${name}`, url, timestamp);
 			}
-			case "WatchEvent": return new UserActivity(platform, type, `Starred repository ${name}`, url, timestamp);
-			case "CreateEvent": return new UserActivity(platform, type, `Created new repository ${name}`, url, timestamp);
-			default: return null;
+			if (payload instanceof GitHubWatchEventPayload) {
+				yield new UserActivity(platform, type, `Starred repository ${name}`, url, timestamp);
+			}
+			if (payload instanceof GitHubCreateEventPayload) {
+				const objectType = payload.ref_type;
+				const objectName = (` ${payload.ref ?? String.empty}`).trim();
+				yield new UserActivity(platform, type, `Created ${objectType} ${objectName} in ${name}`, url, timestamp);
+			}
+			continue;
 		}
 	}
 }
 //#endregion
-
-export { GitHubWalker };

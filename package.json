@@ -17,6 +17,6 @@
 		"vite": "^7.1.9"
 	},
 	"dependencies": {
-		"adaptive-extender": "^0.8.2"
+		"adaptive-extender": "^0.8.3"
 	}
 }

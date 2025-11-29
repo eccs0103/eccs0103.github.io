@@ -7,11 +7,11 @@ interface TimerEventMap {
 	"trigger": Event;
 }
 
-interface TimerOptions {
+export interface TimerOptions {
 	multiple: boolean;
 }
 
-class Timer extends EventTarget {
+export class Timer extends EventTarget {
 	#multiple: boolean;
 	#remaining: number = 0;
 	#previous: number = performance.now();
@@ -60,5 +60,3 @@ class Timer extends EventTarget {
 	}
 }
 //#endregion
-
-export { type TimerOptions, Timer };

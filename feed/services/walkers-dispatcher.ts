@@ -7,7 +7,7 @@ import { UserActivity } from "../models/user-activity.js";
 import { type EventWalker } from "../services/event-walker.js";
 
 //#region Walkers dispatcher
-class WalkersDispatcher {
+export class WalkersDispatcher {
 	#path: string;
 	#walkers: Set<EventWalker> = new Set();
 
@@ -41,23 +41,10 @@ class WalkersDispatcher {
 		}));
 	}
 
-	static async #writeActivities(activities: UserActivity[], path: string): Promise<void> {
-		const object = activities.map(activity => UserActivity.export(activity));
-		await AsyncFileSystem.writeFile(path, JSON.stringify(object, null, "\t"));
-	}
-
-	static async *#fetchActivities(walker: EventWalker): AsyncIterable<UserActivity> {
-		for await (const event of walker.readEvents()) {
-			const activity = await walker.castToActivity(event);
-			if (activity === null) continue;
-			yield activity;
-		}
-	}
-
 	static async #runWalker(walker: EventWalker, activities: UserActivity[]): Promise<void> {
-		for await (const activity of WalkersDispatcher.#fetchActivities(walker)) {
-			if (activities.some(({ platform, timestamp }) => platform === activity.platform && timestamp === activity.timestamp)) continue;
-			activities.push(activity);
+		for await (const target of walker.crawl()) {
+			if (activities.some(activity => UserActivity.isSame(activity, target))) continue;
+			activities.push(target);
 		}
 	}
 
@@ -73,7 +60,12 @@ class WalkersDispatcher {
 				console.error(`Unable to fetch activities from ${walker.name} cause: ${Error.from(reason)}`);
 			}
 		}
-		activities.sort((activity1, activity2) => Number(activity1.timestamp) - Number(activity2.timestamp));
+		activities.sort(UserActivity.earlier);
+	}
+
+	static async #writeActivities(activities: UserActivity[], path: string): Promise<void> {
+		const object = activities.map(activity => UserActivity.export(activity));
+		await AsyncFileSystem.writeFile(path, JSON.stringify(object, null, "\t"));
 	}
 
 	async execute(): Promise<void> {
@@ -86,5 +78,3 @@ class WalkersDispatcher {
 	}
 }
 //#endregion
-
-export { WalkersDispatcher };

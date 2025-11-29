@@ -5,10 +5,10 @@ import { Timespan, Controller } from "adaptive-extender/web";
 import { type GroupService } from "../services/group-service.js";
 import { type SettingsService } from "../services/settings-service.js";
 import { type PickerView } from "../view/picker-view.js";
-import { Group, type GroupMember } from "../models/group.js";
+import { type GroupMember } from "../models/group.js";
 
 //#region Group controller
-class GroupController extends Controller {
+export class GroupController extends Controller {
 	#serviceGroup: GroupService;
 	#serviceSettings: SettingsService;
 	#viewPicker: PickerView;
@@ -96,5 +96,3 @@ class GroupController extends Controller {
 	}
 }
 //#endregion
-
-export { GroupController };

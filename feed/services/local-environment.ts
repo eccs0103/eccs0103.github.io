@@ -9,14 +9,6 @@ class LocalEnvironment {
 	#tokenGitHub: string;
 	#usernameGitHub: string;
 
-	get tokenGitHub(): string {
-		return this.#tokenGitHub;
-	}
-
-	get usernameGitHub(): string {
-		return this.#usernameGitHub;
-	}
-
 	constructor() {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
@@ -33,9 +25,15 @@ class LocalEnvironment {
 		}
 		return LocalEnvironment.#instance;
 	}
+
+	get tokenGitHub(): string {
+		return this.#tokenGitHub;
+	}
+
+	get usernameGitHub(): string {
+		return this.#usernameGitHub;
+	}
 }
 
-const { env } = LocalEnvironment;
+export const env = LocalEnvironment.env;
 //#endregion
-
-export { env };

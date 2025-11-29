@@ -3,11 +3,11 @@
 import "adaptive-extender/web";
 
 //#region Settings
-interface SettingsScheme {
+export interface SettingsScheme {
 	selection: number;
 }
 
-class Settings {
+export class Settings {
 	#selection: number = 0;
 
 	get selection(): number {
@@ -32,5 +32,3 @@ class Settings {
 	}
 }
 //#endregion
-
-export { type SettingsScheme, Settings };

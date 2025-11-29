@@ -1,6 +1,6 @@
 "use strict";
 
-import "adaptive-extender/node";
+import "adaptive-extender/core";
 import AsyncFileSystem from "fs/promises";
 import { dirname } from "path";
 import { UserActivity } from "../models/user-activity.js";

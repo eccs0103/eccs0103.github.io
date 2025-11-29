@@ -1,6 +1,6 @@
 "use strict";
 
-import "adaptive-extender/node";
+import "adaptive-extender/core";
 
 //#region GitHub event repository
 interface GitHubEventRepositoryScheme {

@@ -20,51 +20,56 @@
 	<link rel="stylesheet" href="../styles/global.css">
 	<link rel="stylesheet" href="../styles/themes/material.css">
 	<link rel="stylesheet" href="./view/style.css">
+	<script type="module" src="./controllers/main-controller.ts"></script>
 </head>
 
 <body class="flex column">
 	<main class="flex primary-centered with-padding large-padding">
-		<div id="feed" class="layer rounded with-padding flex column secondary-centered with-gap">
-			<img src="../resources/circuit-transparent.gif" alt="eccs0103 logo">
-			<h1>Page is frozen</h1>
-			<b>The page is currently frozen for maintenance purposes.<br>It may be back online someday, but not today.</b>
-			<hr class="depth">
-			<b>Well... if it's really necessary to get in touch:</b>
-			<section id="social-media">
-				<div class="contents">
-					<img src="../resources/icons/stack overflow.png" alt="Stack overflow logo" class="avatar">
-					<a href="https://ru.stackoverflow.com/users/324730" target="_blank" rel="noopener noreferrer"><b>Stack overflow</b></a>
-				</div>
-				<div class="contents">
-					<img src="../resources/icons/github.png" alt="GitHub logo" class="avatar">
-					<a href="https://github.com/eccs0103" target="_blank" rel="noopener noreferrer"><b>GitHub</b></a>
-				</div>
-				<div class="contents">
-					<img src="../resources/icons/linkedin.png" alt="LinkedIn logo" class="avatar">
-					<a href="https://www.linkedin.com/in/eccs0103" target="_blank" rel="noopener noreferrer"><b>LinkedIn</b></a>
-				</div>
-				<div class="contents">
-					<img src="../resources/icons/telegram.png" alt="Telegram logo" class="avatar">
-					<a href="https://t.me/eccs0103" target="_blank" rel="noopener noreferrer"><b>Telegram</b></a>
-				</div>
-				<div class="contents">
-					<img src="../resources/icons/vk.png" alt="VKontakte logo" class="avatar">
-					<a href="https://vk.com/eccs0103" target="_blank" rel="noopener noreferrer"><b>VKontakte</b></a>
-				</div>
-				<div class="contents">
-					<img src="../resources/icons/instagram.png" alt="Instagram logo" class="avatar">
-					<a href="https://www.instagram.com/eccs0103" target="_blank" rel="noopener noreferrer"><b>Instagram</b></a>
-				</div>
-				<div class="contents">
-					<img src="../resources/icons/facebook.png" alt="Facebook logo" class="avatar">
-					<a href="https://www.facebook.com/eccs0103.arman" target="_blank" rel="noopener noreferrer"><b>Facebook</b></a>
-				</div>
-			</section>
-			<!-- <hr class="depth"> -->
-			<b>© <script>document.write(new Date().getFullYear())</script> Arman</b>
+		<div class="with-padding flex column with-gap">
+			<div class="flex column secondary-centered">
+				<img src="../resources/circuit-transparent.gif" alt="eccs0103 logo">
+			</div>
+			<br>
+			<div id="feed-container" class="flex column with-block-gap large-gap">
+			</div>
+			<br>
+			<footer class="flex column secondary-centered">
+				<section id="social-media">
+					<div class="contents">
+						<img src="../resources/icons/stack overflow.png" alt="Stack overflow logo" class="avatar">
+						<a href="https://ru.stackoverflow.com/users/324730" target="_blank" rel="noopener noreferrer"><b>Stack overflow</b></a>
+					</div>
+					<div class="contents">
+						<img src="../resources/icons/github.png" alt="GitHub logo" class="avatar">
+						<a href="https://github.com/eccs0103" target="_blank" rel="noopener noreferrer"><b>GitHub</b></a>
+					</div>
+					<div class="contents">
+						<img src="../resources/icons/linkedin.png" alt="LinkedIn logo" class="avatar">
+						<a href="https://www.linkedin.com/in/eccs0103" target="_blank" rel="noopener noreferrer"><b>LinkedIn</b></a>
+					</div>
+					<div class="contents">
+						<img src="../resources/icons/telegram.png" alt="Telegram logo" class="avatar">
+						<a href="https://t.me/eccs0103" target="_blank" rel="noopener noreferrer"><b>Telegram</b></a>
+					</div>
+					<div class="contents">
+						<img src="../resources/icons/vk.png" alt="VKontakte logo" class="avatar">
+						<a href="https://vk.com/eccs0103" target="_blank" rel="noopener noreferrer"><b>VKontakte</b></a>
+					</div>
+					<div class="contents">
+						<img src="../resources/icons/instagram.png" alt="Instagram logo" class="avatar">
+						<a href="https://www.instagram.com/eccs0103" target="_blank" rel="noopener noreferrer"><b>Instagram</b></a>
+					</div>
+					<div class="contents">
+						<img src="../resources/icons/facebook.png" alt="Facebook logo" class="avatar">
+						<a href="https://www.facebook.com/eccs0103.arman" target="_blank" rel="noopener noreferrer"><b>Facebook</b></a>
+					</div>
+
+				</section>
+				<b>© <span id="footer-year">2025</span> Arman </b>
+			</footer>
 		</div>
 	</main>
-	
+
 </body>
 
 </html>

@@ -69,7 +69,7 @@ export class GitHubWalker extends EventWalker {
 			const url = `https://github.com/${name}`;
 			if (payload instanceof GitHubPushEventPayload) {
 				const branch = payload.ref?.replace("refs/heads/", "") ?? "repository";
-				yield new UserActivity(platform, type, `Pushed to ${branch} in ${name}`, url, timestamp);
+				yield new UserActivity(platform, type, `Pushed to '${branch}' in ${name}`, url, timestamp);
 			}
 			if (payload instanceof GitHubWatchEventPayload) {
 				yield new UserActivity(platform, type, `Starred repository ${name}`, url, timestamp);
@@ -77,7 +77,7 @@ export class GitHubWalker extends EventWalker {
 			if (payload instanceof GitHubCreateEventPayload) {
 				const objectType = payload.ref_type;
 				const objectName = (` ${payload.ref ?? String.empty}`).trim();
-				yield new UserActivity(platform, type, `Created ${objectType} ${objectName} in ${name}`, url, timestamp);
+				yield new UserActivity(platform, type, `Created ${objectType} '${objectName}' in ${name}`, url, timestamp);
 			}
 			continue;
 		}

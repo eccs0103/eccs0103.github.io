@@ -46,9 +46,7 @@ interface GitHubEventPayloadScheme {
 }
 
 export class GitHubEventPayload {
-	static import(source: any, name: string = "[source]"): GitHubEventPayload {
-		const object = Object.import(source, name);
-		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
+	static import(type: string, source: any, name: string = "[source]"): GitHubEventPayload {
 		if (type === "PushEvent") return GitHubPushEventPayload.import(source, name);
 		if (type === "WatchEvent") return GitHubWatchEventPayload.import(source, name);
 		if (type === "CreateEvent") return GitHubCreateEventPayload.import(source, name);
@@ -188,7 +186,7 @@ export class GitHubEvent {
 		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
 		const created_at = String.import(Reflect.get(object, "created_at"), `${name}.created_at`);
 		const repo = GitHubEventRepository.import(Reflect.get(object, "repo"), `${name}.repo`);
-		const payload = GitHubEventPayload.import(Reflect.get(object, "payload"), `${name}.payload`);
+		const payload = GitHubEventPayload.import(type, Reflect.get(object, "payload"), `${name}.payload`);
 		const _public = Boolean.import(Reflect.get(object, "public"), `${name}.public`);
 		const result = new GitHubEvent(type, created_at, repo, payload, _public);
 		return result;

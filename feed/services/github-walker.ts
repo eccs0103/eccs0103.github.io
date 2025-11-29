@@ -35,8 +35,12 @@ export class GitHubWalker extends EventWalker {
 		const name = "event";
 		let index = 0;
 		for (const item of Array.import(source, name)) {
-			yield GitHubEvent.import(item, `${name}[${index}]`);
-			index++;
+			try {
+				yield GitHubEvent.import(item, `${name}[${index++}]`);
+			} catch (reason) {
+				console.error(reason);
+				continue;
+			}
 		}
 	}
 

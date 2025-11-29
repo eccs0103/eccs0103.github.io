@@ -8,7 +8,7 @@ interface UserActivityScheme {
 	type: string;
 	description: string;
 	url: string;
-	timestamp: string;
+	timestamp: number;
 }
 
 class UserActivity {
@@ -16,9 +16,9 @@ class UserActivity {
 	#type: string;
 	#description: string;
 	#url: string;
-	#timestamp: string;
+	#timestamp: Date;
 
-	constructor(platform: string, type: string, description: string, url: string, timestamp: string) {
+	constructor(platform: string, type: string, description: string, url: string, timestamp: Date) {
 		this.#platform = platform;
 		this.#type = type;
 		this.#description = description;
@@ -42,7 +42,7 @@ class UserActivity {
 		return this.#url;
 	}
 
-	get timestamp(): string {
+	get timestamp(): Date {
 		return this.#timestamp;
 	}
 
@@ -52,7 +52,7 @@ class UserActivity {
 		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
 		const description = String.import(Reflect.get(object, "description"), `${name}.description`);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const timestamp = String.import(Reflect.get(object, "timestamp"), `${name}.timestamp`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
 		const result = new UserActivity(platform, type, description, url, timestamp);
 		return result;
 	}
@@ -62,7 +62,7 @@ class UserActivity {
 		const type = source.#type;
 		const description = source.#description;
 		const url = source.#url;
-		const timestamp = source.#timestamp;
+		const timestamp = Number(source.#timestamp);
 		return { platform, type, description, url, timestamp };
 	}
 }

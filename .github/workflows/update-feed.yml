@@ -32,10 +32,13 @@ jobs:
                   USERNAME_GITHUB: ${{ vars.USERNAME_GITHUB }}
               run: npm run walk
 
+            - name: Get Version
+              run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
             - name: Commit and Push changes
               run: |
                   git config --global user.name "GitHub Actions bot"
                   git config --global user.email "actions@github.com"
                   git add feed/data/activity.json
-                  git commit -m "chore: update activity feed [skip ci]" || exit 0
+                  git commit -m "${{ env.PACKAGE_VERSION }}" || exit 0
                   git push

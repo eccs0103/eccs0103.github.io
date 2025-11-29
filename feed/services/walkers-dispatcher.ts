@@ -47,8 +47,7 @@ class WalkersDispatcher {
 	}
 
 	static async *#fetchActivities(walker: EventWalker): AsyncIterable<UserActivity> {
-		const events = await walker.readEvents();
-		for (const event of events) {
+		for await (const event of walker.readEvents()) {
 			const activity = await walker.castToActivity(event);
 			if (activity === null) continue;
 			yield activity;
@@ -74,6 +73,7 @@ class WalkersDispatcher {
 				console.error(`Unable to fetch activities from ${walker.name} cause: ${Error.from(reason)}`);
 			}
 		}
+		activities.sort((activity1, activity2) => Number(activity1.timestamp) - Number(activity2.timestamp));
 	}
 
 	async execute(): Promise<void> {

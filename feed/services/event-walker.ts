@@ -20,7 +20,7 @@ class EventWalker<T = any> {
 		return this.#name;
 	}
 
-	async readEvents(): Promise<Iterable<T>> {
+	async *readEvents(): AsyncIterable<T> {
 		throw new ImplementationError();
 	}
 

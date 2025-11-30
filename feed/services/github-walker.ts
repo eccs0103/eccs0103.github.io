@@ -3,7 +3,7 @@
 import "adaptive-extender/core";
 import { EventWalker } from "./event-walker.js";
 import { GitHubCreateEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
-import { UserActivity } from "../models/user-activity.js";
+import { GitHubActivity } from "../models/user-activity.js";
 
 //#region GitHub walker
 export class GitHubWalker extends EventWalker {
@@ -60,7 +60,7 @@ export class GitHubWalker extends EventWalker {
 		}
 	}
 
-	async *crawl(): AsyncIterable<UserActivity> {
+	async *crawl(): AsyncIterable<GitHubActivity> {
 		for await (const event of this.#importEvents(3)) {
 			const { repo: repo, type, payload, created_at, public: _public } = event;
 			if (!_public) continue;
@@ -70,15 +70,15 @@ export class GitHubWalker extends EventWalker {
 			const url = `https://github.com/${name}`;
 			if (payload instanceof GitHubPushEventPayload) {
 				const branch = payload.ref?.replace("refs/heads/", "") ?? "repository";
-				yield new UserActivity(platform, type, `Pushed to '${branch}' in ${name}`, url, timestamp);
+				yield new GitHubActivity(platform, type, `Pushed to '${branch}' in ${name}`, url, timestamp);
 			}
 			if (payload instanceof GitHubWatchEventPayload) {
-				yield new UserActivity(platform, type, `Starred repository ${name}`, url, timestamp);
+				yield new GitHubActivity(platform, type, `Starred repository ${name}`, url, timestamp);
 			}
 			if (payload instanceof GitHubCreateEventPayload) {
 				const objectType = payload.ref_type;
 				const objectName = (` ${payload.ref ?? String.empty}`).trim();
-				yield new UserActivity(platform, type, `Created ${objectType} '${objectName}' in ${name}`, url, timestamp);
+				yield new GitHubActivity(platform, type, `Created ${objectType} '${objectName}' in ${name}`, url, timestamp);
 			}
 			continue;
 		}

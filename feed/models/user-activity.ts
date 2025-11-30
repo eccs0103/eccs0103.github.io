@@ -3,7 +3,7 @@
 import "adaptive-extender/core";
 
 //#region User activity
-interface UserActivityScheme {
+interface GitHubActivityScheme {
 	platform: string;
 	type: string;
 	description: string;
@@ -11,7 +11,7 @@ interface UserActivityScheme {
 	timestamp: number;
 }
 
-export class UserActivity {
+export class GitHubActivity {
 	#platform: string;
 	#type: string;
 	#description: string;
@@ -26,18 +26,18 @@ export class UserActivity {
 		this.#timestamp = timestamp;
 	}
 
-	static import(source: any, name: string = "[source]"): UserActivity {
+	static import(source: any, name: string = "[source]"): GitHubActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
 		const description = String.import(Reflect.get(object, "description"), `${name}.description`);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
 		const timestamp = Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`);
-		const result = new UserActivity(platform, type, description, url, timestamp);
+		const result = new GitHubActivity(platform, type, description, url, timestamp);
 		return result;
 	}
 
-	static export(source: UserActivity): UserActivityScheme {
+	static export(source: GitHubActivity): GitHubActivityScheme {
 		const platform = source.#platform;
 		const type = source.#type;
 		const description = source.#description;
@@ -46,11 +46,11 @@ export class UserActivity {
 		return { platform, type, description, url, timestamp };
 	}
 
-	static earlier(first: UserActivity, second: UserActivity): number {
+	static earlier(first: GitHubActivity, second: GitHubActivity): number {
 		return second.#timestamp - first.#timestamp;
 	}
 
-	static isSame(first: UserActivity, second: UserActivity): boolean {
+	static isSame(first: GitHubActivity, second: GitHubActivity): boolean {
 		if (first.#platform !== second.#platform) return false;
 		if (first.#timestamp !== second.#timestamp) return false;
 		if (first.#description !== second.#description) return false;

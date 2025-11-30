@@ -2,7 +2,7 @@
 
 import "adaptive-extender/core";
 import { ImplementationError } from "adaptive-extender/core";
-import type { UserActivity } from "../models/user-activity.js";
+import { type GitHubActivity } from "../models/user-activity.js";
 
 //#region Event walker
 /**
@@ -20,7 +20,7 @@ export class EventWalker {
 		return this.#name;
 	}
 
-	async *crawl(): AsyncIterable<UserActivity> {
+	async *crawl(): AsyncIterable<GitHubActivity> {
 		throw new ImplementationError();
 	}
 }

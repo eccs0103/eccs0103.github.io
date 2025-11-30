@@ -5,37 +5,28 @@ body {
 	overflow-y: auto;
 }
 
-main {
-	display: grid;
-	height: fit-content;
-	overflow-y: auto;
-}
-
-div#feed {
-	width: 100%;
-	max-width: 100vmin;
-	height: fit-content;
-}
-
 img[alt="eccs0103 logo"] {
 	max-height: 30vmin;
+}
+
+main:not(:has(div)) {
+	display: none;
+	position: absolute;
 }
 
 footer {
 	display: grid;
 }
 
-*#social-media {
+.social-media {
 	display: grid;
-	grid-template-columns: repeat(2, auto);
-	align-items: center;
-	row-gap: var(--size-gap);
-	/* column-gap: var(--size-gap); */
+	grid-template-columns: repeat(3, max-content);
+	justify-content: center;
+	width: 100%;
 }
 
-/* *#social-media img:not(.integrated) {
-	filter: saturate(0);
-} */
+.integrated {
+}
 
 dialog.loader img[alt="Logo"] {
 	content: url(../resources/loading.gif);

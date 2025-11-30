@@ -6,6 +6,11 @@ on:
 
     workflow_dispatch:
 
+    # ДОБАВЛЕНО: Запускать деплой после успешного обновления фида
+    workflow_run:
+        workflows: [ "Update activity feed" ] # Имя должно точно совпадать с name в update-feed.yml
+        types:
+            - completed
 
 permissions:
     contents: read
@@ -18,6 +23,8 @@ concurrency:
 
 jobs:
     build-and-deploy:
+        # ДОБАВЛЕНО: Проверяем, что предыдущий workflow завершился успешно (если запуск был через workflow_run)
+        if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest
         environment:
             name: github-pages

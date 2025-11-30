@@ -3,7 +3,8 @@
 import "adaptive-extender/core";
 import { EventWalker } from "./event-walker.js";
 import { GitHubCreateEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
-import { GitHubActivity } from "../models/user-activity.js";
+import { Activity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity } from "../models/activity.js";
+// import { GitHubActivity } from "../models/user-activity.js";
 
 //#region GitHub walker
 export class GitHubWalker extends EventWalker {
@@ -60,25 +61,25 @@ export class GitHubWalker extends EventWalker {
 		}
 	}
 
-	async *crawl(): AsyncIterable<GitHubActivity> {
+	async *crawl(): AsyncIterable<Activity> {
 		for await (const event of this.#importEvents(3)) {
-			const { repo: repo, type, payload, created_at, public: _public } = event;
-			if (!_public) continue;
-			const timestamp = Date.parse(created_at);
-			const { name } = repo;
+			if (!event.public) continue;
+			const { repo, payload } = event;
 			const platform = this.name;
-			const url = `https://github.com/${name}`;
+			const timestamp = new Date(event.created_at);
+			const { url, name: repository } = repo;
+			
+			// const url = `https://github.com/${name}`;
 			if (payload instanceof GitHubPushEventPayload) {
-				const branch = payload.ref?.replace("refs/heads/", "") ?? "repository";
-				yield new GitHubActivity(platform, type, `Pushed to '${branch}' in ${name}`, url, timestamp);
+				// const branch = payload.ref?.replace("refs/heads/", "") ?? "repository";
+				yield new GitHubPushActivity(platform, timestamp, username, url, repository, sha);
 			}
 			if (payload instanceof GitHubWatchEventPayload) {
-				yield new GitHubActivity(platform, type, `Starred repository ${name}`, url, timestamp);
+				yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
 			}
 			if (payload instanceof GitHubCreateEventPayload) {
-				const objectType = payload.ref_type;
-				const objectName = (` ${payload.ref ?? String.empty}`).trim();
-				yield new GitHubActivity(platform, type, `Created ${objectType} '${objectName}' in ${name}`, url, timestamp);
+				if (payload.ref_type === "tag") yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, ReferenceError.suppress(payload.ref));
+
 			}
 			continue;
 		}

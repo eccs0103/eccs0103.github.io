@@ -11,7 +11,7 @@ interface GitHubActivityScheme {
 	timestamp: number;
 }
 
-export class GitHubActivity {
+class GitHubActivity {
 	#platform: string;
 	#type: string;
 	#description: string;

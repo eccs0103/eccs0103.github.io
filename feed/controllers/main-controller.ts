@@ -32,7 +32,7 @@ class MainController extends Controller {
 		const activities = Array.import(database, name).map((item, index) => {
 			return UserActivity.import(item, `${name}[${index}]`);
 		});
-		let limit = 100;
+		let limit = 5;
 		for (const activity of activities) {
 			if (limit <= 0) break;
 			MainController.addActivityLog(divFeedContainer, activity);

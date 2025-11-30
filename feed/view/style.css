@@ -1,9 +1,12 @@
 body {
-	position: fixed;
-	inset: 0;
+	margin-inline: auto;
+	width: 100%;
+	max-width: 100vmin;
+	overflow-y: auto;
 }
 
 main {
+	display: grid;
 	height: fit-content;
 	overflow-y: auto;
 }
@@ -15,15 +18,24 @@ div#feed {
 }
 
 img[alt="eccs0103 logo"] {
-	max-height: 40vmin;
+	max-height: 30vmin;
+}
+
+footer {
+	display: grid;
 }
 
 *#social-media {
 	display: grid;
 	grid-template-columns: repeat(2, auto);
 	align-items: center;
-	column-gap: var(--size-gap);
+	row-gap: var(--size-gap);
+	/* column-gap: var(--size-gap); */
 }
+
+/* *#social-media img:not(.integrated) {
+	filter: saturate(0);
+} */
 
 dialog.loader img[alt="Logo"] {
 	content: url(../resources/loading.gif);

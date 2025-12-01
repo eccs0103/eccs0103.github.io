@@ -42,11 +42,11 @@ export class Group {
 
 		static import(source: any, name: string = "[source]"): GroupMember {
 			const object = Object.import(source, name);
-			const name2 = String.import(Reflect.get(object, "name"), `${name}.name`);
+			const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
 			const surname = String.import(Reflect.get(object, "surname"), `${name}.surname`);
 			const patronymic = String.import(Reflect.get(object, "patronymic"), `${name}.patronymic`);
 			const birthday = new Date(String.import(Reflect.get(object, "birthday"), `${name}.birthday`));
-			return Group.#newMember(name2, surname, patronymic, birthday);
+			return Group.#newMember($name, surname, patronymic, birthday);
 		}
 
 		get name(): string {

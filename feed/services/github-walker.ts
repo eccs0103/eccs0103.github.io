@@ -1,12 +1,12 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { EventWalker } from "./event-walker.js";
+import { ActivityWalker } from "./activity-walker.js";
 import { GitHubCreateEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
-import { GitHubActivity } from "../models/user-activity.js";
+import { GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, type Activity } from "../models/activity.js";
 
 //#region GitHub walker
-export class GitHubWalker extends EventWalker {
+export class GitHubWalker extends ActivityWalker {
 	#username: string;
 	#token: string;
 
@@ -60,27 +60,29 @@ export class GitHubWalker extends EventWalker {
 		}
 	}
 
-	async *crawl(): AsyncIterable<GitHubActivity> {
+	async *crawl(): AsyncIterable<Activity> {
 		for await (const event of this.#importEvents(3)) {
-			const { repo: repo, type, payload, created_at, public: _public } = event;
-			if (!_public) continue;
-			const timestamp = Date.parse(created_at);
-			const { name } = repo;
+			if (!event.public) continue;
+			const { payload, repo } = event;
 			const platform = this.name;
-			const url = `https://github.com/${name}`;
+			const timestamp = new Date(event.created_at);
+			const { login: username } = event.actor;
+			const { url } = repo;
+			const repository = repo.name.replace(`${username}/`, String.empty);
 			if (payload instanceof GitHubPushEventPayload) {
-				const branch = payload.ref?.replace("refs/heads/", "") ?? "repository";
-				yield new GitHubActivity(platform, type, `Pushed to '${branch}' in ${name}`, url, timestamp);
+				yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);
 			}
 			if (payload instanceof GitHubWatchEventPayload) {
-				yield new GitHubActivity(platform, type, `Starred repository ${name}`, url, timestamp);
+				yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
 			}
 			if (payload instanceof GitHubCreateEventPayload) {
-				const objectType = payload.ref_type;
-				const objectName = (` ${payload.ref ?? String.empty}`).trim();
-				yield new GitHubActivity(platform, type, `Created ${objectType} '${objectName}' in ${name}`, url, timestamp);
+				const name = payload.ref ?? repository;
+				switch (payload.ref_type) {
+				case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name);
+				case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name);
+				case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name);
+				}
 			}
-			continue;
 		}
 	}
 }

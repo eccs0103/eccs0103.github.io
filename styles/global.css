@@ -123,11 +123,15 @@ body {
 		}
 	}
 
-	&:where(.primary-centered, .centered) {
+	&.wrap {
+		flex-wrap: wrap;
+	}
+
+	&:where(.main-center, .center) {
 		justify-content: center;
 	}
 
-	&:where(.secondary-centered, .centered) {
+	&:where(.alt-center, .center) {
 		align-items: center;
 	}
 }

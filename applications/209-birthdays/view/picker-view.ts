@@ -53,7 +53,7 @@ export class PickerView extends EventTarget {
 		const buttonPickerItem = document.createElement("button");
 		buttonPickerItem.type = "button";
 		buttonPickerItem.title = String.empty;
-		buttonPickerItem.classList.add("picker-item", "flex", "column", "primary-centered");
+		buttonPickerItem.classList.add("picker-item", "flex", "column", "main-center");
 
 		const spanItemTitle = buttonPickerItem.appendChild(document.createElement("span"));
 		spanItemTitle.classList.add("title");

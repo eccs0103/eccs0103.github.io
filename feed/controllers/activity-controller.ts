@@ -4,12 +4,12 @@ import "adaptive-extender/node";
 import { Controller } from "adaptive-extender/node";
 import { GitHubWalker } from "../services/github-walker.js";
 import { env } from "../services/local-environment.js";
-import { WalkersDispatcher } from "../services/walkers-dispatcher.js";
+import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
 
-//#region Feed controller
-class FeedController extends Controller {
+//#region Activity controller
+class ActivityController extends Controller {
 	async run(): Promise<void> {
-		const dispatcher = new WalkersDispatcher("feed/data/activity.json");
+		const dispatcher = new ActivityDispatcher("feed/data/activity.json");
 		const { usernameGitHub, tokenGitHub } = env;
 
 		dispatcher.connect(new GitHubWalker(usernameGitHub, tokenGitHub));
@@ -25,4 +25,4 @@ class FeedController extends Controller {
 }
 //#endregion
 
-await FeedController.launch();
+await ActivityController.launch();

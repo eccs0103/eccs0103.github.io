@@ -8,7 +8,7 @@
 		"dev": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
-		"walk": "tsx feed/controllers/feed-controller.ts"
+		"walk": "tsx feed/controllers/activity-controller.ts"
 	},
 	"devDependencies": {
 		"@types/node": "^24.7.2",

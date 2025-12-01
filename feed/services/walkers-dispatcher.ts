@@ -3,23 +3,23 @@
 import "adaptive-extender/core";
 import AsyncFileSystem from "fs/promises";
 import { dirname } from "path";
-import { GitHubActivity } from "../models/user-activity.js";
-import { type EventWalker } from "../services/event-walker.js";
+import { type ActivityWalker } from "./activity-walker.js";
+import { Activity } from "../models/activity.js";
 
-//#region Walkers dispatcher
-export class WalkersDispatcher {
+//#region Activity dispatcher
+export class ActivityDispatcher {
 	#path: string;
-	#walkers: Set<EventWalker> = new Set();
+	#walkers: Set<ActivityWalker> = new Set();
 
 	constructor(path: string) {
 		this.#path = path;
 	}
 
-	connect(walker: EventWalker): void {
+	connect(walker: ActivityWalker): void {
 		this.#walkers.add(walker);
 	}
 
-	disconnect(walker: EventWalker): void {
+	disconnect(walker: ActivityWalker): void {
 		this.#walkers.delete(walker);
 	}
 
@@ -28,31 +28,30 @@ export class WalkersDispatcher {
 		try {
 			await AsyncFileSystem.access(path, AsyncFileSystem.constants.F_OK);
 		} catch {
-			await WalkersDispatcher.#writeActivities([], path);
+			await ActivityDispatcher.#writeActivities([], path);
 		}
 	}
 
-	static async #readActivities(path: string, activities: GitHubActivity[]): Promise<void> {
-		const content = await AsyncFileSystem.readFile(path, "utf-8");
-		const object = JSON.parse(content);
+	static async #readActivities(path: string, activities: Activity[]): Promise<void> {
+		const object = JSON.parse(await AsyncFileSystem.readFile(path, "utf-8"));
 		const name = "activities";
 		activities.push(...Array.import(object, name).map((item, index) => {
-			return GitHubActivity.import(item, `${name}[${index}]`);
+			return Activity.import(item, `${name}[${index}]`);
 		}));
 	}
 
-	static async #runWalker(walker: EventWalker, activities: GitHubActivity[]): Promise<void> {
+	static async #runWalker(walker: ActivityWalker, activities: Activity[]): Promise<void> {
 		for await (const target of walker.crawl()) {
-			if (activities.some(activity => GitHubActivity.isSame(activity, target))) continue;
+			if (activities.some(activity => Activity.isSame(activity, target))) continue;
 			activities.push(target);
 		}
 	}
 
-	static async #runWalkers(walkers: Iterable<EventWalker>, activities: GitHubActivity[]): Promise<void> {
+	static async #runWalkers(walkers: Iterable<ActivityWalker>, activities: Activity[]): Promise<void> {
 		for (const walker of walkers) {
 			try {
 				const before = activities.length;
-				await WalkersDispatcher.#runWalker(walker, activities);
+				await ActivityDispatcher.#runWalker(walker, activities);
 				const count = activities.length - before;
 				if (count === 0) continue;
 				console.log(`Added ${count} new activities from ${walker.name}`);
@@ -60,21 +59,21 @@ export class WalkersDispatcher {
 				console.error(`Unable to fetch activities from ${walker.name} cause: ${Error.from(reason)}`);
 			}
 		}
-		activities.sort(GitHubActivity.earlier);
+		activities.sort(Activity.earlier);
 	}
 
-	static async #writeActivities(activities: GitHubActivity[], path: string): Promise<void> {
-		const object = activities.map(activity => GitHubActivity.export(activity));
+	static async #writeActivities(activities: Activity[], path: string): Promise<void> {
+		const object = activities.map(activity => Activity.export(activity));
 		await AsyncFileSystem.writeFile(path, JSON.stringify(object, null, "\t"));
 	}
 
 	async execute(): Promise<void> {
 		const path = this.#path;
-		const activities: GitHubActivity[] = [];
-		await WalkersDispatcher.#ensureStorage(path);
-		await WalkersDispatcher.#readActivities(path, activities);
-		await WalkersDispatcher.#runWalkers(this.#walkers, activities);
-		await WalkersDispatcher.#writeActivities(activities, path);
+		const activities: Activity[] = [];
+		await ActivityDispatcher.#ensureStorage(path);
+		await ActivityDispatcher.#readActivities(path, activities);
+		await ActivityDispatcher.#runWalkers(this.#walkers, activities);
+		await ActivityDispatcher.#writeActivities(activities, path);
 	}
 }
 //#endregion

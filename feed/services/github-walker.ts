@@ -1,13 +1,15 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { EventWalker } from "./event-walker.js";
+import { ActivityWalker } from "./activity-walker.js";
 import { GitHubCreateEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
-import { Activity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity } from "../models/activity.js";
-// import { GitHubActivity } from "../models/user-activity.js";
+import { GitHubPushActivity } from "../models/github-push-activity.js";
+import { GitHubWatchActivity } from "../models/github-watch-activity.js";
+import { GitHubCreateTagActivity } from "../models/github-create-tag-activity.js";
+import { type Activity } from "../models/activity.js";
 
 //#region GitHub walker
-export class GitHubWalker extends EventWalker {
+export class GitHubWalker extends ActivityWalker {
 	#username: string;
 	#token: string;
 
@@ -64,22 +66,23 @@ export class GitHubWalker extends EventWalker {
 	async *crawl(): AsyncIterable<Activity> {
 		for await (const event of this.#importEvents(3)) {
 			if (!event.public) continue;
-			const { repo, payload } = event;
+			const { repo, payload, actor } = event;
 			const platform = this.name;
 			const timestamp = new Date(event.created_at);
+			const { login: username } = actor;
 			const { url, name: repository } = repo;
-			
+
 			// const url = `https://github.com/${name}`;
 			if (payload instanceof GitHubPushEventPayload) {
 				// const branch = payload.ref?.replace("refs/heads/", "") ?? "repository";
-				yield new GitHubPushActivity(platform, timestamp, username, url, repository, sha);
+				yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);
 			}
 			if (payload instanceof GitHubWatchEventPayload) {
 				yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
 			}
 			if (payload instanceof GitHubCreateEventPayload) {
 				if (payload.ref_type === "tag") yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, ReferenceError.suppress(payload.ref));
-
+				continue;
 			}
 			continue;
 		}

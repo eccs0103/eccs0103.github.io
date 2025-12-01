@@ -41,7 +41,7 @@ export class GitHubEvent {
 		const $public = Boolean.import(Reflect.get(object, "public"), `${name}.public`);
 		const created_at = String.import(Reflect.get(object, "created_at"), `${name}.created_at`);
 		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
-		const payload = GitHubEventPayload.import(Object.assign(Object.import(Reflect.get(object, "payload"), `${name}.payload`), { [type]: type }), `${name}.payload`);
+		const payload = GitHubEventPayload.import(Object.assign(Object.import(Reflect.get(object, "payload"), `${name}.payload`), { $type: type }), `${name}.payload`);
 		const result = new GitHubEvent(id, actor, repo, $public, created_at, payload);
 		return result;
 	}
@@ -178,7 +178,7 @@ export class GitHubEventRepository {
 
 	static import(source: any, name: string = "[source]"): GitHubEventRepository {
 		const object = Object.import(source, name);
-		const id = Number.import(Reflect.get(object, "name"), `${name}.name`);
+		const id = Number.import(Reflect.get(object, "id"), `${name}.id`);
 		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
 		const result = new GitHubEventRepository(id, $name, url);
@@ -238,6 +238,7 @@ export class GitHubEventPayload {
 	}
 }
 //#endregion
+
 //#region GitHub push event payload
 export interface GitHubPushEventPayloadDiscriminator {
 	"PushEvent": any;
@@ -300,6 +301,7 @@ export class GitHubPushEventPayload {
 	}
 }
 //#endregion
+
 //#region GitHub watch event payload
 export interface GitHubWatchEventPayloadDiscriminator {
 	"WatchEvent": any;
@@ -335,6 +337,7 @@ export class GitHubWatchEventPayload {
 	}
 }
 //#endregion
+
 //#region GitHub create event payload
 export interface GitHubCreateEventPayloadDiscriminator {
 	"CreateEvent": any;

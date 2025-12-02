@@ -360,3 +360,94 @@ export class GitHubCreateRepositoryActivity extends GitHubCreateActivity {
 	}
 }
 //#endregion
+
+
+//#region Spotify activity
+export interface SpotifyActivityDiscriminator extends SpotifyLikeActivityDiscriminator {
+}
+
+export interface SpotifyActivityScheme extends ActivityScheme {
+	$type: keyof SpotifyActivityDiscriminator;
+	trackName: string;
+	artistName: string;
+	url: string;
+}
+
+export abstract class SpotifyActivity extends Activity {
+	#trackName: string;
+	#artistName: string;
+	#url: string;
+
+	constructor(platform: string, timestamp: Date, trackName: string, artistName: string, url: string) {
+		super(platform, timestamp);
+		if (new.target === SpotifyActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.#trackName = trackName;
+		this.#artistName = artistName;
+		this.#url = url;
+	}
+
+	static import(source: any, name: string = "[source]"): SpotifyActivity {
+		const object = Object.import(source, name);
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
+		switch ($type) {
+		case "SpotifyLikeActivity": return SpotifyLikeActivity.import(source, name);
+		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
+		}
+	}
+
+	static export(source: SpotifyActivity): SpotifyActivityScheme {
+		if (source instanceof SpotifyLikeActivity) return SpotifyLikeActivity.export(source);
+		throw new TypeError(`Invalid '${typename(source)}' type for source`);
+	}
+
+	get trackName(): string {
+		return this.#trackName;
+	}
+
+	get artistName(): string {
+		return this.#artistName;
+	}
+
+	get url(): string {
+		return this.#url;
+	}
+}
+//#endregion
+
+//#region Spotify like activity
+export interface SpotifyLikeActivityDiscriminator {
+	"SpotifyLikeActivity": SpotifyLikeActivity;
+}
+
+export interface SpotifyLikeActivityScheme extends SpotifyActivityScheme {
+	$type: keyof SpotifyLikeActivityDiscriminator;
+}
+
+export class SpotifyLikeActivity extends SpotifyActivity {
+	constructor(platform: string, timestamp: Date, trackName: string, artistName: string, url: string) {
+		super(platform, timestamp, trackName, artistName, url);
+	}
+
+	static import(source: any, name: string = "[source]"): SpotifyLikeActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const trackName = String.import(Reflect.get(object, "trackName"), `${name}.trackName`);
+		const artistName = String.import(Reflect.get(object, "artistName"), `${name}.artistName`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+
+		const result = new SpotifyLikeActivity(platform, timestamp, trackName, artistName, url);
+		return result;
+	}
+
+	static export(source: SpotifyLikeActivity): SpotifyLikeActivityScheme {
+		const $type = "SpotifyLikeActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const trackName = source.trackName;
+		const artistName = source.artistName;
+		const url = source.url;
+		return { $type, platform, timestamp, trackName, artistName, url };
+	}
+}
+//#endregion

@@ -30,6 +30,9 @@ jobs:
             env:
                 TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
                 USERNAME_GITHUB: ${{ vars.USERNAME_GITHUB }}
+                CLIENT_ID_SPOTIFY: ${{ secrets.CLIENT_ID_SPOTIFY }}
+                CLIENT_SECRET_SPOTIFY: ${{ secrets.CLIENT_SECRET_SPOTIFY }}
+                TOKEN_SPOTIFY: ${{ secrets.TOKEN_SPOTIFY }}
             run: npm run walk
 
           - name: Get Version

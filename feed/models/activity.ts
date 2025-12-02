@@ -46,7 +46,7 @@ export abstract class Activity {
 
 	static isSame(first: Activity, second: Activity): boolean {
 		if (first.#platform !== second.#platform) return false;
-		if (first.#timestamp !== second.#timestamp) return false;
+		if (first.#timestamp.valueOf() !== second.#timestamp.valueOf()) return false;
 		return true;
 	}
 

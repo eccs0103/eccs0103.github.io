@@ -54,7 +54,7 @@ export class SpotifyWalker extends ActivityWalker {
 		for await (const event of this.#fetchSavedTracks(accessToken, 20)) {
 			const { track, addedAt } = event;
 			const timestamp = new Date(addedAt);
-			yield new SpotifyLikeActivity(this.name, timestamp, track.name, track.artists.map(artist => artist.name), track.uri);
+			yield new SpotifyLikeActivity(this.name, timestamp, track.name, track.artists.map(artist => artist.name).join(", "), track.album.images[0].url, track.uri);
 		}
 	}
 }

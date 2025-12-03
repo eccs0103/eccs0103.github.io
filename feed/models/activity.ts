@@ -31,12 +31,14 @@ export abstract class Activity {
 		case "GitHubCreateTagActivity":
 		case "GitHubCreateBranchActivity":
 		case "GitHubCreateRepositoryActivity": return GitHubActivity.import(source, name);
+		case "SpotifyLikeActivity": return SpotifyActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
 
 	static export(source: Activity): ActivityScheme {
 		if (source instanceof GitHubActivity) return GitHubActivity.export(source);
+		if (source instanceof SpotifyActivity) return SpotifyActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 
@@ -400,18 +402,21 @@ export interface SpotifyLikeActivityScheme extends SpotifyActivityScheme {
 	$type: keyof SpotifyLikeActivityDiscriminator;
 	trackName: string;
 	artistName: string;
+	imageUrl: string;
 	url: string;
 }
 
 export class SpotifyLikeActivity extends SpotifyActivity {
 	#trackName: string;
 	#artistName: string;
+	#imageUrl: string;
 	#url: string;
 
-	constructor(platform: string, timestamp: Date, trackName: string, artistName: string, url: string) {
+	constructor(platform: string, timestamp: Date, trackName: string, artistName: string, imageUrl: string, url: string) {
 		super(platform, timestamp);
 		this.#trackName = trackName;
 		this.#artistName = artistName;
+		this.#imageUrl = imageUrl;
 		this.#url = url;
 	}
 
@@ -421,8 +426,9 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
 		const trackName = String.import(Reflect.get(object, "trackName"), `${name}.trackName`);
 		const artistName = String.import(Reflect.get(object, "artistName"), `${name}.artistName`);
+		const imageUrl = String.import(Reflect.get(object, "imageUrl"), `${name}.imageUrl`);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const result = new SpotifyLikeActivity(platform, timestamp, trackName, artistName, url);
+		const result = new SpotifyLikeActivity(platform, timestamp, trackName, artistName, imageUrl, url);
 		return result;
 	}
 
@@ -432,8 +438,9 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const timestamp = Number(source.timestamp);
 		const trackName = source.trackName;
 		const artistName = source.artistName;
+		const imageUrl = source.imageUrl;
 		const url = source.url;
-		return { $type, platform, timestamp, trackName, artistName, url };
+		return { $type, platform, timestamp, trackName, artistName, imageUrl, url };
 	}
 
 	get trackName(): string {
@@ -442,6 +449,10 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 
 	get artistName(): string {
 		return this.#artistName;
+	}
+
+	get imageUrl(): string {
+		return this.#imageUrl;
 	}
 
 	get url(): string {

@@ -27,7 +27,7 @@ export class GitHubWalker extends ActivityWalker {
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		return await response.json();
+		return GitHubEvent.import(await response.json(), "github_event");
 	}
 
 	async *#importPaginatedEvents(page: number, count: number): AsyncIterable<GitHubEvent> {
@@ -65,7 +65,7 @@ export class GitHubWalker extends ActivityWalker {
 			if (!event.public) continue;
 			const { payload, repo } = event;
 			const platform = this.name;
-			const timestamp = new Date(event.created_at);
+			const timestamp = new Date(event.createdAt);
 			const { login: username } = event.actor;
 			const { url } = repo;
 			const repository = repo.name.replace(`${username}/`, String.empty);
@@ -77,7 +77,7 @@ export class GitHubWalker extends ActivityWalker {
 			}
 			if (payload instanceof GitHubCreateEventPayload) {
 				const name = payload.ref ?? repository;
-				switch (payload.ref_type) {
+				switch (payload.refType) {
 				case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name);
 				case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name);
 				case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name);

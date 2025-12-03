@@ -40,7 +40,7 @@ export class Group {
 			this.#importance = new Map();
 		}
 
-		static import(source: any, name: string = "[source]"): GroupMember {
+		static import(source: any, name: string): GroupMember {
 			const object = Object.import(source, name);
 			const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
 			const surname = String.import(Reflect.get(object, "surname"), `${name}.surname`);
@@ -121,7 +121,7 @@ export class Group {
 		this.#members = new Map();
 	}
 
-	static import(source: any, name: string = "[source]"): Group {
+	static import(source: any, name: string): Group {
 		const object = Object.import(source, name);
 		const group = new Group("209");
 		const identifiers = group.#identifiers;

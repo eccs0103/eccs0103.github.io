@@ -2,7 +2,7 @@
 
 import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
-import { SpotifySavedTrack } from "../models/spotify-event.js";
+import { SpotifySaveEvent, SpotifySavesCollection, SpotifyToken } from "../models/spotify-event.js";
 import { Activity, SpotifyLikeActivity } from "../models/activity.js";
 
 //#region Spotify walker
@@ -18,7 +18,7 @@ export class SpotifyWalker extends ActivityWalker {
 		this.#refreshToken = refreshToken;
 	}
 
-	async #refreshAccessToken(): Promise<string> {
+	async #refreshAccessToken(): Promise<SpotifyToken> {
 		const url = new URL("https://accounts.spotify.com/api/token");
 		const method = "POST";
 		const auth = Buffer.from(`${this.#clientId}:${this.#clientSecret}`).toString("base64");
@@ -32,25 +32,20 @@ export class SpotifyWalker extends ActivityWalker {
 		});
 		const response = await fetch(url, { method, headers, body });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const data: any = await response.json();
-		return String.import(data.access_token, "spotify_access_token");
+		return SpotifyToken.import(await response.json(), "spotify_token");
 	}
 
-	async *#fetchSavedTracks(accessToken: string, limit: number): AsyncIterable<SpotifySavedTrack> {
+	async *#fetchSavedTracks(token: SpotifyToken, limit: number): AsyncIterable<SpotifySaveEvent> {
 		const url = new URL("https://api.spotify.com/v1/me/tracks");
 		url.searchParams.set("limit", String(limit));
 		const headers: HeadersInit = {
-			["Authorization"]: `Bearer ${accessToken}`
+			["Authorization"]: `Bearer ${token.accessToken}`
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const data: any = await response.json();
-		const name = "spotify_items";
-		const items = Array.import(data.items, name);
-		let index = 0;
-		for (const item of items) {
-			yield SpotifySavedTrack.import(item, `${name}[${index}]`);
-			index++;
+		const collection = SpotifySavesCollection.import(await response.json(), "spotify_saves_collection");
+		for (const event of collection.items) {
+			yield event;
 		}
 	}
 
@@ -59,8 +54,7 @@ export class SpotifyWalker extends ActivityWalker {
 		for await (const event of this.#fetchSavedTracks(accessToken, 20)) {
 			const { track, addedAt } = event;
 			const timestamp = new Date(addedAt);
-			const artistNames = track.artists.map(a => a.name).join(", ");
-			yield new SpotifyLikeActivity(this.name, timestamp, track.name, artistNames, track.url);
+			yield new SpotifyLikeActivity(this.name, timestamp, track.name, track.artists.map(artist => artist.name), track.uri);
 		}
 	}
 }

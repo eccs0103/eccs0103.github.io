@@ -3,7 +3,7 @@
 import "adaptive-extender/core";
 
 //#region Activity
-export interface ActivityDiscriminator extends GitHubActivityDiscriminator {
+export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator {
 }
 
 export interface ActivityScheme {
@@ -22,7 +22,7 @@ export abstract class Activity {
 		this.#timestamp = timestamp;
 	}
 
-	static import(source: any, name: string = "[source]"): Activity {
+	static import(source: any, name: string): Activity {
 		const object = Object.import(source, name);
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
@@ -84,7 +84,7 @@ export abstract class GitHubActivity extends Activity {
 		this.#repository = repository;
 	}
 
-	static import(source: any, name: string = "[source]"): GitHubActivity {
+	static import(source: any, name: string): GitHubActivity {
 		const object = Object.import(source, name);
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
@@ -136,7 +136,7 @@ export class GitHubPushActivity extends GitHubActivity {
 		this.#sha = sha;
 	}
 
-	static import(source: any, name: string = "[source]"): GitHubPushActivity {
+	static import(source: any, name: string): GitHubPushActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
@@ -179,7 +179,7 @@ export class GitHubWatchActivity extends GitHubActivity {
 		super(platform, timestamp, username, url, repository);
 	}
 
-	static import(source: any, name: string = "[source]"): GitHubWatchActivity {
+	static import(source: any, name: string): GitHubWatchActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
@@ -220,7 +220,7 @@ export abstract class GitHubCreateActivity extends GitHubActivity {
 		this.#name = name;
 	}
 
-	static import(source: any, name: string = "[source]"): GitHubCreateActivity {
+	static import(source: any, name: string): GitHubCreateActivity {
 		const object = Object.import(source, name);
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`) as keyof GitHubCreateActivityDiscriminator;
 		switch ($type) {
@@ -258,7 +258,7 @@ export class GitHubCreateTagActivity extends GitHubCreateActivity {
 		super(platform, timestamp, username, url, repository, name);
 	}
 
-	static import(source: any, name: string = "[source]"): GitHubCreateTagActivity {
+	static import(source: any, name: string): GitHubCreateTagActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
@@ -297,7 +297,7 @@ export class GitHubCreateBranchActivity extends GitHubCreateActivity {
 		super(platform, timestamp, username, url, repository, name);
 	}
 
-	static import(source: any, name: string = "[source]"): GitHubCreateBranchActivity {
+	static import(source: any, name: string): GitHubCreateBranchActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
@@ -336,7 +336,7 @@ export class GitHubCreateRepositoryActivity extends GitHubCreateActivity {
 		super(platform, timestamp, username, url, repository, name);
 	}
 
-	static import(source: any, name: string = "[source]"): GitHubCreateRepositoryActivity {
+	static import(source: any, name: string): GitHubCreateRepositoryActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
@@ -361,32 +361,21 @@ export class GitHubCreateRepositoryActivity extends GitHubCreateActivity {
 }
 //#endregion
 
-
 //#region Spotify activity
 export interface SpotifyActivityDiscriminator extends SpotifyLikeActivityDiscriminator {
 }
 
 export interface SpotifyActivityScheme extends ActivityScheme {
 	$type: keyof SpotifyActivityDiscriminator;
-	trackName: string;
-	artistName: string;
-	url: string;
 }
 
 export abstract class SpotifyActivity extends Activity {
-	#trackName: string;
-	#artistName: string;
-	#url: string;
-
-	constructor(platform: string, timestamp: Date, trackName: string, artistName: string, url: string) {
+	constructor(platform: string, timestamp: Date) {
 		super(platform, timestamp);
 		if (new.target === SpotifyActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#trackName = trackName;
-		this.#artistName = artistName;
-		this.#url = url;
 	}
 
-	static import(source: any, name: string = "[source]"): SpotifyActivity {
+	static import(source: any, name: string): SpotifyActivity {
 		const object = Object.import(source, name);
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
@@ -399,18 +388,6 @@ export abstract class SpotifyActivity extends Activity {
 		if (source instanceof SpotifyLikeActivity) return SpotifyLikeActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
-
-	get trackName(): string {
-		return this.#trackName;
-	}
-
-	get artistName(): string {
-		return this.#artistName;
-	}
-
-	get url(): string {
-		return this.#url;
-	}
 }
 //#endregion
 
@@ -421,21 +398,30 @@ export interface SpotifyLikeActivityDiscriminator {
 
 export interface SpotifyLikeActivityScheme extends SpotifyActivityScheme {
 	$type: keyof SpotifyLikeActivityDiscriminator;
+	trackName: string;
+	artistName: string;
+	url: string;
 }
 
 export class SpotifyLikeActivity extends SpotifyActivity {
+	#trackName: string;
+	#artistName: string;
+	#url: string;
+
 	constructor(platform: string, timestamp: Date, trackName: string, artistName: string, url: string) {
-		super(platform, timestamp, trackName, artistName, url);
+		super(platform, timestamp);
+		this.#trackName = trackName;
+		this.#artistName = artistName;
+		this.#url = url;
 	}
 
-	static import(source: any, name: string = "[source]"): SpotifyLikeActivity {
+	static import(source: any, name: string): SpotifyLikeActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
 		const trackName = String.import(Reflect.get(object, "trackName"), `${name}.trackName`);
 		const artistName = String.import(Reflect.get(object, "artistName"), `${name}.artistName`);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-
 		const result = new SpotifyLikeActivity(platform, timestamp, trackName, artistName, url);
 		return result;
 	}
@@ -448,6 +434,18 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const artistName = source.artistName;
 		const url = source.url;
 		return { $type, platform, timestamp, trackName, artistName, url };
+	}
+
+	get trackName(): string {
+		return this.#trackName;
+	}
+
+	get artistName(): string {
+		return this.#artistName;
+	}
+
+	get url(): string {
+		return this.#url;
 	}
 }
 //#endregion

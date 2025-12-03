@@ -1,23 +1,5 @@
 [
 	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1764749641000,
-		"trackName": "Remember The Best",
-		"artistName": "VØJ, Asketa, FTZmusic",
-		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2734a8634e702bffc3cacdef1f2",
-		"url": "spotify:track:2twiVjK8muhVgNvQz2atPo"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1764629306000,
-		"trackName": "FEEL NOTHING",
-		"artistName": "The Plot In You",
-		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273197f778e9f68a8ab1d7da3f8",
-		"url": "spotify:track:4xDwCYhobDehSBGUmd5H6Y"
-	},
-	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1764763075000,
@@ -34,6 +16,15 @@
 		"url": "https://api.github.com/repos/eccs0103/adaptive-extender",
 		"repository": "adaptive-extender",
 		"sha": "816d8d19ba2497dacdd910923fb6da313ad288ca"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764749641000,
+		"trackName": "Remember The Best",
+		"artistName": "VØJ, Asketa, FTZmusic",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2734a8634e702bffc3cacdef1f2",
+		"url": "spotify:track:2twiVjK8muhVgNvQz2atPo"
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -61,6 +52,15 @@
 		"url": "https://api.github.com/repos/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "956dd69d7856293089f8752110ae130474ab7103"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764629306000,
+		"trackName": "FEEL NOTHING",
+		"artistName": "The Plot In You",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273197f778e9f68a8ab1d7da3f8",
+		"url": "spotify:track:4xDwCYhobDehSBGUmd5H6Y"
 	},
 	{
 		"$type": "GitHubPushActivity",

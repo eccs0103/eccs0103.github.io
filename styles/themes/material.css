@@ -268,7 +268,8 @@ hr {
 }
 
 dfn,
-time {
+time,
+*.description {
 	color: var(--color-text-description);
 }
 

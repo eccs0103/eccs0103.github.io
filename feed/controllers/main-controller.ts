@@ -5,10 +5,12 @@ import { Controller } from "adaptive-extender/web";
 import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
 import database from "../data/activity.json";
 import { ArrayCursor } from "../services/array-cursor.js";
+import githubIcon from "../../resources/icons/github.svg";
+import spotifyIcon from "../../resources/icons/spotify.svg";
 
 const services: Map<string, string> = new Map([
-	["GitHub", "../resources/icons/github.svg"],
-	["Spotify", "../resources/icons/spotify.svg"],
+	["GitHub", githubIcon],
+	["Spotify", spotifyIcon],
 ]);
 
 //#region Main controller

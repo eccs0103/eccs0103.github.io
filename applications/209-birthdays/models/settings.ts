@@ -18,7 +18,7 @@ export class Settings {
 		this.#selection = value;
 	}
 
-	static import(source: any, name: string = "[source]"): Settings {
+	static import(source: any, name: string): Settings {
 		const object = Object.import(source, name);
 		const selection = Reflect.get(object, "selection");
 		const result = new Settings();

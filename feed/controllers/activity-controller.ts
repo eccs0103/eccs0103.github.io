@@ -2,17 +2,20 @@
 
 import "adaptive-extender/node";
 import { Controller } from "adaptive-extender/node";
-import { GitHubWalker } from "../services/github-walker.js";
-import { env } from "../services/local-environment.js";
 import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
+import { env } from "../services/local-environment.js";
+import { GitHubWalker } from "../services/github-walker.js";
+import { SpotifyWalker } from "../services/spotify-walker.js";
 
 //#region Activity controller
 class ActivityController extends Controller {
 	async run(): Promise<void> {
 		const dispatcher = new ActivityDispatcher("feed/data/activity.json");
-		const { usernameGitHub, tokenGitHub } = env;
+		const { githubUsername: usernameGitHub, githubToken: tokenGitHub } = env;
+		const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 
 		dispatcher.connect(new GitHubWalker(usernameGitHub, tokenGitHub));
+		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute();

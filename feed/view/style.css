@@ -9,14 +9,28 @@ img[alt="eccs0103 logo"] {
 	width: calc(6 * var(--size-standart));
 }
 
-main:not(:has(div)) {
-	display: none;
-	position: absolute;
-}
-
-main > div {
+main > div.post {
 	display: grid;
-	grid-template-rows: repeat(2, max-content);
+	grid-template:
+		'platform-icon	post-timepan' max-content
+		'post-content	post-content' max-content
+		/ max-content 1fr
+	;
+
+	& > img.icon {
+		grid-area: platform-icon;
+		width: var(--size-standart);
+	}
+
+	& > time.timestamp {
+		grid-area: post-timepan;
+		font-size: 0.9em;
+		justify-self: end;
+	}
+
+	& > div.content {
+		grid-area: post-content;
+	}
 }
 
 footer {

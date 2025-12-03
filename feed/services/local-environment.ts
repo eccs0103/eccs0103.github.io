@@ -6,15 +6,21 @@ import { Environment } from "adaptive-extender/node";
 class LocalEnvironment {
 	static #lock: boolean = true;
 	static #instance: LocalEnvironment | null = null;
-	#tokenGitHub: string;
-	#usernameGitHub: string;
+	#githubToken: string;
+	#githubUsername: string;
+	#spotifyClientId: string;
+	#spotifyClientSecret: string;
+	#spotifyToken: string;
 
 	constructor() {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
 		const name = typename(env);
-		this.#tokenGitHub = String.import(env.readValue("TOKEN_GITHUB"), `${name}.TOKEN_GITHUB`);
-		this.#usernameGitHub = String.import(env.readValue("USERNAME_GITHUB"), `${name}.USERNAME_GITHUB`);
+		this.#githubToken = String.import(env.readValue("TOKEN_GITHUB"), `${name}.TOKEN_GITHUB`);
+		this.#githubUsername = String.import(env.readValue("USERNAME_GITHUB"), `${name}.USERNAME_GITHUB`);
+		this.#spotifyClientId = String.import(env.readValue("CLIENT_ID_SPOTIFY"), `${name}.CLIENT_ID_SPOTIFY`);
+		this.#spotifyClientSecret = String.import(env.readValue("CLIENT_SECRET_SPOTIFY"), `${name}.CLIENT_SECRET_SPOTIFY`);
+		this.#spotifyToken = String.import(env.readValue("TOKEN_SPOTIFY"), `${name}.TOKEN_SPOTIFY`);
 	}
 
 	static get env(): LocalEnvironment {
@@ -26,12 +32,24 @@ class LocalEnvironment {
 		return LocalEnvironment.#instance;
 	}
 
-	get tokenGitHub(): string {
-		return this.#tokenGitHub;
+	get githubToken(): string {
+		return this.#githubToken;
 	}
 
-	get usernameGitHub(): string {
-		return this.#usernameGitHub;
+	get githubUsername(): string {
+		return this.#githubUsername;
+	}
+
+	get spotifyClientId(): string {
+		return this.#spotifyClientId;
+	}
+
+	get spotifyClientSecret(): string {
+		return this.#spotifyClientSecret;
+	}
+
+	get spotifyToken(): string {
+		return this.#spotifyToken;
 	}
 }
 

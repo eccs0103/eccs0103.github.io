@@ -1,5 +1,23 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764749641000,
+		"trackName": "Remember The Best",
+		"artistName": "VØJ, Asketa, FTZmusic",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2734a8634e702bffc3cacdef1f2",
+		"url": "spotify:track:2twiVjK8muhVgNvQz2atPo"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764629306000,
+		"trackName": "FEEL NOTHING",
+		"artistName": "The Plot In You",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273197f778e9f68a8ab1d7da3f8",
+		"url": "spotify:track:4xDwCYhobDehSBGUmd5H6Y"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1764763075000,
@@ -79,6 +97,15 @@
 		"url": "https://api.github.com/repos/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "e7279f0631cf7e73e6245f32b3d7d4c8cb0c5002"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764574278000,
+		"trackName": "Main Title",
+		"artistName": "John Paesano, Braden Kimball",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2739f7dd8a7ce5d7826805293ed",
+		"url": "spotify:track:4t20umh0eSuYstasrSl2HV"
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -297,6 +324,15 @@
 		"sha": "f5d7e7ecf603557c8fef08ebb2ff21617bdfc9e9"
 	},
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764328825000,
+		"trackName": "Пусть Бог будет рядом с твоими планами",
+		"artistName": "MACAN, Basta",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273b3ca871cb420d01758892668",
+		"url": "spotify:track:5btmzICOnW8Vl6A2zqOV2S"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1764284717000,
@@ -315,6 +351,33 @@
 		"sha": "fb9e1e6a8edd1a6c53536ebf3eef2f89468cb1db"
 	},
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764142903000,
+		"trackName": "Float Away",
+		"artistName": "Animadrop, Jaël",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273400b22b13a3de6d612866861",
+		"url": "spotify:track:77gV2tXiRNKchCjpXFCFPF"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764141908000,
+		"trackName": "Come Home - 432 HZ",
+		"artistName": "Aleister Temple",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273f811700e1c0687a14e5e9a9c",
+		"url": "spotify:track:4aysGdMZRDn4jJ0Kdkj4A1"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764140857000,
+		"trackName": "Absolute Eclipse",
+		"artistName": "NXT GXNXRXTION, zorssa",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b27320e104c8aa3ebfbc373714da",
+		"url": "spotify:track:1m7sO19fHDI21Ksj82Zcqf"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1764106009000,
@@ -322,6 +385,24 @@
 		"url": "https://api.github.com/repos/eccs0103/quartz",
 		"repository": "quartz",
 		"sha": "edb161f49080d6c351cd4945be9bdca6296416ae"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764020425000,
+		"trackName": "Impossible",
+		"artistName": "James Arthur",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273192221f838b7b6b9cb4629bf",
+		"url": "spotify:track:5yVIlYEHZxQVLyInCdldoS"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1763804098000,
+		"trackName": "NO BATIDÃO - Slowed",
+		"artistName": "ZXKAI, slxughter",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2737bff89cf90806ae22a6b72df",
+		"url": "spotify:track:72YttnPRxyHe8zCG50jYhj"
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -340,6 +421,15 @@
 		"url": "https://api.github.com/repos/eccs0103/quartz",
 		"repository": "quartz",
 		"sha": "65f2044709e8b5935e72243e8fb6de40973faa04"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1763537048000,
+		"trackName": "Ocean Drive",
+		"artistName": "Duke Dumont",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2732500bcdc1790d13e7ac1a0c0",
+		"url": "spotify:track:0b6wdul3A5sQNpIOv03OxP"
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -385,6 +475,15 @@
 		"url": "https://api.github.com/repos/eccs0103/quartz",
 		"repository": "quartz",
 		"sha": "31cb217a37c2e2eb3be7b77b19534f6bd66c0869"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1763447241000,
+		"trackName": "empty room",
+		"artistName": "skyfall beats, bulletrain",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273ef59df4aba4390ed1bd2c207",
+		"url": "spotify:track:2w1DUEJ8rqjeRt1o3blEFK"
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -585,6 +684,33 @@
 		"sha": "5c4b7eea21f1474c47800fd082477b9aa8a4d56d"
 	},
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1762984331000,
+		"trackName": "Ascension",
+		"artistName": "Jason Fervento",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273deb16d8e3f1c9f05395a903e",
+		"url": "spotify:track:5JmQ2oe5wNZWH2Vht8RAsf"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1762853007000,
+		"trackName": "Выхожу один я на дорогу",
+		"artistName": "СДП",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2737bf869dcc30f5b9316e24fbb",
+		"url": "spotify:track:79juO7nMiYl40mtEKsUExC"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1762756012000,
+		"trackName": "Silence Is Loud",
+		"artistName": "Skan, Lyana Faye",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2734e6179f455c95daa5ec6c52a",
+		"url": "spotify:track:5AlUKxEddZpwZAz5JAe3np"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1762599508000,
@@ -657,6 +783,15 @@
 		"sha": "63b46d13fc3c5fa8f8e2da9390dc176aea5367ce"
 	},
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1762497203000,
+		"trackName": "Just Pretend",
+		"artistName": "Bad Omens",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b273bafcef0262b82dec233717e2",
+		"url": "spotify:track:31rneVrsMC6jefCoDyQKam"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1762445383000,
@@ -664,6 +799,24 @@
 		"url": "https://api.github.com/repos/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "4a6257949c3caba3421d0230dcfd23205ecd083d"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1762427327000,
+		"trackName": "За тобой",
+		"artistName": "Enrasta",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2738be56dbc28a14ea77b7bca1e",
+		"url": "spotify:track:09BpCTZmsnkKA5jx2F9DSA"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1762416192000,
+		"trackName": "Stuck in a Timeloop",
+		"artistName": "Animadrop",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2730633207e756dfc5fd8c57db2",
+		"url": "spotify:track:2yqyxhFvrUQLuICKstGPTW"
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -727,5 +880,32 @@
 		"url": "https://api.github.com/repos/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"name": "development"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1762094392000,
+		"trackName": "Skins - Slowed + Reverb",
+		"artistName": "KREZUS, Surreal_dvd",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b27364aca33327d55f8308ab85ab",
+		"url": "spotify:track:2RiZE2yJhLAguRhlhwdTux"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1761559664000,
+		"trackName": "Liquid Moonshine",
+		"artistName": "Animadrop",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2737272c9e2e000c8a56d8d9df1",
+		"url": "spotify:track:67z4x5NkQrornPywQXJt3k"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1761519260000,
+		"trackName": "Это всё она",
+		"artistName": "Sergey Lazarev",
+		"imageUrl": "https://i.scdn.co/image/ab67616d0000b2737d464dafa14f6ca38b3b51d3",
+		"url": "spotify:track:4l8swd8oFNh8ebsK3NY1bn"
 	}
 ]

@@ -1,9 +1,9 @@
 "use strict";
 
-import "adaptive-extender/core";
+import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
 import { GitHubCreateEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
-import { GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, type Activity } from "../models/activity.js";
+import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity } from "../models/activity.js";
 
 //#region GitHub walker
 export class GitHubWalker extends ActivityWalker {
@@ -16,7 +16,7 @@ export class GitHubWalker extends ActivityWalker {
 		this.#token = token;
 	}
 
-	async #fetchPaginatedEvents(page: number, count: number): Promise<GitHubEvent> {
+	async *#fetchPage(page: number, count: number): AsyncIterable<GitHubEvent> {
 		const url = new URL(`https://api.github.com/users/${this.#username}/events`);
 		url.searchParams.set("per_page", String(count));
 		url.searchParams.set("page", String(page));
@@ -27,61 +27,52 @@ export class GitHubWalker extends ActivityWalker {
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		return GitHubEvent.import(await response.json(), "github_event");
-	}
-
-	async *#importPaginatedEvents(page: number, count: number): AsyncIterable<GitHubEvent> {
-		const source = await this.#fetchPaginatedEvents(page, count);
-		const name = "event";
+		const data: any = await response.json();
+		const name = "github_events";
 		let index = 0;
-		for (const item of Array.import(source, name)) {
-			try {
-				yield GitHubEvent.import(item, `${name}[${index++}]`);
-			} catch (reason) {
-				console.error(reason);
-				continue;
-			}
+		for (const item of Array.import(data, name)) {
+			yield GitHubEvent.import(item, `${name}[${index++}]`);
 		}
 	}
 
-	async *#importEvents(pages: number): AsyncIterable<GitHubEvent> {
-		let attempt = 0;
+	async *#readEvents(): AsyncIterable<GitHubEvent> {
 		let page = 1;
-		while (page <= pages) {
-			try {
-				yield* this.#importPaginatedEvents(page, 100);
-				page++;
-				attempt = 0;
-			} catch (reason) {
-				attempt++;
-				if (attempt < 3) continue;
-				throw reason;
+		while (page <= 3) {
+			for await (const event of this.#fetchPage(page++, 100)) {
+				yield event;
 			}
 		}
 	}
 
 	async *crawl(): AsyncIterable<Activity> {
-		for await (const event of this.#importEvents(3)) {
-			if (!event.public) continue;
-			const { payload, repo } = event;
-			const platform = this.name;
-			const timestamp = new Date(event.createdAt);
-			const { login: username } = event.actor;
-			const { url } = repo;
-			const repository = repo.name.replace(`${username}/`, String.empty);
-			if (payload instanceof GitHubPushEventPayload) {
-				yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);
-			}
-			if (payload instanceof GitHubWatchEventPayload) {
-				yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
-			}
-			if (payload instanceof GitHubCreateEventPayload) {
-				const name = payload.ref ?? repository;
-				switch (payload.refType) {
-				case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name);
-				case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name);
-				case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name);
+		for await (const event of this.#readEvents()) {
+			try {
+				if (!event.public) continue;
+				const { payload } = event;
+				const platform = this.name;
+				const timestamp = new Date(event.createdAt);
+				const username = event.actor.login;
+				const parts = event.repo.name.split("/", 2);
+				if (parts.length < 2) throw new SyntaxError(`Incorrect syntax of '${event.repo.name}' repository`);
+				const [, repository] = parts[1];
+				const url = `https://github.com/${username}/${repository}`;
+				if (payload instanceof GitHubPushEventPayload) {
+					yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);
 				}
+				else if (payload instanceof GitHubWatchEventPayload) {
+					yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
+				}
+				else if (payload instanceof GitHubCreateEventPayload) {
+					const name = payload.ref ?? repository;
+					switch (payload.refType) {
+					case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name);
+					case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name);
+					case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name);
+					}
+				}
+			} catch (reason) {
+				console.error(reason);
+				continue;
 			}
 		}
 	}

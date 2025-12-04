@@ -400,23 +400,23 @@ export interface SpotifyLikeActivityDiscriminator {
 
 export interface SpotifyLikeActivityScheme extends SpotifyActivityScheme {
 	$type: keyof SpotifyLikeActivityDiscriminator;
-	trackName: string;
-	artistName: string;
-	imageUrl: string;
+	title: string;
+	artists: string[];
+	cover: string | null;
 	url: string;
 }
 
 export class SpotifyLikeActivity extends SpotifyActivity {
-	#trackName: string;
-	#artistName: string;
-	#imageUrl: string;
+	#title: string;
+	#artists: string[];
+	#cover: string | null;
 	#url: string;
 
-	constructor(platform: string, timestamp: Date, trackName: string, artistName: string, imageUrl: string, url: string) {
+	constructor(platform: string, timestamp: Date, title: string, artists: string[], cover: string | null, url: string) {
 		super(platform, timestamp);
-		this.#trackName = trackName;
-		this.#artistName = artistName;
-		this.#imageUrl = imageUrl;
+		this.#title = title;
+		this.#artists = artists;
+		this.#cover = cover;
 		this.#url = url;
 	}
 
@@ -424,11 +424,13 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const object = Object.import(source, name);
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const trackName = String.import(Reflect.get(object, "trackName"), `${name}.trackName`);
-		const artistName = String.import(Reflect.get(object, "artistName"), `${name}.artistName`);
-		const imageUrl = String.import(Reflect.get(object, "imageUrl"), `${name}.imageUrl`);
+		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
+		const artists = Array.import(Reflect.get(object, "artists"), `${name}.artists`).map((item, index) => {
+			return String.import(item, `${name}.artists[${index}]`);
+		});
+		const cover = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "cover"), cover => String.import(cover, `${name}.cover`));
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const result = new SpotifyLikeActivity(platform, timestamp, trackName, artistName, imageUrl, url);
+		const result = new SpotifyLikeActivity(platform, timestamp, title, artists, cover, url);
 		return result;
 	}
 
@@ -436,23 +438,23 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const $type = "SpotifyLikeActivity";
 		const platform = source.platform;
 		const timestamp = Number(source.timestamp);
-		const trackName = source.trackName;
-		const artistName = source.artistName;
-		const imageUrl = source.imageUrl;
+		const title = source.title;
+		const artists = source.artists;
+		const cover = source.cover;
 		const url = source.url;
-		return { $type, platform, timestamp, trackName, artistName, imageUrl, url };
+		return { $type, platform, timestamp, title, artists, cover, url };
 	}
 
-	get trackName(): string {
-		return this.#trackName;
+	get title(): string {
+		return this.#title;
 	}
 
-	get artistName(): string {
-		return this.#artistName;
+	get artists(): string[] {
+		return this.#artists;
 	}
 
-	get imageUrl(): string {
-		return this.#imageUrl;
+	get cover(): string | null {
+		return this.#cover;
 	}
 
 	get url(): string {

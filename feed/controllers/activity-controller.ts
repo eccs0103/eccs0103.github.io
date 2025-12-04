@@ -11,10 +11,10 @@ import { SpotifyWalker } from "../services/spotify-walker.js";
 class ActivityController extends Controller {
 	async run(): Promise<void> {
 		const dispatcher = new ActivityDispatcher("feed/data/activity.json");
-		const { githubUsername: usernameGitHub, githubToken: tokenGitHub } = env;
+		const { githubUsername, githubToken } = env;
 		const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 
-		dispatcher.connect(new GitHubWalker(usernameGitHub, tokenGitHub));
+		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
 
 		console.log("Starting feed update...");

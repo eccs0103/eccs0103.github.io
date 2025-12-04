@@ -31,7 +31,12 @@ export class GitHubWalker extends ActivityWalker {
 		const name = "github_events";
 		let index = 0;
 		for (const item of Array.import(data, name)) {
-			yield GitHubEvent.import(item, `${name}[${index++}]`);
+			try {
+				yield GitHubEvent.import(item, `${name}[${index++}]`);
+			} catch (reason) {
+				console.error(reason);
+				continue;
+			}
 		}
 	}
 
@@ -54,7 +59,7 @@ export class GitHubWalker extends ActivityWalker {
 				const username = event.actor.login;
 				const parts = event.repo.name.split("/", 2);
 				if (parts.length < 2) throw new SyntaxError(`Incorrect syntax of '${event.repo.name}' repository`);
-				const [, repository] = parts[1];
+				const [, repository] = parts;
 				const url = `https://github.com/${username}/${repository}`;
 				if (payload instanceof GitHubPushEventPayload) {
 					yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);

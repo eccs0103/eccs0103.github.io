@@ -56,7 +56,7 @@ export class ActivityDispatcher {
 				if (count === 0) continue;
 				console.log(`Added ${count} new activities from ${walker.name}`);
 			} catch (reason) {
-				console.error(`Unable to fetch activities from ${walker.name} cause: ${Error.from(reason)}`);
+				console.error(`Unable to fetch activities from ${walker.name} cause:\n${Error.from(reason)}`);
 			}
 		}
 		activities.sort(Activity.earlier);

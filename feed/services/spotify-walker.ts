@@ -18,7 +18,7 @@ export class SpotifyWalker extends ActivityWalker {
 		this.#refreshToken = refreshToken;
 	}
 
-	async #refreshAccessToken(): Promise<SpotifyToken> {
+	async #authenticate(): Promise<SpotifyToken> {
 		const url = new URL("https://accounts.spotify.com/api/token");
 		const method = "POST";
 		const auth = Buffer.from(`${this.#clientId}:${this.#clientSecret}`).toString("base64");
@@ -43,18 +43,33 @@ export class SpotifyWalker extends ActivityWalker {
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const collection = SpotifySavesCollection.import(await response.json(), "spotify_saves_collection");
-		for (const event of collection.items) {
+		const data: any = await response.json();
+		const collection = SpotifySavesCollection.import(data, "spotify_saves_collection");
+		yield* collection.items;
+	}
+
+	async *#readTracks(token: SpotifyToken): AsyncIterable<SpotifySaveEvent> {
+		for await (const event of this.#fetchSavedTracks(token, 20)) {
 			yield event;
 		}
 	}
 
-	async *crawl(): AsyncIterable<Activity> {
-		const accessToken = await this.#refreshAccessToken();
-		for await (const event of this.#fetchSavedTracks(accessToken, 20)) {
-			const { track, addedAt } = event;
-			const timestamp = new Date(addedAt);
-			yield new SpotifyLikeActivity(this.name, timestamp, track.name, track.artists.map(artist => artist.name).join(", "), track.album.images[0].url, track.uri);
+	override async *crawl(): AsyncIterable<Activity> {
+		const token = await this.#authenticate();
+		for await (const event of this.#readTracks(token)) {
+			try {
+				const { track, addedAt } = event;
+				const platform = this.name;
+				const timestamp = new Date(addedAt);
+				const title = track.name;
+				const artists = track.artists.map(artist => artist.name);
+				const cover = track.album.images.at(0)?.url ?? null;
+				const url = track.externalUrls.spotify;
+				yield new SpotifyLikeActivity(platform, timestamp, title, artists, cover, url);
+			} catch (reason) {
+				console.error(reason);
+				continue;
+			}
 		}
 	}
 }

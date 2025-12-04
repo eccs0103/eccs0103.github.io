@@ -9,27 +9,39 @@ img[alt="eccs0103 logo"] {
 	width: calc(6 * var(--size-standart));
 }
 
-main > div.post {
+div.activity {
 	display: grid;
 	grid-template:
-		'platform-icon	post-timepan' max-content
-		'post-content	post-content' max-content
+		'activity-icon		activity-timepan' max-content
+		'activity-content	activity-content' max-content
 		/ max-content 1fr
 	;
 
+	&.rounded {
+		border-radius: calc(var(--size-gap) * 2);
+	}
+
 	& > img.icon {
-		grid-area: platform-icon;
+		grid-area: activity-icon;
 		width: var(--size-standart);
 	}
 
-	& > time.timestamp {
-		grid-area: post-timepan;
+	& > time.activity-time {
+		grid-area: activity-timepan;
 		font-size: 0.9em;
 		justify-self: end;
 	}
 
 	& > div.content {
-		grid-area: post-content;
+		grid-area: activity-content;
+	}
+
+	& img.spotify-cover {
+		width: calc(3 * var(--size-standart));
+	}
+
+	& a.spotify-link {
+		font-size: 0.9em;
 	}
 }
 

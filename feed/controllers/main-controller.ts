@@ -2,14 +2,18 @@
 
 import "adaptive-extender/web";
 import { Controller } from "adaptive-extender/web";
-import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
-import database from "../data/activity.json";
-import { ArrayCursor } from "../services/array-cursor.js";
+import { AnalyticsService } from "../services/analytics-service.js";
 import { ActivityRenderer } from "../view/activity-renderer.js";
+import database from "../data/activity.json";
+import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
+import { ArrayCursor } from "../services/array-cursor.js";
 
 //#region Main controller
 class MainController extends Controller {
 	async run(): Promise<void> {
+		const analytics = new AnalyticsService("G-1N3MKL65T7");
+		analytics.setup();
+
 		const mainFeedContainer = await document.getElementAsync(HTMLElement, "main#feed-container");
 		const spanFooterYear = await document.getElementAsync(HTMLSpanElement, "span#footer-year");
 

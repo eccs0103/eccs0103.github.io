@@ -28,11 +28,11 @@ jobs:
 
           - name: Run collector script
             env:
-                TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
-                USERNAME_GITHUB: ${{ vars.USERNAME_GITHUB }}
-                CLIENT_ID_SPOTIFY: ${{ secrets.CLIENT_ID_SPOTIFY }}
-                CLIENT_SECRET_SPOTIFY: ${{ secrets.CLIENT_SECRET_SPOTIFY }}
-                TOKEN_SPOTIFY: ${{ secrets.TOKEN_SPOTIFY }}
+                GITHUB_USERNAME: ${{ vars.USERNAME_GITHUB }}
+                GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+                SPOTIFY_CLIENT_ID: ${{ secrets.CLIENT_ID_SPOTIFY }}
+                SPOTIFY_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SPOTIFY }}
+                SPOTIFY_TOKEN: ${{ secrets.TOKEN_SPOTIFY }}
             run: npm run walk
 
           - name: Get Version

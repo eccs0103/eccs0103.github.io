@@ -16,11 +16,11 @@ class LocalEnvironment {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
 		const name = typename(env);
-		this.#githubToken = String.import(env.readValue("TOKEN_GITHUB"), `${name}.TOKEN_GITHUB`);
-		this.#githubUsername = String.import(env.readValue("USERNAME_GITHUB"), `${name}.USERNAME_GITHUB`);
-		this.#spotifyClientId = String.import(env.readValue("CLIENT_ID_SPOTIFY"), `${name}.CLIENT_ID_SPOTIFY`);
-		this.#spotifyClientSecret = String.import(env.readValue("CLIENT_SECRET_SPOTIFY"), `${name}.CLIENT_SECRET_SPOTIFY`);
-		this.#spotifyToken = String.import(env.readValue("TOKEN_SPOTIFY"), `${name}.TOKEN_SPOTIFY`);
+		this.#githubUsername = String.import(env.readValue("GITHUB_USERNAME"), `${name}.GITHUB_USERNAME`);
+		this.#githubToken = String.import(env.readValue("GITHUB_TOKEN"), `${name}.GITHUB_TOKEN`);
+		this.#spotifyClientId = String.import(env.readValue("SPOTIFY_CLIENT_ID"), `${name}.SPOTIFY_CLIENT_ID`);
+		this.#spotifyClientSecret = String.import(env.readValue("SPOTIFY_CLIENT_SECRET"), `${name}.SPOTIFY_CLIENT_SECRET`);
+		this.#spotifyToken = String.import(env.readValue("SPOTIFY_TOKEN"), `${name}.SPOTIFY_TOKEN`);
 	}
 
 	static get env(): LocalEnvironment {

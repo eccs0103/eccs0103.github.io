@@ -10,7 +10,7 @@ declare global {
 
 window.dataLayer = window.dataLayer || [];
 
-function gtag(...args: any[]) {
+function gtag(...args: any) {
 	window.dataLayer.push(args);
 }
 

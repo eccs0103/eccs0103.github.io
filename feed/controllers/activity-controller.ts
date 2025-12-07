@@ -10,7 +10,9 @@ import { SpotifyWalker } from "../services/spotify-walker.js";
 //#region Activity controller
 class ActivityController extends Controller {
 	async run(): Promise<void> {
-		const dispatcher = new ActivityDispatcher("feed/data/activity.json");
+		const urlActivities = new URL("feed/data/activity.json");
+
+		const dispatcher = new ActivityDispatcher(urlActivities);
 		const { githubUsername, githubToken } = env;
 		const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 

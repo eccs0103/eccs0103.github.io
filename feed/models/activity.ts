@@ -12,7 +12,7 @@ export interface ActivityScheme {
 	timestamp: number;
 }
 
-export abstract class Activity {
+export class Activity {
 	#platform: string;
 	#timestamp: Date;
 
@@ -73,7 +73,7 @@ export interface GitHubActivityScheme extends ActivityScheme {
 	repository: string;
 }
 
-export abstract class GitHubActivity extends Activity {
+export class GitHubActivity extends Activity {
 	#username: string;
 	#url: string;
 	#repository: string;
@@ -213,7 +213,7 @@ export interface GitHubCreateActivityScheme extends GitHubActivityScheme {
 	name: string;
 }
 
-export abstract class GitHubCreateActivity extends GitHubActivity {
+export class GitHubCreateActivity extends GitHubActivity {
 	#name: string;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
@@ -371,7 +371,7 @@ export interface SpotifyActivityScheme extends ActivityScheme {
 	$type: keyof SpotifyActivityDiscriminator;
 }
 
-export abstract class SpotifyActivity extends Activity {
+export class SpotifyActivity extends Activity {
 	constructor(platform: string, timestamp: Date) {
 		super(platform, timestamp);
 		if (new.target === SpotifyActivity) throw new TypeError("Unable to create an instance of an abstract class");

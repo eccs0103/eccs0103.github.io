@@ -37,5 +37,6 @@ dist-ssr
 **/*.js
 **/*.js.map
 **/*.d.ts
+!environment.d.ts
 
 # Test files / temporary code

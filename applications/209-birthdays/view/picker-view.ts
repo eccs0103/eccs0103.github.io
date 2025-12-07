@@ -1,6 +1,6 @@
 "use strict";
 
-import { Timer } from "../../../timer.js";
+import { Timer } from "../services/timer.js";
 import { type GroupMember } from "../models/group.js";
 
 //#region Picker view

@@ -3,14 +3,15 @@
 import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
 import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
-import githubIcon from "../../resources/icons/github.svg";
-import spotifyIcon from "../../resources/icons/spotify.svg";
+import { ArrayCursor } from "../services/array-cursor.js";
+import urlGithubIcon from "../../resources/icons/github.svg?url";
+import urlSpotifyIcon from "../../resources/icons/spotify.svg?url";
 
 //#region Activity renderer
 export class ActivityRenderer {
 	static #icons: Map<string, string> = new Map([
-		["GitHub", githubIcon],
-		["Spotify", spotifyIcon]
+		["GitHub", urlGithubIcon],
+		["Spotify", urlSpotifyIcon]
 	]);
 	#itemContainer: HTMLElement;
 
@@ -61,48 +62,95 @@ export class ActivityRenderer {
 		return aLink;
 	}
 
-	renderPush(activity: GitHubPushActivity, count: number): void {
+	render(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current;
+
+		if (activity instanceof GitHubPushActivity) {
+			this.#renderPush(cursor);
+		} else if (activity instanceof GitHubWatchActivity) {
+			this.#renderWatch(cursor);
+		} else if (activity instanceof GitHubCreateTagActivity) {
+			this.#renderCreateTag(cursor);
+		} else if (activity instanceof GitHubCreateBranchActivity) {
+			this.#renderCreateBranch(cursor);
+		} else if (activity instanceof GitHubCreateRepositoryActivity) {
+			this.#renderCreateRepository(cursor);
+		} else if (activity instanceof SpotifyLikeActivity) {
+			this.#renderSpotify(cursor);
+		} else {
+			cursor.advance();
+		}
+	}
+
+	#renderPush(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current as GitHubPushActivity;
+		let count = 0;
+		while (cursor.inRange) {
+			const current = cursor.current;
+			if (!(current instanceof GitHubPushActivity)) break;
+			if (current.repository !== activity.repository) break;
+			count++;
+			cursor.advance();
+		}
+
 		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
 		itemContainer.appendChild(document.createTextNode("Published "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(`${count} update${(count > 1 ? "s" : String.empty)}`, `${activity.url}/commit/${activity.sha}`));
+		itemContainer.appendChild(ActivityRenderer.#newLink(`${count} update${ActivityRenderer.#getPluralSuffix(count)}`, `${activity.url}/commit/${activity.sha}`));
 		itemContainer.appendChild(document.createTextNode(" to the source code of "));
 		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
 		itemContainer.appendChild(document.createTextNode("."));
 	}
 
-	renderWatch(activity: GitHubWatchActivity): void {
+	#renderWatch(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current as GitHubWatchActivity;
+
 		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
 		itemContainer.appendChild(document.createTextNode("Discovered and bookmarked the "));
 		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
 		itemContainer.appendChild(document.createTextNode(" open-source project."));
+
+		cursor.advance();
 	}
 
-	renderCreateTag(activity: GitHubCreateTagActivity): void {
+	#renderCreateTag(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current as GitHubCreateTagActivity;
+
 		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
 		itemContainer.appendChild(document.createTextNode("Released version "));
 		itemContainer.appendChild(ActivityRenderer.#newLink(activity.name, `${activity.url}/releases/tag/${activity.name}`));
 		itemContainer.appendChild(document.createTextNode(" for the "));
 		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
 		itemContainer.appendChild(document.createTextNode(" product."));
+
+		cursor.advance();
 	}
 
-	renderCreateBranch(activity: GitHubCreateBranchActivity): void {
+	#renderCreateBranch(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current as GitHubCreateBranchActivity;
+
 		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
 		itemContainer.appendChild(document.createTextNode("Started working on a new feature \""));
 		itemContainer.appendChild(ActivityRenderer.#newLink(`${activity.name}`, `${activity.url}/tree/${activity.name}`));
 		itemContainer.appendChild(document.createTextNode("\" in "));
 		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
 		itemContainer.appendChild(document.createTextNode("."));
+
+		cursor.advance();
 	}
 
-	renderCreateRepository(activity: GitHubCreateRepositoryActivity): void {
+	#renderCreateRepository(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current as GitHubCreateRepositoryActivity;
+
 		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
 		itemContainer.appendChild(document.createTextNode("Initiated a new repository named "));
 		itemContainer.appendChild(ActivityRenderer.#newLink(activity.name, activity.url));
 		itemContainer.appendChild(document.createTextNode("."));
+
+		cursor.advance();
 	}
 
-	renderSpotify(activity: SpotifyLikeActivity): void {
+	#renderSpotify(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current as SpotifyLikeActivity;
 		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
 		itemContainer.classList.add("flex", "column", "with-gap");
 
@@ -132,6 +180,8 @@ export class ActivityRenderer {
 
 		const aReferrer = divInformation.appendChild(ActivityRenderer.#newLink("Listen on Spotify ↗", activity.url));
 		aReferrer.classList.add("spotify-link", "with-block-padding");
+
+		cursor.advance();
 	}
 }
 //#endregion

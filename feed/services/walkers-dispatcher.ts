@@ -8,10 +8,10 @@ import { Activity } from "../models/activity.js";
 
 //#region Activity dispatcher
 export class ActivityDispatcher {
-	#path: string;
+	#path: URL;
 	#walkers: Set<ActivityWalker> = new Set();
 
-	constructor(path: string) {
+	constructor(path: URL) {
 		this.#path = path;
 	}
 
@@ -23,8 +23,8 @@ export class ActivityDispatcher {
 		this.#walkers.delete(walker);
 	}
 
-	static async #ensureStorage(path: string): Promise<void> {
-		await AsyncFileSystem.mkdir(dirname(path), { recursive: true });
+	static async #ensureStorage(path: URL): Promise<void> {
+		await AsyncFileSystem.mkdir(dirname(path.toString()), { recursive: true });
 		try {
 			await AsyncFileSystem.access(path, AsyncFileSystem.constants.F_OK);
 		} catch {
@@ -32,7 +32,7 @@ export class ActivityDispatcher {
 		}
 	}
 
-	static async #readActivities(path: string, activities: Activity[]): Promise<void> {
+	static async #readActivities(path: URL, activities: Activity[]): Promise<void> {
 		const object = JSON.parse(await AsyncFileSystem.readFile(path, "utf-8"));
 		const name = "activities";
 		activities.push(...Array.import(object, name).map((item, index) => {
@@ -50,6 +50,7 @@ export class ActivityDispatcher {
 	static async #runWalkers(walkers: Iterable<ActivityWalker>, activities: Activity[]): Promise<void> {
 		for (const walker of walkers) {
 			try {
+				console.log(`Launching ${walker.name} for crawl`);
 				const before = activities.length;
 				await ActivityDispatcher.#runWalker(walker, activities);
 				const count = activities.length - before;
@@ -62,7 +63,7 @@ export class ActivityDispatcher {
 		activities.sort(Activity.earlier);
 	}
 
-	static async #writeActivities(activities: Activity[], path: string): Promise<void> {
+	static async #writeActivities(activities: Activity[], path: URL): Promise<void> {
 		const object = activities.map(activity => Activity.export(activity));
 		await AsyncFileSystem.writeFile(path, JSON.stringify(object, null, "\t"));
 	}

@@ -3,17 +3,17 @@
 import "adaptive-extender/core";
 
 //#region Array cursor
-export class ArrayCursor<I, T extends I = I> {
-	#items: readonly I[];
+export class ArrayCursor<T> {
+	#items: readonly T[];
 	#index: number;
 
-	constructor(items: readonly I[]) {
+	constructor(items: readonly T[]) {
 		this.#items = items;
 		this.#index = 0;
 	}
 
-	get target(): T {
-		return this.#items[this.#index] as T;
+	get current(): T {
+		return this.#items[this.#index];
 	}
 
 	get length(): number {
@@ -22,15 +22,15 @@ export class ArrayCursor<I, T extends I = I> {
 
 	get inRange(): boolean {
 		const index = this.#index;
-		return 0 <= index && index < this.#items.length;
+		return 0 <= index && index < this.length;
 	}
 
-	get index(): number {
-		return this.#index;
+	advance(): void {
+		this.#index++;
 	}
 
-	set index(value: number) {
-		this.#index = value;
+	retreat(): void {
+		this.#index--;
 	}
 }
 //#endregion

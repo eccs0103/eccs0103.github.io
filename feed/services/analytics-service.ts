@@ -1,17 +1,17 @@
 "use strict";
 
-const id = "G-1N3MKL65T7";
-
 declare global {
 	export interface Window {
 		dataLayer: any[];
 	}
 }
 
+const id = "G-1N3MKL65T7";
+
 window.dataLayer = window.dataLayer || [];
 
-function gtag(...args: any) {
-	window.dataLayer.push(args);
+function gtag(...args: any[]) {
+	window.dataLayer.push(arguments);
 }
 
 gtag("js", new Date());

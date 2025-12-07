@@ -8,14 +8,13 @@ declare global {
 
 const id = "G-1N3MKL65T7";
 
-window.dataLayer = window.dataLayer || [];
-
-function gtag(...args: any[]) {
-	window.dataLayer.push(arguments);
+function gtag(layer: any[], ...args: any[]) {
+	layer.push(args);
 }
 
-gtag("js", new Date());
-gtag("config", id);
+window.dataLayer = window.dataLayer || [];
+gtag(window.dataLayer, "js", new Date());
+gtag(window.dataLayer, "config", id);
 
 const script = document.head.appendChild(document.createElement("script"));
 script.async = true;

@@ -1,42 +1,23 @@
 "use strict";
 
-import "adaptive-extender/web";
-
-//#region Analytics service
 declare global {
-	interface Window {
-		dataLayer?: unknown[];
+	export interface Window {
+		dataLayer: any[];
 	}
 }
 
-export class AnalyticsService {
-	#id: string;
+const id = "G-1N3MKL65T7";
 
-	constructor(id: string) {
-		this.#id = id;
-	}
+window.dataLayer = window.dataLayer || [];
 
-	#loadAnalyticsScript(): void {
-		const scriptElement = document.head.appendChild(document.createElement("script"));
-		scriptElement.async = true;
-		scriptElement.src = `https://www.googletagmanager.com/gtag/js?id=${this.#id}`;
-	}
-
-	#pushToDataLayer(...args: unknown[]): void {
-		if (window.dataLayer === undefined) {
-			window.dataLayer = [];
-		}
-		window.dataLayer.push(args);
-	}
-
-	setup(): void {
-		this.#loadAnalyticsScript();
-		this.#pushToDataLayer("js", new Date());
-		this.#pushToDataLayer("config", this.#id);
-	}
-
-	logEvent(event: string, params?: Record<string, unknown>): void {
-		this.#pushToDataLayer("event", event, params);
-	}
+function gtag(...args: any) {
+	window.dataLayer.push(arguments);
 }
-//#endregion
+
+gtag("js", new Date());
+gtag("config", id);
+
+const script = document.createElement("script");
+script.async = true;
+script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+document.head.appendChild(script);

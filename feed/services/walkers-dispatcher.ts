@@ -2,7 +2,6 @@
 
 import "adaptive-extender/core";
 import AsyncFileSystem from "fs/promises";
-import { dirname } from "path";
 import { type ActivityWalker } from "./activity-walker.js";
 import { Activity } from "../models/activity.js";
 
@@ -24,7 +23,7 @@ export class ActivityDispatcher {
 	}
 
 	static async #ensureStorage(path: URL): Promise<void> {
-		await AsyncFileSystem.mkdir(dirname(path.toString()), { recursive: true });
+		await AsyncFileSystem.mkdir(new URL(".", path), { recursive: true });
 		try {
 			await AsyncFileSystem.access(path, AsyncFileSystem.constants.F_OK);
 		} catch {

@@ -2,18 +2,19 @@
 
 import "adaptive-extender/node";
 import { defineConfig } from "vite";
-import { resolve } from "path";
-import fsa from "fs/promises";
-import fs from "fs";
+import { fileURLToPath } from "node:url";
+import FileSystemAsync from "fs/promises";
+import FileSystem from "fs";
 
-const root: string = process.cwd();
+const meta = import.meta;
+const root: string = fileURLToPath(new URL(".", meta.url));
 
 const input: Record<string, string> = {
-	["main"]: resolve(root, "index.html"),
-	["feed/index"]: resolve(root, "feed/index.html"),
-	["applications/209-birthdays/index"]: resolve(root, "applications/209-birthdays/index.html"),
-	["shortcuts/vscode-quartz/index"]: resolve(root, "shortcuts/vscode-quartz/index.html"),
-	// ["404/index"]: resolve(root, "404/index.html"),
+	["main"]: fileURLToPath(new URL("index.html", meta.url)),
+	["feed/index"]: fileURLToPath(new URL("feed/index.html", meta.url)),
+	["applications/209-birthdays/index"]: fileURLToPath(new URL("applications/209-birthdays/index.html", meta.url)),
+	["shortcuts/vscode-quartz/index"]: fileURLToPath(new URL("shortcuts/vscode-quartz/index.html", meta.url)),
+	// ["404/index"]: fileURLToPath(new URL("404/index.html", meta.url)),
 };
 
 const routes: Set<string> = new Set(Object.keys(input).map((key) => {
@@ -23,8 +24,13 @@ const routes: Set<string> = new Set(Object.keys(input).map((key) => {
 
 export default defineConfig({
 	root,
-	publicDir: resolve(root, "resources"),
+	publicDir: fileURLToPath(new URL("resources", meta.url)),
 	base: "/",
+	resolve: {
+		alias: [
+			{ find: "/resources", replacement: fileURLToPath(new URL("resources", meta.url)) },
+		],
+	},
 	build: {
 		outDir: "dist",
 		rollupOptions: {
@@ -51,7 +57,7 @@ export default defineConfig({
 					const { accept } = headers;
 					if (accept === undefined) return next();
 					if (!accept.includes("text/html")) return next();
-					if (!pathname.endsWith("/") && fs.existsSync(resolve(root, pathname.substring(1), "index.html"))) {
+					if (!pathname.endsWith("/") && FileSystem.existsSync(new URL(`${pathname.substring(1)}/index.html`, meta.url))) {
 						response.statusCode = 301;
 						response.writeHead(301, { ["location"]: `${pathname}/` });
 						response.end();
@@ -60,7 +66,7 @@ export default defineConfig({
 
 					if (routes.has(pathname)) return next();
 					try {
-						const content404 = await fsa.readFile(input["404/index"], "utf-8");
+						const content404 = await FileSystemAsync.readFile(new URL(input["404/index"], meta.url), "utf-8");
 						const html404 = await server.transformIndexHtml(pathname, content404);
 						response.writeHead(404, { ["content-type"]: "text/html" });
 						response.end(html404);

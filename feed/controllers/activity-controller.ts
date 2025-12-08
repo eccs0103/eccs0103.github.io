@@ -7,10 +7,12 @@ import { env } from "../services/local-environment.js";
 import { GitHubWalker } from "../services/github-walker.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
 
+const meta = import.meta;
+
 //#region Activity controller
 class ActivityController extends Controller {
 	async run(): Promise<void> {
-		const urlActivities = new URL("feed/data/activity.json");
+		const urlActivities = new URL("../data/activity.json", meta.url);
 
 		const dispatcher = new ActivityDispatcher(urlActivities);
 		const { githubUsername, githubToken } = env;
@@ -25,7 +27,7 @@ class ActivityController extends Controller {
 	}
 
 	async catch(error: Error): Promise<void> {
-		console.error(`Feed update failed cause of ${error}`);
+		console.error(`Feed update failed cause of:\n${error}`);
 	}
 }
 //#endregion

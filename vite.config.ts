@@ -2,19 +2,15 @@
 
 import "adaptive-extender/node";
 import { defineConfig } from "vite";
-import { fileURLToPath } from "node:url";
-import FileSystemAsync from "fs/promises";
+import AsyncFileSystem from "fs/promises";
 import FileSystem from "fs";
 
-const meta = import.meta;
-const root: string = fileURLToPath(new URL(".", meta.url));
-
 const input: Record<string, string> = {
-	["main"]: fileURLToPath(new URL("index.html", meta.url)),
-	["feed/index"]: fileURLToPath(new URL("feed/index.html", meta.url)),
-	["applications/209-birthdays/index"]: fileURLToPath(new URL("applications/209-birthdays/index.html", meta.url)),
-	["shortcuts/vscode-quartz/index"]: fileURLToPath(new URL("shortcuts/vscode-quartz/index.html", meta.url)),
-	// ["404/index"]: fileURLToPath(new URL("404/index.html", meta.url)),
+	["main"]: "index.html",
+	["feed/index"]: "feed/index.html",
+	["applications/209-birthdays/index"]: "applications/209-birthdays/index.html",
+	["shortcuts/vscode-quartz/index"]: "shortcuts/vscode-quartz/index.html",
+	// ["404/index"]: "404/index.html",
 };
 
 const routes: Set<string> = new Set(Object.keys(input).map((key) => {
@@ -23,14 +19,8 @@ const routes: Set<string> = new Set(Object.keys(input).map((key) => {
 }));
 
 export default defineConfig({
-	root,
-	publicDir: fileURLToPath(new URL("resources", meta.url)),
+	publicDir: false,
 	base: "/",
-	resolve: {
-		alias: [
-			{ find: "/resources", replacement: fileURLToPath(new URL("resources", meta.url)) },
-		],
-	},
 	build: {
 		outDir: "dist",
 		rollupOptions: {
@@ -40,7 +30,7 @@ export default defineConfig({
 				chunkFileNames: "scripts/chunks/[name]-[hash].js",
 				assetFileNames({ names }): string {
 					if (names.length < 1) throw new Error("Assets don't include a single file");
-					const name = names[0];
+					const [name] = names;
 					if (name.includes("styles/")) return name.replace("styles/", "styles/[name]-[hash].[ext]");
 					return "assets/[name]-[hash].[ext]";
 				},
@@ -53,11 +43,11 @@ export default defineConfig({
 			configureServer(server): void {
 				server.middlewares.use(async (request, response, next) => {
 					const { originalUrl, url, headers } = request;
-					const { pathname } = new URL((originalUrl ?? url ?? "/"), `http://${headers.host}`);
+					const { pathname } = new URL(originalUrl ?? url ?? "/", `http://${headers.host}`);
 					const { accept } = headers;
 					if (accept === undefined) return next();
 					if (!accept.includes("text/html")) return next();
-					if (!pathname.endsWith("/") && FileSystem.existsSync(new URL(`${pathname.substring(1)}/index.html`, meta.url))) {
+					if (!pathname.endsWith("/") && FileSystem.existsSync(`${pathname.substring(1)}/index.html`)) {
 						response.statusCode = 301;
 						response.writeHead(301, { ["location"]: `${pathname}/` });
 						response.end();
@@ -66,7 +56,7 @@ export default defineConfig({
 
 					if (routes.has(pathname)) return next();
 					try {
-						const content404 = await FileSystemAsync.readFile(new URL(input["404/index"], meta.url), "utf-8");
+						const content404 = await AsyncFileSystem.readFile(input["404/index"], "utf-8");
 						const html404 = await server.transformIndexHtml(pathname, content404);
 						response.writeHead(404, { ["content-type"]: "text/html" });
 						response.end(html404);

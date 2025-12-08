@@ -207,9 +207,8 @@ export class GitHubEventRepository {
 //#endregion
 
 //#region GitHub event payload
-export interface GitHubEventPayloadDiscriminator extends GitHubPushEventPayloadDiscriminator, GitHubWatchEventPayloadDiscriminator, GitHubCreateEventPayloadDiscriminator {
+export interface GitHubEventPayloadDiscriminator extends GitHubPushEventPayloadDiscriminator, GitHubWatchEventPayloadDiscriminator, GitHubCreateEventPayloadDiscriminator, GitHubDeleteEventPayloadDiscriminator {
 	"ForkEvent": any;
-	"DeleteEvent": any;
 	"IssuesEvent": any;
 	"PullRequestEvent": any;
 }
@@ -226,6 +225,7 @@ export class GitHubEventPayload {
 		case "PushEvent": return GitHubPushEventPayload.import(source, name);
 		case "WatchEvent": return GitHubWatchEventPayload.import(source, name);
 		case "CreateEvent": return GitHubCreateEventPayload.import(source, name);
+		case "DeleteEvent": return GitHubDeleteEventPayload.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
@@ -234,6 +234,7 @@ export class GitHubEventPayload {
 		if (source instanceof GitHubPushEventPayload) return GitHubPushEventPayload.export(source);
 		if (source instanceof GitHubWatchEventPayload) return GitHubWatchEventPayload.export(source);
 		if (source instanceof GitHubCreateEventPayload) return GitHubCreateEventPayload.export(source);
+		if (source instanceof GitHubDeleteEventPayload) return GitHubDeleteEventPayload.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
@@ -402,6 +403,60 @@ export class GitHubCreateEventPayload {
 
 	get description(): string | null {
 		return this.#description;
+	}
+
+	get pusherType(): string {
+		return this.#pusherType;
+	}
+}
+//#endregion
+
+//#region GitHub delete event payload
+export interface GitHubDeleteEventPayloadDiscriminator {
+	"DeleteEvent": any;
+}
+
+export interface GitHubDeleteEventPayloadScheme {
+	$type: keyof GitHubDeleteEventPayloadDiscriminator;
+	ref: string | null;
+	ref_type: string;
+	pusher_type: string;
+}
+
+export class GitHubDeleteEventPayload {
+	#ref: string | null;
+	#refType: string;
+	#pusherType: string;
+
+	constructor(ref: string | null, refType: string, pusherType: string) {
+		this.#ref = ref;
+		this.#refType = refType;
+		this.#pusherType = pusherType;
+	}
+
+	static import(source: any, name: string): GitHubDeleteEventPayload {
+		const object = Object.import(source, name);
+		const ref = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "ref"), ref => String.import(ref, `${name}.ref`));
+		const refType = String.import(Reflect.get(object, "ref_type"), `${name}.ref_type`);
+		const pusherType = String.import(Reflect.get(object, "pusher_type"), `${name}.pusher_type`);
+		const result = new GitHubDeleteEventPayload(ref, refType, pusherType);
+		return result;
+	}
+
+	static export(source: GitHubDeleteEventPayload): GitHubDeleteEventPayloadScheme {
+		const $type = "DeleteEvent";
+		const ref = source.ref;
+		const ref_type = source.refType;
+		const pusher_type = source.pusherType;
+		return { $type, ref, ref_type, pusher_type };
+	}
+
+	get ref(): string | null {
+		return this.#ref;
+	}
+
+	get refType(): string {
+		return this.#refType;
 	}
 
 	get pusherType(): string {

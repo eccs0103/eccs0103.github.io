@@ -6,18 +6,20 @@ import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
 import { env } from "../services/local-environment.js";
 import { GitHubWalker } from "../services/github-walker.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
+import { ServerDataTable } from "../services/server-data-table.js";
+import { Activity } from "../models/activity.js";
 
 const meta = import.meta;
 
 //#region Activity controller
 class ActivityController extends Controller {
 	async run(): Promise<void> {
-		const urlActivities = new URL("../data/activity.json", meta.url);
+		const urlActivities = new URL("../data/activities.json", meta.url);
+		const activities = new ServerDataTable(urlActivities, Activity);
+		const dispatcher = new ActivityDispatcher(activities);
 
-		const dispatcher = new ActivityDispatcher(urlActivities);
 		const { githubUsername, githubToken } = env;
 		const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
-
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
 

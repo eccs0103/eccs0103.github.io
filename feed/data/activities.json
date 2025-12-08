@@ -2,6 +2,44 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
+		"timestamp": 1765189991000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c00785dcfd1a95fb8e69162896551c42889243fe"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1765185667000,
+		"title": "Half-Life",
+		"artists": [
+			"Essenger"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2733127ae7ff2ffdeb7961e15fc",
+		"url": "https://open.spotify.com/track/1tvFHuk4qoLouV1DYh7ieW"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1765131936000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "510feef591bbac335e75621c4a8bd6a6792ce8d9"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1765131801000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "4f2ac34791313ff4bcbc04c8eb0d47cb3fc3b240"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
 		"timestamp": 1765131640000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/eccs0103.github.io",

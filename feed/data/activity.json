@@ -1,5 +1,16 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1765185667000,
+		"title": "Half-Life",
+		"artists": [
+			"Essenger"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2733127ae7ff2ffdeb7961e15fc",
+		"url": "https://open.spotify.com/track/1tvFHuk4qoLouV1DYh7ieW"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1765131936000,

@@ -2,6 +2,7 @@
 
 import "adaptive-extender/node";
 import { defineConfig } from "vite";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 import AsyncFileSystem from "fs/promises";
 import FileSystem from "fs";
 
@@ -23,21 +24,29 @@ export default defineConfig({
 	base: "/",
 	build: {
 		outDir: "dist",
+		emptyOutDir: true,
 		rollupOptions: {
 			input,
 			output: {
-				entryFileNames: "scripts/[name]-[hash].js",
-				chunkFileNames: "scripts/chunks/[name]-[hash].js",
-				assetFileNames({ names }): string {
-					if (names.length < 1) throw new Error("Assets don't include a single file");
-					const [name] = names;
-					if (name.includes("styles/")) return name.replace("styles/", "styles/[name]-[hash].[ext]");
-					return "assets/[name]-[hash].[ext]";
-				},
+				entryFileNames: "[name].js",
+				chunkFileNames: "chunks/[name].js",
+				assetFileNames: "assets/[name][extname]",
 			},
 		},
 	},
 	plugins: [
+		viteStaticCopy({
+			targets: [{
+				src: "resources",
+				dest: ".",
+			}, {
+				src: "feed/data",
+				dest: "feed",
+			}, {
+				src: "applications/*/data",
+				dest: "applications",
+			}],
+		}),
 		{
 			name: "server-plugin",
 			configureServer(server): void {

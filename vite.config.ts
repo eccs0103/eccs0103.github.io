@@ -18,11 +18,9 @@ export class VitePlugin {
 	}
 
 	writeBundle(): Promisable<void> {
-		return Promise.resolve();
 	}
 
 	configureServer(server: ViteDevServer): Promisable<void> {
-		void server;
 	}
 
 	build(): PluginOption {
@@ -35,6 +33,7 @@ export class VitePlugin {
 //#endregion
 //#region Vite config
 export class ViteConfig {
+	static #patternTypescriptExtension: RegExp = /\.ts$/;
 	#inputs: string[];
 	#out: string;
 	#plugins: VitePlugin[];
@@ -46,7 +45,7 @@ export class ViteConfig {
 	}
 
 	#buildInputOptions(): InputOption {
-		return Object.fromEntries(this.#inputs.map(file => [file.replace(/\.ts$/, ""), file]));
+		return Object.fromEntries(this.#inputs.map(file => [file.replace(ViteConfig.#patternTypescriptExtension, String.empty), file]));
 	}
 
 	#buildOutputOptions(): OutputOptions {
@@ -88,6 +87,7 @@ export class ViteConfig {
 
 //#region Copy static assets plugin
 export class CopyStaticAssetsPlugin extends VitePlugin {
+	static #patternTypescriptSource: RegExp = /src="(.*?)\.ts"/g;
 	#inputs: string[];
 	#out: string;
 
@@ -108,7 +108,7 @@ export class CopyStaticAssetsPlugin extends VitePlugin {
 				return;
 			}
 			let content = await AsyncFileSystem.readFile(urlSource, "utf-8");
-			content = content.replace(/src="(.*?)\.ts"/g, "src=\"$1.js\"");
+			content = content.replace(CopyStaticAssetsPlugin.#patternTypescriptSource, part => `src=\"${part}.js\"`);
 			await AsyncFileSystem.writeFile(urlDestination, content);
 		}));
 	}
@@ -174,15 +174,15 @@ export class DefaultMirroringConfig extends ViteConfig {
 
 	static async construct(): Promise<DefaultMirroringConfig> {
 		const out: string = "dist";
-		
+
 		const scripts = await glob("**/*.ts", { ignore: ["node_modules/**", "dist/**", "**/*.d.ts", "vite.config.ts", "tsconfig.json"] });
 		const assets = await glob("**/*.*", { ignore: ["node_modules/**", "dist/**", "**/*.ts", "**/*.d.ts", "vite.config.ts", "tsconfig.json"], nodir: true });
 
-		const copyPlugin = new CopyStaticAssetsPlugin(assets, out);
-		const routingPlugin = new ServerRoutingPlugin(scripts, "404/index.html");
+		const pluginCopy = new CopyStaticAssetsPlugin(assets, out);
+		const pluginRouting = new ServerRoutingPlugin(assets, "404/index.html");
 
 		DefaultMirroringConfig.#lock = false;
-		const config = new DefaultMirroringConfig(scripts, out, [copyPlugin, routingPlugin]);
+		const config = new DefaultMirroringConfig(scripts, out, [pluginCopy, pluginRouting]);
 		DefaultMirroringConfig.#lock = true;
 		return config;
 	}

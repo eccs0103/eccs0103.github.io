@@ -5,8 +5,8 @@ import { type Promisable } from "adaptive-extender/node";
 import FileSystem from "fs";
 import AsyncFileSystem from "fs/promises";
 import { glob } from "glob";
-import { type InputOption, type OutputOptions, type PreserveEntrySignaturesOption, type RollupOptions } from "rollup";
-import { defineConfig, type BuildEnvironmentOptions, type PluginOption, type UserConfig, type ViteDevServer } from "vite";
+import { type InputOption, type LogHandler, type OutputOptions, type PreserveEntrySignaturesOption, type RollupLog, type RollupOptions, type WarningHandlerWithDefault } from "rollup";
+import { defineConfig, type BuildEnvironmentOptions, type PluginOption, type UserConfig, type ViteDevServer, type PreviewServer, type Connect } from "vite";
 
 //#region Vite plugin
 export class VitePlugin {
@@ -21,13 +21,19 @@ export class VitePlugin {
 	}
 
 	configureServer(server: ViteDevServer): Promisable<void> {
+		void server;
+	}
+
+	configurePreviewServer(server: PreviewServer): Promisable<void> {
+		void server;
 	}
 
 	build(): PluginOption {
 		const name: string = this.#name;
 		const writeBundle = this.writeBundle.bind(this);
 		const configureServer = this.configureServer.bind(this);
-		return { name, writeBundle, configureServer };
+		const configurePreviewServer = this.configurePreviewServer.bind(this);
+		return { name, writeBundle, configureServer, configurePreviewServer };
 	}
 }
 //#endregion
@@ -57,11 +63,17 @@ export class ViteConfig {
 		return { preserveModules, preserveModulesRoot, entryFileNames, assetFileNames, exports };
 	}
 
+	#suppressExternalizationWarnings(warning: RollupLog, warn: LogHandler): void {
+		if (warning.message.includes("externalized for browser compatibility")) return;
+		warn("warn", warning);
+	}
+
 	#buildRollupOptions(): RollupOptions {
 		const preserveEntrySignatures: PreserveEntrySignaturesOption = "strict";
 		const input: InputOption = this.#buildInputOptions();
 		const output: OutputOptions = this.#buildOutputOptions();
-		return { preserveEntrySignatures, input, output };
+		const onwarn: WarningHandlerWithDefault = this.#suppressExternalizationWarnings.bind(this);
+		return { preserveEntrySignatures, input, output, onwarn };
 	}
 
 	#buildEnviroment(): BuildEnvironmentOptions {
@@ -108,7 +120,7 @@ export class CopyStaticAssetsPlugin extends VitePlugin {
 				return;
 			}
 			let content = await AsyncFileSystem.readFile(urlSource, "utf-8");
-			content = content.replace(CopyStaticAssetsPlugin.#patternTypescriptSource, part => `src=\"${part}.js\"`);
+			content = content.replace(CopyStaticAssetsPlugin.#patternTypescriptSource, (_, part) => `src=\"${part}.js\"`);
 			await AsyncFileSystem.writeFile(urlDestination, content);
 		}));
 	}
@@ -116,16 +128,17 @@ export class CopyStaticAssetsPlugin extends VitePlugin {
 //#endregion
 //#region Server routing plugin
 export class ServerRoutingPlugin extends VitePlugin {
-	#inputs: string[];
+	static #patternBackslash: RegExp = /\\/g;
+	#inputs: Set<string>;
 	#emergency: string;
 
-	constructor(inputs: string[], emergency: string) {
+	constructor(files: string[], emergency: string) {
 		super("server-routing");
-		this.#inputs = inputs;
+		this.#inputs = new Set(files.map(file => `/${file.replace(ServerRoutingPlugin.#patternBackslash, "/")}`));
 		this.#emergency = emergency;
 	}
 
-	configureServer(server: ViteDevServer): void {
+	#applyMiddleware(server: ViteDevServer | PreviewServer): void {
 		const inputs = this.#inputs;
 		const emergency = this.#emergency;
 
@@ -137,19 +150,21 @@ export class ServerRoutingPlugin extends VitePlugin {
 			if (accept === undefined) return next();
 			if (!accept.includes("text/html")) return next();
 
-			if (!pathname.endsWith("/") && FileSystem.existsSync(`.${pathname}/index.html`)) {
+			if (!pathname.endsWith("/") && inputs.has(`${pathname}/index.html`)) {
 				response.statusCode = 301;
 				response.writeHead(301, { ["location"]: `${pathname}/` });
 				response.end();
 				return;
 			}
 
-			if (FileSystem.existsSync(`.${pathname}`)) return next();
+			if (inputs.has(pathname) || inputs.has(pathname + "index.html")) return next();
 
 			try {
 				if (!FileSystem.existsSync(emergency)) throw new Error("404 page file missing");
 				const content404 = await AsyncFileSystem.readFile(emergency, "utf-8");
-				const html404 = await server.transformIndexHtml(pathname, content404);
+				const html404 = "transformIndexHtml" in server
+					? await server.transformIndexHtml(pathname, content404)
+					: content404;
 				response.writeHead(404, { ["content-type"]: "text/html" });
 				response.end(html404);
 				return;
@@ -160,6 +175,14 @@ export class ServerRoutingPlugin extends VitePlugin {
 				return;
 			}
 		});
+	}
+
+	configureServer(server: ViteDevServer): void {
+		this.#applyMiddleware(server);
+	}
+
+	configurePreviewServer(server: PreviewServer): void {
+		this.#applyMiddleware(server);
 	}
 }
 //#endregion
@@ -174,12 +197,14 @@ export class DefaultMirroringConfig extends ViteConfig {
 
 	static async construct(): Promise<DefaultMirroringConfig> {
 		const out: string = "dist";
+		const ignore: string[] = ["node_modules/**", "dist/**", "**/*.d.ts", "vite.config.ts", "tsconfig.json"];
 
-		const scripts = await glob("**/*.ts", { ignore: ["node_modules/**", "dist/**", "**/*.d.ts", "vite.config.ts", "tsconfig.json"] });
-		const assets = await glob("**/*.*", { ignore: ["node_modules/**", "dist/**", "**/*.ts", "**/*.d.ts", "vite.config.ts", "tsconfig.json"], nodir: true });
+		const scripts = await glob("**/*.ts", { ignore });
+		const assets = await glob("**/*.*", { ignore: [...ignore, "**/*.ts"], nodir: true });
+		const files = [...scripts, ...assets];
 
 		const pluginCopy = new CopyStaticAssetsPlugin(assets, out);
-		const pluginRouting = new ServerRoutingPlugin(assets, "404/index.html");
+		const pluginRouting = new ServerRoutingPlugin(files, "404/index.html");
 
 		DefaultMirroringConfig.#lock = false;
 		const config = new DefaultMirroringConfig(scripts, out, [pluginCopy, pluginRouting]);

@@ -12,6 +12,14 @@ export class ArrayCursor<T> {
 		this.#index = 0;
 	}
 
+	get index(): number {
+		return this.#index;
+	}
+
+	set index(value: number) {
+		this.#index = value;
+	}
+
 	get current(): T {
 		return this.#items[this.#index];
 	}
@@ -23,14 +31,6 @@ export class ArrayCursor<T> {
 	get inRange(): boolean {
 		const index = this.#index;
 		return 0 <= index && index < this.length;
-	}
-
-	advance(): void {
-		this.#index++;
-	}
-
-	retreat(): void {
-		this.#index--;
 	}
 }
 //#endregion

@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller } from "adaptive-extender/web";
+import { Controller, Timespan } from "adaptive-extender/web";
 import { ActivityRenderer } from "../view/activity-renderer.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { ClientDataTable } from "../services/client-data-table.js";
@@ -20,13 +20,15 @@ class WebpageController extends Controller {
 		await activities.load();
 		await platforms.load();
 
+		let limit = 15;
+		const gap = Timespan.fromComponents(24, 0, 0);
+
 		const mainFeedContainer = await document.getElementAsync(HTMLElement, "main#feed-container");
 		const spanFooterYear = await document.getElementAsync(HTMLSpanElement, "span#footer-year");
 		const icons = new Map(platforms.map(platform => [platform.name, platform.icon]));
-		const renderer = new ActivityRenderer(mainFeedContainer, icons);
+		const renderer = new ActivityRenderer(mainFeedContainer, icons, gap);
 		const cursor = new ArrayCursor(activities);
 
-		let limit = 21;
 		while (cursor.inRange) {
 			if (limit <= 0) break;
 			renderer.render(cursor);

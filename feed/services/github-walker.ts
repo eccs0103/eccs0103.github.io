@@ -2,8 +2,8 @@
 
 import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
-import { GitHubCreateEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
-import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity } from "../models/activity.js";
+import { GitHubCreateEventPayload, GitHubDeleteEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubReleaseEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
+import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity } from "../models/activity.js";
 
 //#region GitHub walker
 export class GitHubWalker extends ActivityWalker {
@@ -64,15 +64,29 @@ export class GitHubWalker extends ActivityWalker {
 				if (payload instanceof GitHubPushEventPayload) {
 					yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);
 				}
-				else if (payload instanceof GitHubWatchEventPayload) {
+				if (payload instanceof GitHubReleaseEventPayload) {
+					const { name, tagName, prerelease } = payload.release;
+					yield new GitHubReleaseActivity(platform, timestamp, username, url, repository, name ?? tagName, prerelease);
+				}
+				if (payload instanceof GitHubWatchEventPayload) {
 					yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
 				}
-				else if (payload instanceof GitHubCreateEventPayload) {
-					const name = payload.ref ?? repository;
-					switch (payload.refType) {
-					case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name);
-					case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name);
-					case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name);
+				if (payload instanceof GitHubCreateEventPayload) {
+					const { ref, refType } = payload;
+					const name = ref ?? repository;
+					switch (refType) {
+					case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name); break;
+					case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name); break;
+					case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name); break;
+					default: throw new Error(`Invalid '${refType}' refType for GitHubCreateEventPayload`);
+					}
+				}
+				if (payload instanceof GitHubDeleteEventPayload) {
+					const { ref: name, refType } = payload;
+					switch (refType) {
+					case "tag": yield new GitHubDeleteTagActivity(platform, timestamp, username, url, repository, name); break;
+					case "branch": yield new GitHubDeleteBranchActivity(platform, timestamp, username, url, repository, name); break;
+					default: throw new Error(`Invalid '${refType}' refType for GitHubDeleteEventPayload`);
 					}
 				}
 			} catch (reason) {

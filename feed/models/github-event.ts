@@ -114,7 +114,7 @@ export class GitHubEventActor {
 		const object = Object.import(source, name);
 		const id = Number.import(Reflect.get(object, "id"), `${name}.id`);
 		const login = String.import(Reflect.get(object, "login"), `${name}.login`);
-		const displayLogin = Reflect.mapUndefined<unknown, undefined, string | undefined>(Reflect.get(object, "display_login"), displayLogin => String.import(displayLogin, `${name}.display_login`));
+		const displayLogin = Reflect.mapUndefined<unknown, undefined, string>(Reflect.get(object, "display_login"), displayLogin => String.import(displayLogin, `${name}.display_login`));
 		const gravatarId = String.import(Reflect.get(object, "gravatar_id"), `${name}.gravatar_id`);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
 		const avatarUrl = String.import(Reflect.get(object, "avatar_url"), `${name}.avatar_url`);
@@ -207,7 +207,7 @@ export class GitHubEventRepository {
 //#endregion
 
 //#region GitHub event payload
-export interface GitHubEventPayloadDiscriminator extends GitHubPushEventPayloadDiscriminator, GitHubWatchEventPayloadDiscriminator, GitHubCreateEventPayloadDiscriminator, GitHubDeleteEventPayloadDiscriminator {
+export interface GitHubEventPayloadDiscriminator extends GitHubPushEventPayloadDiscriminator, GitHubReleaseEventPayloadDiscriminator, GitHubWatchEventPayloadDiscriminator, GitHubCreateEventPayloadDiscriminator, GitHubDeleteEventPayloadDiscriminator {
 	"ForkEvent": any;
 	"IssuesEvent": any;
 	"PullRequestEvent": any;
@@ -223,6 +223,7 @@ export class GitHubEventPayload {
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
 		case "PushEvent": return GitHubPushEventPayload.import(source, name);
+		case "ReleaseEvent": return GitHubReleaseEventPayload.import(source, name);
 		case "WatchEvent": return GitHubWatchEventPayload.import(source, name);
 		case "CreateEvent": return GitHubCreateEventPayload.import(source, name);
 		case "DeleteEvent": return GitHubDeleteEventPayload.import(source, name);
@@ -232,6 +233,7 @@ export class GitHubEventPayload {
 
 	static export(source: GitHubEventPayload): GitHubEventPayloadScheme {
 		if (source instanceof GitHubPushEventPayload) return GitHubPushEventPayload.export(source);
+		if (source instanceof GitHubReleaseEventPayload) return GitHubReleaseEventPayload.export(source);
 		if (source instanceof GitHubWatchEventPayload) return GitHubWatchEventPayload.export(source);
 		if (source instanceof GitHubCreateEventPayload) return GitHubCreateEventPayload.export(source);
 		if (source instanceof GitHubDeleteEventPayload) return GitHubDeleteEventPayload.export(source);
@@ -303,6 +305,135 @@ export class GitHubPushEventPayload {
 }
 //#endregion
 
+//#region GitHub event release
+export interface GitHubEventReleaseScheme {
+	html_url: string;
+	tag_name: string;
+	name: string | null;
+	draft: boolean;
+	prerelease: boolean;
+	published_at: string;
+	body: string | null;
+}
+
+export class GitHubEventRelease {
+	#htmlUrl: string;
+	#tagName: string;
+	#name: string | null;
+	#draft: boolean;
+	#prerelease: boolean;
+	#publishedAt: string;
+	#body: string | null;
+
+	constructor(htmlUrl: string, tagName: string, name: string | null, draft: boolean, prerelease: boolean, publishedAt: string, body: string | null) {
+		this.#htmlUrl = htmlUrl;
+		this.#tagName = tagName;
+		this.#name = name;
+		this.#draft = draft;
+		this.#prerelease = prerelease;
+		this.#publishedAt = publishedAt;
+		this.#body = body;
+	}
+
+	static import(source: any, name: string): GitHubEventRelease {
+		const object = Object.import(source, name);
+		const htmlUrl = String.import(Reflect.get(object, "html_url"), `${name}.html_url`);
+		const tagName = String.import(Reflect.get(object, "tag_name"), `${name}.tag_name`);
+		const name$ = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "name"), name => String.import(name, `${name}.name`));
+		const draft = Boolean.import(Reflect.get(object, "draft"), `${name}.draft`);
+		const prerelease = Boolean.import(Reflect.get(object, "prerelease"), `${name}.prerelease`);
+		const publishedAt = String.import(Reflect.get(object, "published_at"), `${name}.published_at`);
+		const body = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "body"), body => String.import(body, `${name}.body`));
+		const result = new GitHubEventRelease(htmlUrl, tagName, name$, draft, prerelease, publishedAt, body);
+		return result;
+	}
+
+	static export(source: GitHubEventRelease): GitHubEventReleaseScheme {
+		const html_url = source.htmlUrl;
+		const tag_name = source.tagName;
+		const name = source.name;
+		const draft = source.draft;
+		const prerelease = source.prerelease;
+		const published_at = source.publishedAt;
+		const body = source.body;
+		return { html_url, tag_name, name, draft, prerelease, published_at, body };
+	}
+
+	get htmlUrl(): string {
+		return this.#htmlUrl;
+	}
+
+	get tagName(): string {
+		return this.#tagName;
+	}
+
+	get name(): string | null {
+		return this.#name;
+	}
+
+	get draft(): boolean {
+		return this.#draft;
+	}
+
+	get prerelease(): boolean {
+		return this.#prerelease;
+	}
+
+	get publishedAt(): string {
+		return this.#publishedAt;
+	}
+
+	get body(): string | null {
+		return this.#body;
+	}
+}
+//#endregion
+
+//#region GitHub release event payload
+export interface GitHubReleaseEventPayloadDiscriminator {
+	"ReleaseEvent": any;
+}
+
+export interface GitHubReleaseEventPayloadScheme {
+	$type: keyof GitHubReleaseEventPayloadDiscriminator;
+	action: string;
+	release: GitHubEventReleaseScheme;
+}
+
+export class GitHubReleaseEventPayload {
+	#action: string;
+	#release: GitHubEventRelease;
+
+	constructor(action: string, release: GitHubEventRelease) {
+		this.#action = action;
+		this.#release = release;
+	}
+
+	static import(source: any, name: string): GitHubReleaseEventPayload {
+		const object = Object.import(source, name);
+		const action = String.import(Reflect.get(object, "action"), `${name}.action`);
+		const release = GitHubEventRelease.import(Reflect.get(object, "release"), `${name}.release`);
+		const result = new GitHubReleaseEventPayload(action, release);
+		return result;
+	}
+
+	static export(source: GitHubReleaseEventPayload): GitHubReleaseEventPayloadScheme {
+		const $type = "ReleaseEvent";
+		const action = source.action;
+		const release = GitHubEventRelease.export(source.release);
+		return { $type, action, release };
+	}
+
+	get action(): string {
+		return this.#action;
+	}
+
+	get release(): GitHubEventRelease {
+		return this.#release;
+	}
+}
+//#endregion
+
 //#region GitHub watch event payload
 export interface GitHubWatchEventPayloadDiscriminator {
 	"WatchEvent": any;
@@ -370,10 +501,10 @@ export class GitHubCreateEventPayload {
 
 	static import(source: any, name: string): GitHubCreateEventPayload {
 		const object = Object.import(source, name);
-		const ref = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "ref"), ref => String.import(ref, `${name}.ref`));
+		const ref = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "ref"), ref => String.import(ref, `${name}.ref`));
 		const refType = String.import(Reflect.get(object, "ref_type"), `${name}.ref_type`);
 		const masterBranch = String.import(Reflect.get(object, "master_branch"), `${name}.master_branch`);
-		const description = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "description"), ref => String.import(ref, `${name}.description`));
+		const description = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "description"), ref => String.import(ref, `${name}.description`));
 		const pusherType = String.import(Reflect.get(object, "pusher_type"), `${name}.pusher_type`);
 		const result = new GitHubCreateEventPayload(ref, refType, masterBranch, description, pusherType);
 		return result;
@@ -418,17 +549,17 @@ export interface GitHubDeleteEventPayloadDiscriminator {
 
 export interface GitHubDeleteEventPayloadScheme {
 	$type: keyof GitHubDeleteEventPayloadDiscriminator;
-	ref: string | null;
+	ref: string;
 	ref_type: string;
 	pusher_type: string;
 }
 
 export class GitHubDeleteEventPayload {
-	#ref: string | null;
+	#ref: string;
 	#refType: string;
 	#pusherType: string;
 
-	constructor(ref: string | null, refType: string, pusherType: string) {
+	constructor(ref: string, refType: string, pusherType: string) {
 		this.#ref = ref;
 		this.#refType = refType;
 		this.#pusherType = pusherType;
@@ -436,7 +567,7 @@ export class GitHubDeleteEventPayload {
 
 	static import(source: any, name: string): GitHubDeleteEventPayload {
 		const object = Object.import(source, name);
-		const ref = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "ref"), ref => String.import(ref, `${name}.ref`));
+		const ref = String.import(Reflect.get(object, "ref"), `${name}.ref`);
 		const refType = String.import(Reflect.get(object, "ref_type"), `${name}.ref_type`);
 		const pusherType = String.import(Reflect.get(object, "pusher_type"), `${name}.pusher_type`);
 		const result = new GitHubDeleteEventPayload(ref, refType, pusherType);
@@ -451,7 +582,7 @@ export class GitHubDeleteEventPayload {
 		return { $type, ref, ref_type, pusher_type };
 	}
 
-	get ref(): string | null {
+	get ref(): string {
 		return this.#ref;
 	}
 

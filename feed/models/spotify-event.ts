@@ -110,8 +110,8 @@ export class SpotifyImage {
 	static import(source: any, name: string): SpotifyImage {
 		const object = Object.import(source, name);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const height = Reflect.mapNull<unknown, null, number | null>(Reflect.get(object, "height"), height => Number.import(height, `${name}.height`));
-		const width = Reflect.mapNull<unknown, null, number | null>(Reflect.get(object, "width"), width => Number.import(width, `${name}.width`));
+		const height = Reflect.mapNull<unknown, null, number>(Reflect.get(object, "height"), height => Number.import(height, `${name}.height`));
+		const width = Reflect.mapNull<unknown, null, number>(Reflect.get(object, "width"), width => Number.import(width, `${name}.width`));
 		const result = new SpotifyImage(url, height, width);
 		return result;
 	}
@@ -305,7 +305,7 @@ export class SpotifyTrack {
 		const album = SpotifyAlbum.import(Reflect.get(object, "album"), `${name}.album`);
 		const externalUrls = SpotifyExternalUrls.import(Reflect.get(object, "external_urls"), `${name}.external_urls`);
 		const durationMs = Number.import(Reflect.get(object, "duration_ms"), `${name}.duration_ms`);
-		const previewUrl = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "preview_url"), previewUrl => String.import(previewUrl, `${name}.preview_url`));
+		const previewUrl = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "preview_url"), previewUrl => String.import(previewUrl, `${name}.preview_url`));
 		const uri = String.import(Reflect.get(object, "uri"), `${name}.uri`);
 		const result = new SpotifyTrack(id, $name, artists, album, externalUrls, durationMs, previewUrl, uri);
 		return result;
@@ -430,9 +430,9 @@ export class SpotifySavesCollection {
 		const object = Object.import(source, name);
 		const href = String.import(Reflect.get(object, "href"), `${name}.href`);
 		const limit = Number.import(Reflect.get(object, "limit"), `${name}.limit`);
-		const next = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "next"), next => String.import(next, `${name}.next`));
+		const next = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "next"), next => String.import(next, `${name}.next`));
 		const offset = Number.import(Reflect.get(object, "offset"), `${name}.offset`);
-		const previous = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "previous"), previous => String.import(previous, `${name}.previous`));
+		const previous = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "previous"), previous => String.import(previous, `${name}.previous`));
 		const total = Number.import(Reflect.get(object, "total"), `${name}.total`);
 		const items = Array.import(Reflect.get(object, "items"), `${name}.items`).map((item, index) => {
 			return SpotifySaveEvent.import(item, `${name}.items[${index}]`);

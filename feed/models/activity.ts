@@ -27,10 +27,13 @@ export class Activity {
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
 		case "GitHubPushActivity":
+		case "GitHubReleaseActivity":
 		case "GitHubWatchActivity":
 		case "GitHubCreateTagActivity":
 		case "GitHubCreateBranchActivity":
-		case "GitHubCreateRepositoryActivity": return GitHubActivity.import(source, name);
+		case "GitHubCreateRepositoryActivity":
+		case "GitHubDeleteTagActivity":
+		case "GitHubDeleteBranchActivity": return GitHubActivity.import(source, name);
 		case "SpotifyLikeActivity": return SpotifyActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
@@ -63,7 +66,7 @@ export class Activity {
 //#endregion
 
 //#region GitHub activity
-export interface GitHubActivityDiscriminator extends GitHubPushActivityDiscriminator, GitHubWatchActivityDiscriminator, GitHubCreateActivityDiscriminator {
+export interface GitHubActivityDiscriminator extends GitHubPushActivityDiscriminator, GitHubReleaseActivityDiscriminator, GitHubWatchActivityDiscriminator, GitHubCreateActivityDiscriminator, GitHubDeleteActivityDiscriminator {
 }
 
 export interface GitHubActivityScheme extends ActivityScheme {
@@ -91,18 +94,23 @@ export class GitHubActivity extends Activity {
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
 		case "GitHubPushActivity": return GitHubPushActivity.import(source, name);
+		case "GitHubReleaseActivity": return GitHubReleaseActivity.import(source, name);
 		case "GitHubWatchActivity": return GitHubWatchActivity.import(source, name);
 		case "GitHubCreateTagActivity":
 		case "GitHubCreateBranchActivity":
 		case "GitHubCreateRepositoryActivity": return GitHubCreateActivity.import(source, name);
+		case "GitHubDeleteTagActivity":
+		case "GitHubDeleteBranchActivity": return GitHubDeleteActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
 
 	static export(source: GitHubActivity): GitHubActivityScheme {
 		if (source instanceof GitHubPushActivity) return GitHubPushActivity.export(source);
+		if (source instanceof GitHubReleaseActivity) return GitHubReleaseActivity.export(source);
 		if (source instanceof GitHubWatchActivity) return GitHubWatchActivity.export(source);
 		if (source instanceof GitHubCreateActivity) return GitHubCreateActivity.export(source);
+		if (source instanceof GitHubDeleteActivity) return GitHubDeleteActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 
@@ -167,6 +175,62 @@ export class GitHubPushActivity extends GitHubActivity {
 }
 //#endregion
 
+//#region GitHub release activity
+export interface GitHubReleaseActivityDiscriminator {
+	"GitHubReleaseActivity": GitHubReleaseActivity;
+}
+
+export interface GitHubReleaseActivityScheme extends GitHubActivityScheme {
+	$type: keyof GitHubReleaseActivityDiscriminator;
+	title: string;
+	is_prerelease: boolean;
+}
+
+export class GitHubReleaseActivity extends GitHubActivity {
+	#title: string;
+	#isPrerelease: boolean;
+
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, title: string, isPrerelease: boolean) {
+		super(platform, timestamp, username, url, repository);
+		this.#title = title;
+		this.#isPrerelease = isPrerelease;
+	}
+
+	static import(source: any, name: string): GitHubReleaseActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
+		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
+		const isPrerelease = Boolean.import(Reflect.get(object, "is_prerelease"), `${name}.is_prerelease`);
+		const result = new GitHubReleaseActivity(platform, timestamp, username, url, repository, title, isPrerelease);
+		return result;
+	}
+
+	static export(source: GitHubReleaseActivity): GitHubReleaseActivityScheme {
+		const $type = "GitHubReleaseActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const username = source.username;
+		const url = source.url;
+		const repository = source.repository;
+		const title = source.title;
+		const is_prerelease = source.isPrerelease;
+		return { $type, platform, timestamp, username, url, repository, title, is_prerelease };
+	}
+
+	get title(): string {
+		return this.#title;
+	}
+
+	get isPrerelease(): boolean {
+		return this.#isPrerelease;
+	}
+}
+//#endregion
+
 //#region GitHub watch activity
 export interface GitHubWatchActivityDiscriminator {
 	"GitHubWatchActivity": GitHubWatchActivity;
@@ -224,7 +288,7 @@ export class GitHubCreateActivity extends GitHubActivity {
 
 	static import(source: any, name: string): GitHubCreateActivity {
 		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`) as keyof GitHubCreateActivityDiscriminator;
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
 		case "GitHubCreateTagActivity": return GitHubCreateTagActivity.import(source, name);
 		case "GitHubCreateBranchActivity": return GitHubCreateBranchActivity.import(source, name);
@@ -363,6 +427,124 @@ export class GitHubCreateRepositoryActivity extends GitHubCreateActivity {
 }
 //#endregion
 
+//#region GitHub delete activity
+export interface GitHubDeleteActivityDiscriminator extends GitHubDeleteTagActivityDiscriminator, GitHubDeleteBranchActivityDiscriminator {
+}
+
+export interface GitHubDeleteActivityScheme extends GitHubActivityScheme {
+	$type: keyof GitHubDeleteActivityDiscriminator;
+	name: string;
+}
+
+export class GitHubDeleteActivity extends GitHubActivity {
+	#name: string;
+
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+		super(platform, timestamp, username, url, repository);
+		if (new.target === GitHubDeleteActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.#name = name;
+	}
+
+	static import(source: any, name: string): GitHubDeleteActivity {
+		const object = Object.import(source, name);
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
+		switch ($type) {
+		case "GitHubDeleteTagActivity": return GitHubDeleteTagActivity.import(source, name);
+		case "GitHubDeleteBranchActivity": return GitHubDeleteBranchActivity.import(source, name);
+		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
+		}
+	}
+
+	static export(source: GitHubDeleteActivity): GitHubDeleteActivityScheme {
+		if (source instanceof GitHubDeleteTagActivity) return GitHubDeleteTagActivity.export(source);
+		if (source instanceof GitHubDeleteBranchActivity) return GitHubDeleteBranchActivity.export(source);
+		throw new TypeError(`Invalid '${typename(source)}' type for source`);
+	}
+
+	get name(): string {
+		return this.#name;
+	}
+}
+//#endregion
+
+//#region GitHub delete tag activity
+export interface GitHubDeleteTagActivityDiscriminator {
+	"GitHubDeleteTagActivity": GitHubDeleteTagActivity;
+}
+
+export interface GitHubDeleteTagActivityScheme extends GitHubDeleteActivityScheme {
+	$type: keyof GitHubDeleteTagActivityDiscriminator;
+}
+
+export class GitHubDeleteTagActivity extends GitHubDeleteActivity {
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+		super(platform, timestamp, username, url, repository, name);
+	}
+
+	static import(source: any, name: string): GitHubDeleteTagActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
+		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
+		const result = new GitHubDeleteTagActivity(platform, timestamp, username, url, repository, $name);
+		return result;
+	}
+
+	static export(source: GitHubDeleteTagActivity): GitHubDeleteTagActivityScheme {
+		const $type = "GitHubDeleteTagActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const username = source.username;
+		const url = source.url;
+		const repository = source.repository;
+		const name = source.name;
+		return { $type, platform, timestamp, username, url, repository, name };
+	}
+}
+//#endregion
+
+//#region GitHub delete branch activity
+export interface GitHubDeleteBranchActivityDiscriminator {
+	"GitHubDeleteBranchActivity": GitHubDeleteBranchActivity;
+}
+
+export interface GitHubDeleteBranchActivityScheme extends GitHubDeleteActivityScheme {
+	$type: keyof GitHubDeleteBranchActivityDiscriminator;
+}
+
+export class GitHubDeleteBranchActivity extends GitHubDeleteActivity {
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+		super(platform, timestamp, username, url, repository, name);
+	}
+
+	static import(source: any, name: string): GitHubDeleteBranchActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
+		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
+		const result = new GitHubDeleteBranchActivity(platform, timestamp, username, url, repository, $name);
+		return result;
+	}
+
+	static export(source: GitHubDeleteBranchActivity): GitHubDeleteBranchActivityScheme {
+		const $type = "GitHubDeleteBranchActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const username = source.username;
+		const url = source.url;
+		const repository = source.repository;
+		const name = source.name;
+		return { $type, platform, timestamp, username, url, repository, name };
+	}
+}
+//#endregion
+
 //#region Spotify activity
 export interface SpotifyActivityDiscriminator extends SpotifyLikeActivityDiscriminator {
 }
@@ -428,7 +610,7 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const artists = Array.import(Reflect.get(object, "artists"), `${name}.artists`).map((item, index) => {
 			return String.import(item, `${name}.artists[${index}]`);
 		});
-		const cover = Reflect.mapNull<unknown, null, string | null>(Reflect.get(object, "cover"), cover => String.import(cover, `${name}.cover`));
+		const cover = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "cover"), cover => String.import(cover, `${name}.cover`));
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
 		const result = new SpotifyLikeActivity(platform, timestamp, title, artists, cover, url);
 		return result;

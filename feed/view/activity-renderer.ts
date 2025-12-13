@@ -160,6 +160,7 @@ export class ActivityRenderer {
 
 	#renderGitHubContent(cursor: ArrayCursor<Activity>): void {
 		const buffer: GitHubActivity[] = [];
+		
 		const gap = this.#gap;
 		let current = cursor.current as GitHubActivity;
 		while (true) {

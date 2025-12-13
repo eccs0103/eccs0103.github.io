@@ -3,19 +3,21 @@
 declare global {
 	export interface Window {
 		dataLayer: any[];
+		gtag(...args: any): void;
 	}
 }
 
+window.dataLayer = window.dataLayer || [];
+window.gtag = function (): void {
+	window.dataLayer.push(arguments);
+};
+
 const id = "G-1N3MKL65T7";
 
-function gtag(layer: any[], ...args: any[]): void {
-	layer.push(args);
-}
+window.gtag("js", new Date());
+window.gtag("config", id);
 
-window.dataLayer = window.dataLayer || [];
-gtag(window.dataLayer, "js", new Date());
-gtag(window.dataLayer, "config", id);
-
-const script = document.head.appendChild(document.createElement("script"));
+const script = document.createElement("script");
 script.async = true;
 script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+document.head.appendChild(script);

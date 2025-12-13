@@ -1,0 +1,12 @@
+[
+	{
+		"name": "GitHub",
+		"icon": "../../resources/icons/github.svg",
+		"is_active": true
+	},
+	{
+		"name": "Spotify",
+		"icon": "../../resources/icons/spotify.svg",
+		"is_active": true
+	}
+]

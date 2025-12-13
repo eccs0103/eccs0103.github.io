@@ -1,18 +1,17 @@
 "use strict";
 
 import "adaptive-extender/core";
-import AsyncFileSystem from "fs/promises";
-import { dirname } from "path";
 import { type ActivityWalker } from "./activity-walker.js";
 import { Activity } from "../models/activity.js";
+import { type DataTable } from "./data-table.js";
 
 //#region Activity dispatcher
 export class ActivityDispatcher {
-	#path: string;
 	#walkers: Set<ActivityWalker> = new Set();
+	#activities: DataTable<typeof Activity>;
 
-	constructor(path: string) {
-		this.#path = path;
+	constructor(activities: DataTable<typeof Activity>) {
+		this.#activities = activities;
 	}
 
 	connect(walker: ActivityWalker): void {
@@ -21,23 +20,6 @@ export class ActivityDispatcher {
 
 	disconnect(walker: ActivityWalker): void {
 		this.#walkers.delete(walker);
-	}
-
-	static async #ensureStorage(path: string): Promise<void> {
-		await AsyncFileSystem.mkdir(dirname(path), { recursive: true });
-		try {
-			await AsyncFileSystem.access(path, AsyncFileSystem.constants.F_OK);
-		} catch {
-			await ActivityDispatcher.#writeActivities([], path);
-		}
-	}
-
-	static async #readActivities(path: string, activities: Activity[]): Promise<void> {
-		const object = JSON.parse(await AsyncFileSystem.readFile(path, "utf-8"));
-		const name = "activities";
-		activities.push(...Array.import(object, name).map((item, index) => {
-			return Activity.import(item, `${name}[${index}]`);
-		}));
 	}
 
 	static async #runWalker(walker: ActivityWalker, activities: Activity[]): Promise<void> {
@@ -50,6 +32,7 @@ export class ActivityDispatcher {
 	static async #runWalkers(walkers: Iterable<ActivityWalker>, activities: Activity[]): Promise<void> {
 		for (const walker of walkers) {
 			try {
+				console.log(`Launching ${walker.name} for crawl`);
 				const before = activities.length;
 				await ActivityDispatcher.#runWalker(walker, activities);
 				const count = activities.length - before;
@@ -62,18 +45,11 @@ export class ActivityDispatcher {
 		activities.sort(Activity.earlier);
 	}
 
-	static async #writeActivities(activities: Activity[], path: string): Promise<void> {
-		const object = activities.map(activity => Activity.export(activity));
-		await AsyncFileSystem.writeFile(path, JSON.stringify(object, null, "\t"));
-	}
-
 	async execute(): Promise<void> {
-		const path = this.#path;
-		const activities: Activity[] = [];
-		await ActivityDispatcher.#ensureStorage(path);
-		await ActivityDispatcher.#readActivities(path, activities);
+		const activities = this.#activities;
+		await activities.load();
 		await ActivityDispatcher.#runWalkers(this.#walkers, activities);
-		await ActivityDispatcher.#writeActivities(activities, path);
+		await activities.save();
 	}
 }
 //#endregion

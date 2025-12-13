@@ -23,7 +23,7 @@ export class GitHubWalker extends ActivityWalker {
 		const headers: HeadersInit = {
 			["Authorization"]: `Bearer ${this.#token}`,
 			["Accept"]: "application/vnd.github+json",
-			["User-Agent"]: "Arman-Personal-Site-Collector"
+			["User-Agent"]: "Digital garden"
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);

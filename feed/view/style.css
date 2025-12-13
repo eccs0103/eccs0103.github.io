@@ -34,14 +34,41 @@ div.activity {
 
 	& > div.content {
 		grid-area: activity-content;
-	}
 
-	& img.spotify-cover {
-		width: calc(3 * var(--size-standart));
-	}
+		& details.github-collection {
+			& > summary {
+				list-style-type: disc;
+				cursor: pointer;
+				/* text-decoration-line: underline; */
+				/* text-decoration-color: var(--color-highlight); */
 
-	& a.spotify-link {
-		font-size: 0.9em;
+				&::marker {
+					color: var(--color-highlight);
+				}
+			}
+
+			&[open] > summary {
+				list-style-type: circle;
+			}
+
+			& ul.collection-content {
+				margin-top: var(--size-gap);
+				margin-left: 0.05em;
+				padding-left: 0.7em;
+				list-style-type: none;
+				line-height: 1.5;
+				/* color: var(--color-text-description); */
+				border-left: 2px solid var(--color-text-description);
+			}
+		}
+
+		& img.spotify-cover {
+			width: calc(3 * var(--size-standart));
+		}
+
+		& a.spotify-link {
+			font-size: 0.9em;
+		}
 	}
 }
 
@@ -54,8 +81,7 @@ footer {
 	justify-content: space-evenly;
 }
 
-.integrated {
-}
+.integrated {}
 
 dialog.loader img[alt="Logo"] {
 	content: url(../resources/loading.gif);

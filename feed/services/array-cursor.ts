@@ -3,26 +3,13 @@
 import "adaptive-extender/core";
 
 //#region Array cursor
-export class ArrayCursor<I, T extends I = I> {
-	#items: readonly I[];
+export class ArrayCursor<T> {
+	#items: readonly T[];
 	#index: number;
 
-	constructor(items: readonly I[]) {
+	constructor(items: readonly T[]) {
 		this.#items = items;
 		this.#index = 0;
-	}
-
-	get target(): T {
-		return this.#items[this.#index] as T;
-	}
-
-	get length(): number {
-		return this.#items.length;
-	}
-
-	get inRange(): boolean {
-		const index = this.#index;
-		return 0 <= index && index < this.#items.length;
 	}
 
 	get index(): number {
@@ -31,6 +18,19 @@ export class ArrayCursor<I, T extends I = I> {
 
 	set index(value: number) {
 		this.#index = value;
+	}
+
+	get current(): T {
+		return this.#items[this.#index];
+	}
+
+	get length(): number {
+		return this.#items.length;
+	}
+
+	get inRange(): boolean {
+		const index = this.#index;
+		return 0 <= index && index < this.length;
 	}
 }
 //#endregion

@@ -6,14 +6,20 @@ import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
 import { env } from "../services/local-environment.js";
 import { GitHubWalker } from "../services/github-walker.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
+import { ServerDataTable } from "../services/server-data-table.js";
+import { Activity } from "../models/activity.js";
+
+const meta = import.meta;
 
 //#region Activity controller
 class ActivityController extends Controller {
 	async run(): Promise<void> {
-		const dispatcher = new ActivityDispatcher("feed/data/activity.json");
+		const urlActivities = new URL("../data/activities.json", meta.url);
+		const activities = new ServerDataTable(urlActivities, Activity);
+		const dispatcher = new ActivityDispatcher(activities);
+
 		const { githubUsername, githubToken } = env;
 		const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
-
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
 
@@ -23,7 +29,7 @@ class ActivityController extends Controller {
 	}
 
 	async catch(error: Error): Promise<void> {
-		console.error(`Feed update failed cause of ${error}`);
+		console.error(`Feed update failed cause of:\n${error}`);
 	}
 }
 //#endregion

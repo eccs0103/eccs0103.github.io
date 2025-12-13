@@ -2,48 +2,38 @@
 
 import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
-import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
-import githubIcon from "../../resources/icons/github.svg";
-import spotifyIcon from "../../resources/icons/spotify.svg";
+import { Activity, GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
+import { ArrayCursor } from "../services/array-cursor.js";
+import { TextExpert } from "../services/text-expert.js";
+import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
 
 //#region Activity renderer
 export class ActivityRenderer {
-	static #icons: Map<string, string> = new Map([
-		["GitHub", githubIcon],
-		["Spotify", spotifyIcon]
-	]);
 	#itemContainer: HTMLElement;
+	#icons: Map<string, URL>;
+	#gap: Timespan;
 
-	constructor(itemContainer: HTMLElement) {
+	constructor(itemContainer: HTMLElement, icons: Map<string, URL>, gap: Timespan) {
 		this.#itemContainer = itemContainer;
+		this.#icons = icons;
+		this.#gap = gap;
 	}
 
-	static #getPluralSuffix(count: number): string {
-		if (count > 1) return "s";
-		return String.empty;
-	}
-
-	static #formatTime(timestamp: Date): string {
-		const span = Timespan.fromValue(Date.now() - timestamp.valueOf());
-		if (span.days > 3) return timestamp.toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" });
-		if (span.days > 0) return `${span.days} day${ActivityRenderer.#getPluralSuffix(span.days)} ago`;
-		if (span.hours > 0) return `${span.hours} hour${ActivityRenderer.#getPluralSuffix(span.hours)} ago`;
-		if (span.minutes > 0) return `${span.minutes} min${ActivityRenderer.#getPluralSuffix(span.minutes)} ago`;
-		return "Just now";
-	}
-
-	static #newActivity(itemContainer: HTMLElement, activity: Activity): HTMLElement {
+	static #newActivity(itemContainer: HTMLElement, icons: Map<string, URL>, activity: Activity): HTMLElement {
 		const divActivity = itemContainer.appendChild(document.createElement("div"));
 		divActivity.classList.add("activity", "layer", "rounded", "with-padding", "with-gap");
 
-		const imgIcon = divActivity.appendChild(document.createElement("img"));
-		imgIcon.src = ReferenceError.suppress(ActivityRenderer.#icons.get(activity.platform));
-		imgIcon.alt = activity.platform;
-		imgIcon.classList.add("icon");
+		const urlIcon = icons.get(activity.platform);
+		if (urlIcon !== undefined) {
+			const imgIcon = divActivity.appendChild(document.createElement("img"));
+			imgIcon.src = urlIcon.toString();
+			imgIcon.alt = activity.platform;
+			imgIcon.classList.add("icon");
+		}
 
 		const timeTimestamp = divActivity.appendChild(document.createElement("time"));
 		timeTimestamp.dateTime = activity.timestamp.toISOString();
-		timeTimestamp.textContent = ActivityRenderer.#formatTime(activity.timestamp);
+		timeTimestamp.textContent = TextExpert.formatTime(activity.timestamp);
 		timeTimestamp.classList.add("activity-time");
 
 		const divContent = divActivity.appendChild(document.createElement("div"));
@@ -61,49 +51,135 @@ export class ActivityRenderer {
 		return aLink;
 	}
 
-	renderPush(activity: GitHubPushActivity, count: number): void {
-		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
-		itemContainer.appendChild(document.createTextNode("Published "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(`${count} update${(count > 1 ? "s" : String.empty)}`, `${activity.url}/commit/${activity.sha}`));
-		itemContainer.appendChild(document.createTextNode(" to the source code of "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		itemContainer.appendChild(document.createTextNode("."));
+	static #renderGitHubPushActivity(container: HTMLElement, activity: GitHubPushActivity, count: number): void {
+		container.appendChild(document.createTextNode("Published "));
+		container.appendChild(ActivityRenderer.#newLink(`${count} update${TextExpert.getPluralSuffix(count)}`, `${activity.url}/commit/${activity.sha}`));
+		container.appendChild(document.createTextNode(" to the source code of "));
+		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
+		container.appendChild(document.createTextNode("."));
 	}
 
-	renderWatch(activity: GitHubWatchActivity): void {
-		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
-		itemContainer.appendChild(document.createTextNode("Discovered and bookmarked the "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		itemContainer.appendChild(document.createTextNode(" open-source project."));
+	static #renderGitHubWatchActivity(container: HTMLElement, activity: GitHubWatchActivity): void {
+		container.appendChild(document.createTextNode("Discovered and bookmarked the "));
+		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
+		container.appendChild(document.createTextNode(" open-source project."));
 	}
 
-	renderCreateTag(activity: GitHubCreateTagActivity): void {
-		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
-		itemContainer.appendChild(document.createTextNode("Released version "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(activity.name, `${activity.url}/releases/tag/${activity.name}`));
-		itemContainer.appendChild(document.createTextNode(" for the "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		itemContainer.appendChild(document.createTextNode(" product."));
+	static #renderGitHubCreateTagActivity(container: HTMLElement, activity: GitHubCreateTagActivity): void {
+		container.appendChild(document.createTextNode("Released version "));
+		container.appendChild(ActivityRenderer.#newLink(activity.name, `${activity.url}/releases/tag/${activity.name}`));
+		container.appendChild(document.createTextNode(" for the "));
+		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
+		container.appendChild(document.createTextNode(" product."));
 	}
 
-	renderCreateBranch(activity: GitHubCreateBranchActivity): void {
-		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
-		itemContainer.appendChild(document.createTextNode("Started working on a new feature \""));
-		itemContainer.appendChild(ActivityRenderer.#newLink(`${activity.name}`, `${activity.url}/tree/${activity.name}`));
-		itemContainer.appendChild(document.createTextNode("\" in "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		itemContainer.appendChild(document.createTextNode("."));
+	static #renderGitHubCreateBranchActivity(container: HTMLElement, activity: GitHubCreateBranchActivity): void {
+		container.appendChild(document.createTextNode("Started working on a new feature \""));
+		container.appendChild(ActivityRenderer.#newLink(`${activity.name}`, `${activity.url}/tree/${activity.name}`));
+		container.appendChild(document.createTextNode("\" in "));
+		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
+		container.appendChild(document.createTextNode("."));
 	}
 
-	renderCreateRepository(activity: GitHubCreateRepositoryActivity): void {
-		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
-		itemContainer.appendChild(document.createTextNode("Initiated a new repository named "));
-		itemContainer.appendChild(ActivityRenderer.#newLink(activity.name, activity.url));
-		itemContainer.appendChild(document.createTextNode("."));
+	static #renderGitHubCreateRepositoryActivity(container: HTMLElement, activity: GitHubCreateRepositoryActivity): void {
+		container.appendChild(document.createTextNode("Initiated a new repository named "));
+		container.appendChild(ActivityRenderer.#newLink(activity.name, activity.url));
+		container.appendChild(document.createTextNode("."));
 	}
 
-	renderSpotify(activity: SpotifyLikeActivity): void {
-		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, activity);
+	static #renderGitHubActivity(container: HTMLElement, activity: GitHubActivity): void {
+		if (activity instanceof GitHubPushActivity) return ActivityRenderer.#renderGitHubPushActivity(container, activity, 1);
+		if (activity instanceof GitHubWatchActivity) return ActivityRenderer.#renderGitHubWatchActivity(container, activity);
+		if (activity instanceof GitHubCreateTagActivity) return ActivityRenderer.#renderGitHubCreateTagActivity(container, activity);
+		if (activity instanceof GitHubCreateBranchActivity) return ActivityRenderer.#renderGitHubCreateBranchActivity(container, activity);
+		if (activity instanceof GitHubCreateRepositoryActivity) return ActivityRenderer.#renderGitHubCreateRepositoryActivity(container, activity);
+	}
+
+	#renderGitHubSingle(activity: GitHubActivity): void {
+		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, this.#icons, activity);
+		ActivityRenderer.#renderGitHubActivity(itemContainer, activity);
+	}
+
+	#print(container: HTMLElement, strings: TemplateStringsArray, ...values: any[]): void {
+		strings.forEach((string, index) => {
+			container.appendChild(document.createTextNode(string));
+			if (index >= values.length) return;
+			const value = values[index];
+			if (value instanceof Node) {
+				container.appendChild(value);
+				return;
+			}
+			container.appendChild(document.createTextNode(String(value)));
+			return;
+		});
+	}
+
+	#renderCollectionSummary(container: HTMLElement, activities: GitHubActivity[]): void {
+		const expert = new GitHubSummaryExpert(activities);
+		const linker: LinkerFunction = ActivityRenderer.#newLink.bind(ActivityRenderer);
+		const context = expert.build(linker);
+		const template = expert.choose();
+		const printer: PrinterFunction = this.#print.bind(this, container);
+		template(printer, context);
+	}
+
+	#renderGitHubCollection(activities: GitHubActivity[]): void {
+		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, this.#icons, activities[0]);
+
+		const details = itemContainer.appendChild(document.createElement("details"));
+		details.classList.add("github-collection");
+		details.open = true;
+
+		const summary = details.appendChild(document.createElement("summary"));
+
+		this.#renderCollectionSummary(summary, activities);
+
+		const ulContent = details.appendChild(document.createElement("ul"));
+		ulContent.classList.add("collection-content");
+
+		for (let index = 0; index < activities.length; index++) {
+			const activity = activities[index];
+			const liActivity = ulContent.appendChild(document.createElement("li"));
+
+			if (!(activity instanceof GitHubPushActivity)) {
+				ActivityRenderer.#renderGitHubActivity(liActivity, activity);
+				continue;
+			}
+
+			let count = 1;
+			while (index + 1 < activities.length) {
+				const current = activities[index + 1];
+				if (!(current instanceof GitHubPushActivity)) break;
+				if (current.repository !== activity.repository) break;
+				count++;
+				index++;
+			}
+			ActivityRenderer.#renderGitHubPushActivity(liActivity, activity, count);
+		}
+	}
+
+	#renderGitHubContent(cursor: ArrayCursor<Activity>): void {
+		const buffer: GitHubActivity[] = [];
+		const gap = this.#gap;
+		let current = cursor.current as GitHubActivity;
+		while (true) {
+			buffer.push(current);
+			cursor.index++;
+			if (!cursor.inRange) break;
+			const next = cursor.current;
+			if (!(next instanceof GitHubActivity)) break;
+			const difference = Timespan.fromValue(current.timestamp.valueOf() - next.timestamp.valueOf());
+			if (difference.valueOf() > gap.valueOf()) break;
+			current = next;
+		}
+
+		if (buffer.length > 1) return this.#renderGitHubCollection(buffer);
+		return this.#renderGitHubSingle(buffer[0]);
+	}
+
+	#renderSpotifyLikeActivity(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current as SpotifyLikeActivity;
+		const itemContainer = ActivityRenderer.#newActivity(this.#itemContainer, this.#icons, activity);
 		itemContainer.classList.add("flex", "column", "with-gap");
 
 		const spanAction = itemContainer.appendChild(document.createElement("span"));
@@ -132,6 +208,24 @@ export class ActivityRenderer {
 
 		const aReferrer = divInformation.appendChild(ActivityRenderer.#newLink("Listen on Spotify ↗", activity.url));
 		aReferrer.classList.add("spotify-link", "with-block-padding");
+
+		cursor.index++;
+	}
+
+	render(cursor: ArrayCursor<Activity>): void {
+		const activity = cursor.current;
+
+		if (activity instanceof GitHubActivity) {
+			this.#renderGitHubContent(cursor);
+			return;
+		}
+
+		if (activity instanceof SpotifyLikeActivity) {
+			this.#renderSpotifyLikeActivity(cursor);
+			return;
+		}
+
+		cursor.index++;
 	}
 }
 //#endregion

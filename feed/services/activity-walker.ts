@@ -5,7 +5,7 @@ import { ImplementationError } from "adaptive-extender/core";
 import { Activity } from "../models/activity.js";
 
 //#region Activity walker
-export abstract class ActivityWalker {
+export class ActivityWalker {
 	#name: string;
 
 	constructor(name: string) {

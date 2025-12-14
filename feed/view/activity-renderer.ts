@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
-import { Activity, GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
+import { Activity, GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { TextExpert } from "../services/text-expert.js";
 import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
@@ -42,6 +42,16 @@ export class ActivityRenderer {
 		return divContent;
 	}
 
+	static #newText(text: string): Text {
+		return document.createTextNode(text);
+	}
+
+	static #newMark(text: string): HTMLElement {
+		const mark = document.createElement("mark");
+		mark.textContent = text;
+		return mark;
+	}
+
 	static #newLink(text: string, url: string): HTMLAnchorElement {
 		const aLink = document.createElement("a");
 		aLink.href = url;
@@ -52,47 +62,75 @@ export class ActivityRenderer {
 	}
 
 	static #renderGitHubPushActivity(container: HTMLElement, activity: GitHubPushActivity, count: number): void {
-		container.appendChild(document.createTextNode("Published "));
+		container.appendChild(ActivityRenderer.#newText("Published "));
 		container.appendChild(ActivityRenderer.#newLink(`${count} update${TextExpert.getPluralSuffix(count)}`, `${activity.url}/commit/${activity.sha}`));
-		container.appendChild(document.createTextNode(" to the source code of "));
+		container.appendChild(ActivityRenderer.#newText(" to the source code of "));
 		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		container.appendChild(document.createTextNode("."));
+		container.appendChild(ActivityRenderer.#newText("."));
+	}
+
+	static #renderGitHubReleaseActivity(container: HTMLElement, activity: GitHubReleaseActivity): void {
+		container.appendChild(ActivityRenderer.#newText("Published "));
+		if (activity.isPrerelease) container.appendChild(ActivityRenderer.#newText("pre-release "));
+		container.appendChild(ActivityRenderer.#newLink(activity.title, activity.url));
+		container.appendChild(ActivityRenderer.#newText(" for "));
+		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
+		container.appendChild(ActivityRenderer.#newText("."));
 	}
 
 	static #renderGitHubWatchActivity(container: HTMLElement, activity: GitHubWatchActivity): void {
-		container.appendChild(document.createTextNode("Discovered and bookmarked the "));
+		container.appendChild(ActivityRenderer.#newText("Discovered and bookmarked the "));
 		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		container.appendChild(document.createTextNode(" open-source project."));
+		container.appendChild(ActivityRenderer.#newText(" open-source project."));
 	}
 
 	static #renderGitHubCreateTagActivity(container: HTMLElement, activity: GitHubCreateTagActivity): void {
-		container.appendChild(document.createTextNode("Released version "));
+		container.appendChild(ActivityRenderer.#newText("Released version "));
 		container.appendChild(ActivityRenderer.#newLink(activity.name, `${activity.url}/releases/tag/${activity.name}`));
-		container.appendChild(document.createTextNode(" for the "));
+		container.appendChild(ActivityRenderer.#newText(" for the "));
 		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		container.appendChild(document.createTextNode(" product."));
+		container.appendChild(ActivityRenderer.#newText(" product."));
 	}
 
 	static #renderGitHubCreateBranchActivity(container: HTMLElement, activity: GitHubCreateBranchActivity): void {
-		container.appendChild(document.createTextNode("Started working on a new feature \""));
+		container.appendChild(ActivityRenderer.#newText("Started working on a new feature \""));
 		container.appendChild(ActivityRenderer.#newLink(`${activity.name}`, `${activity.url}/tree/${activity.name}`));
-		container.appendChild(document.createTextNode("\" in "));
+		container.appendChild(ActivityRenderer.#newText("\" in "));
 		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
-		container.appendChild(document.createTextNode("."));
+		container.appendChild(ActivityRenderer.#newText("."));
 	}
 
 	static #renderGitHubCreateRepositoryActivity(container: HTMLElement, activity: GitHubCreateRepositoryActivity): void {
-		container.appendChild(document.createTextNode("Initiated a new repository named "));
+		container.appendChild(ActivityRenderer.#newText("Initiated a new repository named "));
 		container.appendChild(ActivityRenderer.#newLink(activity.name, activity.url));
-		container.appendChild(document.createTextNode("."));
+		container.appendChild(ActivityRenderer.#newText("."));
+	}
+
+	static #renderGitHubDeleteTagActivity(container: HTMLElement, activity: GitHubDeleteTagActivity): void {
+		container.appendChild(ActivityRenderer.#newText("Deleted tag "));
+		container.appendChild(ActivityRenderer.#newMark(activity.name));
+		container.appendChild(ActivityRenderer.#newText(" from "));
+		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
+		container.appendChild(ActivityRenderer.#newText("."));
+	}
+
+	static #renderGitHubDeleteBranchActivity(container: HTMLElement, activity: GitHubDeleteBranchActivity): void {
+		container.appendChild(ActivityRenderer.#newText("Deleted branch "));
+		container.appendChild(ActivityRenderer.#newMark(activity.name));
+		container.appendChild(ActivityRenderer.#newText(" from "));
+		container.appendChild(ActivityRenderer.#newLink(activity.repository, activity.url));
+		container.appendChild(ActivityRenderer.#newText("."));
 	}
 
 	static #renderGitHubActivity(container: HTMLElement, activity: GitHubActivity): void {
 		if (activity instanceof GitHubPushActivity) return ActivityRenderer.#renderGitHubPushActivity(container, activity, 1);
+		if (activity instanceof GitHubReleaseActivity) return ActivityRenderer.#renderGitHubReleaseActivity(container, activity);
 		if (activity instanceof GitHubWatchActivity) return ActivityRenderer.#renderGitHubWatchActivity(container, activity);
 		if (activity instanceof GitHubCreateTagActivity) return ActivityRenderer.#renderGitHubCreateTagActivity(container, activity);
 		if (activity instanceof GitHubCreateBranchActivity) return ActivityRenderer.#renderGitHubCreateBranchActivity(container, activity);
 		if (activity instanceof GitHubCreateRepositoryActivity) return ActivityRenderer.#renderGitHubCreateRepositoryActivity(container, activity);
+		if (activity instanceof GitHubDeleteBranchActivity) return ActivityRenderer.#renderGitHubDeleteBranchActivity(container, activity);
+		if (activity instanceof GitHubDeleteTagActivity) return ActivityRenderer.#renderGitHubDeleteTagActivity(container, activity);
 	}
 
 	#renderGitHubSingle(activity: GitHubActivity): void {
@@ -102,14 +140,14 @@ export class ActivityRenderer {
 
 	#print(container: HTMLElement, strings: TemplateStringsArray, ...values: any[]): void {
 		strings.forEach((string, index) => {
-			container.appendChild(document.createTextNode(string));
+			container.appendChild(ActivityRenderer.#newText(string));
 			if (index >= values.length) return;
 			const value = values[index];
 			if (value instanceof Node) {
 				container.appendChild(value);
 				return;
 			}
-			container.appendChild(document.createTextNode(String(value)));
+			container.appendChild(ActivityRenderer.#newText(String(value)));
 			return;
 		});
 	}
@@ -160,7 +198,7 @@ export class ActivityRenderer {
 
 	#renderGitHubContent(cursor: ArrayCursor<Activity>): void {
 		const buffer: GitHubActivity[] = [];
-		
+
 		const gap = this.#gap;
 		let current = cursor.current as GitHubActivity;
 		while (true) {

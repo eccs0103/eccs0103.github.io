@@ -1,12 +1,74 @@
 [
 	{
+		"name": "Stack overflow",
+		"icon": "../../resources/icons/stack-overflow.svg",
+		"webpage": "https://ru.stackoverflow.com/users/324730",
+		"is_active": false
+	},
+	{
 		"name": "GitHub",
 		"icon": "../../resources/icons/github.svg",
+		"webpage": "https://github.com/eccs0103",
 		"is_active": true
+	},
+	{
+		"name": "Telegram",
+		"icon": "../../resources/icons/telegram.svg",
+		"webpage": "https://t.me/eccs0103",
+		"is_active": false
+	},
+	{
+		"name": "ВКонтакте",
+		"icon": "../../resources/icons/vk.svg",
+		"webpage": "https://vk.com/eccs0103",
+		"is_active": false
+	},
+	{
+		"name": "Instagram",
+		"icon": "../../resources/icons/instagram.svg",
+		"webpage": "https://www.instagram.com/eccs0103",
+		"is_active": false
 	},
 	{
 		"name": "Spotify",
 		"icon": "../../resources/icons/spotify.svg",
+		"webpage": "https://open.spotify.com/user/317zm5tuh2bgwxdckyqgxkjlxqji",
 		"is_active": true
+	},
+	{
+		"name": "Pinterest",
+		"icon": "../../resources/icons/pinterest.svg",
+		"webpage": "https://www.pinterest.com/eccs0103/",
+		"is_active": false
+	},
+	{
+		"name": "Steam",
+		"icon": "../../resources/icons/steam.svg",
+		"webpage": "https://steamcommunity.com/id/eccs0103",
+		"is_active": false
+	},
+	{
+		"name": "Discord",
+		"icon": "../../resources/icons/discord.svg",
+		"webpage": "https://discord.gg/kwUByVT9",
+		"is_active": false
+	},
+	{
+		"name": "YouTube",
+		"icon": "../../resources/icons/youtube.svg",
+		"webpage": "https://www.youtube.com/@eccs0103",
+		"is_active": false
+	},
+	{
+		"name": "Facebook",
+		"icon": "../../resources/icons/facebook.svg",
+		"webpage": "https://www.facebook.com/eccs0103.arman",
+		"is_active": false
+	},
+	{
+		"name": "SoundCloud",
+		"icon": "../../resources/icons/soundcloud.svg",
+		"webpage": "https://soundcloud.com/eccs0103",
+		"is_active": false
 	}
 ]

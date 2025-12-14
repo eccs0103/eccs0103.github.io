@@ -2,11 +2,12 @@
 
 import "adaptive-extender/web";
 import { Controller, Timespan } from "adaptive-extender/web";
-import { ActivityRenderer } from "../view/activity-renderer.js";
+import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { ClientDataTable } from "../services/client-data-table.js";
 import { Activity } from "../models/activity.js";
 import { Platform } from "../models/platform.js";
+import { FooterRenderer } from "../view/footer-renderer.js";
 
 const meta = import.meta;
 
@@ -19,21 +20,22 @@ class WebpageController extends Controller {
 		const platforms = new ClientDataTable(urlPlatforms, Platform);
 		await activities.load();
 		await platforms.load();
+		const { body } = document;
 
-		const mainFeedContainer = await document.getElementAsync(HTMLElement, "main#feed-container");
-		const spanFooterYear = await document.getElementAsync(HTMLSpanElement, "span#footer-year");
-		const icons = new Map(platforms.map(platform => [platform.name, platform.icon]));
-		const renderer = new ActivityRenderer(mainFeedContainer, icons, Timespan.fromComponents(24, 0, 0));
+		const main = await body.getElementAsync(HTMLElement, "main");
+		const rendererActivies = new ActivitiesRenderer(main);
 		const cursor = new ArrayCursor(activities);
-
+		const gap = Timespan.fromComponents(24, 0, 0);
 		let limit = 15;
 		while (cursor.inRange) {
 			if (limit <= 0) break;
-			renderer.render(cursor);
+			await rendererActivies.render(cursor, platforms, gap);
 			limit--;
 		}
 
-		spanFooterYear.textContent = `${new Date().getFullYear()}`;
+		const footer = await body.getElementAsync(HTMLElement, "footer");
+		const rendererFooter = new FooterRenderer(footer);
+		await rendererFooter.render(platforms);
 	}
 
 	async catch(error: Error): Promise<void> {

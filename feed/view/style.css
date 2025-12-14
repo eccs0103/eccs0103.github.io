@@ -12,9 +12,9 @@ img[alt="eccs0103 logo"] {
 div.activity {
 	display: grid;
 	grid-template:
-		'activity-icon		activity-timepan' max-content
-		'activity-content	activity-content' max-content
-		/ max-content 1fr
+		'activity-icon		activity-platform	activity-timepan' max-content
+		'activity-content	activity-content	activity-content' max-content
+		/ max-content max-content 1fr
 	;
 
 	&.rounded {
@@ -24,6 +24,11 @@ div.activity {
 	& > img.icon {
 		grid-area: activity-icon;
 		width: var(--size-standart);
+	}
+
+	& > .platform {
+		grid-area: activity-platform;
+		align-self: center;
 	}
 
 	& > time.activity-time {
@@ -39,8 +44,6 @@ div.activity {
 			& > summary {
 				list-style-type: disc;
 				cursor: pointer;
-				/* text-decoration-line: underline; */
-				/* text-decoration-color: var(--color-highlight); */
 
 				&::marker {
 					color: var(--color-highlight);
@@ -57,7 +60,6 @@ div.activity {
 				padding-left: 0.7em;
 				list-style-type: none;
 				line-height: 1.5;
-				/* color: var(--color-text-description); */
 				border-left: 2px solid var(--color-text-description);
 			}
 		}
@@ -81,7 +83,8 @@ footer {
 	justify-content: space-evenly;
 }
 
-.integrated {}
+.integrated {
+}
 
 dialog.loader img[alt="Logo"] {
 	content: url(../resources/loading.gif);

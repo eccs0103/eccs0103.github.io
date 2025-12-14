@@ -147,6 +147,7 @@ body {
 
 :disabled,
 :disabled + label,
+[inert],
 [aria-disabled="true"] {
 	pointer-events: none;
 	opacity: 0.5;

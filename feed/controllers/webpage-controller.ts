@@ -20,15 +20,13 @@ class WebpageController extends Controller {
 		await activities.load();
 		await platforms.load();
 
-		let limit = 15;
-		const gap = Timespan.fromComponents(24, 0, 0);
-
 		const mainFeedContainer = await document.getElementAsync(HTMLElement, "main#feed-container");
 		const spanFooterYear = await document.getElementAsync(HTMLSpanElement, "span#footer-year");
 		const icons = new Map(platforms.map(platform => [platform.name, platform.icon]));
-		const renderer = new ActivityRenderer(mainFeedContainer, icons, gap);
+		const renderer = new ActivityRenderer(mainFeedContainer, icons, Timespan.fromComponents(24, 0, 0));
 		const cursor = new ArrayCursor(activities);
 
+		let limit = 15;
 		while (cursor.inRange) {
 			if (limit <= 0) break;
 			renderer.render(cursor);

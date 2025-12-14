@@ -1,39 +1,103 @@
 "use strict";
 
 import { Random } from "adaptive-extender/web";
-import { GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubPushActivity, type GitHubActivity } from "../models/activity.js";
+import { GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, type GitHubActivity } from "../models/activity.js";
 import { TextExpert } from "./text-expert.js";
 
 const random = Random.global;
 
-//#region Summary context
-export class SummaryContext {
-	#primary: Node | undefined;
-	#secondary: Node | undefined;
-	#pushes: number;
-	#projects: number;
+//#region WorkflowReport
+enum ReportVibes {
+	creation = "creation",
+	milestone = "milestone",
+	cleanup = "cleanup",
+	focus = "focus",
+	scattered = "scattered",
+	chill = "chill"
+}
 
-	constructor(primary: Node | undefined, secondary: Node | undefined, pushes: number, projects: number) {
+class WorkflowReport {
+	#vibe: ReportVibes;
+	#primary: string;
+	#secondary: string | undefined;
+	#magnitude: number;
+	#label: string;
+	#modifier: string;
+	#urls: Map<string, string>;
+
+	constructor(vibe: ReportVibes, primary: string, secondary: string | undefined, magnitude: number, label: string, modifier: string, urls: Map<string, string>) {
+		this.#vibe = vibe;
 		this.#primary = primary;
 		this.#secondary = secondary;
-		this.#pushes = pushes;
-		this.#projects = projects;
+		this.#magnitude = magnitude;
+		this.#label = label;
+		this.#modifier = modifier;
+		this.#urls = urls;
+	}
+
+	get vibe(): ReportVibes {
+		return this.#vibe;
+	}
+
+	get primary(): string {
+		return this.#primary;
+	}
+
+	get secondary(): string | undefined {
+		return this.#secondary;
+	}
+
+	get magnitude(): number {
+		return this.#magnitude;
+	}
+
+	get label(): string {
+		return this.#label;
+	}
+
+	get modifier(): string {
+		return this.#modifier;
+	}
+
+	get urls(): Map<string, string> {
+		return this.#urls;
+	}
+}
+//#endregion
+//#region Summary context
+export class SummaryContext {
+	readonly #primary: Node | undefined;
+	readonly #secondary: Node | undefined;
+	readonly #magnitude: number;
+	readonly #label: string;
+	readonly #modifier: string;
+
+	constructor(primary: Node | undefined, secondary: Node | undefined, magnitude: number, label: string, modifier: string) {
+		this.#primary = primary;
+		this.#secondary = secondary;
+		this.#magnitude = magnitude;
+		this.#label = label;
+		this.#modifier = modifier;
 	}
 
 	get primary(): Node {
-		return ReferenceError.suppress(this.#primary, "Primary repository is not provided");
+		return ReferenceError.suppress(this.#primary, "Primary repository is missing");
 	}
 
 	get secondary(): Node {
-		return ReferenceError.suppress(this.#secondary, "Secondary repository is not provided");
+		return ReferenceError.suppress(this.#secondary, "Secondary repository is missing");
 	}
 
-	get pushes(): number {
-		return this.#pushes;
+	get magnitude(): number {
+		return this.#magnitude;
 	}
 
-	get projects(): number {
-		return this.#projects;
+	get label(): string {
+		return this.#label;
+	}
+
+	get modifier(): string {
+		return this.#modifier;
 	}
 }
 //#endregion
@@ -44,25 +108,6 @@ export interface PrinterFunction {
 
 export interface LinkerFunction {
 	(text: string, url: string): Node;
-}
-
-interface WorkflowReport {
-	activities: number;
-	pushes: number;
-	creations: number;
-	tags: number;
-	repositories: string[];
-	urls: Map<string, string>;
-	primary?: string;
-	secondary?: string;
-}
-
-enum ReportVibes {
-	creation = "creation",
-	milestone = "milestone",
-	focus = "focus",
-	scattered = "scattered",
-	chill = "chill"
 }
 
 export interface TemplateRenderer {
@@ -78,14 +123,20 @@ export class GitHubSummaryExpert {
 			(print, { primary }) => print`Dropped the first files for ${primary}.`
 		]],
 		[ReportVibes.milestone, [
-			(print, { primary }) => print`Tagged a new version in ${primary}.`,
-			(print, { primary }) => print`Reached a checkpoint in ${primary} and created a tag.`,
-			(print, { primary }) => print`Stamped a new tag on ${primary}.`,
-			(print, { primary }) => print`Marked a specific point in ${primary} history.`
+			(print, { primary, label, modifier }) => print`Shipped a new ${modifier} ${label} for ${primary}.`,
+			(print, { primary, label }) => print`Reached a checkpoint in ${primary} and tagged ${label}.`,
+			(print, { primary, label }) => print`Stamped ${label} on ${primary} history.`,
+			(print, { primary, modifier }) => print`Deployed fresh ${modifier} to ${primary}.`
+		]],
+		[ReportVibes.cleanup, [
+			(print, { primary }) => print`Did some housekeeping in ${primary}.`,
+			(print, { primary, modifier }) => print`Cleaned up ${modifier} in ${primary}.`,
+			(print, { primary, magnitude }) => print`Swept the floor in ${primary}, removing ${magnitude} old references.`,
+			(print, { primary }) => print`Tidied up the workspace in ${primary}.`
 		]],
 		[ReportVibes.focus, [
-			(print, { primary }) => print`Locked in on ${primary}. A massive stack of updates.`,
-			(print, { primary, pushes }) => print`Went deep into ${primary}. Pushed ${pushes} commits in a row.`,
+			(print, { primary, magnitude }) => print`Locked in on ${primary}. A massive stack of ${magnitude} updates.`,
+			(print, { primary, magnitude }) => print`Went deep into ${primary}. Pushed ${magnitude} commits in a row.`,
 			(print, { primary }) => print`Heavy coding session on ${primary}. Things are moving fast.`,
 			(print, { primary }) => print`In the zone with ${primary}. Serious progress made.`,
 			(print, { primary }) => print`Crushing tickets and pushing code to ${primary}.`
@@ -94,7 +145,7 @@ export class GitHubSummaryExpert {
 			(print, { primary, secondary }) => print`Full-stack mode: switching context between ${primary} and ${secondary}.`,
 			(print, { primary, secondary }) => print`Juggling updates across ${primary}, ${secondary} and more.`,
 			(print, { primary }) => print`Bouncing between ${primary} and the rest of the ecosystem.`,
-			(print, { primary, projects }) => print`Keeping the momentum going across ${primary} and ${projects - 1} other project${TextExpert.getPluralSuffix(projects - 1)}.`,
+			(print, { primary, modifier }) => print`Keeping the momentum going across ${primary} and ${modifier}.`,
 			(print, { primary }) => print`Syncing updates between ${primary} and other projects.`
 		]],
 		[ReportVibes.chill, [
@@ -106,59 +157,85 @@ export class GitHubSummaryExpert {
 		]]
 	]);
 
-	readonly #report: WorkflowReport;
+	#report: WorkflowReport;
 
 	constructor(activities: readonly GitHubActivity[]) {
 		this.#report = GitHubSummaryExpert.#analyze(activities);
 	}
 
 	static #analyze(activities: readonly GitHubActivity[]): WorkflowReport {
-		const usage: Map<string, number> = new Map();
 		const urls: Map<string, string> = new Map();
-
-		let pushes = 0;
-		let creations = 0;
-		let tags = 0;
+		const usage: Map<string, number> = new Map();
+		let pushes: number = 0;
+		let creations: number = 0;
+		let releases: number = 0;
+		let deletions: number = 0;
+		let label: string = "new version";
+		let modifier: string = "updates";
 
 		for (const activity of activities) {
 			if (!urls.has(activity.repository)) urls.set(activity.repository, activity.url);
 			const count = usage.get(activity.repository) ?? 0;
 			usage.set(activity.repository, count + 1);
-			if (activity instanceof GitHubPushActivity) pushes++;
-			if (activity instanceof GitHubCreateRepositoryActivity) creations++;
-			if (activity instanceof GitHubCreateTagActivity) tags++;
+
+			if (activity instanceof GitHubPushActivity) {
+				pushes++;
+			}
+			if (activity instanceof GitHubCreateRepositoryActivity) {
+				creations++;
+			}
+			if (activity instanceof GitHubCreateTagActivity && releases === 0) {
+				releases++;
+				label = activity.name;
+				modifier = "tag";
+			}
+			if (activity instanceof GitHubReleaseActivity) {
+				releases++;
+				label = activity.title;
+				modifier = activity.isPrerelease ? "pre-release" : "release";
+			}
+			if (activity instanceof GitHubDeleteActivity) {
+				deletions++;
+				modifier = "stale branches";
+			}
 		}
 
 		const repositories = Array
 			.from(usage)
 			.sort(([, count1], [, count2]) => count2 - count1)
 			.map(([name]) => name);
+		const primary = repositories[0];
+		const total = activities.length;
 
-		const primary = repositories.at(0);
-		const secondary = repositories.at(1);
-
-		return { activities: activities.length, pushes, creations, tags, repositories, urls, primary, secondary };
-	}
-
-	#getVibe(): ReportVibes {
-		const { creations, tags, repositories, activities } = this.#report;
-		if (creations > 0) return ReportVibes.creation;
-		if (tags > 0) return ReportVibes.milestone;
-		if (repositories.length > 1) return ReportVibes.scattered;
-		if (repositories.length === 1 && activities >= 8) return ReportVibes.focus;
-		return ReportVibes.chill;
+		if (releases > 0) {
+			return new WorkflowReport(ReportVibes.milestone, primary, undefined, releases, label, modifier, urls);
+		}
+		if (creations > 0) {
+			return new WorkflowReport(ReportVibes.creation, primary, undefined, creations, "new project", "experiment", urls);
+		}
+		if (deletions > 0 && (deletions > total / 3 || total === deletions)) {
+			return new WorkflowReport(ReportVibes.cleanup, primary, undefined, deletions, "cleanup", "stale branches", urls);
+		}
+		if (repositories.length > 1) {
+			const others = repositories.length - 1;
+			return new WorkflowReport(ReportVibes.scattered, primary, repositories.at(1), total, "ecosystem", `${others} other project${TextExpert.getPluralSuffix(others)}`, urls);
+		}
+		if (total >= 8) {
+			return new WorkflowReport(ReportVibes.focus, primary, undefined, pushes, "updates", "stack", urls);
+		}
+		return new WorkflowReport(ReportVibes.chill, primary, undefined, total, "fixes", "minor", urls);
 	}
 
 	build(linker: LinkerFunction): SummaryContext {
-		const { pushes, repositories, urls, primary, secondary } = this.#report;
+		const { primary, secondary, magnitude, label, modifier, urls } = this.#report;
 		const nodePrimary = Reflect.mapUndefined(primary, primary => linker(primary, ReferenceError.suppress(urls.get(primary))));
 		const nodeSecondary = Reflect.mapUndefined(secondary, secondary => linker(secondary, ReferenceError.suppress(urls.get(secondary))));
-		return new SummaryContext(nodePrimary, nodeSecondary, pushes, repositories.length);
+		return new SummaryContext(nodePrimary, nodeSecondary, magnitude, label, modifier);
 	}
 
 	choose(): TemplateRenderer {
-		const vibe = this.#getVibe();
-		const templates = ReferenceError.suppress(GitHubSummaryExpert.#templates.get(vibe), `Templates for vibe '${vibe}' missing`);
+		const { vibe } = this.#report;
+		const templates = ReferenceError.suppress(GitHubSummaryExpert.#templates.get(vibe));
 		return random.item(templates);
 	}
 }

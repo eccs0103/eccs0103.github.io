@@ -4,6 +4,7 @@ import "adaptive-extender/core";
 import { type ActivityWalker } from "./activity-walker.js";
 import { Activity } from "../models/activity.js";
 import { type DataTable } from "./data-table.js";
+import { type Platform } from "../models/platform.js";
 
 //#region Activity dispatcher
 export class ActivityDispatcher {
@@ -29,9 +30,11 @@ export class ActivityDispatcher {
 		}
 	}
 
-	static async #runWalkers(walkers: Iterable<ActivityWalker>, activities: Activity[]): Promise<void> {
+	static async #runWalkers(walkers: Iterable<ActivityWalker>, platforms: readonly Platform[], activities: Activity[]): Promise<void> {
 		for (const walker of walkers) {
 			try {
+				const platform = platforms.find(({ name }) => name === walker.name);
+				if (platform === undefined || !platform.isActive) continue;
 				console.log(`Launching ${walker.name} for crawl`);
 				const before = activities.length;
 				await ActivityDispatcher.#runWalker(walker, activities);
@@ -45,10 +48,10 @@ export class ActivityDispatcher {
 		activities.sort(Activity.earlier);
 	}
 
-	async execute(): Promise<void> {
+	async execute(platforms: readonly Platform[]): Promise<void> {
 		const activities = this.#activities;
 		await activities.load();
-		await ActivityDispatcher.#runWalkers(this.#walkers, activities);
+		await ActivityDispatcher.#runWalkers(this.#walkers, platforms, activities);
 		await activities.save();
 	}
 }

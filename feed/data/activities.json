@@ -2,6 +2,37 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
+		"timestamp": 1765718537000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "f0c145b15fc4b9a8e6a81d94bdc440a11ebbd503"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1765718402000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "f9a633bb853099f19d4eb3cea1e08e5cca020994"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1765715623000,
+		"title": "Give It To Dem",
+		"artists": [
+			"Skan",
+			"Drama B",
+			"Highdiwaan"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273a1ec622b76f2a89009ca0ca5",
+		"url": "https://open.spotify.com/track/0SgIqozTDJNmyRQH1348UZ"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
 		"timestamp": 1765652100000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/eccs0103.github.io",

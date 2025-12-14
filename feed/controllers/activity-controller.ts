@@ -8,6 +8,7 @@ import { GitHubWalker } from "../services/github-walker.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
 import { ServerDataTable } from "../services/server-data-table.js";
 import { Activity } from "../models/activity.js";
+import { Platform } from "../models/platform.js";
 
 const meta = import.meta;
 
@@ -15,16 +16,19 @@ const meta = import.meta;
 class ActivityController extends Controller {
 	async run(): Promise<void> {
 		const urlActivities = new URL("../data/activities.json", meta.url);
+		const urlPlatforms = new URL("../data/platforms.json", meta.url);
 		const activities = new ServerDataTable(urlActivities, Activity);
-		const dispatcher = new ActivityDispatcher(activities);
+		const platforms = new ServerDataTable(urlPlatforms, Platform);
+		await platforms.load();
 
+		const dispatcher = new ActivityDispatcher(activities);
 		const { githubUsername, githubToken } = env;
 		const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
 
 		console.log("Starting feed update...");
-		await dispatcher.execute();
+		await dispatcher.execute(platforms);
 		console.log("Feed update completed");
 	}
 

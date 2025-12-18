@@ -22,7 +22,8 @@ export class DefaultMirroringConfig extends ViteConfig {
 			"node_modules/**",
 			"dist/**",
 			"**/*.d.ts",
-			"build/**",
+			"environment/configs/**",
+			"environment/plugins/**",
 			"vite.config.ts",
 			"tsconfig.json"
 		];

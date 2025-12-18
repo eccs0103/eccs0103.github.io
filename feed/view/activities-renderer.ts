@@ -70,8 +70,7 @@ export class ActivitiesRenderer {
 
 	static #renderGitHubReleaseActivity(container: HTMLElement, activity: GitHubReleaseActivity): void {
 		const { isPrerelease, title, url, repository } = activity;
-		container.appendChild(ActivitiesRenderer.#newText("Published "));
-		if (isPrerelease) container.appendChild(ActivitiesRenderer.#newText("pre-release "));
+		container.appendChild(ActivitiesRenderer.#newText(isPrerelease ? "Rolled out a test version " : "Shipped update "));
 		container.appendChild(ActivitiesRenderer.#newLink(title, url));
 		container.appendChild(ActivitiesRenderer.#newText(" for "));
 		container.appendChild(ActivitiesRenderer.#newLink(repository, url));
@@ -87,11 +86,11 @@ export class ActivitiesRenderer {
 
 	static #renderGitHubCreateTagActivity(container: HTMLElement, activity: GitHubCreateTagActivity): void {
 		const { name, url, repository } = activity;
-		container.appendChild(ActivitiesRenderer.#newText("Released version "));
+		container.appendChild(ActivitiesRenderer.#newText("Marked a new milestone "));
 		container.appendChild(ActivitiesRenderer.#newLink(name, `${url}/releases/tag/${name}`));
-		container.appendChild(ActivitiesRenderer.#newText(" for the "));
+		container.appendChild(ActivitiesRenderer.#newText(" in "));
 		container.appendChild(ActivitiesRenderer.#newLink(repository, url));
-		container.appendChild(ActivitiesRenderer.#newText(" product."));
+		container.appendChild(ActivitiesRenderer.#newText(" history."));
 	}
 
 	static #renderGitHubCreateBranchActivity(container: HTMLElement, activity: GitHubCreateBranchActivity): void {
@@ -112,7 +111,7 @@ export class ActivitiesRenderer {
 
 	static #renderGitHubDeleteTagActivity(container: HTMLElement, activity: GitHubDeleteTagActivity): void {
 		const { name, repository, url } = activity;
-		container.appendChild(ActivitiesRenderer.#newText("Deleted tag "));
+		container.appendChild(ActivitiesRenderer.#newText("Unpublished version "));
 		container.appendChild(ActivitiesRenderer.#newLink(name, `${url}/releases/tag/${name}`, true));
 		container.appendChild(ActivitiesRenderer.#newText(" from "));
 		container.appendChild(ActivitiesRenderer.#newLink(repository, url));
@@ -121,9 +120,9 @@ export class ActivitiesRenderer {
 
 	static #renderGitHubDeleteBranchActivity(container: HTMLElement, activity: GitHubDeleteBranchActivity): void {
 		const { name, url, repository } = activity;
-		container.appendChild(ActivitiesRenderer.#newText("Deleted branch "));
+		container.appendChild(ActivitiesRenderer.#newText("Removed the "));
 		container.appendChild(ActivitiesRenderer.#newLink(name, `${url}/tree/${name}`, true));
-		container.appendChild(ActivitiesRenderer.#newText(" from "));
+		container.appendChild(ActivitiesRenderer.#newText(" draft from "));
 		container.appendChild(ActivitiesRenderer.#newLink(repository, url));
 		container.appendChild(ActivitiesRenderer.#newText("."));
 	}

@@ -3,7 +3,7 @@
 import "adaptive-extender/node";
 import { Controller } from "adaptive-extender/node";
 import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
-import { env } from "../services/local-environment.js";
+import { env } from "../../environment/services/local-environment.js";
 import { GitHubWalker } from "../services/github-walker.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
 import { ServerDataTable } from "../services/server-data-table.js";

@@ -8,6 +8,7 @@ import { ClientDataTable } from "../services/client-data-table.js";
 import { Activity } from "../models/activity.js";
 import { Platform } from "../models/platform.js";
 import { FooterRenderer } from "../view/footer-renderer.js";
+import { MetadataInjector } from "../../environment/services/metadata-injector.js";
 
 const meta = import.meta;
 
@@ -36,6 +37,16 @@ class WebpageController extends Controller {
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);
 		await rendererFooter.render(platforms);
+
+		MetadataInjector.inject({
+			type: "Person",
+			name: "eccs0103",
+			webpage: new URL("https://eccs0103.github.io"),
+			preview: new URL("../../resources/circuit-transparent.gif", meta.url),
+			associations: platforms.map(platform => platform.webpage),
+			job: "Software engineer",
+			description: "Webpage of the person known by the nickname eccs0103.",
+		});
 	}
 
 	async catch(error: Error): Promise<void> {

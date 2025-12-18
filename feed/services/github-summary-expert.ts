@@ -6,7 +6,7 @@ import { TextExpert } from "./text-expert.js";
 
 const random = Random.global;
 
-//#region WorkflowReport
+//#region Workflow report
 enum ReportVibes {
 	creation = "creation",
 	milestone = "milestone",
@@ -124,7 +124,7 @@ export class GitHubSummaryExpert {
 		]],
 		[ReportVibes.milestone, [
 			(print, { primary, label, modifier }) => print`Shipped a new ${modifier} ${label} for ${primary}.`,
-			(print, { primary, label }) => print`Reached a checkpoint in ${primary} and tagged ${label}.`,
+			(print, { primary, label }) => print`Reached a major checkpoint in ${primary}: ${label}.`,
 			(print, { primary, label }) => print`Stamped ${label} on ${primary} history.`,
 			(print, { primary, modifier }) => print`Deployed fresh ${modifier} to ${primary}.`
 		]],
@@ -172,6 +172,8 @@ export class GitHubSummaryExpert {
 		let deletions: number = 0;
 		let label: string = "new version";
 		let modifier: string = "updates";
+		let hasBranchDeletions = false;
+		let hasTagDeletions = false;
 
 		for (const activity of activities) {
 			if (!urls.has(activity.repository)) urls.set(activity.repository, activity.url);
@@ -187,17 +189,27 @@ export class GitHubSummaryExpert {
 			if (activity instanceof GitHubCreateTagActivity && releases === 0) {
 				releases++;
 				label = activity.name;
-				modifier = "tag";
+				modifier = "milestone";
 			}
 			if (activity instanceof GitHubReleaseActivity) {
 				releases++;
 				label = activity.title;
-				modifier = activity.isPrerelease ? "pre-release" : "release";
+				modifier = activity.isPrerelease ? "beta" : "update";
 			}
-			if (activity instanceof GitHubDeleteActivity) {
+			if (activity instanceof GitHubDeleteBranchActivity) {
 				deletions++;
-				modifier = "stale branches";
+				hasBranchDeletions = true;
 			}
+			if (activity instanceof GitHubDeleteTagActivity) {
+				deletions++;
+				hasTagDeletions = true;
+			}
+		}
+
+		if (deletions > 0) {
+			if (hasBranchDeletions && !hasTagDeletions) modifier = "old drafts";
+			else if (hasTagDeletions && !hasBranchDeletions) modifier = "unused versions";
+			else modifier = "stale data";
 		}
 
 		const repositories = Array
@@ -214,7 +226,7 @@ export class GitHubSummaryExpert {
 			return new WorkflowReport(ReportVibes.creation, primary, undefined, creations, "new project", "experiment", urls);
 		}
 		if (deletions > 0 && (deletions > total / 3 || total === deletions)) {
-			return new WorkflowReport(ReportVibes.cleanup, primary, undefined, deletions, "cleanup", "stale branches", urls);
+			return new WorkflowReport(ReportVibes.cleanup, primary, undefined, deletions, "cleanup", modifier, urls);
 		}
 		if (repositories.length > 1) {
 			const others = repositories.length - 1;

@@ -2,7 +2,7 @@
 
 import "adaptive-extender/node";
 import { defineConfig } from "vite";
-import { DefaultMirroringConfig } from "./build/configs/default-mirroring-config.js";
+import { DefaultMirroringConfig } from "./environment/configs/default-mirroring-config.js";
 
 const root = new URL(".", import.meta.url);
 const config = await DefaultMirroringConfig.construct(root);

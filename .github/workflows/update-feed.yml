@@ -42,6 +42,10 @@ jobs:
             run: |
                 git config --global user.name "GitHub Actions bot"
                 git config --global user.email "actions@github.com"
-                git add feed/data/activity.json
-                git commit -m "${{ env.PACKAGE_VERSION }}" || exit 0
-                git push
+                git add .
+                if [ -n "$(git status --porcelain)" ]; then
+                    git commit -m "${{ env.PACKAGE_VERSION }}"
+                    git push
+                else
+                    echo "No changes found."
+                fi

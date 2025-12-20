@@ -1,5 +1,16 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1766257799000,
+		"title": "F1 - Symphonic Version",
+		"artists": [
+			"Imperial Orchestra"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27311a12855d64345d4a90014b2",
+		"url": "https://open.spotify.com/track/6Cb1rKHcpfGMsvAIW2HRgi"
+	},
+	{
 		"$type": "GitHubCreateBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1766236015000,

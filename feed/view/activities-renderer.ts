@@ -8,6 +8,8 @@ import { TextExpert } from "../services/text-expert.js";
 import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
 import { type Platform } from "../models/platform.js";
 
+const { baseURI } = document;
+
 //#region Activity renderer
 export class ActivitiesRenderer {
 	#itemContainer: HTMLElement;
@@ -23,7 +25,7 @@ export class ActivitiesRenderer {
 		const platform = platforms.get(activity.platform);
 		if (platform !== undefined) {
 			const imgIcon = divActivity.appendChild(document.createElement("img"));
-			imgIcon.src = String(platform.icon);
+			imgIcon.src = String(new URL(platform.icon, new URL("../", baseURI)));
 			imgIcon.alt = `${platform.name} logo`;
 			imgIcon.classList.add("icon");
 

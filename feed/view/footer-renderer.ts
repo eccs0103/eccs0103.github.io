@@ -3,6 +3,8 @@
 import "adaptive-extender/web";
 import { type Platform } from "../models/platform.js";
 
+const { baseURI } = document;
+
 //#region Footer renderer
 export class FooterRenderer {
 	#footerContainer: HTMLElement;
@@ -16,7 +18,7 @@ export class FooterRenderer {
 		addressSocialMedia.classList.add("flex", "alt-center");
 
 		const imgIcon = addressSocialMedia.appendChild(document.createElement("img"));
-		imgIcon.src = String(platform.icon);
+		imgIcon.src = String(new URL(platform.icon, new URL("../", baseURI)));
 		imgIcon.alt = `${platform.name} logo`;
 		imgIcon.classList.add("icon", "integrated");
 		if (!platform.isActive) imgIcon.inert = true;

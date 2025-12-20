@@ -47,5 +47,5 @@ button.picker-item:not(.selected) dfn.subtitle {
 }
 
 dialog.loader img[alt="Logo"] {
-	content: url(../../resources/loading.gif);
+	content: url(../../../assets/icons/loading.gif);
 }

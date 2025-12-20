@@ -87,5 +87,5 @@ footer {
 }
 
 dialog.loader img[alt="Logo"] {
-	content: url(../resources/loading.gif);
+	content: url(../../assets/icons/loading.gif);
 }

@@ -2,9 +2,10 @@
 
 import "adaptive-extender/web";
 import { type PortableConstructor } from "adaptive-extender/web";
+import { type DataTable } from "./data-table.js";
 
 //#region Client data table
-export class ClientDataTable<C extends PortableConstructor> extends Array<InstanceType<C>> {
+export class ClientDataTable<C extends PortableConstructor> extends Array<InstanceType<C>> implements DataTable<C> {
 	#path: URL;
 	#type: C;
 

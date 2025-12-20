@@ -1,11 +1,12 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { type PortableConstructor } from "adaptive-extender/core";
 import AsyncFileSystem from "fs/promises";
+import { type PortableConstructor } from "adaptive-extender/core";
+import { type DataTable } from "./data-table.js";
 
 //#region Server data table
-export class ServerDataTable<C extends PortableConstructor> extends Array<InstanceType<C>> {
+export class ServerDataTable<C extends PortableConstructor> extends Array<InstanceType<C>> implements DataTable<C> {
 	#path: URL;
 	#type: C;
 

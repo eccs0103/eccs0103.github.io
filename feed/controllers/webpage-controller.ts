@@ -10,18 +10,15 @@ import { Platform } from "../models/platform.js";
 import { FooterRenderer } from "../view/footer-renderer.js";
 import { MetadataInjector } from "../../environment/services/metadata-injector.js";
 
-const meta = import.meta;
+const { baseURI, body } = document;
 
 //#region Webpage controller
 class WebpageController extends Controller {
 	async run(): Promise<void> {
-		const urlActivities = new URL("../data/activities.json", meta.url);
-		const urlPlatforms = new URL("../data/platforms.json", meta.url);
-		const activities = new ClientDataTable(urlActivities, Activity);
-		const platforms = new ClientDataTable(urlPlatforms, Platform);
+		const activities = new ClientDataTable(new URL("../data/activities.json", baseURI), Activity);
+		const platforms = new ClientDataTable(new URL("../data/platforms.json", baseURI), Platform);
 		await activities.load();
 		await platforms.load();
-		const { body } = document;
 
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);
@@ -42,8 +39,8 @@ class WebpageController extends Controller {
 			type: "Person",
 			name: "eccs0103",
 			webpage: new URL("https://eccs0103.github.io"),
-			preview: new URL("../../resources/circuit-transparent.gif", meta.url),
-			associations: platforms.map(platform => platform.webpage),
+			preview: new URL("../icons/circuit-transparent.gif", baseURI),
+			associations: platforms.map(platform => new URL(platform.webpage)),
 			job: "Software engineer",
 			description: "Webpage of the person known by the nickname eccs0103.",
 		});

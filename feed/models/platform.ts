@@ -2,8 +2,6 @@
 
 import "adaptive-extender/core";
 
-const meta = import.meta;
-
 //#region Platform
 export interface PlatformScheme {
 	name: string;
@@ -14,11 +12,11 @@ export interface PlatformScheme {
 
 export class Platform {
 	#name: string;
-	#icon: URL;
-	#webpage: URL;
+	#icon: string;
+	#webpage: string;
 	#isActive: boolean;
 
-	constructor(name: string, icon: URL, webpage: URL, isActive: boolean) {
+	constructor(name: string, icon: string, webpage: string, isActive: boolean) {
 		this.#name = name;
 		this.#icon = icon;
 		this.#webpage = webpage;
@@ -28,8 +26,8 @@ export class Platform {
 	static import(source: any, name: string): Platform {
 		const object = Object.import(source, name);
 		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
-		const icon = new URL(String.import(Reflect.get(object, "icon"), `${name}.icon`), meta.url);
-		const webpage = new URL(String.import(Reflect.get(object, "webpage"), `${name}.webpage`), meta.url);
+		const icon = String.import(Reflect.get(object, "icon"), `${name}.icon`);
+		const webpage = String.import(Reflect.get(object, "webpage"), `${name}.webpage`);
 		const isActive = Boolean.import(Reflect.get(object, "is_active"), `${name}.is_active`);
 		const result = new Platform($name, icon, webpage, isActive);
 		return result;
@@ -47,11 +45,11 @@ export class Platform {
 		return this.#name;
 	}
 
-	get icon(): URL {
+	get icon(): string {
 		return this.#icon;
 	}
 
-	get webpage(): URL {
+	get webpage(): string {
 		return this.#webpage;
 	}
 

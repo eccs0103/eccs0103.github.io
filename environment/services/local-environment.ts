@@ -6,6 +6,7 @@ import { Environment } from "adaptive-extender/node";
 class LocalEnvironment {
 	static #lock: boolean = true;
 	static #instance: LocalEnvironment | null = null;
+	#host: string;
 	#githubToken: string;
 	#githubUsername: string;
 	#spotifyClientId: string;
@@ -16,6 +17,7 @@ class LocalEnvironment {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
 		const name = typename(env);
+		this.#host = env.hasValue("HOST") ? String.import(env.readValue("HOST"), `${name}.HOST`) : "localhost";
 		this.#githubUsername = String.import(env.readValue("GITHUB_USERNAME"), `${name}.GITHUB_USERNAME`);
 		this.#githubToken = String.import(env.readValue("GITHUB_TOKEN"), `${name}.GITHUB_TOKEN`);
 		this.#spotifyClientId = String.import(env.readValue("SPOTIFY_CLIENT_ID"), `${name}.SPOTIFY_CLIENT_ID`);
@@ -30,6 +32,10 @@ class LocalEnvironment {
 			LocalEnvironment.#lock = true;
 		}
 		return LocalEnvironment.#instance;
+	}
+
+	get host(): string {
+		return this.#host;
 	}
 
 	get githubToken(): string {

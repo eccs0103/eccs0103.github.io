@@ -15,10 +15,8 @@ const meta = import.meta;
 //#region Activity controller
 class ActivityController extends Controller {
 	async run(): Promise<void> {
-		const urlActivities = new URL("../data/activities.json", meta.url);
-		const urlPlatforms = new URL("../data/platforms.json", meta.url);
-		const activities = new ServerDataTable(urlActivities, Activity);
-		const platforms = new ServerDataTable(urlPlatforms, Platform);
+		const activities = new ServerDataTable(new URL("../../resources/data/activities.json", meta.url), Activity);
+		const platforms = new ServerDataTable(new URL("../../resources/data/platforms.json", meta.url), Platform);
 		await platforms.load();
 
 		const dispatcher = new ActivityDispatcher(activities);

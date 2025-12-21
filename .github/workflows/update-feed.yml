@@ -28,6 +28,7 @@ jobs:
 
           - name: Run collector script
             env:
+                ORIGIN: ${{ vars.ORIGIN }}
                 GITHUB_USERNAME: ${{ vars.USERNAME_GITHUB }}
                 GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
                 SPOTIFY_CLIENT_ID: ${{ secrets.CLIENT_ID_SPOTIFY }}

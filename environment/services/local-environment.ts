@@ -7,6 +7,7 @@ class LocalEnvironment {
 	static #lock: boolean = true;
 	static #instance: LocalEnvironment | null = null;
 	#host: string;
+	#origin: Date;
 	#githubToken: string;
 	#githubUsername: string;
 	#spotifyClientId: string;
@@ -18,6 +19,7 @@ class LocalEnvironment {
 		const { env } = Environment;
 		const name = typename(env);
 		this.#host = env.hasValue("HOST") ? String.import(env.readValue("HOST"), `${name}.HOST`) : "localhost";
+		this.#origin = new Date(String.import(env.readValue("ORIGIN"), `${name}.ORIGIN`));
 		this.#githubUsername = String.import(env.readValue("GITHUB_USERNAME"), `${name}.GITHUB_USERNAME`);
 		this.#githubToken = String.import(env.readValue("GITHUB_TOKEN"), `${name}.GITHUB_TOKEN`);
 		this.#spotifyClientId = String.import(env.readValue("SPOTIFY_CLIENT_ID"), `${name}.SPOTIFY_CLIENT_ID`);
@@ -36,6 +38,10 @@ class LocalEnvironment {
 
 	get host(): string {
 		return this.#host;
+	}
+
+	get origin(): Date {
+		return this.#origin;
 	}
 
 	get githubToken(): string {

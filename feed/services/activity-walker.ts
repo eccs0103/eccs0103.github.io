@@ -1,7 +1,6 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ImplementationError } from "adaptive-extender/core";
 import { Activity } from "../models/activity.js";
 
 //#region Activity walker
@@ -17,8 +16,8 @@ export class ActivityWalker {
 		return this.#name;
 	}
 
-	async *crawl(): AsyncIterable<Activity> {
-		throw new ImplementationError();
+	async *crawl(since: Date): AsyncIterable<Activity> {
+		void since;
 	}
 }
 //#endregion

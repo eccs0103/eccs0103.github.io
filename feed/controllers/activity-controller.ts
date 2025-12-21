@@ -11,6 +11,9 @@ import { Activity } from "../models/activity.js";
 import { Platform } from "../models/platform.js";
 
 const meta = import.meta;
+const { origin } = env;
+const { githubUsername, githubToken } = env;
+const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -19,9 +22,7 @@ class ActivityController extends Controller {
 		const platforms = new ServerDataTable(new URL("../../resources/data/platforms.json", meta.url), Platform);
 		await platforms.load();
 
-		const dispatcher = new ActivityDispatcher(activities);
-		const { githubUsername, githubToken } = env;
-		const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
+		const dispatcher = new ActivityDispatcher(activities, origin);
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
 

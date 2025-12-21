@@ -27,7 +27,7 @@ export class GitHubWalker extends ActivityWalker {
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const data: any = await response.json();
+		const data = await response.json();
 		const name = "github_events";
 		let index = 0;
 		for (const item of Array.import(data, name)) {
@@ -40,17 +40,24 @@ export class GitHubWalker extends ActivityWalker {
 		}
 	}
 
-	async *#readEvents(): AsyncIterable<GitHubEvent> {
+	async *#readEvents(since: Date): AsyncIterable<GitHubEvent> {
 		let page = 1;
-		while (page <= 3) {
-			for await (const event of this.#fetchPage(page++, 100)) {
+		const count = 100;
+		while (true) {
+			let items = 0;
+			for await (const event of this.#fetchPage(page, count)) {
+				const date = new Date(event.createdAt);
+				if (date < since) return;
+				items++;
 				yield event;
 			}
+			if (items < count) return;
+			page++;
 		}
 	}
 
-	async *crawl(): AsyncIterable<Activity> {
-		for await (const event of this.#readEvents()) {
+	async *crawl(since: Date): AsyncIterable<Activity> {
+		for await (const event of this.#readEvents(since)) {
 			try {
 				if (!event.public) continue;
 				const { payload } = event;

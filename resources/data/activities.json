@@ -1551,29 +1551,5 @@
 		],
 		"cover": "https://i.scdn.co/image/ab67616d0000b2737272c9e2e000c8a56d8d9df1",
 		"url": "https://open.spotify.com/track/67z4x5NkQrornPywQXJt3k"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1761519260000,
-		"title": "Это всё она",
-		"artists": [
-			"Sergey Lazarev"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2737d464dafa14f6ca38b3b51d3",
-		"url": "https://open.spotify.com/track/4l8swd8oFNh8ebsK3NY1bn"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1761283702000,
-		"title": "Thin Air",
-		"artists": [
-			"Animadrop",
-			"Ben Walter",
-			"Aeris"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b27332cae796b976ceb6e265aedb",
-		"url": "https://open.spotify.com/track/4HhvD1HVtvZ0eaCP0Sp0F0"
 	}
 ]

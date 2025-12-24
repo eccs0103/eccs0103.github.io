@@ -68,19 +68,14 @@ export class SpotifyWalker extends ActivityWalker {
 	async *crawl(since: Date): AsyncIterable<Activity> {
 		const token = await this.#authenticate();
 		for await (const event of this.#readTracks(token, since)) {
-			try {
-				const { track, addedAt } = event;
-				const platform = this.name;
-				const timestamp = new Date(addedAt);
-				const title = track.name;
-				const artists = track.artists.map(artist => artist.name);
-				const cover = track.album.images.at(0)?.url ?? null;
-				const url = track.externalUrls.spotify;
-				yield new SpotifyLikeActivity(platform, timestamp, title, artists, cover, url);
-			} catch (reason) {
-				console.error(reason);
-				continue;
-			}
+			const { track, addedAt } = event;
+			const platform = this.name;
+			const timestamp = new Date(addedAt);
+			const title = track.name;
+			const artists = track.artists.map(artist => artist.name);
+			const cover = track.album.images.at(0)?.url ?? null;
+			const url = track.externalUrls.spotify;
+			yield new SpotifyLikeActivity(platform, timestamp, title, artists, cover, url);
 		}
 	}
 }

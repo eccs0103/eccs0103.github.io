@@ -35,7 +35,6 @@ export class GitHubWalker extends ActivityWalker {
 				yield GitHubEvent.import(item, `${name}[${index++}]`);
 			} catch (reason) {
 				console.error(reason);
-				continue;
 			}
 		}
 	}
@@ -58,47 +57,42 @@ export class GitHubWalker extends ActivityWalker {
 
 	async *crawl(since: Date): AsyncIterable<Activity> {
 		for await (const event of this.#readEvents(since)) {
-			try {
-				if (!event.public) continue;
-				const { payload } = event;
-				const platform = this.name;
-				const timestamp = new Date(event.createdAt);
-				const username = event.actor.login;
-				const parts = event.repo.name.split("/", 2);
-				if (parts.length < 2) throw new SyntaxError(`Incorrect syntax of '${event.repo.name}' repository`);
-				const [, repository] = parts;
-				const url = `https://github.com/${username}/${repository}`;
-				if (payload instanceof GitHubPushEventPayload) {
-					yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);
+			if (!event.public) continue;
+			const { payload } = event;
+			const platform = this.name;
+			const timestamp = new Date(event.createdAt);
+			const username = event.actor.login;
+			const parts = event.repo.name.split("/", 2);
+			if (parts.length < 2) throw new SyntaxError(`Incorrect syntax of '${event.repo.name}' repository`);
+			const [, repository] = parts;
+			const url = `https://github.com/${username}/${repository}`;
+			if (payload instanceof GitHubPushEventPayload) {
+				yield new GitHubPushActivity(platform, timestamp, username, url, repository, payload.head);
+			}
+			if (payload instanceof GitHubReleaseEventPayload) {
+				const { name, tagName, prerelease } = payload.release;
+				yield new GitHubReleaseActivity(platform, timestamp, username, url, repository, name ?? tagName, prerelease);
+			}
+			if (payload instanceof GitHubWatchEventPayload) {
+				yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
+			}
+			if (payload instanceof GitHubCreateEventPayload) {
+				const { ref, refType } = payload;
+				const name = ref ?? repository;
+				switch (refType) {
+				case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name); break;
+				case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name); break;
+				case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name); break;
+				default: throw new Error(`Invalid '${refType}' refType for GitHubCreateEventPayload`);
 				}
-				if (payload instanceof GitHubReleaseEventPayload) {
-					const { name, tagName, prerelease } = payload.release;
-					yield new GitHubReleaseActivity(platform, timestamp, username, url, repository, name ?? tagName, prerelease);
+			}
+			if (payload instanceof GitHubDeleteEventPayload) {
+				const { ref: name, refType } = payload;
+				switch (refType) {
+				case "tag": yield new GitHubDeleteTagActivity(platform, timestamp, username, url, repository, name); break;
+				case "branch": yield new GitHubDeleteBranchActivity(platform, timestamp, username, url, repository, name); break;
+				default: throw new Error(`Invalid '${refType}' refType for GitHubDeleteEventPayload`);
 				}
-				if (payload instanceof GitHubWatchEventPayload) {
-					yield new GitHubWatchActivity(platform, timestamp, username, url, repository);
-				}
-				if (payload instanceof GitHubCreateEventPayload) {
-					const { ref, refType } = payload;
-					const name = ref ?? repository;
-					switch (refType) {
-					case "tag": yield new GitHubCreateTagActivity(platform, timestamp, username, url, repository, name); break;
-					case "branch": yield new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, name); break;
-					case "repository": yield new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, name); break;
-					default: throw new Error(`Invalid '${refType}' refType for GitHubCreateEventPayload`);
-					}
-				}
-				if (payload instanceof GitHubDeleteEventPayload) {
-					const { ref: name, refType } = payload;
-					switch (refType) {
-					case "tag": yield new GitHubDeleteTagActivity(platform, timestamp, username, url, repository, name); break;
-					case "branch": yield new GitHubDeleteBranchActivity(platform, timestamp, username, url, repository, name); break;
-					default: throw new Error(`Invalid '${refType}' refType for GitHubDeleteEventPayload`);
-					}
-				}
-			} catch (reason) {
-				console.error(reason);
-				continue;
 			}
 		}
 	}

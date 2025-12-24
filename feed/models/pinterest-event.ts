@@ -109,23 +109,23 @@ export class PinterestBoard {
 export interface PinterestPinScheme {
 	id: string;
 	created_at: string;
-	
+
 	/**
 	 * Ссылка на источник (сайт).
 	 * @null Если загружено с компьютера или ссылка битая.
 	 */
 	link: string | null;
-	
+
 	title: string | null;
 	description: string | null;
-	
+
 	/**
 	 * Текст для Accessibility. Часто отсутствует.
 	 */
 	alt_text: string | null;
-	
+
 	board_id: string;
-	
+
 	/**
 	 * Медиа контент.
 	 * @null Может прийти null, если контент удален модерацией, но метаданные остались.
@@ -151,19 +151,19 @@ export class PinterestPin {
  */
 export interface PinterestResponseScheme<T> {
 	items: T[];
-	
+
 	/**
 	 * Токен для следующей страницы.
 	 * @null Если страницы кончились.
 	 */
 	bookmark: string | null;
-	
+
 	/**
 	 * Код ошибки (если есть).
 	 * @undefined При успешном запросе.
 	 */
 	code?: number;
-	
+
 	/**
 	 * Текст ошибки.
 	 * @undefined При успешном запросе.
@@ -172,6 +172,11 @@ export interface PinterestResponseScheme<T> {
 }
 
 export class PinterestResponse {
+	#items: any[];
+	#bookmark: string | null;
+	#code: number | undefined;
+	#message: string | undefined;
+
 	static import(source: any, name: string): PinterestResponse {
 		const object = Object.import(source, name);
 		const result = new PinterestResponse();
@@ -181,5 +186,21 @@ export class PinterestResponse {
 	// static export(source: PinterestResponse): PinterestResponseScheme {
 	// 	return { };
 	// }
+
+	get items(): any[] {
+		return this.#items;
+	}
+
+	get bookmark(): string | null {
+		return this.#bookmark;
+	}
+
+	get code(): number | undefined {
+		return this.#code;
+	}
+
+	get message(): string | undefined {
+		return this.#message;
+	}
 }
 //#endregion

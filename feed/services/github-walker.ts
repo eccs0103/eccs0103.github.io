@@ -27,10 +27,9 @@ export class GitHubWalker extends ActivityWalker {
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const data = await response.json();
 		const name = "github_events";
 		let index = 0;
-		for (const item of Array.import(data, name)) {
+		for (const item of Array.import(await response.json(), name)) {
 			try {
 				yield GitHubEvent.import(item, `${name}[${index++}]`);
 			} catch (reason) {

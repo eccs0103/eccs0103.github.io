@@ -2,7 +2,7 @@
 
 import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
-import { PinterestBoard, PinterestPin } from "../models/pinterest-event.js";
+import { PinterestBoard, PinterestPin, PinterestResponse } from "../models/pinterest-event.js";
 import { Activity, PinterestPinActivity } from "../models/activity.js";
 
 //#region Pinterest walker
@@ -26,15 +26,10 @@ export class PinterestWalker extends ActivityWalker {
 			};
 			const response = await fetch(url, { headers });
 			if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-			const data = await response.json();
-			// Проверка на ошибки API
-			if (data.code && data.message) throw new Error(`Pinterest API Error: ${data.message}`);
-			const itemsRaw = Array.import(data.items, "pinterest_response_items");
-			bookmark = data.bookmark ?? null; // Если bookmark null, значит страницы кончились
-
-			for (const item of itemsRaw) {
-				yield item;
-			}
+			const data = PinterestResponse.import(await response.json(), "pinterest_response");
+			if (data.code !== undefined && data.message !== undefined) throw new Error(`${data.code}: ${data.message}`);
+			bookmark = data.bookmark;
+			yield *data.items;
 		} while (bookmark);
 	}
 

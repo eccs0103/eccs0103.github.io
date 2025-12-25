@@ -3,7 +3,7 @@
 import "adaptive-extender/core";
 
 //#region Activity
-export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator {
+export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator {
 }
 
 export interface ActivityScheme {
@@ -35,6 +35,8 @@ export class Activity {
 		case "GitHubDeleteTagActivity":
 		case "GitHubDeleteBranchActivity": return GitHubActivity.import(source, name);
 		case "SpotifyLikeActivity": return SpotifyActivity.import(source, name);
+		case "PinterestImagePinActivity":
+		case "PinterestVideoPinActivity": return SpotifyActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
@@ -641,6 +643,108 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 
 	get url(): string {
 		return this.#url;
+	}
+}
+//#endregion
+
+//#region Pinterest activity
+export interface PinterestActivityDiscriminator extends PinterestPinActivityDiscriminator {
+}
+
+export interface PinterestActivityScheme extends ActivityScheme {
+	$type: keyof PinterestActivityDiscriminator;
+}
+
+export class PinterestActivity extends Activity {
+	constructor(platform: string, timestamp: Date) {
+		super(platform, timestamp);
+	}
+
+	static import(source: any, name: string): PinterestActivity {
+		const object = Object.import(source, name);
+		const result = new PinterestActivity();
+		return result;
+	}
+
+	static export(source: PinterestActivity): PinterestActivityScheme {
+		return {};
+	}
+}
+//#endregion
+
+//#region Pinterest pin activity
+export interface PinterestPinActivityDiscriminator extends PinterestImagePinActivityDiscriminator, PinterestVideoPinActivityDiscriminator {
+}
+
+export interface PinterestPinActivityScheme {
+	$type: keyof PinterestPinActivityDiscriminator;
+}
+
+export class PinterestPinActivity extends PinterestActivity {
+	constructor(platform: string, timestamp: Date, title: string, description: string, content: string, url: string, board: string) {
+		super(platform, timestamp);
+	}
+
+	static import(source: any, name: string): PinterestPinActivity {
+		const object = Object.import(source, name);
+		const result = new PinterestPinActivity();
+		return result;
+	}
+
+	static export(source: PinterestPinActivity): PinterestPinActivityScheme {
+		return {};
+	}
+}
+//#endregion
+
+//#region Pinterest image pin activity
+export interface PinterestImagePinActivityDiscriminator {
+	"PinterestImagePinActivity": any;
+}
+
+export interface PinterestImagePinActivityScheme {
+	$type: keyof PinterestImagePinActivityDiscriminator;
+}
+
+export class PinterestImagePinActivity extends PinterestPinActivity {
+	constructor(platform: string, timestamp: Date, title: string, description: string, content: string, url: string, board: string) {
+		super(platform, timestamp, title, description, content, url, board);
+	}
+
+	static import(source: any, name: string): PinterestImagePinActivity {
+		const object = Object.import(source, name);
+		const result = new PinterestImagePinActivity();
+		return result;
+	}
+
+	static export(source: PinterestImagePinActivity): PinterestImagePinActivityScheme {
+		return {};
+	}
+}
+//#endregion
+
+//#region Pinterest video pin activity
+export interface PinterestVideoPinActivityDiscriminator {
+	"PinterestVideoPinActivity": any;
+}
+
+export interface PinterestVideoPinActivityScheme {
+	$type: keyof PinterestVideoPinActivityDiscriminator;
+}
+
+export class PinterestVideoPinActivity extends PinterestPinActivity {
+	constructor(platform: string, timestamp: Date, title: string, description: string, content: string, url: string, board: string) {
+		super(platform, timestamp, title, description, content, url, board);
+	}
+
+	static import(source: any, name: string): PinterestVideoPinActivity {
+		const object = Object.import(source, name);
+		const result = new PinterestVideoPinActivity();
+		return result;
+	}
+
+	static export(source: PinterestVideoPinActivity): PinterestVideoPinActivityScheme {
+		return {};
 	}
 }
 //#endregion

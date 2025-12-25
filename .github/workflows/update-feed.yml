@@ -34,6 +34,7 @@ jobs:
                 SPOTIFY_CLIENT_ID: ${{ secrets.CLIENT_ID_SPOTIFY }}
                 SPOTIFY_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SPOTIFY }}
                 SPOTIFY_TOKEN: ${{ secrets.TOKEN_SPOTIFY }}
+                PINTEREST_TOKEN: ${{ secrets.TOKEN_PINTEREST }}
             run: npm run walk
 
           - name: Get Version

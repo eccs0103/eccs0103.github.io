@@ -9,11 +9,13 @@ import { SpotifyWalker } from "../services/spotify-walker.js";
 import { ServerDataTable } from "../services/server-data-table.js";
 import { Activity } from "../models/activity.js";
 import { Platform } from "../models/platform.js";
+import { PinterestWalker } from "../services/pinterest-walker.js";
 
 const meta = import.meta;
 const { origin } = env;
 const { githubUsername, githubToken } = env;
 const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
+const { pinterestToken } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -25,6 +27,7 @@ class ActivityController extends Controller {
 		const dispatcher = new ActivityDispatcher(activities, origin);
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
+		dispatcher.connect(new PinterestWalker(pinterestToken));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute(platforms);

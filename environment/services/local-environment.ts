@@ -13,6 +13,7 @@ class LocalEnvironment {
 	#spotifyClientId: string;
 	#spotifyClientSecret: string;
 	#spotifyToken: string;
+	#pinterestToken: string;
 
 	constructor() {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
@@ -25,6 +26,7 @@ class LocalEnvironment {
 		this.#spotifyClientId = String.import(env.readValue("SPOTIFY_CLIENT_ID"), `${name}.SPOTIFY_CLIENT_ID`);
 		this.#spotifyClientSecret = String.import(env.readValue("SPOTIFY_CLIENT_SECRET"), `${name}.SPOTIFY_CLIENT_SECRET`);
 		this.#spotifyToken = String.import(env.readValue("SPOTIFY_TOKEN"), `${name}.SPOTIFY_TOKEN`);
+		this.#pinterestToken = String.import(env.readValue("PINTEREST_TOKEN"), `${name}.PINTEREST_TOKEN`);
 	}
 
 	static get env(): LocalEnvironment {
@@ -62,6 +64,10 @@ class LocalEnvironment {
 
 	get spotifyToken(): string {
 		return this.#spotifyToken;
+	}
+
+	get pinterestToken(): string {
+		return this.#pinterestToken;
 	}
 }
 

@@ -2,26 +2,47 @@
 
 import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
-import { PinterestBoard, PinterestPin, PinterestResponse } from "../models/pinterest-event.js";
+import { PinterestBoard, PinterestPin, PinterestResponse, PinterestToken } from "../models/pinterest-event.js";
 import { Activity, PinterestImagePinActivity, PinterestVideoPinActivity } from "../models/activity.js";
 
 //#region Pinterest walker
 export class PinterestWalker extends ActivityWalker {
-	#token: string;
+	#clientId: string;
+	#clientSecret: string;
+	#refreshToken: string;
 
-	constructor(token: string) {
+	constructor(clientId: string, clientSecret: string, refreshToken: string) {
 		super("Pinterest");
-		this.#token = token;
+		this.#clientId = clientId;
+		this.#clientSecret = clientSecret;
+		this.#refreshToken = refreshToken;
 	}
 
-	async *#fetchPaginated(endpoint: string, count: number): AsyncIterable<any> {
+	async #authenticate(): Promise<PinterestToken> {
+		const url = new URL("https://api.pinterest.com/v5/oauth/token");
+		const method = "POST";
+		const auth = Buffer.from(`${this.#clientId}:${this.#clientSecret}`).toString("base64");
+		const headers: HeadersInit = {
+			["Authorization"]: `Basic ${auth}`,
+			["Content-Type"]: "application/x-www-form-urlencoded"
+		};
+		const body = new URLSearchParams({
+			grant_type: "refresh_token",
+			refresh_token: this.#refreshToken
+		});
+		const response = await fetch(url, { method, headers, body });
+		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		return PinterestToken.import(await response.json(), "pinterest_token");
+	}
+
+	async *#fetchPaginated(token: PinterestToken, endpoint: string, count: number): AsyncIterable<any> {
 		let bookmark: string | null = null;
 		do {
 			const url = new URL(`https://api.pinterest.com/v5${endpoint}`);
 			url.searchParams.set("page_size", String(count));
 			if (bookmark !== null) url.searchParams.set("bookmark", bookmark);
 			const headers: HeadersInit = {
-				["Authorization"]: `Bearer ${this.#token}`,
+				["Authorization"]: `Bearer ${token.accessToken}`,
 				["Content-Type"]: "application/json"
 			};
 			const response = await fetch(url, { headers });
@@ -33,9 +54,9 @@ export class PinterestWalker extends ActivityWalker {
 		} while (bookmark);
 	}
 
-	async *#fetchBoards(): AsyncIterable<PinterestBoard> {
+	async *#fetchBoards(token: PinterestToken): AsyncIterable<PinterestBoard> {
 		let index = 0;
-		for await (const item of this.#fetchPaginated("/boards", 50)) {
+		for await (const item of this.#fetchPaginated(token, "/boards", 50)) {
 			try {
 				yield PinterestBoard.import(item, `board[${index++}]`);
 			} catch (reason) {
@@ -44,9 +65,9 @@ export class PinterestWalker extends ActivityWalker {
 		}
 	}
 
-	async *#fetchPins(boardId: string, since: Date): AsyncIterable<PinterestPin> {
+	async *#fetchPins(token: PinterestToken, boardId: string, since: Date): AsyncIterable<PinterestPin> {
 		let index = 0;
-		for await (const item of this.#fetchPaginated(`/boards/${boardId}/pins`, 50)) {
+		for await (const item of this.#fetchPaginated(token, `/boards/${boardId}/pins`, 50)) {
 			try {
 				const pin = PinterestPin.import(item, `pin[${index++}]`);
 				const date = new Date(pin.createdAt);
@@ -59,8 +80,9 @@ export class PinterestWalker extends ActivityWalker {
 	}
 
 	async *crawl(since: Date): AsyncIterable<Activity> {
-		for await (const board of this.#fetchBoards()) {
-			for await (const pin of this.#fetchPins(board.id, since)) {
+		const token = await this.#authenticate();
+		for await (const board of this.#fetchBoards(token)) {
+			for await (const pin of this.#fetchPins(token, board.id, since)) {
 				const platform = this.name;
 				const { privacy } = board;
 				const timestamp = new Date(pin.createdAt);

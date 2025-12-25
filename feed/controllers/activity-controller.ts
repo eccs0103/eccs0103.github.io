@@ -15,7 +15,7 @@ const meta = import.meta;
 const { origin } = env;
 const { githubUsername, githubToken } = env;
 const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
-const { pinterestToken } = env;
+const { pinterestClientId, pinterestClientSecret, pinterestToken } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -27,7 +27,7 @@ class ActivityController extends Controller {
 		const dispatcher = new ActivityDispatcher(activities, origin);
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
-		dispatcher.connect(new PinterestWalker(pinterestToken));
+		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute(platforms);

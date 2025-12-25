@@ -13,6 +13,8 @@ class LocalEnvironment {
 	#spotifyClientId: string;
 	#spotifyClientSecret: string;
 	#spotifyToken: string;
+	#pinterestClientId: string;
+	#pinterestClientSecret: string;
 	#pinterestToken: string;
 
 	constructor() {
@@ -26,6 +28,8 @@ class LocalEnvironment {
 		this.#spotifyClientId = String.import(env.readValue("SPOTIFY_CLIENT_ID"), `${name}.SPOTIFY_CLIENT_ID`);
 		this.#spotifyClientSecret = String.import(env.readValue("SPOTIFY_CLIENT_SECRET"), `${name}.SPOTIFY_CLIENT_SECRET`);
 		this.#spotifyToken = String.import(env.readValue("SPOTIFY_TOKEN"), `${name}.SPOTIFY_TOKEN`);
+		this.#pinterestClientId = String.import(env.readValue("PINTEREST_TOKEN"), `${name}.PINTEREST_TOKEN`);
+		this.#pinterestClientSecret = String.import(env.readValue("PINTEREST_TOKEN"), `${name}.PINTEREST_TOKEN`);
 		this.#pinterestToken = String.import(env.readValue("PINTEREST_TOKEN"), `${name}.PINTEREST_TOKEN`);
 	}
 
@@ -64,6 +68,14 @@ class LocalEnvironment {
 
 	get spotifyToken(): string {
 		return this.#spotifyToken;
+	}
+
+	get pinterestClientId(): string {
+		return this.#pinterestClientId;
+	}
+
+	get pinterestClientSecret(): string {
+		return this.#pinterestClientSecret;
 	}
 
 	get pinterestToken(): string {

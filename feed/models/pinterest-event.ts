@@ -2,6 +2,44 @@
 
 import "adaptive-extender/core";
 
+//#region Pinterest token
+export interface PinterestTokenScheme {
+	access_token: string;
+	scope: string;
+}
+
+export class PinterestToken {
+	#accessToken: string;
+	#scope: string;
+
+	constructor(accessToken: string, scope: string) {
+		this.#accessToken = accessToken;
+		this.#scope = scope;
+	}
+
+	static import(source: any, name: string): PinterestToken {
+		const object = Object.import(source, name);
+		const accessToken = String.import(Reflect.get(object, "access_token"), `${name}.access_token`);
+		const scope = String.import(Reflect.get(object, "scope"), `${name}.scope`);
+		return new PinterestToken(accessToken, scope);
+	}
+
+	static export(source: PinterestToken): PinterestTokenScheme {
+		const access_token = source.accessToken;
+		const scope = source.scope;
+		return { access_token, scope };
+	}
+
+	get accessToken(): string {
+		return this.#accessToken;
+	}
+
+	get scope(): string {
+		return this.#scope;
+	}
+}
+//#endregion
+
 //#region Pinterest image
 export interface PinterestImageScheme {
 	url: string;
@@ -247,12 +285,12 @@ export class PinterestPin {
 		const object = Object.import(source, name);
 		const id = String.import(Reflect.get(object, "id"), `${name}.id`);
 		const createdAt = String.import(Reflect.get(object, "created_at"), `${name}.created_at`);
-		const link = Reflect.mapNull(Reflect.get(object, "link")  as unknown, link => String.import(link, `${name}.link`));
-		const title = Reflect.mapNull(Reflect.get(object, "title")  as unknown, title => String.import(title, `${name}.title`));
-		const description = Reflect.mapNull(Reflect.get(object, "description")  as unknown, description => String.import(description, `${name}.description`));
-		const altText = Reflect.mapNull(Reflect.get(object, "alt_text")  as unknown, altText => String.import(altText, `${name}.alt_text`));
+		const link = Reflect.mapNull(Reflect.get(object, "link") as unknown, link => String.import(link, `${name}.link`));
+		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
+		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
+		const altText = Reflect.mapNull(Reflect.get(object, "alt_text") as unknown, altText => String.import(altText, `${name}.alt_text`));
 		const boardId = String.import(Reflect.get(object, "board_id"), `${name}.board_id`);
-		const media = Reflect.mapNull(Reflect.get(object, "media")  as unknown, media => PinterestMediaContainer.import(media, `${name}.media`));
+		const media = Reflect.mapNull(Reflect.get(object, "media") as unknown, media => PinterestMediaContainer.import(media, `${name}.media`));
 		const result = new PinterestPin(id, createdAt, link, title, description, altText, boardId, media);
 		return result;
 	}

@@ -36,7 +36,7 @@ export class Activity {
 		case "GitHubDeleteBranchActivity": return GitHubActivity.import(source, name);
 		case "SpotifyLikeActivity": return SpotifyActivity.import(source, name);
 		case "PinterestImagePinActivity":
-		case "PinterestVideoPinActivity": return SpotifyActivity.import(source, name);
+		case "PinterestVideoPinActivity": return PinterestActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
@@ -44,6 +44,7 @@ export class Activity {
 	static export(source: Activity): ActivityScheme {
 		if (source instanceof GitHubActivity) return GitHubActivity.export(source);
 		if (source instanceof SpotifyActivity) return SpotifyActivity.export(source);
+		if (source instanceof PinterestActivity) return PinterestActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 

@@ -109,7 +109,7 @@ export class PinterestImagesCollection {
 
 //#region Pinterest media container
 export interface PinterestMediaContainerScheme {
-	media_type?: string; // "image" | "video";
+	media_type?: string;
 	images: PinterestImagesCollectionScheme;
 }
 
@@ -158,7 +158,7 @@ export interface PinterestBoardScheme {
 	name: string;
 	description: string | null;
 	// owner: PinterestOwnerScheme;
-	privacy: string; // "PUBLIC" | "PROTECTED" | "SECRET";
+	privacy: string;
 }
 
 export class PinterestBoard {

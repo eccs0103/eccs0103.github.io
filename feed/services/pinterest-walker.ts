@@ -3,7 +3,7 @@
 import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
 import { PinterestBoard, PinterestPin, PinterestResponse } from "../models/pinterest-event.js";
-import { Activity, PinterestPinActivity } from "../models/activity.js";
+import { Activity, PinterestImagePinActivity, PinterestVideoPinActivity } from "../models/activity.js";
 
 //#region Pinterest walker
 export class PinterestWalker extends ActivityWalker {
@@ -29,7 +29,7 @@ export class PinterestWalker extends ActivityWalker {
 			const data = PinterestResponse.import(await response.json(), "pinterest_response");
 			if (data.code !== undefined && data.message !== undefined) throw new Error(`${data.code}: ${data.message}`);
 			bookmark = data.bookmark;
-			yield *data.items;
+			yield* data.items;
 		} while (bookmark);
 	}
 
@@ -62,16 +62,26 @@ export class PinterestWalker extends ActivityWalker {
 		for await (const board of this.#fetchBoards()) {
 			for await (const pin of this.#fetchPins(board.id, since)) {
 				const platform = this.name;
+				const { privacy } = board;
 				const timestamp = new Date(pin.createdAt);
-				yield new PinterestPinActivity(
-					platform,
-					timestamp,
-					pin.title ?? "Untitled Pin",
-					pin.description,
-					pin.imageUrl,
-					pin.link ?? `https://www.pinterest.com/pin/${pin.id}/`,
-					board.name
-				);
+				switch (privacy) {
+				case "PUBLIC": break;
+				case "PROTECTED":
+				case "SECRET": continue;
+				default: throw new Error(`Invalid '${privacy}' privacy for PinterestBoard`);
+				}
+				const { media } = pin;
+				if (media === null) continue;
+				const { images, mediaType } = media;
+				const image = images.original ?? images.preview ?? images.feed ?? images.thumbnail;
+				if (image === undefined) continue;
+				const link = pin.link ?? `https://www.pinterest.com/pin/${pin.id}/`;
+				switch (mediaType) {
+				case undefined:
+				case "image": yield new PinterestImagePinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name);
+				case "video": yield new PinterestVideoPinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name);
+				default: throw new Error(`Invalid '${mediaType}' mediaType for PinterestMediaContainer`);
+				}
 			}
 		}
 	}

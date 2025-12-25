@@ -78,8 +78,8 @@ export class PinterestWalker extends ActivityWalker {
 				const link = pin.link ?? `https://www.pinterest.com/pin/${pin.id}/`;
 				switch (mediaType) {
 				case undefined:
-				case "image": yield new PinterestImagePinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name);
-				case "video": yield new PinterestVideoPinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name);
+				case "image": yield new PinterestImagePinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name); break;
+				case "video": yield new PinterestVideoPinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name); break;
 				default: throw new Error(`Invalid '${mediaType}' mediaType for PinterestMediaContainer`);
 				}
 			}

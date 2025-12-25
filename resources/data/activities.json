@@ -1,5 +1,53 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1766673983000,
+		"title": "Where'd You Go",
+		"artists": [
+			"2nd Life",
+			"RYVN"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737e15e0f49f5f8aab47ef8cd5",
+		"url": "https://open.spotify.com/track/7xukLsvxV5raJ1xBIlg26H"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766670705000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "b49d01de2e0b8f8622c7d0dc8547aa983a85f2ee"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766670369000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "f7fa0c18fa39c9d4d129b7c1a335a69f0b6848df"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766669123000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "b21e2ed51eb9ddb64c4cd10d3fda3fb0f8921414"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766669072000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "b4c2f7afbb07e8329f7ec0ebbcc459d495029131"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1766664326000,

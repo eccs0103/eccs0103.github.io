@@ -663,12 +663,17 @@ export class PinterestActivity extends Activity {
 
 	static import(source: any, name: string): PinterestActivity {
 		const object = Object.import(source, name);
-		const result = new PinterestActivity();
-		return result;
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
+		switch ($type) {
+		case "PinterestImagePinActivity":
+		case "PinterestVideoPinActivity": return PinterestPinActivity.import(source, name);
+		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
+		}
 	}
 
 	static export(source: PinterestActivity): PinterestActivityScheme {
-		return {};
+		if (source instanceof PinterestPinActivity) return PinterestPinActivity.export(source);
+		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -677,75 +682,169 @@ export class PinterestActivity extends Activity {
 export interface PinterestPinActivityDiscriminator extends PinterestImagePinActivityDiscriminator, PinterestVideoPinActivityDiscriminator {
 }
 
-export interface PinterestPinActivityScheme {
+export interface PinterestPinActivityScheme extends PinterestActivityScheme {
 	$type: keyof PinterestPinActivityDiscriminator;
+	content: string;
+	width: number;
+	height: number;
+	title: string | null;
+	description: string | null;
+	board: string;
+	url: string;
 }
 
 export class PinterestPinActivity extends PinterestActivity {
-	constructor(platform: string, timestamp: Date, title: string, description: string, content: string, url: string, board: string) {
+	#content: string;
+	#width: number;
+	#height: number;
+	#title: string | null;
+	#description: string | null;
+	#board: string;
+	#url: string;
+
+	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
 		super(platform, timestamp);
+		this.#content = content;
+		this.#width = width;
+		this.#height = height;
+		this.#title = title;
+		this.#description = description;
+		this.#board = board;
+		this.#url = url;
 	}
 
 	static import(source: any, name: string): PinterestPinActivity {
 		const object = Object.import(source, name);
-		const result = new PinterestPinActivity();
-		return result;
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
+		switch ($type) {
+		case "PinterestImagePinActivity": return PinterestImagePinActivity.import(source, name);
+		case "PinterestVideoPinActivity": return PinterestVideoPinActivity.import(source, name);
+		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
+		}
 	}
 
 	static export(source: PinterestPinActivity): PinterestPinActivityScheme {
-		return {};
+		if (source instanceof PinterestImagePinActivity) return PinterestImagePinActivity.export(source);
+		if (source instanceof PinterestVideoPinActivity) return PinterestVideoPinActivity.export(source);
+		throw new TypeError(`Invalid '${typename(source)}' type for source`);
+	}
+
+	get content(): string {
+		return this.#content;
+	}
+
+	get width(): number {
+		return this.#width;
+	}
+
+	get height(): number {
+		return this.#height;
+	}
+
+	get title(): string | null {
+		return this.#title;
+	}
+
+	get description(): string | null {
+		return this.#description;
+	}
+
+	get board(): string {
+		return this.#board;
+	}
+
+	get url(): string {
+		return this.#url;
 	}
 }
 //#endregion
 
 //#region Pinterest image pin activity
 export interface PinterestImagePinActivityDiscriminator {
-	"PinterestImagePinActivity": any;
+	"PinterestImagePinActivity": PinterestImagePinActivity;
 }
 
-export interface PinterestImagePinActivityScheme {
+export interface PinterestImagePinActivityScheme extends PinterestPinActivityScheme {
 	$type: keyof PinterestImagePinActivityDiscriminator;
 }
 
 export class PinterestImagePinActivity extends PinterestPinActivity {
-	constructor(platform: string, timestamp: Date, title: string, description: string, content: string, url: string, board: string) {
-		super(platform, timestamp, title, description, content, url, board);
+	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
+		super(platform, timestamp, content, width, height, title, description, board, url);
 	}
 
 	static import(source: any, name: string): PinterestImagePinActivity {
 		const object = Object.import(source, name);
-		const result = new PinterestImagePinActivity();
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const content = String.import(Reflect.get(object, "content"), `${name}.content`);
+		const width = Number.import(Reflect.get(object, "width"), `${name}.width`);
+		const height = Number.import(Reflect.get(object, "height"), `${name}.height`);
+		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
+		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
+		const board = String.import(Reflect.get(object, "board"), `${name}.board`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const result = new PinterestImagePinActivity(platform, timestamp, content, width, height, title, description, board, url);
 		return result;
 	}
 
 	static export(source: PinterestImagePinActivity): PinterestImagePinActivityScheme {
-		return {};
+		const $type = "PinterestImagePinActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const content = source.content;
+		const width = source.width;
+		const height = source.height;
+		const title = source.title;
+		const description = source.description;
+		const board = source.board;
+		const url = source.url;
+		return { $type, platform, timestamp, content, width, height, title, description, board, url };
 	}
 }
 //#endregion
 
 //#region Pinterest video pin activity
 export interface PinterestVideoPinActivityDiscriminator {
-	"PinterestVideoPinActivity": any;
+	"PinterestVideoPinActivity": PinterestVideoPinActivity;
 }
 
-export interface PinterestVideoPinActivityScheme {
+export interface PinterestVideoPinActivityScheme extends PinterestPinActivityScheme {
 	$type: keyof PinterestVideoPinActivityDiscriminator;
 }
 
 export class PinterestVideoPinActivity extends PinterestPinActivity {
-	constructor(platform: string, timestamp: Date, title: string, description: string, content: string, url: string, board: string) {
-		super(platform, timestamp, title, description, content, url, board);
+	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
+		super(platform, timestamp, content, width, height, title, description, board, url);
 	}
 
 	static import(source: any, name: string): PinterestVideoPinActivity {
 		const object = Object.import(source, name);
-		const result = new PinterestVideoPinActivity();
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const content = String.import(Reflect.get(object, "content"), `${name}.content`);
+		const width = Number.import(Reflect.get(object, "width"), `${name}.width`);
+		const height = Number.import(Reflect.get(object, "height"), `${name}.height`);
+		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
+		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
+		const board = String.import(Reflect.get(object, "board"), `${name}.board`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const result = new PinterestVideoPinActivity(platform, timestamp, content, width, height, title, description, board, url);
 		return result;
 	}
 
 	static export(source: PinterestVideoPinActivity): PinterestVideoPinActivityScheme {
-		return {};
+		const $type = "PinterestVideoPinActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const content = source.content;
+		const width = source.width;
+		const height = source.height;
+		const title = source.title;
+		const description = source.description;
+		const board = source.board;
+		const url = source.url;
+		return { $type, platform, timestamp, content, width, height, title, description, board, url };
 	}
 }
 //#endregion

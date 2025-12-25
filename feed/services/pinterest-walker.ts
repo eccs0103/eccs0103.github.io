@@ -70,16 +70,17 @@ export class PinterestWalker extends ActivityWalker {
 				case "SECRET": continue;
 				default: throw new Error(`Invalid '${privacy}' privacy for PinterestBoard`);
 				}
-				const { media } = pin;
+				const { title, description, media } = pin;
 				if (media === null) continue;
 				const { images, mediaType } = media;
 				const image = images.original ?? images.preview ?? images.feed ?? images.thumbnail;
 				if (image === undefined) continue;
-				const link = pin.link ?? `https://www.pinterest.com/pin/${pin.id}/`;
+				const { url: content, width, height } = image;
+				const url = pin.link ?? `https://www.pinterest.com/pin/${pin.id}/`;
 				switch (mediaType) {
 				case undefined:
-				case "image": yield new PinterestImagePinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name); break;
-				case "video": yield new PinterestVideoPinActivity(platform, timestamp, pin.title, pin.description, image.url, link, board.name); break;
+				case "image": yield new PinterestImagePinActivity(platform, timestamp, content, width, height, title, description, board.name, url); break;
+				case "video": yield new PinterestVideoPinActivity(platform, timestamp, content, width, height, title, description, board.name, url); break;
 				default: throw new Error(`Invalid '${mediaType}' mediaType for PinterestMediaContainer`);
 				}
 			}

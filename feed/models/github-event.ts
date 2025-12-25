@@ -114,7 +114,7 @@ export class GitHubEventActor {
 		const object = Object.import(source, name);
 		const id = Number.import(Reflect.get(object, "id"), `${name}.id`);
 		const login = String.import(Reflect.get(object, "login"), `${name}.login`);
-		const displayLogin = Reflect.mapUndefined<unknown, undefined, string>(Reflect.get(object, "display_login"), displayLogin => String.import(displayLogin, `${name}.display_login`));
+		const displayLogin = Reflect.mapUndefined(Reflect.get(object, "display_login") as unknown, displayLogin => String.import(displayLogin, `${name}.display_login`));
 		const gravatarId = String.import(Reflect.get(object, "gravatar_id"), `${name}.gravatar_id`);
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
 		const avatarUrl = String.import(Reflect.get(object, "avatar_url"), `${name}.avatar_url`);
@@ -339,11 +339,11 @@ export class GitHubEventRelease {
 		const object = Object.import(source, name);
 		const htmlUrl = String.import(Reflect.get(object, "html_url"), `${name}.html_url`);
 		const tagName = String.import(Reflect.get(object, "tag_name"), `${name}.tag_name`);
-		const name$ = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "name"), name => String.import(name, `${name}.name`));
+		const name$ = Reflect.mapNull(Reflect.get(object, "name") as unknown, name => String.import(name, `${name}.name`));
 		const draft = Boolean.import(Reflect.get(object, "draft"), `${name}.draft`);
 		const prerelease = Boolean.import(Reflect.get(object, "prerelease"), `${name}.prerelease`);
 		const publishedAt = String.import(Reflect.get(object, "published_at"), `${name}.published_at`);
-		const body = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "body"), body => String.import(body, `${name}.body`));
+		const body = Reflect.mapNull(Reflect.get(object, "body"), body => String.import(body, `${name}.body`));
 		const result = new GitHubEventRelease(htmlUrl, tagName, name$, draft, prerelease, publishedAt, body);
 		return result;
 	}
@@ -501,10 +501,10 @@ export class GitHubCreateEventPayload {
 
 	static import(source: any, name: string): GitHubCreateEventPayload {
 		const object = Object.import(source, name);
-		const ref = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "ref"), ref => String.import(ref, `${name}.ref`));
+		const ref = Reflect.mapNull(Reflect.get(object, "ref") as unknown, ref => String.import(ref, `${name}.ref`));
 		const refType = String.import(Reflect.get(object, "ref_type"), `${name}.ref_type`);
 		const masterBranch = String.import(Reflect.get(object, "master_branch"), `${name}.master_branch`);
-		const description = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "description"), ref => String.import(ref, `${name}.description`));
+		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, ref => String.import(ref, `${name}.description`));
 		const pusherType = String.import(Reflect.get(object, "pusher_type"), `${name}.pusher_type`);
 		const result = new GitHubCreateEventPayload(ref, refType, masterBranch, description, pusherType);
 		return result;

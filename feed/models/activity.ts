@@ -610,7 +610,7 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const artists = Array.import(Reflect.get(object, "artists"), `${name}.artists`).map((item, index) => {
 			return String.import(item, `${name}.artists[${index}]`);
 		});
-		const cover = Reflect.mapNull<unknown, null, string>(Reflect.get(object, "cover"), cover => String.import(cover, `${name}.cover`));
+		const cover = Reflect.mapNull(Reflect.get(object, "cover") as unknown, cover => String.import(cover, `${name}.cover`));
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
 		const result = new SpotifyLikeActivity(platform, timestamp, title, artists, cover, url);
 		return result;

@@ -89,7 +89,7 @@ body {
 				}
 
 				& img.steam-icon {
-					width: calc(1.6 * var(--size-standart));
+					width: calc(2 * var(--size-standart));
 				}
 			}
 		}

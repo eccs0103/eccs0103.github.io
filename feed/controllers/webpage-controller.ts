@@ -28,8 +28,8 @@ class WebpageController extends Controller {
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);
 		const cursor = new ArrayCursor(activities);
-		const gap = Timespan.fromComponents(36, 0, 0);
-		let limit = 15;
+		const gap = Timespan.fromComponents(24, 0, 0);
+		let limit = Infinity;
 		while (cursor.inRange) {
 			if (limit <= 0) break;
 			await rendererActivies.render(cursor, platforms, gap);

@@ -2,7 +2,7 @@
 
 import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
-import { SteamGame, SteamAchievement, SteamOwnedGamesContainer, SteamPlayerStatsContainer } from "../models/steam-event.js";
+import { SteamGame, SteamAchievement, SteamOwnedGamesContainer, SteamPlayerStatsContainer, SteamGameSchemaContainer } from "../models/steam-event.js";
 import { Activity, SteamAchievementActivity } from "../models/activity.js";
 
 //#region Steam walker
@@ -43,6 +43,18 @@ export class SteamWalker extends ActivityWalker {
 		yield* games;
 	}
 
+	async #fetchGameSchema(appId: number): Promise<SteamGameSchemaContainer | null> {
+		try {
+			const data = await this.#fetchApi("ISteamUserStats", "GetSchemaForGame", "v2", {
+				["appid"]: String(appId),
+				["l"]: "english"
+			});
+			return SteamGameSchemaContainer.import(data, "steam_game_schema");
+		} catch {
+			return null;
+		}
+	}
+
 	async *#fetchAchievements(appId: number): AsyncIterable<SteamAchievement> {
 		const data = await this.#fetchApi("ISteamUserStats", "GetPlayerAchievements", "v0001", {
 			["steamid"]: this.#id,
@@ -58,16 +70,21 @@ export class SteamWalker extends ActivityWalker {
 
 	async *crawl(since: Date): AsyncIterable<Activity> {
 		for await (const game of this.#fetchOwnedGames()) {
-			if (game.playtimeForever < 60) continue;
+			if (game.playtimeForever < 20) continue;
 			const { appId, imgIconUrl, hasCommunityVisibleStats } = game;
 			if (hasCommunityVisibleStats === undefined || !hasCommunityVisibleStats) continue;
+			const schema = await this.#fetchGameSchema(appId);
+			const icons = new Map(schema?.game.availableGameStats?.achievements?.map(({ name, icon }) => [name, icon]));
 			for await (const achievement of this.#fetchAchievements(appId)) {
 				if (!achievement.achieved) continue;
-				const { unlockTime } = achievement;
+				const { unlockTime, apiName } = achievement;
 				if (unlockTime < since) continue;
-				const icon = Reflect.mapUndefined(imgIconUrl, imgIconUrl => `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${imgIconUrl}.jpg`) ?? null;
+				const icon =
+					icons.get(apiName) ??
+					Reflect.mapUndefined(imgIconUrl, url => `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${url}.jpg`) ??
+					null;
 				const url = `https://steamcommunity.com/stats/${appId}/achievements`;
-				yield new SteamAchievementActivity(this.name, unlockTime, game.name, icon, achievement.name ?? achievement.apiName, achievement.description ?? null, url);
+				yield new SteamAchievementActivity(this.name, unlockTime, game.name, icon, achievement.name ?? apiName, achievement.description ?? null, url);
 			}
 		}
 	}

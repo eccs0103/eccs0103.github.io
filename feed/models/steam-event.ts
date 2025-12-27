@@ -175,6 +175,143 @@ export class SteamOwnedGamesContainer {
 }
 //#endregion
 
+//#region Steam game schema stats achievement
+export interface SteamGameSchemaStatsAchievementScheme {
+	name: string; /** Технический ID (напр. "NEW_ACHIEVEMENT_1_0"). Совпадает с apiname в stats. */
+	// defaultvalue: number;  /** Начальное значение (обычно 0). */
+	// displayName?: string; /** Отображаемое название (может отсутствовать). */
+	// hidden: number; /** Скрытая ачивка (0 или 1). */
+	// description?: string; /** Описание (может отсутствовать). */
+	icon: string; /** URL цветной иконки (64x64). */
+	// icongray: string; /** URL серой иконки (64x64). */
+}
+
+export class SteamGameSchemaStatsAchievement {
+	#name: string;
+	#icon: string;
+
+	constructor(apiName: string, icon: string) {
+		this.#name = apiName;
+		this.#icon = icon;
+	}
+
+	static import(source: any, name: string): SteamGameSchemaStatsAchievement {
+		const object = Object.import(source, name);
+		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
+		const icon = String.import(Reflect.get(object, "icon"), `${name}.icon`);
+		return new SteamGameSchemaStatsAchievement($name, icon);
+	}
+
+	static export(source: SteamGameSchemaStatsAchievement): SteamGameSchemaStatsAchievementScheme {
+		const name = source.name;
+		const icon = source.icon;
+		return { name, icon };
+	}
+
+	get name(): string {
+		return this.#name;
+	}
+
+	get icon(): string {
+		return this.#icon;
+	}
+}
+//#endregion
+
+//#region Steam game schema stats
+export interface SteamGameSchemaStatsScheme {
+	achievements?: SteamGameSchemaStatsAchievementScheme[]; /** Список ачивок. Может отсутствовать, если есть только стата (килы/смерти), но нет ачивок. */
+}
+
+export class SteamGameSchemaStats {
+	#achievements: SteamGameSchemaStatsAchievement[] | undefined;
+
+	constructor(achievements: SteamGameSchemaStatsAchievement[] | undefined) {
+		this.#achievements = achievements;
+	}
+
+	static import(source: any, name: string): SteamGameSchemaStats {
+		const object = Object.import(source, name);
+		const achievements = Reflect.mapUndefined(Reflect.get(object, "achievements") as unknown, achievements => Array.import(Reflect.get(object, "achievements"), `${name}.achievements`).map((item, index) => {
+			return SteamGameSchemaStatsAchievement.import(item, `${name}.achievements[${index}]`);
+		}));
+		const result = new SteamGameSchemaStats(achievements);
+		return result;
+	}
+
+	static export(source: SteamGameSchemaStats): SteamGameSchemaStatsScheme {
+		const achievements = Reflect.mapUndefined(source.achievements, achievements => achievements.map(SteamGameSchemaStatsAchievement.export));
+		return { achievements };
+	}
+
+	get achievements(): SteamGameSchemaStatsAchievement[] | undefined {
+		return this.#achievements;
+	}
+}
+//#endregion
+
+//#region Steam game schema
+export interface SteamGameSchemaScheme {
+	// gameName: string; /** Название игры в базе Steam. */
+	// gameVersion: string; /** Версия данных. */
+	availableGameStats?: SteamGameSchemaStatsScheme; /** Доступная статистика. @undefined Если у игры нет публичной статистики или ачивок. */
+}
+
+export class SteamGameSchema {
+	#availableGameStats: SteamGameSchemaStats | undefined;
+
+	constructor(availableGameStats: SteamGameSchemaStats | undefined) {
+		this.#availableGameStats = availableGameStats;
+	}
+
+	static import(source: any, name: string): SteamGameSchema {
+		const object = Object.import(source, name);
+		const availableGameStats = Reflect.mapUndefined(Reflect.get(object, "availableGameStats") as unknown, availableGameStats => SteamGameSchemaStats.import(availableGameStats, `${name}.availableGameStats`));
+		const result = new SteamGameSchema(availableGameStats);
+		return result;
+	}
+
+	static export(source: SteamGameSchema): SteamGameSchemaScheme {
+		const availableGameStats = Reflect.mapUndefined(source.availableGameStats, availableGameStats => SteamGameSchemaStats.export(availableGameStats));
+		return { availableGameStats };
+	}
+
+	get availableGameStats(): SteamGameSchemaStats | undefined {
+		return this.#availableGameStats;
+	}
+}
+//#endregion
+
+//#region Steam game schema container
+export interface SteamGameSchemaContainerScheme {
+	game: SteamGameSchemaScheme;
+}
+
+export class SteamGameSchemaContainer {
+	#game: SteamGameSchema;
+
+	constructor(game: SteamGameSchema) {
+		this.#game = game;
+	}
+
+	static import(source: any, name: string): SteamGameSchemaContainer {
+		const object = Object.import(source, name);
+		const game = SteamGameSchema.import(Reflect.get(object, "game"), `${name}.game`);
+		const result = new SteamGameSchemaContainer(game);
+		return result;
+	}
+
+	static export(source: SteamGameSchemaContainer): SteamGameSchemaContainerScheme {
+		const game = SteamGameSchema.export(source.game);
+		return { game };
+	}
+
+	get game(): SteamGameSchema {
+		return this.#game;
+	}
+}
+//#endregion
+
 //#region Steam achievement
 export interface SteamAchievementScheme {
 	apiname: string; /** Техническое имя ачивки (NEW_ACHIEVEMENT_1_0) */

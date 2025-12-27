@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
-import { Activity, GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity, SpotifyLikeActivity } from "../models/activity.js";
+import { Activity, GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity, SpotifyLikeActivity, SteamAchievementActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { TextExpert } from "../services/text-expert.js";
 import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
@@ -169,6 +169,34 @@ export class ActivitiesRenderer {
 		aReferrer.classList.add("spotify-link", "with-block-padding");
 	}
 
+	static #renderSteamAchievementActivity(container: HTMLElement, activity: SteamAchievementActivity): void {
+		const { game, title, description, url, icon } = activity;
+
+		const divWrapper = container.appendChild(document.createElement("div"));
+		divWrapper.classList.add("flex", "with-gap"); 
+
+		if (icon !== null) {
+			const imgIcon = divWrapper.appendChild(document.createElement("img"));
+			imgIcon.src = icon;
+			imgIcon.alt = title;
+			imgIcon.classList.add("logo");
+		}
+
+		const divText = divWrapper.appendChild(document.createElement("div"));
+		divText.classList.add("flex", "column", "main-center");
+
+		const divHeader = divText.appendChild(document.createElement("div"));
+		divHeader.appendChild(ActivitiesRenderer.#newText("Unlocked achievement "));
+		divHeader.appendChild(ActivitiesRenderer.#newLink(title, url));
+		divHeader.appendChild(ActivitiesRenderer.#newText(` in ${game}`));
+
+		if (description !== null && !String.isWhitespace(description)) {
+			const divDesc = divText.appendChild(document.createElement("div"));
+			divDesc.textContent = description;
+			divDesc.classList.add("description");
+		}
+	}
+
 	#renderGitHubSingle(activity: GitHubActivity, platforms: Map<string, Platform>): void {
 		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activity);
 		ActivitiesRenderer.#renderGitHubActivity(itemContainer, activity);
@@ -260,6 +288,15 @@ export class ActivitiesRenderer {
 		cursor.index++;
 	}
 
+	#renderSteamContent(cursor: ArrayCursor<Activity>, platforms: Map<string, Platform>): void {
+		const activity = cursor.current as SteamAchievementActivity;
+		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activity);
+		itemContainer.classList.add("flex", "column", "with-gap");
+		ActivitiesRenderer.#renderSteamAchievementActivity(itemContainer, activity);
+
+		cursor.index++;
+	}
+
 	async render(cursor: ArrayCursor<Activity>, platforms: readonly Platform[], gap: Readonly<Timespan>): Promise<void> {
 		const activity = cursor.current;
 		const mapping = new Map(platforms.map(platform => [platform.name, platform]));
@@ -271,6 +308,11 @@ export class ActivitiesRenderer {
 
 		if (activity instanceof SpotifyLikeActivity) {
 			this.#renderSpotifyContent(cursor, mapping);
+			return;
+		}
+
+		if (activity instanceof SteamAchievementActivity) {
+			this.#renderSteamContent(cursor, mapping);
 			return;
 		}
 

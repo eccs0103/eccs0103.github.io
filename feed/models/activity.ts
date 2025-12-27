@@ -24,7 +24,7 @@ export class Activity {
 
 	static import(source: any, name: string): Activity {
 		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`) as keyof ActivityDiscriminator;
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
 		case "GitHubPushActivity":
 		case "GitHubReleaseActivity":

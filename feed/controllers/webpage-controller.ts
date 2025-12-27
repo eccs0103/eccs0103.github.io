@@ -24,7 +24,7 @@ class WebpageController extends Controller {
 		const rendererActivies = new ActivitiesRenderer(main);
 		const cursor = new ArrayCursor(activities);
 		const gap = Timespan.fromComponents(24, 0, 0);
-		let limit = 15;
+		let limit = 3000;
 		while (cursor.inRange) {
 			if (limit <= 0) break;
 			await rendererActivies.render(cursor, platforms, gap);

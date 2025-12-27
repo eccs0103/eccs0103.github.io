@@ -10,12 +10,14 @@ import { ServerDataTable } from "../services/server-data-table.js";
 import { Activity } from "../models/activity.js";
 import { Platform } from "../models/platform.js";
 import { PinterestWalker } from "../services/pinterest-walker.js";
+import { SteamWalker } from "../services/steam-walker.js";
 
 const meta = import.meta;
 const { origin } = env;
 const { githubUsername, githubToken } = env;
 const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 const { pinterestClientId, pinterestClientSecret, pinterestToken } = env;
+const { steamId, steamApiKey } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -28,6 +30,7 @@ class ActivityController extends Controller {
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
 		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
 		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
+		dispatcher.connect(new SteamWalker(steamId, steamApiKey));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute(platforms);

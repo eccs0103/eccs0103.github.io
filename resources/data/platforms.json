@@ -45,7 +45,7 @@
 		"name": "Steam",
 		"icon": "./icons/steam.svg",
 		"webpage": "https://steamcommunity.com/id/eccs0103",
-		"is_active": false
+		"is_active": true
 	},
 	{
 		"name": "Discord",

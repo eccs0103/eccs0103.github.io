@@ -3,7 +3,7 @@
 import "adaptive-extender/core";
 
 //#region Activity
-export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator {
+export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator {
 }
 
 export interface ActivityScheme {
@@ -24,7 +24,7 @@ export class Activity {
 
 	static import(source: any, name: string): Activity {
 		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`) as keyof ActivityDiscriminator;
 		switch ($type) {
 		case "GitHubPushActivity":
 		case "GitHubReleaseActivity":
@@ -37,6 +37,7 @@ export class Activity {
 		case "SpotifyLikeActivity": return SpotifyActivity.import(source, name);
 		case "PinterestImagePinActivity":
 		case "PinterestVideoPinActivity": return PinterestActivity.import(source, name);
+		case "SteamAchievementActivity": return SteamActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
@@ -45,6 +46,7 @@ export class Activity {
 		if (source instanceof GitHubActivity) return GitHubActivity.export(source);
 		if (source instanceof SpotifyActivity) return SpotifyActivity.export(source);
 		if (source instanceof PinterestActivity) return PinterestActivity.export(source);
+		if (source instanceof SteamActivity) return SteamActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 
@@ -845,6 +847,112 @@ export class PinterestVideoPinActivity extends PinterestPinActivity {
 		const board = source.board;
 		const url = source.url;
 		return { $type, platform, timestamp, content, width, height, title, description, board, url };
+	}
+}
+//#endregion
+
+//#region Steam activity
+export interface SteamActivityDiscriminator extends SteamAchievementActivityDiscriminator {
+}
+
+export interface SteamActivityScheme extends ActivityScheme {
+	$type: keyof SteamActivityDiscriminator;
+}
+
+export class SteamActivity extends Activity {
+	constructor(platform: string, timestamp: Date) {
+		super(platform, timestamp);
+	}
+
+	static import(source: any, name: string): SteamActivity {
+		const object = Object.import(source, name);
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
+		switch ($type) {
+		case "SteamAchievementActivity": return SteamAchievementActivity.import(source, name);
+		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
+		}
+	}
+
+	static export(source: SteamActivity): SteamActivityScheme {
+		if (source instanceof SteamAchievementActivity) return SteamAchievementActivity.export(source);
+		throw new TypeError(`Invalid '${typename(source)}' type for source`);
+	}
+}
+//#endregion
+
+//#region Steam achievement activity
+export interface SteamAchievementActivityDiscriminator {
+	"SteamAchievementActivity": SteamAchievementActivity;
+}
+
+export interface SteamAchievementActivityScheme extends SteamActivityScheme {
+	$type: keyof SteamAchievementActivityDiscriminator;
+	game: string;
+	icon: string | null;
+	title: string;
+	description: string | null;
+	url: string;
+}
+
+export class SteamAchievementActivity extends SteamActivity {
+	#game: string;
+	#icon: string | null;
+	#title: string;
+	#description: string | null;
+	#url: string;
+
+	constructor(platform: string, timestamp: Date, game: string, icon: string | null, title: string, description: string | null, url: string) {
+		super(platform, timestamp);
+		this.#game = game;
+		this.#icon = icon;
+		this.#title = title;
+		this.#description = description;
+		this.#url = url;
+	}
+
+	static import(source: any, name: string): SteamAchievementActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const game = String.import(Reflect.get(object, "game"), `${name}.game`);
+		const icon = Reflect.mapNull(Reflect.get(object, "icon") as unknown, icon => String.import(icon, `${name}.icon`));
+		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
+		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const result = new SteamAchievementActivity(platform, timestamp, game, icon, title, description, url);
+		return result;
+	}
+
+	static export(source: SteamAchievementActivity): SteamAchievementActivityScheme {
+		const $type = "SteamAchievementActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const game = source.game;
+		const icon = source.icon;
+		const title = source.title;
+		const description = source.description;
+		const url = source.url;
+		return { $type, platform, timestamp, game, icon, title, description, url };
+	}
+
+	get game(): string {
+		return this.#game;
+	}
+
+	get icon(): string | null {
+		return this.#icon;
+	}
+
+	get title(): string {
+		return this.#title;
+	}
+
+	get description(): string | null {
+		return this.#description;
+	}
+
+	get url(): string {
+		return this.#url;
 	}
 }
 //#endregion

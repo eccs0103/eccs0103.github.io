@@ -29,14 +29,20 @@ jobs:
           - name: Run collector script
             env:
                 ORIGIN: ${{ vars.ORIGIN }}
+
                 GITHUB_USERNAME: ${{ vars.USERNAME_GITHUB }}
                 GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-                SPOTIFY_CLIENT_ID: ${{ secrets.CLIENT_ID_SPOTIFY }}
+
+                SPOTIFY_CLIENT_ID: ${{ vars.CLIENT_ID_SPOTIFY }}
                 SPOTIFY_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SPOTIFY }}
                 SPOTIFY_TOKEN: ${{ secrets.TOKEN_SPOTIFY }}
-                PINTEREST_CLIENT_ID: ${{ secrets.CLIENT_ID_PINTEREST }}
+
+                PINTEREST_CLIENT_ID: ${{ vars.CLIENT_ID_PINTEREST }}
                 PINTEREST_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_PINTEREST }}
                 PINTEREST_TOKEN: ${{ secrets.TOKEN_PINTEREST }}
+
+                STEAM_ID: ${{ vars.ID_STEAM }}
+                STEAM_API_KEY: ${{ secrets.API_KEY_STEAM }}
             run: npm run walk
 
           - name: Get Version

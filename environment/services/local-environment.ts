@@ -16,6 +16,8 @@ class LocalEnvironment {
 	#pinterestClientId: string;
 	#pinterestClientSecret: string;
 	#pinterestToken: string;
+	#steamId: string;
+	#steamApiKey: string;
 
 	constructor() {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
@@ -31,6 +33,8 @@ class LocalEnvironment {
 		this.#pinterestClientId = String.import(env.readValue("PINTEREST_TOKEN"), `${name}.PINTEREST_TOKEN`);
 		this.#pinterestClientSecret = String.import(env.readValue("PINTEREST_TOKEN"), `${name}.PINTEREST_TOKEN`);
 		this.#pinterestToken = String.import(env.readValue("PINTEREST_TOKEN"), `${name}.PINTEREST_TOKEN`);
+		this.#steamId = String.import(env.readValue("STEAM_ID"), `${name}.STEAM_ID`);
+		this.#steamApiKey = String.import(env.readValue("STEAM_API_KEY"), `${name}.STEAM_API_KEY`);
 	}
 
 	static get env(): LocalEnvironment {
@@ -80,6 +84,14 @@ class LocalEnvironment {
 
 	get pinterestToken(): string {
 		return this.#pinterestToken;
+	}
+
+	get steamId(): string {
+		return this.#steamId;
+	}
+
+	get steamApiKey(): string {
+		return this.#steamApiKey;
 	}
 }
 

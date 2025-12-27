@@ -147,6 +147,26 @@
 		"sha": "53fceb1ba1ea22a11158516ed43f18977e8ec55b"
 	},
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766525342000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "Heir To An Empty Castle",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766525107000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "On Fleek",
+		"description": "Equip purple-rated gear or better in every slot.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
 		"$type": "GitHubCreateBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1766330288000,
@@ -1237,6 +1257,16 @@
 		"sha": "edb161f49080d6c351cd4945be9bdca6296416ae"
 	},
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1764102669000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "That Was Cold",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
 		"$type": "SpotifyLikeActivity",
 		"platform": "Spotify",
 		"timestamp": 1764020425000,
@@ -1691,6 +1721,16 @@
 		"url": "https://open.spotify.com/track/31rneVrsMC6jefCoDyQKam"
 	},
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1762456124000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "Vaulting Your Way To The Top",
+		"description": "Reach level 25.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1762445383000,
@@ -1722,6 +1762,16 @@
 		"url": "https://open.spotify.com/track/2yqyxhFvrUQLuICKstGPTW"
 	},
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1762368995000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "À La Carte",
+		"description": "Complete 20 Side Missions.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1762347313000,
@@ -1740,6 +1790,16 @@
 		"sha": "8b1013a94c756bec7824a03be0b66e586e859f18"
 	},
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1762113060000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "Gone From My Sight",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
 		"$type": "SpotifyLikeActivity",
 		"platform": "Spotify",
 		"timestamp": 1762094392000,
@@ -1750,6 +1810,36 @@
 		],
 		"cover": "https://i.scdn.co/image/ab67616d0000b27364aca33327d55f8308ab85ab",
 		"url": "https://open.spotify.com/track/2RiZE2yJhLAguRhlhwdTux"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1762022572000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "Stay Away From The Light",
+		"description": "Revive another player.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1762018168000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "Bolt-Ons",
+		"description": "Unlock 10 Character Heads or Skins.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1761948904000,
+		"game": "Borderlands 3",
+		"icon": "http://media.steampowered.com/steamcommunity/public/images/apps/397540/0ac7b8d98fad581f65b0533bbce63bf953d743ac.jpg",
+		"title": "I Mustache You A Question",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
 	},
 	{
 		"$type": "SpotifyLikeActivity",

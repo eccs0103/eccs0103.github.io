@@ -3,89 +3,103 @@ body {
 	width: 100%;
 	max-width: 100vmin;
 	overflow-y: auto;
-}
 
-img[alt="eccs0103 logo"] {
-	width: calc(6 * var(--size-standart));
-}
-
-div.activity {
-	display: grid;
-	grid-template:
-		'activity-icon		activity-platform	activity-timepan' max-content
-		'activity-content	activity-content	activity-content' max-content
-		/ max-content max-content 1fr
-	;
-
-	&.rounded {
-		border-radius: calc(var(--size-gap) * 2);
-	}
-
-	& > img.icon {
-		grid-area: activity-icon;
-		width: var(--size-standart);
-	}
-
-	& > .platform {
-		grid-area: activity-platform;
-		align-self: center;
-	}
-
-	& > time.activity-time {
-		grid-area: activity-timepan;
-		font-size: 0.9em;
-		justify-self: end;
-	}
-
-	& > div.content {
-		grid-area: activity-content;
-
-		& details.github-collection {
-			& > summary {
-				list-style-type: disc;
-				cursor: pointer;
-
-				&::marker {
-					color: var(--color-highlight);
-				}
-			}
-
-			&[open] > summary {
-				list-style-type: circle;
-			}
-
-			& ul.collection-content {
-				margin-top: var(--size-gap);
-				margin-left: 0.05em;
-				padding-left: 0.7em;
-				list-style-type: none;
-				line-height: 1.5;
-				border-left: 2px solid var(--color-text-description);
-			}
+	& header {
+		& img[alt="eccs0103 logo"] {
+			width: calc(6 * var(--size-standart));
 		}
 
-		& img.spotify-cover {
-			width: calc(3 * var(--size-standart));
-		}
+		& div.social-media {
+			width: 100%;
+			justify-content: space-evenly;
 
-		& a.spotify-link {
+			& address.integrated {
+				/* TODO */
+			}
+		}
+	}
+
+	& main {
+		& span.warning {
+			align-self: center;
 			font-size: 0.9em;
 		}
+
+		& div.activity {
+			display: grid;
+			grid-template:
+				'activity-icon		activity-platform	activity-timepan' max-content
+				'activity-content	activity-content	activity-content' max-content
+				/ max-content max-content 1fr
+			;
+
+			&.rounded {
+				border-radius: calc(var(--size-gap) * 2);
+			}
+
+			& > img.icon {
+				grid-area: activity-icon;
+				width: var(--size-standart);
+			}
+
+			& > .platform {
+				grid-area: activity-platform;
+				align-self: center;
+			}
+
+			& > time.activity-time {
+				grid-area: activity-timepan;
+				font-size: 0.9em;
+				justify-self: end;
+			}
+
+			& > div.content {
+				grid-area: activity-content;
+
+				& details.github-collection {
+					& > summary {
+						list-style-type: disc;
+						cursor: pointer;
+
+						&::marker {
+							color: var(--color-highlight);
+						}
+					}
+
+					&[open] > summary {
+						list-style-type: circle;
+					}
+
+					& ul.collection-content {
+						margin-top: var(--size-gap);
+						margin-left: 0.05em;
+						padding-left: 0.7em;
+						list-style-type: none;
+						line-height: 1.5;
+						border-left: 2px solid var(--color-text-description);
+					}
+				}
+
+				& img.spotify-cover {
+					width: calc(3 * var(--size-standart));
+				}
+
+				& a.spotify-link {
+					font-size: 0.9em;
+				}
+
+				& img.steam-icon {
+					width: calc(1.6 * var(--size-standart));
+				}
+			}
+		}
 	}
-}
 
-footer {
-	display: grid;
-}
+	& footer {
+		display: grid;
+	}
 
-.social-media {
-	width: 100%;
-	justify-content: space-evenly;
-}
-
-.integrated {
-}
-
-dialog.loader img[alt="Logo"] {
-	content: url(../../assets/icons/loading.gif);
+	& dialog.loader img[alt="Logo"] {
+		content: url(../../assets/icons/loading.gif);
+	}
 }

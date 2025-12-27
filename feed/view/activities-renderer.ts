@@ -141,16 +141,18 @@ export class ActivitiesRenderer {
 	}
 
 	static #renderSpotifyLikeActivity(itemContainer: HTMLElement, activity: SpotifyLikeActivity): void {
+		const { title, cover } = activity;
+
 		const spanAction = itemContainer.appendChild(document.createElement("span"));
 		spanAction.textContent = "Added to music collection";
 
 		const divEmbed = itemContainer.appendChild(document.createElement("div"));
 		divEmbed.classList.add("flex", "with-gap");
 
-		if (activity.cover !== null) {
+		if (cover !== null) {
 			const imgCover = divEmbed.appendChild(document.createElement("img"));
-			imgCover.src = activity.cover;
-			imgCover.alt = activity.cover;
+			imgCover.src = cover;
+			imgCover.alt = `'${title}' cover`;
 			imgCover.classList.add("rounded", "spotify-cover");
 		}
 
@@ -158,7 +160,7 @@ export class ActivitiesRenderer {
 		divInformation.classList.add("flex", "column");
 
 		const strongTitle = divInformation.appendChild(document.createElement("strong"));
-		strongTitle.textContent = activity.title;
+		strongTitle.textContent = title;
 
 		const spanArtist = divInformation.appendChild(document.createElement("span"));
 		spanArtist.textContent = activity.artists.join(", ");
@@ -173,27 +175,27 @@ export class ActivitiesRenderer {
 		const { game, title, description, url, icon } = activity;
 
 		const divWrapper = container.appendChild(document.createElement("div"));
-		divWrapper.classList.add("flex", "with-gap"); 
+		divWrapper.classList.add("flex", "with-gap", "alt-center"); 
 
 		if (icon !== null) {
 			const imgIcon = divWrapper.appendChild(document.createElement("img"));
 			imgIcon.src = icon;
-			imgIcon.alt = title;
-			imgIcon.classList.add("logo");
+			imgIcon.alt = `'${title}' icon`;
+			imgIcon.classList.add("rounded", "steam-icon");
 		}
 
 		const divText = divWrapper.appendChild(document.createElement("div"));
-		divText.classList.add("flex", "column", "main-center");
+		divText.classList.add("flex", "column");
 
-		const divHeader = divText.appendChild(document.createElement("div"));
-		divHeader.appendChild(ActivitiesRenderer.#newText("Unlocked achievement "));
-		divHeader.appendChild(ActivitiesRenderer.#newLink(title, url));
-		divHeader.appendChild(ActivitiesRenderer.#newText(` in ${game}`));
+		const spanHeader = divText.appendChild(document.createElement("span"));
+		spanHeader.appendChild(ActivitiesRenderer.#newText("Earned \""));
+		spanHeader.appendChild(ActivitiesRenderer.#newLink(title, url));
+		spanHeader.appendChild(ActivitiesRenderer.#newText(`\" in ${game}`));
 
 		if (description !== null && !String.isWhitespace(description)) {
-			const divDesc = divText.appendChild(document.createElement("div"));
-			divDesc.textContent = description;
-			divDesc.classList.add("description");
+			const spanDescription = divText.appendChild(document.createElement("span"));
+			spanDescription.textContent = description;
+			spanDescription.classList.add("description");
 		}
 	}
 

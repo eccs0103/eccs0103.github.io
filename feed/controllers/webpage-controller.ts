@@ -9,6 +9,7 @@ import { Activity } from "../models/activity.js";
 import { Platform } from "../models/platform.js";
 import { FooterRenderer } from "../view/footer-renderer.js";
 import { MetadataInjector } from "../../environment/services/metadata-injector.js";
+import { HeaderRenderer } from "../view/header-renderer.js";
 
 const { baseURI, body } = document;
 
@@ -20,11 +21,15 @@ class WebpageController extends Controller {
 		await activities.load();
 		await platforms.load();
 
+		const header = await body.getElementAsync(HTMLElement, "header");
+		const rendererHeader = new HeaderRenderer(header);
+		await rendererHeader.render(platforms);
+
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);
 		const cursor = new ArrayCursor(activities);
-		const gap = Timespan.fromComponents(24, 0, 0);
-		let limit = 3000;
+		const gap = Timespan.fromComponents(36, 0, 0);
+		let limit = 15;
 		while (cursor.inRange) {
 			if (limit <= 0) break;
 			await rendererActivies.render(cursor, platforms, gap);
@@ -33,7 +38,7 @@ class WebpageController extends Controller {
 
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);
-		await rendererFooter.render(platforms);
+		await rendererFooter.render();
 
 		MetadataInjector.inject({
 			type: "Person",

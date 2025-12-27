@@ -1,5 +1,25 @@
 [
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766852052000,
+		"game": "Borderlands 3",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/4fa2f74efaef0c7541e2f8d9830b226f64b502e8.jpg",
+		"title": "Tips Appreciated",
+		"description": "Tip Moxxi.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766851860000,
+		"game": "Borderlands 3",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/74644bb234de625b7fe80e521e900d8fc3d7d9cc.jpg",
+		"title": "Dropping Loads",
+		"description": "Win a live grenade at a Slot Machine.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
 		"$type": "GitHubDeleteBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1766848209000,

@@ -2,6 +2,16 @@
 	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
+		"timestamp": 1766862672000,
+		"game": "Borderlands 3",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f10c0f74b4b223f0cfe16d68d11c971a0b22b1f6.jpg",
+		"title": "I Hope You Didn't Tea-bag",
+		"description": "Win a duel.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
 		"timestamp": 1766852052000,
 		"game": "Borderlands 3",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/4fa2f74efaef0c7541e2f8d9830b226f64b502e8.jpg",

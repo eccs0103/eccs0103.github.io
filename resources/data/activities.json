@@ -1,5 +1,15 @@
 [
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766951385000,
+		"game": "Borderlands 3",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5b00d96948b169d95846b242aade921c2755de84.jpg",
+		"title": "Swamped",
+		"description": "Discover all named locations on Eden-6.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
 		"$type": "GitHubCreateBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1766883487000,

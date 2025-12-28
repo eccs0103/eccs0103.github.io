@@ -3,7 +3,6 @@
 import "adaptive-extender/web";
 import { Controller, Timespan } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
-import { ArrayCursor } from "../services/array-cursor.js";
 import { ClientDataTable } from "../services/client-data-table.js";
 import { Activity } from "../models/activity.js";
 import { Platform } from "../models/platform.js";
@@ -27,14 +26,7 @@ class WebpageController extends Controller {
 
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);
-		const cursor = new ArrayCursor(activities);
-		const gap = Timespan.fromComponents(24, 0, 0);
-		let limit = Infinity;
-		while (cursor.inRange) {
-			if (limit <= 0) break;
-			await rendererActivies.render(cursor, platforms, gap);
-			limit--;
-		}
+		rendererActivies.render(activities, platforms);
 
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);

@@ -11,6 +11,11 @@ import { type Platform } from "../models/platform.js";
 const { baseURI } = document;
 
 //#region Activity renderer
+export interface ActivityRendererOptions {
+	gap: Timespan;
+	limit: number;
+}
+
 export class ActivitiesRenderer {
 	#itemContainer: HTMLElement;
 
@@ -175,7 +180,7 @@ export class ActivitiesRenderer {
 		const { game, title, description, url, icon } = activity;
 
 		const divWrapper = container.appendChild(document.createElement("div"));
-		divWrapper.classList.add("flex", "with-gap", "alt-center"); 
+		divWrapper.classList.add("flex", "with-gap", "alt-center");
 
 		if (icon !== null) {
 			const imgIcon = divWrapper.appendChild(document.createElement("img"));
@@ -299,26 +304,32 @@ export class ActivitiesRenderer {
 		cursor.index++;
 	}
 
-	async render(cursor: ArrayCursor<Activity>, platforms: readonly Platform[], gap: Readonly<Timespan>): Promise<void> {
-		const activity = cursor.current;
+	async render(activities: readonly Activity[], platforms: readonly Platform[]): Promise<void>;
+	async render(activities: readonly Activity[], platforms: readonly Platform[], options: Partial<ActivityRendererOptions>): Promise<void>;
+	async render(activities: readonly Activity[], platforms: readonly Platform[], options: Partial<ActivityRendererOptions> = {}): Promise<void> {
+		let { gap, limit } = options;
+		gap ??= Timespan.fromComponents(24, 0, 0);
+		limit ??= Infinity;
+
+		const cursor = new ArrayCursor(activities);
 		const mapping = new Map(platforms.map(platform => [platform.name, platform]));
-
-		if (activity instanceof GitHubActivity) {
-			this.#renderGitHubContent(cursor, mapping, gap);
-			return;
+		while (cursor.inRange && limit > 0) {
+			const activity = cursor.current;
+			if (activity instanceof GitHubActivity) {
+				this.#renderGitHubContent(cursor, mapping, gap);
+				continue;
+			}
+			if (activity instanceof SpotifyLikeActivity) {
+				this.#renderSpotifyContent(cursor, mapping);
+				continue;
+			}
+			if (activity instanceof SteamAchievementActivity) {
+				this.#renderSteamContent(cursor, mapping);
+				continue;
+			}
+			cursor.index++;
+			limit--;
 		}
-
-		if (activity instanceof SpotifyLikeActivity) {
-			this.#renderSpotifyContent(cursor, mapping);
-			return;
-		}
-
-		if (activity instanceof SteamAchievementActivity) {
-			this.#renderSteamContent(cursor, mapping);
-			return;
-		}
-
-		cursor.index++;
 	}
 }
 //#endregion

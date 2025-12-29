@@ -75,10 +75,9 @@ export class ActivitiesRenderer {
 
 		const platform = platforms.get(activity.platform);
 		if (platform !== undefined) {
-			const imgIcon = divActivity.appendChild(document.createElement("img"));
-			imgIcon.src = String(new URL(platform.icon, new URL("../", baseURI)));
-			imgIcon.alt = `${platform.name} logo`;
-			imgIcon.classList.add("icon");
+			const spanIcon = divActivity.appendChild(document.createElement("span"));
+			spanIcon.style.setProperty("--url", `url(${new URL(platform.icon, new URL("../", baseURI))})`);
+			spanIcon.classList.add("icon");
 
 			const h3Platform = divActivity.appendChild(document.createElement("h4"));
 			h3Platform.classList.add("platform");

@@ -14,23 +14,23 @@ export class HeaderRenderer {
 	}
 
 	static #newActivity(itemContainer: HTMLElement, platform: Platform): HTMLElement {
-		const addressSocialMedia = itemContainer.appendChild(document.createElement("address"));
-		addressSocialMedia.classList.add("flex", "alt-center");
+		const aSocialMedia = itemContainer.appendChild(document.createElement("a"));
+		aSocialMedia.href = String(platform.webpage);
+		aSocialMedia.target = "_blank";
+		aSocialMedia.rel = "noopener noreferrer";
+		aSocialMedia.role = "button";
+		aSocialMedia.classList.add("flex", "alt-center");
 
-		const imgIcon = addressSocialMedia.appendChild(document.createElement("img"));
-		imgIcon.src = String(new URL(platform.icon, new URL("../", baseURI)));
-		imgIcon.alt = `${platform.name} logo`;
-		imgIcon.classList.add("icon", "integrated");
-		if (!platform.isActive) imgIcon.inert = true;
+		const spanIcon = aSocialMedia.appendChild(document.createElement("span"));
+		spanIcon.classList.add("icon");
+		spanIcon.style.setProperty("--url", `url("${new URL(platform.icon, new URL("../", baseURI))}")`);
+		if (!platform.isActive) spanIcon.inert = true;
 
-		const aLink = addressSocialMedia.appendChild(document.createElement("a"));
-		aLink.href = String(platform.webpage);
-		aLink.target = "_blank";
-		aLink.rel = "noopener noreferrer";
-		aLink.classList.add("with-inline-padding");
-		aLink.textContent = platform.name;
+		const spanTitle = aSocialMedia.appendChild(document.createElement("span"));
+		spanTitle.classList.add("with-inline-padding");
+		spanTitle.textContent = platform.name;
 
-		return addressSocialMedia;
+		return aSocialMedia;
 	}
 
 	async render(platforms: readonly Platform[]): Promise<void> {

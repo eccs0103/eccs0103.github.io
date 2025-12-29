@@ -13,8 +13,12 @@ body {
 			width: 100%;
 			justify-content: space-evenly;
 
-			& address.integrated {
-				/* TODO */
+			& a {
+				color: var(--color-highlight);
+
+				&.integrated {
+					/* TODO */
+				}
 			}
 		}
 	}
@@ -76,7 +80,7 @@ body {
 						padding-left: 0.7em;
 						list-style-type: none;
 						line-height: 1.5;
-						border-left: 2px solid var(--color-text-description);
+						border-left: 2px solid var(--color-light-negative);
 					}
 				}
 

@@ -1,5 +1,25 @@
 [
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767036416000,
+		"game": "Phasmophobia",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/6e407474aa59188d1176d03a414e9a06f4844927.jpg",
+		"title": "Chump Change",
+		"description": "Spend $1",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767035037000,
+		"game": "Phasmophobia",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ed2d08f4f65a4c66d9af48a925c1b2a0be04e3b7.jpg",
+		"title": "Work Experience",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1767015217000,

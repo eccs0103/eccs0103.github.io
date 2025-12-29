@@ -1,5 +1,32 @@
 [
 	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766971259000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "531befaa030596aafebb9f12795286502ce99454"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766971222000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "531befaa030596aafebb9f12795286502ce99454"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766971171000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "89ae51eaa805f454118cc54f5934535ed74c2ff0"
+	},
+	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
 		"timestamp": 1766951385000,

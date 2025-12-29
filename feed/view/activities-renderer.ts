@@ -2,13 +2,54 @@
 
 import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
-import { Activity, GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity, SpotifyLikeActivity, SteamAchievementActivity } from "../models/activity.js";
+import { Activity, GitHubActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity, GitHubCreateTagActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, SpotifyActivity, SpotifyLikeActivity, SteamActivity, SteamAchievementActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { TextExpert } from "../services/text-expert.js";
 import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
 import { type Platform } from "../models/platform.js";
 
 const { baseURI } = document;
+
+//#region Activity batcher
+type Constructor<T> = abstract new (...args: any) => T;
+
+type BatchRenderer<T extends Activity> = (activities: readonly T[], platforms: Map<string, Platform>) => void;
+
+class ActivityBatcher {
+	#strategies: Map<Constructor<Activity>, BatchRenderer<Activity>> = new Map();
+
+	register<T extends Activity>(root: Constructor<T>, render: BatchRenderer<T>): void {
+		this.#strategies.set(root, render as BatchRenderer<Activity>);
+	}
+
+	#process<T extends Activity>(cursor: ArrayCursor<Activity>, root: Constructor<T>, gap: Readonly<Timespan>): readonly T[] {
+		const buffer: T[] = [];
+		let current = cursor.current as T;
+		while (true) {
+			buffer.push(current);
+			cursor.index++;
+			if (!cursor.inRange) break;
+			const next = cursor.current;
+			if (!(next instanceof root)) break;
+			const difference = Timespan.fromValue(current.timestamp.valueOf() - next.timestamp.valueOf());
+			if (difference.valueOf() > gap.valueOf()) break;
+			current = next;
+		}
+		return Object.freeze(buffer);
+	}
+
+	dispatch(cursor: ArrayCursor<Activity>, gap: Readonly<Timespan>, platforms: Map<string, Platform>): boolean {
+		const current = cursor.current;
+		for (const [root, render] of this.#strategies) {
+			if (!(current instanceof root)) continue;
+			const activities = this.#process(cursor, root, gap);
+			render(activities, platforms);
+			return true;
+		}
+		return false;
+	}
+}
+//#endregion
 
 //#region Activity renderer
 export interface ActivityRendererOptions {
@@ -18,9 +59,14 @@ export interface ActivityRendererOptions {
 
 export class ActivitiesRenderer {
 	#itemContainer: HTMLElement;
+	#batcher: ActivityBatcher;
 
-	constructor(itemContainer: HTMLElement,) {
+	constructor(itemContainer: HTMLElement) {
 		this.#itemContainer = itemContainer;
+		const batcher = this.#batcher = new ActivityBatcher();
+		batcher.register(GitHubActivity, this.#renderGitHubBlock.bind(this));
+		batcher.register(SpotifyActivity, this.#renderSpotifyBlock.bind(this));
+		batcher.register(SteamActivity, this.#renderSteamBlock.bind(this));
 	}
 
 	static #newActivity(itemContainer: HTMLElement, platforms: Map<string, Platform>, activity: Activity): HTMLElement {
@@ -148,9 +194,6 @@ export class ActivitiesRenderer {
 	static #renderSpotifyLikeActivity(itemContainer: HTMLElement, activity: SpotifyLikeActivity): void {
 		const { title, cover } = activity;
 
-		const spanAction = itemContainer.appendChild(document.createElement("span"));
-		spanAction.textContent = "Added to music collection";
-
 		const divEmbed = itemContainer.appendChild(document.createElement("div"));
 		divEmbed.classList.add("flex", "with-gap");
 
@@ -223,7 +266,7 @@ export class ActivitiesRenderer {
 		});
 	}
 
-	#renderCollectionSummary(container: HTMLElement, activities: GitHubActivity[]): void {
+	#renderCollectionSummary(container: HTMLElement, activities: readonly GitHubActivity[]): void {
 		const expert = new GitHubSummaryExpert(activities);
 		const linker: LinkerFunction = ActivitiesRenderer.#newLink.bind(ActivitiesRenderer);
 		const context = expert.build(linker);
@@ -232,7 +275,7 @@ export class ActivitiesRenderer {
 		template(printer, context);
 	}
 
-	#renderGitHubCollection(activities: GitHubActivity[], platforms: Map<string, Platform>): void {
+	#renderGitHubCollection(activities: readonly GitHubActivity[], platforms: Map<string, Platform>): void {
 		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activities[0]);
 
 		const details = itemContainer.appendChild(document.createElement("details"));
@@ -267,41 +310,36 @@ export class ActivitiesRenderer {
 		}
 	}
 
-	#renderGitHubContent(cursor: ArrayCursor<Activity>, platforms: Map<string, Platform>, gap: Readonly<Timespan>): void {
-		const buffer: GitHubActivity[] = [];
-
-		let current = cursor.current as GitHubActivity;
-		while (true) {
-			buffer.push(current);
-			cursor.index++;
-			if (!cursor.inRange) break;
-			const next = cursor.current;
-			if (!(next instanceof GitHubActivity)) break;
-			const difference = Timespan.fromValue(current.timestamp.valueOf() - next.timestamp.valueOf());
-			if (difference.valueOf() > gap.valueOf()) break;
-			current = next;
-		}
-
+	#renderGitHubBlock(buffer: readonly GitHubActivity[], platforms: Map<string, Platform>): void {
 		if (buffer.length > 1) return this.#renderGitHubCollection(buffer, platforms);
 		return this.#renderGitHubSingle(buffer[0], platforms);
 	}
 
-	#renderSpotifyContent(cursor: ArrayCursor<Activity>, platforms: Map<string, Platform>): void {
-		const activity = cursor.current as SpotifyLikeActivity;
-		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activity);
+	#renderSpotifyBlock(buffer: readonly SpotifyActivity[], platforms: Map<string, Platform>): void {
+		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, buffer[0]);
 		itemContainer.classList.add("flex", "column", "with-gap");
-		ActivitiesRenderer.#renderSpotifyLikeActivity(itemContainer, activity);
 
-		cursor.index++;
+		const spanAction = itemContainer.appendChild(document.createElement("span"));
+		spanAction.textContent = "Added to music collection";
+
+		for (const activity of buffer) {
+			if (activity instanceof SpotifyLikeActivity) {
+				ActivitiesRenderer.#renderSpotifyLikeActivity(itemContainer, activity);
+				continue;
+			}
+		}
 	}
 
-	#renderSteamContent(cursor: ArrayCursor<Activity>, platforms: Map<string, Platform>): void {
-		const activity = cursor.current as SteamAchievementActivity;
-		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activity);
+	#renderSteamBlock(buffer: readonly SteamActivity[], platforms: Map<string, Platform>): void {
+		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, buffer[0]);
 		itemContainer.classList.add("flex", "column", "with-gap");
-		ActivitiesRenderer.#renderSteamAchievementActivity(itemContainer, activity);
 
-		cursor.index++;
+		for (const activity of buffer) {
+			if (activity instanceof SteamAchievementActivity) {
+				ActivitiesRenderer.#renderSteamAchievementActivity(itemContainer, activity);
+				continue;
+			}
+		}
 	}
 
 	async render(activities: readonly Activity[], platforms: readonly Platform[]): Promise<void>;
@@ -313,21 +351,13 @@ export class ActivitiesRenderer {
 
 		const cursor = new ArrayCursor(activities);
 		const mapping = new Map(platforms.map(platform => [platform.name, platform]));
+		const batcher = this.#batcher;
 		while (cursor.inRange && limit > 0) {
-			const activity = cursor.current;
-			if (activity instanceof GitHubActivity) {
-				this.#renderGitHubContent(cursor, mapping, gap);
+			const processed = batcher.dispatch(cursor, gap, mapping);
+			if (!processed) {
+				cursor.index++;
 				continue;
 			}
-			if (activity instanceof SpotifyLikeActivity) {
-				this.#renderSpotifyContent(cursor, mapping);
-				continue;
-			}
-			if (activity instanceof SteamAchievementActivity) {
-				this.#renderSteamContent(cursor, mapping);
-				continue;
-			}
-			cursor.index++;
 			limit--;
 		}
 	}

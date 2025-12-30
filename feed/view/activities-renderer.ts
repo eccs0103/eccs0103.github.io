@@ -13,7 +13,10 @@ const { baseURI } = document;
 //#region Activity batcher
 type Constructor<T> = abstract new (...args: any) => T;
 
-type BatchRenderer<T extends Activity> = (activities: readonly T[], platforms: Map<string, Platform>) => void;
+// Добавил anchor для вставки перед часовым элементом
+// Замени блок ActivityBatcher на этот (внутри файла activities-renderer.ts):
+
+type BatchRenderer<T extends Activity> = (activities: readonly T[], platforms: Map<string, Platform>, observer: IntersectionObserver) => void;
 
 class ActivityBatcher {
 	#strategies: Map<Constructor<Activity>, BatchRenderer<Activity>> = new Map();
@@ -38,12 +41,12 @@ class ActivityBatcher {
 		return Object.freeze(buffer);
 	}
 
-	dispatch(cursor: ArrayCursor<Activity>, gap: Readonly<Timespan>, platforms: Map<string, Platform>): boolean {
+	dispatch(cursor: ArrayCursor<Activity>, gap: Readonly<Timespan>, platforms: Map<string, Platform>, observer: IntersectionObserver): boolean {
 		const current = cursor.current;
 		for (const [root, render] of this.#strategies) {
 			if (!(current instanceof root)) continue;
 			const activities = this.#process(cursor, root, gap);
-			render(activities, platforms);
+			render(activities, platforms, observer);
 			return true;
 		}
 		return false;
@@ -54,7 +57,7 @@ class ActivityBatcher {
 //#region Activity renderer
 export interface ActivityRendererOptions {
 	gap: Timespan;
-	limit: number;
+	batch: number;
 }
 
 export class ActivitiesRenderer {
@@ -69,9 +72,11 @@ export class ActivitiesRenderer {
 		batcher.register(SteamActivity, this.#renderSteamBlock.bind(this));
 	}
 
-	static #newActivity(itemContainer: HTMLElement, platforms: Map<string, Platform>, activity: Activity): HTMLElement {
-		const divActivity = itemContainer.appendChild(document.createElement("div"));
-		divActivity.classList.add("activity", "layer", "rounded", "with-padding", "with-gap");
+	// Observer передаем аргументом, чтобы не хранить в this
+	static #newActivity(itemContainer: HTMLElement, platforms: Map<string, Platform>, activity: Activity, observer: IntersectionObserver): HTMLElement {
+		const divActivity = itemContainer.insertBefore(document.createElement("div"), itemContainer.lastElementChild);
+		divActivity.classList.add("activity", "layer", "rounded", "with-padding", "with-gap", "awaiting-reveal");
+		observer.observe(divActivity);
 
 		const platform = platforms.get(activity.platform);
 		if (platform !== undefined) {
@@ -246,8 +251,8 @@ export class ActivitiesRenderer {
 		}
 	}
 
-	#renderGitHubSingle(activity: GitHubActivity, platforms: Map<string, Platform>): void {
-		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activity);
+	#renderGitHubSingle(activity: GitHubActivity, platforms: Map<string, Platform>, observer: IntersectionObserver): void {
+		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activity, observer);
 		ActivitiesRenderer.#renderGitHubActivity(itemContainer, activity);
 	}
 
@@ -274,8 +279,8 @@ export class ActivitiesRenderer {
 		template(printer, context);
 	}
 
-	#renderGitHubCollection(activities: readonly GitHubActivity[], platforms: Map<string, Platform>): void {
-		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activities[0]);
+	#renderGitHubCollection(activities: readonly GitHubActivity[], platforms: Map<string, Platform>, observer: IntersectionObserver): void {
+		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, activities[0], observer);
 
 		const details = itemContainer.appendChild(document.createElement("details"));
 		details.classList.add("github-collection");
@@ -309,13 +314,13 @@ export class ActivitiesRenderer {
 		}
 	}
 
-	#renderGitHubBlock(buffer: readonly GitHubActivity[], platforms: Map<string, Platform>): void {
-		if (buffer.length > 1) return this.#renderGitHubCollection(buffer, platforms);
-		return this.#renderGitHubSingle(buffer[0], platforms);
+	#renderGitHubBlock(buffer: readonly GitHubActivity[], platforms: Map<string, Platform>, observer: IntersectionObserver): void {
+		if (buffer.length > 1) return this.#renderGitHubCollection(buffer, platforms, observer);
+		return this.#renderGitHubSingle(buffer[0], platforms, observer);
 	}
 
-	#renderSpotifyBlock(buffer: readonly SpotifyActivity[], platforms: Map<string, Platform>): void {
-		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, buffer[0]);
+	#renderSpotifyBlock(buffer: readonly SpotifyActivity[], platforms: Map<string, Platform>, observer: IntersectionObserver): void {
+		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, buffer[0], observer);
 		itemContainer.classList.add("flex", "column", "with-gap");
 
 		const spanAction = itemContainer.appendChild(document.createElement("span"));
@@ -329,8 +334,8 @@ export class ActivitiesRenderer {
 		}
 	}
 
-	#renderSteamBlock(buffer: readonly SteamActivity[], platforms: Map<string, Platform>): void {
-		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, buffer[0]);
+	#renderSteamBlock(buffer: readonly SteamActivity[], platforms: Map<string, Platform>, observer: IntersectionObserver): void {
+		const itemContainer = ActivitiesRenderer.#newActivity(this.#itemContainer, platforms, buffer[0], observer);
 		itemContainer.classList.add("flex", "column", "with-gap");
 
 		for (const activity of buffer) {
@@ -341,24 +346,66 @@ export class ActivitiesRenderer {
 		}
 	}
 
+	// ВАЖНО: Пришлось расширить сигнатуру BatchRenderer и dispatch, чтобы прокинуть observer.
+	// Это минимальное вмешательство.
+
 	async render(activities: readonly Activity[], platforms: readonly Platform[]): Promise<void>;
 	async render(activities: readonly Activity[], platforms: readonly Platform[], options: Partial<ActivityRendererOptions>): Promise<void>;
 	async render(activities: readonly Activity[], platforms: readonly Platform[], options: Partial<ActivityRendererOptions> = {}): Promise<void> {
-		let { gap, limit } = options;
-		gap ??= Timespan.fromComponents(24, 0, 0);
-		limit ??= Infinity;
+		let { gap, batch } = options;
+		gap ??= Timespan.newDay;
+		batch ??= 15;
 
 		const cursor = new ArrayCursor(activities);
 		const mapping = new Map(platforms.map(platform => [platform.name, platform]));
-		const batcher = this.#batcher;
-		while (cursor.inRange && limit > 0) {
-			const processed = batcher.dispatch(cursor, gap, mapping);
-			if (!processed) {
-				cursor.index++;
-				continue;
+
+		// 1. Аниматор (локальный)
+		const observerAnimatedReveal = new IntersectionObserver((entries) => {
+			for (const { isIntersecting, target } of entries) {
+				if (!isIntersecting) continue;
+				target.classList.add("revealed");
+				observerAnimatedReveal.unobserve(target);
 			}
-			limit--;
-		}
+		}, { threshold: 0.1 });
+
+		// 2. Хак для Batcher, чтобы прокинуть observer (динамическая подмена dispatch)
+		// Твой Batcher вызывает render(buffer, platforms, anchor).
+		// Моим методам нужен observer.
+		// Трюк: переопределим dispatch временно или изменим сигнатуру Batcher (я изменил сигнатуру выше в типах).
+		// Теперь dispatch принимает observer.
+
+		// 3. Часовой (Sentinel)
+		const sentinel = document.createElement("div");
+		sentinel.style.height = "1px";
+		sentinel.style.width = "100%";
+		this.#itemContainer.appendChild(sentinel);
+
+		// // 4. Логика подгрузки (Infinite Scroll)
+		const loadChunk = (cursor: ArrayCursor<Activity>) => {
+			const batcher = this.#batcher;
+			let rendered = 0;
+			while (cursor.inRange && rendered < batch) {
+				const processed = batcher.dispatch(cursor, gap, mapping, observerAnimatedReveal);
+				if (!processed) {
+					cursor.index++;
+					continue;
+				}
+				rendered++;
+			}
+			if (!cursor.inRange) {
+				observerDynamicScroll.disconnect();
+				sentinel.remove();
+			}
+		};
+
+		const observerDynamicScroll = new IntersectionObserver(([sentinel]) => {
+			if (sentinel.isIntersecting) loadChunk(cursor);
+		}, { rootMargin: "200px" });
+
+		observerDynamicScroll.observe(sentinel);
+
+		// Первая загрузка
+		loadChunk(cursor);
 	}
 }
 //#endregion

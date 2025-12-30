@@ -12,15 +12,15 @@
 		"is_active": true
 	},
 	{
-		"name": "Telegram",
-		"icon": "./icons/telegram.svg",
-		"webpage": "https://t.me/eccs0103",
+		"name": "LinkedIn",
+		"icon": "./icons/linkedin.svg",
+		"webpage": "https://www.linkedin.com/in/eccs0103",
 		"is_active": false
 	},
 	{
-		"name": "ВКонтакте",
-		"icon": "./icons/vk.svg",
-		"webpage": "https://vk.com/eccs0103",
+		"name": "Telegram",
+		"icon": "./icons/telegram.svg",
+		"webpage": "https://t.me/eccs0103",
 		"is_active": false
 	},
 	{
@@ -30,16 +30,16 @@
 		"is_active": false
 	},
 	{
+		"name": "ВКонтакте",
+		"icon": "./icons/vk.svg",
+		"webpage": "https://vk.com/eccs0103",
+		"is_active": false
+	},
+	{
 		"name": "Spotify",
 		"icon": "./icons/spotify.svg",
 		"webpage": "https://open.spotify.com/user/317zm5tuh2bgwxdckyqgxkjlxqji",
 		"is_active": true
-	},
-	{
-		"name": "Pinterest",
-		"icon": "./icons/pinterest.svg",
-		"webpage": "https://www.pinterest.com/eccs0103/",
-		"is_active": false
 	},
 	{
 		"name": "Steam",

@@ -26,7 +26,7 @@ class WebpageController extends Controller {
 
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);
-		rendererActivies.render(activities, platforms);
+		await rendererActivies.render(activities, platforms);
 
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);

@@ -1,5 +1,25 @@
 [
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767124245000,
+		"game": "Phasmophobia",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/fa94d0e7a3ba509826754e962e603d7bd6f90f51.jpg",
+		"title": "Raiju Discovered",
+		"description": "Successfully identify your first Raiju and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767120428000,
+		"game": "Phasmophobia",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/c68cb898a26bed8e947984cd48ea1a3dcb7a5939.jpg",
+		"title": "Yokai Discovered",
+		"description": "Successfully identify your first Yokai and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1767094291000,

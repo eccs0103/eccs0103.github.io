@@ -1,5 +1,24 @@
 [
 	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767055468000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c1bf042d9b7a4af775477a346320d35ba75044df"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767043553000,
+		"game": "Phasmophobia",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/8f0eee4b8ee2dd7f82c521dcaa6cfba7da4b169b.jpg",
+		"title": "Poltergeist Discovered",
+		"description": "Successfully identify your first Poltergeist and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
 		"timestamp": 1767036416000,

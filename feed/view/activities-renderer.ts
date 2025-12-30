@@ -73,7 +73,6 @@ export class ActivitiesRenderer {
 		this.#itemContainer = itemContainer;
 	}
 
-	// Observer передаем аргументом, чтобы не хранить в this
 	static #newActivity(itemContainer: HTMLElement, platforms: Map<string, Platform>, activity: Activity, observer: IntersectionObserver): HTMLElement {
 		const divActivity = itemContainer.insertBefore(document.createElement("div"), itemContainer.lastElementChild);
 		divActivity.classList.add("activity", "layer", "rounded", "with-padding", "with-gap", "awaiting-reveal");
@@ -347,9 +346,6 @@ export class ActivitiesRenderer {
 		}
 	}
 
-	// ВАЖНО: Пришлось расширить сигнатуру BatchRenderer и dispatch, чтобы прокинуть observer.
-	// Это минимальное вмешательство.
-
 	async render(activities: readonly Activity[], platforms: readonly Platform[]): Promise<void>;
 	async render(activities: readonly Activity[], platforms: readonly Platform[], options: Partial<ActivityRendererOptions>): Promise<void>;
 	async render(activities: readonly Activity[], platforms: readonly Platform[], options: Partial<ActivityRendererOptions> = {}): Promise<void> {
@@ -365,7 +361,6 @@ export class ActivitiesRenderer {
 		const cursor = new ArrayCursor(activities);
 		const mapping = new Map(platforms.map(platform => [platform.name, platform]));
 
-		// 1. Аниматор (локальный)
 		const observerAnimatedReveal = new IntersectionObserver((entries) => {
 			for (const { isIntersecting, target } of entries) {
 				if (!isIntersecting) continue;
@@ -374,19 +369,11 @@ export class ActivitiesRenderer {
 			}
 		}, { threshold: 0.1 });
 
-		// 2. Хак для Batcher, чтобы прокинуть observer (динамическая подмена dispatch)
-		// Твой Batcher вызывает render(buffer, platforms, anchor).
-		// Моим методам нужен observer.
-		// Трюк: переопределим dispatch временно или изменим сигнатуру Batcher (я изменил сигнатуру выше в типах).
-		// Теперь dispatch принимает observer.
-
-		// 3. Часовой (Sentinel)
 		const sentinel = document.createElement("div");
 		sentinel.style.height = "1px";
 		sentinel.style.width = "100%";
 		this.#itemContainer.appendChild(sentinel);
 
-		// // 4. Логика подгрузки (Infinite Scroll)
 		const loadChunk = (cursor: ArrayCursor<Activity>) => {
 			const batcher = this.#batcher;
 			let rendered = 0;
@@ -410,7 +397,6 @@ export class ActivitiesRenderer {
 
 		observerDynamicScroll.observe(sentinel);
 
-		// Первая загрузка
 		loadChunk(cursor);
 	}
 }

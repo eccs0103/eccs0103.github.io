@@ -10,22 +10,27 @@ import { type Platform } from "../models/platform.js";
 
 const { baseURI } = document;
 
+type Constructor<R, P extends readonly any[] = any[]> = abstract new (...args: P) => R;
+
 //#region Activity batcher
-type Constructor<T> = abstract new (...args: any) => T;
-
-// Добавил anchor для вставки перед часовым элементом
-// Замени блок ActivityBatcher на этот (внутри файла activities-renderer.ts):
-
-type BatchRenderer<T extends Activity> = (activities: readonly T[], platforms: Map<string, Platform>, observer: IntersectionObserver) => void;
+interface BatchRenderer<T extends Activity> {
+	(activities: readonly T[], platforms: Map<string, Platform>, observer: IntersectionObserver): void;
+}
 
 class ActivityBatcher {
 	#strategies: Map<Constructor<Activity>, BatchRenderer<Activity>> = new Map();
+	#gap: Readonly<Timespan>;
+
+	constructor(gap: Readonly<Timespan>) {
+		this.#gap = gap;
+	}
 
 	register<T extends Activity>(root: Constructor<T>, render: BatchRenderer<T>): void {
 		this.#strategies.set(root, render as BatchRenderer<Activity>);
 	}
 
-	#process<T extends Activity>(cursor: ArrayCursor<Activity>, root: Constructor<T>, gap: Readonly<Timespan>): readonly T[] {
+	#collect<T extends Activity>(cursor: ArrayCursor<Activity>, root: Constructor<T>): T[] {
+		const gap = this.#gap;
 		const buffer: T[] = [];
 		let current = cursor.current as T;
 		while (true) {
@@ -38,14 +43,14 @@ class ActivityBatcher {
 			if (difference.valueOf() > gap.valueOf()) break;
 			current = next;
 		}
-		return Object.freeze(buffer);
+		return buffer;
 	}
 
-	dispatch(cursor: ArrayCursor<Activity>, gap: Readonly<Timespan>, platforms: Map<string, Platform>, observer: IntersectionObserver): boolean {
+	dispatch(cursor: ArrayCursor<Activity>, platforms: Map<string, Platform>, observer: IntersectionObserver): boolean {
 		const current = cursor.current;
 		for (const [root, render] of this.#strategies) {
 			if (!(current instanceof root)) continue;
-			const activities = this.#process(cursor, root, gap);
+			const activities = this.#collect(cursor, root);
 			render(activities, platforms, observer);
 			return true;
 		}
@@ -66,10 +71,6 @@ export class ActivitiesRenderer {
 
 	constructor(itemContainer: HTMLElement) {
 		this.#itemContainer = itemContainer;
-		const batcher = this.#batcher = new ActivityBatcher();
-		batcher.register(GitHubActivity, this.#renderGitHubBlock.bind(this));
-		batcher.register(SpotifyActivity, this.#renderSpotifyBlock.bind(this));
-		batcher.register(SteamActivity, this.#renderSteamBlock.bind(this));
 	}
 
 	// Observer передаем аргументом, чтобы не хранить в this
@@ -356,6 +357,11 @@ export class ActivitiesRenderer {
 		gap ??= Timespan.newDay;
 		batch ??= 15;
 
+		const batcher = this.#batcher = new ActivityBatcher(gap);
+		batcher.register(GitHubActivity, this.#renderGitHubBlock.bind(this));
+		batcher.register(SpotifyActivity, this.#renderSpotifyBlock.bind(this));
+		batcher.register(SteamActivity, this.#renderSteamBlock.bind(this));
+
 		const cursor = new ArrayCursor(activities);
 		const mapping = new Map(platforms.map(platform => [platform.name, platform]));
 
@@ -385,7 +391,7 @@ export class ActivitiesRenderer {
 			const batcher = this.#batcher;
 			let rendered = 0;
 			while (cursor.inRange && rendered < batch) {
-				const processed = batcher.dispatch(cursor, gap, mapping, observerAnimatedReveal);
+				const processed = batcher.dispatch(cursor, mapping, observerAnimatedReveal);
 				if (!processed) {
 					cursor.index++;
 					continue;

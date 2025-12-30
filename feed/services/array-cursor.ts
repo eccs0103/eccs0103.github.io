@@ -2,6 +2,8 @@
 
 import "adaptive-extender/core";
 
+type Constructor<T> = abstract new (...args: any) => T;
+
 //#region Array cursor
 export class ArrayCursor<T> {
 	#items: readonly T[];

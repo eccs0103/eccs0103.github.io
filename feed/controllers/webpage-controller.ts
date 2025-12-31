@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller, Timespan } from "adaptive-extender/web";
+import { Controller } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ClientDataTable } from "../services/client-data-table.js";
 import { Activity } from "../models/activity.js";

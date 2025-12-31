@@ -8,72 +8,72 @@ import { DOMBuilder } from "./view-builders.js";
 import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
 
 //#region GitHub render strategy
-export class GitHubRenderStrategy implements ActivityRenderStrategy {
+export class GitHubRenderStrategy implements ActivityRenderStrategy<GitHubActivity> {
 	#renderPush(itemContainer: HTMLElement, activity: GitHubPushActivity, count: number): void {
 		const { url, sha, repository } = activity;
 		itemContainer.appendChild(DOMBuilder.newText("Published "));
-		itemContainer.appendChild(DOMBuilder.newLink(`${count} update${TextExpert.getPluralSuffix(count)}`, `${url}/commit/${sha}`));
+		itemContainer.appendChild(DOMBuilder.newLink(`${count} update${TextExpert.getPluralSuffix(count)}`, new URL(`${url}/commit/${sha}`)));
 		itemContainer.appendChild(DOMBuilder.newText(" to the source code of "));
-		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}
 
 	#renderRelease(itemContainer: HTMLElement, activity: GitHubReleaseActivity): void {
 		const { isPrerelease, title, url, repository } = activity;
 		itemContainer.appendChild(DOMBuilder.newText(isPrerelease ? "Rolled out a test version " : "Shipped update "));
-		itemContainer.appendChild(DOMBuilder.newLink(title, url));
+		itemContainer.appendChild(DOMBuilder.newLink(title, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText(" for "));
-		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}
 
 	#renderWatch(itemContainer: HTMLElement, activity: GitHubWatchActivity): void {
 		const { repository, url } = activity;
 		itemContainer.appendChild(DOMBuilder.newText("Discovered and bookmarked the "));
-		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText(" open-source project."));
 	}
 
 	#renderCreateTag(itemContainer: HTMLElement, activity: GitHubCreateTagActivity): void {
 		const { name, url, repository } = activity;
 		itemContainer.appendChild(DOMBuilder.newText("Marked a new milestone "));
-		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/releases/tag/${name}`));
+		itemContainer.appendChild(DOMBuilder.newLink(name, new URL(`${url}/releases/tag/${name}`)));
 		itemContainer.appendChild(DOMBuilder.newText(" in "));
-		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText(" history."));
 	}
 
 	#renderCreateBranch(itemContainer: HTMLElement, activity: GitHubCreateBranchActivity): void {
 		const { name, url, repository } = activity;
 		itemContainer.appendChild(DOMBuilder.newText("Started working on a new feature \""));
-		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/tree/${name}`));
+		itemContainer.appendChild(DOMBuilder.newLink(name, new URL(`${url}/tree/${name}`)));
 		itemContainer.appendChild(DOMBuilder.newText("\" in "));
-		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}
 
 	#renderCreateRepository(itemContainer: HTMLElement, activity: GitHubCreateRepositoryActivity): void {
 		const { name, url } = activity;
 		itemContainer.appendChild(DOMBuilder.newText("Initiated a new repository named "));
-		itemContainer.appendChild(DOMBuilder.newLink(name, url));
+		itemContainer.appendChild(DOMBuilder.newLink(name, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}
 
 	#renderDeleteTag(itemContainer: HTMLElement, activity: GitHubDeleteTagActivity): void {
 		const { name, repository, url } = activity;
 		itemContainer.appendChild(DOMBuilder.newText("Unpublished version "));
-		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/releases/tag/${name}`, true));
+		itemContainer.appendChild(DOMBuilder.newLink(name, new URL(`${url}/releases/tag/${name}`), true));
 		itemContainer.appendChild(DOMBuilder.newText(" from "));
-		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}
 
 	#renderDeleteBranch(itemContainer: HTMLElement, activity: GitHubDeleteBranchActivity): void {
 		const { name, url, repository } = activity;
 		itemContainer.appendChild(DOMBuilder.newText("Removed the "));
-		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/tree/${name}`, true));
+		itemContainer.appendChild(DOMBuilder.newLink(name, new URL(`${url}/tree/${name}`), true));
 		itemContainer.appendChild(DOMBuilder.newText(" draft from "));
-		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}
 

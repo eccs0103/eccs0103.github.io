@@ -23,9 +23,9 @@ class WorkflowReport {
 	#magnitude: number;
 	#label: string;
 	#modifier: string;
-	#urls: Map<string, string>;
+	#urls: Map<string, URL>;
 
-	constructor(vibe: ReportVibes, primary: string, secondary: string | undefined, magnitude: number, label: string, modifier: string, urls: Map<string, string>) {
+	constructor(vibe: ReportVibes, primary: string, secondary: string | undefined, magnitude: number, label: string, modifier: string, urls: Map<string, URL>) {
 		this.#vibe = vibe;
 		this.#primary = primary;
 		this.#secondary = secondary;
@@ -59,7 +59,7 @@ class WorkflowReport {
 		return this.#modifier;
 	}
 
-	get urls(): Map<string, string> {
+	get urls(): Map<string, URL> {
 		return this.#urls;
 	}
 }
@@ -107,7 +107,7 @@ export interface PrinterFunction {
 }
 
 export interface LinkerFunction {
-	(text: string, url: string): Node;
+	(text: string, url: URL): Node;
 }
 
 export interface TemplateRenderer {
@@ -164,7 +164,7 @@ export class GitHubSummaryExpert {
 	}
 
 	static #analyze(activities: readonly GitHubActivity[]): WorkflowReport {
-		const urls: Map<string, string> = new Map();
+		const urls: Map<string, URL> = new Map();
 		const usage: Map<string, number> = new Map();
 		let pushes: number = 0;
 		let creations: number = 0;
@@ -176,7 +176,7 @@ export class GitHubSummaryExpert {
 		let hasTagDeletions = false;
 
 		for (const activity of activities) {
-			if (!urls.has(activity.repository)) urls.set(activity.repository, activity.url);
+			if (!urls.has(activity.repository)) urls.set(activity.repository, new URL(activity.url));
 			const count = usage.get(activity.repository) ?? 0;
 			usage.set(activity.repository, count + 1);
 

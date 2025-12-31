@@ -34,12 +34,14 @@
 	}
 
 	--time-duration: 100ms;
+	--time-reveal-duration: calc(3 * var(--time-duration));
+
 	--color-highlight: hsl(200deg, 100%, 50%);
 	--color-warn: hsl(60deg 100% 40%);
 	--color-error: hsl(0deg, 100%, 60%);
 	--color-shadow: hsla(0deg, 0%, 0%, 0.75);
 
-	color-scheme: light dark; 
+	color-scheme: light dark;
 }
 
 /* Global */
@@ -54,19 +56,19 @@ body {
 	}
 }
 
-*.layer {
+.layer {
 	background-color: var(--color-main);
 }
 
-*.depth {
+.depth {
 	background-color: var(--color-heavy-main);
 }
 
-*.translucent {
+.translucent {
 	background-color: var(--color-shadow);
 }
 
-*.rounded {
+.rounded {
 	border-radius: var(--size-gap);
 
 	&.in-top {
@@ -90,12 +92,34 @@ body {
 	}
 }
 
-*.transparent {
+.transparent {
 	background-color: transparent;
 }
 
+.awaiting-reveal {
+	opacity: 0;
+	transform: translateY(var(--size-standart));
+	transition:
+		opacity var(--time-reveal-duration) cubic-bezier(0.2, 0.8, 0.2, 1),
+		transform var(--time-reveal-duration) cubic-bezier(0.2, 0.8, 0.2, 1);
+	will-change: opacity, transform;
+}
+
+.revealed {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awaiting-reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
 span.icon {
-	background-color: currentColor; 
+	background-color: currentColor;
 	-webkit-mask-image: var(--url);
 	mask-image: var(--url);
 	-webkit-mask-repeat: no-repeat;
@@ -203,7 +227,7 @@ dt {
 }
 
 code,
-*.code {
+.code {
 	font-family: "Cascadia Code", "Consolas", monospace;
 	tab-size: 4;
 }
@@ -213,30 +237,30 @@ a {
 	text-decoration: none;
 }
 
-*.highlight,
+.highlight,
 a:not([role]):any-link {
 	color: var(--color-highlight);
 }
 
-*.highlight-background {
+.highlight-background {
 	background-color: var(--color-highlight);
 }
 
 mark,
-*.warn,
-*.mark {
+.warn,
+.mark {
 	color: var(--color-warn);
 }
 
-*.warn-background {
+.warn-background {
 	background-color: var(--color-warn);
 }
 
-*.invalid {
+.invalid {
 	color: var(--color-error);
 }
 
-*.invalid-background {
+.invalid-background {
 	background-color: var(--color-error);
 }
 
@@ -246,7 +270,7 @@ hr {
 
 dfn,
 time,
-*.description {
+.description {
 	color: var(--color-light-negative);
 }
 

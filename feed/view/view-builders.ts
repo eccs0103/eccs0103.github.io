@@ -13,11 +13,19 @@ export class DOMBuilder {
 		return document.createTextNode(text);
 	}
 
-	static newLink(text: string, url: string): HTMLAnchorElement;
-	static newLink(text: string, url: string, disabled: boolean): HTMLAnchorElement;
-	static newLink(text: string, url: string, disabled: boolean = false): HTMLAnchorElement {
+	static newDescription(text: string): HTMLElement {
+		const spanDescription = document.createElement("span");
+		spanDescription.classList.add("description");
+		spanDescription.textContent = text;
+
+		return spanDescription;
+	}
+
+	static newLink(text: string, url: URL): HTMLAnchorElement;
+	static newLink(text: string, url: URL, disabled: boolean): HTMLAnchorElement;
+	static newLink(text: string, url: URL, disabled: boolean = false): HTMLAnchorElement {
 		const aLink = document.createElement("a");
-		aLink.href = url;
+		aLink.href = String(url);
 		aLink.textContent = text;
 		aLink.target = "_blank";
 		aLink.rel = "noopener noreferrer";
@@ -41,9 +49,17 @@ export class DOMBuilder {
 //#endregion
 //#region Activity builder
 export class ActivityBuilder {
-	static newContainer(itemParent: HTMLElement, platforms: Map<string, Platform>, activity: Activity): HTMLElement {
+	static newSentinel(itemContainer: HTMLElement): HTMLElement {
+		const itemSentinel = itemContainer.appendChild(document.createElement("div"));
+		itemSentinel.classList.add("sentinel");
+
+		return itemSentinel;
+	}
+
+	static newContainer(itemParent: HTMLElement, platforms: Map<string, Platform>, activity: Activity, observer: IntersectionObserver): HTMLElement {
 		const itemContainer = itemParent.insertBefore(document.createElement("div"), itemParent.lastElementChild);
 		itemContainer.classList.add("activity", "layer", "rounded", "with-padding", "with-gap", "awaiting-reveal");
+		observer.observe(itemContainer);
 
 		const platform = platforms.get(activity.platform);
 		if (platform !== undefined) {
@@ -61,10 +77,10 @@ export class ActivityBuilder {
 		timeElement.textContent = TextExpert.formatTime(activity.timestamp);
 		timeElement.classList.add("activity-time");
 
-		const content = itemContainer.appendChild(document.createElement("div"));
-		content.classList.add("content");
+		const divContent = itemContainer.appendChild(document.createElement("div"));
+		divContent.classList.add("content");
 
-		return content;
+		return divContent;
 	}
 }
 //#endregion

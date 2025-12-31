@@ -3,10 +3,10 @@
 import "adaptive-extender/web";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
 import { SpotifyActivity, SpotifyLikeActivity } from "../models/activity.js";
-import { DOMBuilder } from "./view-builders";
+import { DOMBuilder } from "./view-builders.js";
 
 //#region Spotify render strategy
-export class SpotifyRenderStrategy implements ActivityRenderStrategy {
+export class SpotifyRenderStrategy implements ActivityRenderStrategy<SpotifyActivity> {
 	#renderLike(itemContainer: HTMLElement, activity: SpotifyLikeActivity): void {
 		const { title, cover } = activity;
 
@@ -31,20 +31,22 @@ export class SpotifyRenderStrategy implements ActivityRenderStrategy {
 		spanArtists.classList.add("description");
 		spanArtists.style.fontSize = "0.9em";
 
-		const aLink = divInformation.appendChild(DOMBuilder.newLink("Listen on Spotify ↗", activity.url));
+		const aLink = divInformation.appendChild(DOMBuilder.newLink("Listen on Spotify ↗", new URL(activity.url)));
 		aLink.classList.add("spotify-link", "with-block-padding");
+	}
+
+	#renderSingle(itemContainer: HTMLElement, activity: SpotifyActivity): void {
+		if (activity instanceof SpotifyLikeActivity) return this.#renderLike(itemContainer, activity);
 	}
 
 	render(itemContainer: HTMLElement, buffer: readonly SpotifyActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
+		
 		const spanLabel = itemContainer.appendChild(document.createElement("span"));
 		spanLabel.textContent = "Added to music collection";
 
 		for (const activity of buffer) {
-			if (activity instanceof SpotifyLikeActivity) {
-				this.#renderLike(itemContainer, activity);
-				continue;
-			}
+			this.#renderSingle(itemContainer, activity);
 		}
 	}
 }

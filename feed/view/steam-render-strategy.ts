@@ -5,8 +5,8 @@ import { DOMBuilder } from "./view-builders.js";
 import { SteamAchievementActivity, SteamActivity } from "../models/activity.js";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
 
-//#region SteamRenderStrategy
-export class SteamRenderStrategy implements ActivityRenderStrategy {
+//#region Steam render trategy
+export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity> {
 	#renderAchievement(itemContainer: HTMLElement, activity: SteamAchievementActivity): void {
 		const { game, title, description, url, icon } = activity;
 
@@ -25,7 +25,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy {
 
 		const spanHeader = divInformation.appendChild(document.createElement("span"));
 		spanHeader.appendChild(DOMBuilder.newText("Earned \""));
-		spanHeader.appendChild(DOMBuilder.newLink(title, url));
+		spanHeader.appendChild(DOMBuilder.newLink(title, new URL(url)));
 		spanHeader.appendChild(DOMBuilder.newText(`\" in ${game}`));
 
 		if (description !== null && !String.isWhitespace(description)) {
@@ -35,13 +35,15 @@ export class SteamRenderStrategy implements ActivityRenderStrategy {
 		}
 	}
 
+	#renderSingle(itemContainer: HTMLElement, activity: SteamActivity): void {
+		if (activity instanceof SteamAchievementActivity) return this.#renderAchievement(itemContainer, activity);
+	}
+
 	render(itemContainer: HTMLElement, buffer: readonly SteamActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
+
 		for (const activity of buffer) {
-			if (activity instanceof SteamAchievementActivity) {
-				this.#renderAchievement(itemContainer, activity);
-				continue;
-			}
+			this.#renderSingle(itemContainer, activity);
 		}
 	}
 }

@@ -21,43 +21,8 @@
 	}
 }
 
-@media only screen {
-	:root {
-		--size-standart: calc(8vmin);
-	}
-}
-
-@media only screen and (min-width: 600px) {
-	:root {
-		--size-standart: calc(7vmin);
-	}
-}
-
-@media only screen and (min-width: 768px) {
-	:root {
-		--size-standart: calc(6vmin);
-	}
-}
-
-@media only screen and (min-width: 992px) {
-	:root {
-		--size-standart: calc(5vmin);
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	:root {
-		--size-standart: calc(4vmin);
-	}
-}
-
-@media only screen and (min-width: 1600px) {
-	:root {
-		--size-standart: calc(3vmin);
-	}
-}
-
 :root {
+	--size-standart: clamp(1.75rem, 1rem + 1.5vmin, 2.25rem);
 	--size-gap: calc(var(--size-standart) / 4);
 	--size-large-standart: calc(var(--size-standart) * 2);
 	--size-large-gap: calc(var(--size-gap) * 2);

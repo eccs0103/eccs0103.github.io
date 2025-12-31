@@ -1,0 +1,133 @@
+"use strict";
+
+import "adaptive-extender/web";
+import { type ActivityRenderStrategy } from "./activities-renderer.js";
+import { GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity } from "../models/activity.js";
+import { TextExpert } from "../services/text-expert.js";
+import { DOMBuilder } from "./view-builders.js";
+import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
+
+//#region GitHub render strategy
+export class GitHubRenderStrategy implements ActivityRenderStrategy {
+	#renderPush(itemContainer: HTMLElement, activity: GitHubPushActivity, count: number): void {
+		const { url, sha, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Published "));
+		itemContainer.appendChild(DOMBuilder.newLink(`${count} update${TextExpert.getPluralSuffix(count)}`, `${url}/commit/${sha}`));
+		itemContainer.appendChild(DOMBuilder.newText(" to the source code of "));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderRelease(itemContainer: HTMLElement, activity: GitHubReleaseActivity): void {
+		const { isPrerelease, title, url, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText(isPrerelease ? "Rolled out a test version " : "Shipped update "));
+		itemContainer.appendChild(DOMBuilder.newLink(title, url));
+		itemContainer.appendChild(DOMBuilder.newText(" for "));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderWatch(itemContainer: HTMLElement, activity: GitHubWatchActivity): void {
+		const { repository, url } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Discovered and bookmarked the "));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newText(" open-source project."));
+	}
+
+	#renderCreateTag(itemContainer: HTMLElement, activity: GitHubCreateTagActivity): void {
+		const { name, url, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Marked a new milestone "));
+		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/releases/tag/${name}`));
+		itemContainer.appendChild(DOMBuilder.newText(" in "));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newText(" history."));
+	}
+
+	#renderCreateBranch(itemContainer: HTMLElement, activity: GitHubCreateBranchActivity): void {
+		const { name, url, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Started working on a new feature \""));
+		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/tree/${name}`));
+		itemContainer.appendChild(DOMBuilder.newText("\" in "));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderCreateRepository(itemContainer: HTMLElement, activity: GitHubCreateRepositoryActivity): void {
+		const { name, url } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Initiated a new repository named "));
+		itemContainer.appendChild(DOMBuilder.newLink(name, url));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderDeleteTag(itemContainer: HTMLElement, activity: GitHubDeleteTagActivity): void {
+		const { name, repository, url } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Unpublished version "));
+		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/releases/tag/${name}`, true));
+		itemContainer.appendChild(DOMBuilder.newText(" from "));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderDeleteBranch(itemContainer: HTMLElement, activity: GitHubDeleteBranchActivity): void {
+		const { name, url, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Removed the "));
+		itemContainer.appendChild(DOMBuilder.newLink(name, `${url}/tree/${name}`, true));
+		itemContainer.appendChild(DOMBuilder.newText(" draft from "));
+		itemContainer.appendChild(DOMBuilder.newLink(repository, url));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderSingle(itemContainer: HTMLElement, activity: GitHubActivity): void {
+		if (activity instanceof GitHubPushActivity) return this.#renderPush(itemContainer, activity, 1);
+		if (activity instanceof GitHubReleaseActivity) return this.#renderRelease(itemContainer, activity);
+		if (activity instanceof GitHubWatchActivity) return this.#renderWatch(itemContainer, activity);
+		if (activity instanceof GitHubCreateTagActivity) return this.#renderCreateTag(itemContainer, activity);
+		if (activity instanceof GitHubCreateBranchActivity) return this.#renderCreateBranch(itemContainer, activity);
+		if (activity instanceof GitHubCreateRepositoryActivity) return this.#renderCreateRepository(itemContainer, activity);
+		if (activity instanceof GitHubDeleteBranchActivity) return this.#renderDeleteBranch(itemContainer, activity);
+		if (activity instanceof GitHubDeleteTagActivity) return this.#renderDeleteTag(itemContainer, activity);
+	}
+
+	#renderCollection(itemContainer: HTMLElement, activities: readonly GitHubActivity[]): void {
+		const details = itemContainer.appendChild(document.createElement("details"));
+		details.classList.add("github-collection");
+		details.open = true;
+
+		const summary = details.appendChild(document.createElement("summary"));
+		const expert = new GitHubSummaryExpert(activities);
+		const linker: LinkerFunction = DOMBuilder.newLink;
+		const context = expert.build(linker);
+		const template = expert.choose();
+		const printer: PrinterFunction = DOMBuilder.print.bind(null, summary);
+		template(printer, context);
+
+		const ulContent = details.appendChild(document.createElement("ul"));
+		ulContent.classList.add("collection-content");
+
+		for (let index = 0; index < activities.length; index++) {
+			const activity = activities[index];
+			const liItem = ulContent.appendChild(document.createElement("li"));
+
+			if (!(activity instanceof GitHubPushActivity)) {
+				this.#renderSingle(liItem, activity);
+				continue;
+			}
+
+			let count = 1;
+			while (index + 1 < activities.length) {
+				const current = activities[index + 1];
+				if (!(current instanceof GitHubPushActivity)) break;
+				if (current.repository !== activity.repository) break;
+				count++;
+				index++;
+			}
+			this.#renderPush(liItem, activity, count);
+		}
+	}
+
+	render(itemContainer: HTMLElement, buffer: readonly GitHubActivity[]): void {
+		if (buffer.length > 1) return this.#renderCollection(itemContainer, buffer);
+		return this.#renderSingle(itemContainer, buffer[0]);
+	}
+}
+//#endregion

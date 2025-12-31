@@ -73,6 +73,7 @@ export class SteamWalker extends ActivityWalker {
 			if (game.playtimeForever < 20) continue;
 			const { appId, imgIconUrl, hasCommunityVisibleStats } = game;
 			if (hasCommunityVisibleStats === undefined || !hasCommunityVisibleStats) continue;
+			const webpage = `https://store.steampowered.com/app/${appId}`;
 			const schema = await this.#fetchGameSchema(appId);
 			const icons = new Map(schema?.game.availableGameStats?.achievements?.map(({ name, icon }) => [name, icon]));
 			for await (const achievement of this.#fetchAchievements(appId)) {
@@ -84,7 +85,7 @@ export class SteamWalker extends ActivityWalker {
 					Reflect.mapUndefined(imgIconUrl, url => `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${url}.jpg`) ??
 					null;
 				const url = `https://steamcommunity.com/stats/${appId}/achievements`;
-				yield new SteamAchievementActivity(this.name, unlockTime, game.name, icon, achievement.name ?? apiName, achievement.description ?? null, url);
+				yield new SteamAchievementActivity(this.name, unlockTime, game.name, webpage, icon, achievement.name ?? apiName, achievement.description ?? null, url);
 			}
 		}
 	}

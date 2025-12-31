@@ -132,7 +132,6 @@ export class GitHubActivity extends Activity {
 	}
 }
 //#endregion
-
 //#region GitHub push activity
 export interface GitHubPushActivityDiscriminator {
 	"GitHubPushActivity": GitHubPushActivity;
@@ -179,7 +178,6 @@ export class GitHubPushActivity extends GitHubActivity {
 	}
 }
 //#endregion
-
 //#region GitHub release activity
 export interface GitHubReleaseActivityDiscriminator {
 	"GitHubReleaseActivity": GitHubReleaseActivity;
@@ -235,7 +233,6 @@ export class GitHubReleaseActivity extends GitHubActivity {
 	}
 }
 //#endregion
-
 //#region GitHub watch activity
 export interface GitHubWatchActivityDiscriminator {
 	"GitHubWatchActivity": GitHubWatchActivity;
@@ -272,7 +269,6 @@ export class GitHubWatchActivity extends GitHubActivity {
 	}
 }
 //#endregion
-
 //#region GitHub create activity
 export interface GitHubCreateActivityDiscriminator extends GitHubCreateTagActivityDiscriminator, GitHubCreateBranchActivityDiscriminator, GitHubCreateRepositoryActivityDiscriminator {
 }
@@ -314,7 +310,6 @@ export class GitHubCreateActivity extends GitHubActivity {
 	}
 }
 //#endregion
-
 //#region GitHub create tag activity
 export interface GitHubCreateTagActivityDiscriminator {
 	"GitHubCreateTagActivity": GitHubCreateTagActivity;
@@ -353,7 +348,6 @@ export class GitHubCreateTagActivity extends GitHubCreateActivity {
 	}
 }
 //#endregion
-
 //#region GitHub create branch activity
 export interface GitHubCreateBranchActivityDiscriminator {
 	"GitHubCreateBranchActivity": GitHubCreateBranchActivity;
@@ -392,7 +386,6 @@ export class GitHubCreateBranchActivity extends GitHubCreateActivity {
 	}
 }
 //#endregion
-
 //#region GitHub create repository activity
 export interface GitHubCreateRepositoryActivityDiscriminator {
 	"GitHubCreateRepositoryActivity": GitHubCreateRepositoryActivity;
@@ -431,7 +424,6 @@ export class GitHubCreateRepositoryActivity extends GitHubCreateActivity {
 	}
 }
 //#endregion
-
 //#region GitHub delete activity
 export interface GitHubDeleteActivityDiscriminator extends GitHubDeleteTagActivityDiscriminator, GitHubDeleteBranchActivityDiscriminator {
 }
@@ -471,7 +463,6 @@ export class GitHubDeleteActivity extends GitHubActivity {
 	}
 }
 //#endregion
-
 //#region GitHub delete tag activity
 export interface GitHubDeleteTagActivityDiscriminator {
 	"GitHubDeleteTagActivity": GitHubDeleteTagActivity;
@@ -510,7 +501,6 @@ export class GitHubDeleteTagActivity extends GitHubDeleteActivity {
 	}
 }
 //#endregion
-
 //#region GitHub delete branch activity
 export interface GitHubDeleteBranchActivityDiscriminator {
 	"GitHubDeleteBranchActivity": GitHubDeleteBranchActivity;
@@ -579,7 +569,6 @@ export class SpotifyActivity extends Activity {
 	}
 }
 //#endregion
-
 //#region Spotify like activity
 export interface SpotifyLikeActivityDiscriminator {
 	"SpotifyLikeActivity": SpotifyLikeActivity;
@@ -679,7 +668,6 @@ export class PinterestActivity extends Activity {
 	}
 }
 //#endregion
-
 //#region Pinterest pin activity
 export interface PinterestPinActivityDiscriminator extends PinterestImagePinActivityDiscriminator, PinterestVideoPinActivityDiscriminator {
 }
@@ -760,7 +748,6 @@ export class PinterestPinActivity extends PinterestActivity {
 	}
 }
 //#endregion
-
 //#region Pinterest image pin activity
 export interface PinterestImagePinActivityDiscriminator {
 	"PinterestImagePinActivity": PinterestImagePinActivity;
@@ -805,7 +792,6 @@ export class PinterestImagePinActivity extends PinterestPinActivity {
 	}
 }
 //#endregion
-
 //#region Pinterest video pin activity
 export interface PinterestVideoPinActivityDiscriminator {
 	"PinterestVideoPinActivity": PinterestVideoPinActivity;
@@ -879,7 +865,6 @@ export class SteamActivity extends Activity {
 	}
 }
 //#endregion
-
 //#region Steam achievement activity
 export interface SteamAchievementActivityDiscriminator {
 	"SteamAchievementActivity": SteamAchievementActivity;
@@ -888,6 +873,7 @@ export interface SteamAchievementActivityDiscriminator {
 export interface SteamAchievementActivityScheme extends SteamActivityScheme {
 	$type: keyof SteamAchievementActivityDiscriminator;
 	game: string;
+	webpage: string;
 	icon: string | null;
 	title: string;
 	description: string | null;
@@ -896,14 +882,16 @@ export interface SteamAchievementActivityScheme extends SteamActivityScheme {
 
 export class SteamAchievementActivity extends SteamActivity {
 	#game: string;
+	#webpage: string;
 	#icon: string | null;
 	#title: string;
 	#description: string | null;
 	#url: string;
 
-	constructor(platform: string, timestamp: Date, game: string, icon: string | null, title: string, description: string | null, url: string) {
+	constructor(platform: string, timestamp: Date, game: string, webpage: string, icon: string | null, title: string, description: string | null, url: string) {
 		super(platform, timestamp);
 		this.#game = game;
+		this.#webpage = webpage;
 		this.#icon = icon;
 		this.#title = title;
 		this.#description = description;
@@ -915,11 +903,12 @@ export class SteamAchievementActivity extends SteamActivity {
 		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
 		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
 		const game = String.import(Reflect.get(object, "game"), `${name}.game`);
+		const webpage = String.import(Reflect.get(object, "webpage"), `${name}.webpage`);
 		const icon = Reflect.mapNull(Reflect.get(object, "icon") as unknown, icon => String.import(icon, `${name}.icon`));
 		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
 		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
 		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const result = new SteamAchievementActivity(platform, timestamp, game, icon, title, description, url);
+		const result = new SteamAchievementActivity(platform, timestamp, game, webpage, icon, title, description, url);
 		return result;
 	}
 
@@ -928,15 +917,20 @@ export class SteamAchievementActivity extends SteamActivity {
 		const platform = source.platform;
 		const timestamp = Number(source.timestamp);
 		const game = source.game;
+		const webpage = source.webpage;
 		const icon = source.icon;
 		const title = source.title;
 		const description = source.description;
 		const url = source.url;
-		return { $type, platform, timestamp, game, icon, title, description, url };
+		return { $type, platform, timestamp, game, webpage, icon, title, description, url };
 	}
 
 	get game(): string {
 		return this.#game;
+	}
+
+	get webpage(): string {
+		return this.#webpage;
 	}
 
 	get icon(): string | null {

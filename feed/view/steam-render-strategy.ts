@@ -8,7 +8,7 @@ import { type ActivityRenderStrategy } from "./activities-renderer.js";
 //#region Steam render trategy
 export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity> {
 	#renderAchievement(itemContainer: HTMLElement, activity: SteamAchievementActivity): void {
-		const { game, title, description, url, icon } = activity;
+		const { game, webpage, title, description, url, icon } = activity;
 
 		const divWrapper = itemContainer.appendChild(document.createElement("div"));
 		divWrapper.classList.add("flex", "with-gap", "alt-center");
@@ -26,7 +26,8 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		const spanHeader = divInformation.appendChild(document.createElement("span"));
 		spanHeader.appendChild(DOMBuilder.newText("Earned \""));
 		spanHeader.appendChild(DOMBuilder.newLink(title, new URL(url)));
-		spanHeader.appendChild(DOMBuilder.newText(`\" in ${game}`));
+		spanHeader.appendChild(DOMBuilder.newText(`\" in `));
+		spanHeader.appendChild(DOMBuilder.newLink(game, new URL(webpage)));
 
 		if (description !== null && !String.isWhitespace(description)) {
 			const spanDescription = divInformation.appendChild(document.createElement("span"));

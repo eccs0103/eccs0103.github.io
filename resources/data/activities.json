@@ -1,5 +1,27 @@
 [
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767290624000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/b61cf1bf211ae9493e556949d6b4b39f6410a4ec.jpg",
+		"title": "Banshee Discovered",
+		"description": "Successfully identify your first Banshee and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767287040000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/5d1f14dd932b7bb381b5a4083740da923e712668.jpg",
+		"title": "Eternal Return",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1767274038000,

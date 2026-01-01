@@ -154,6 +154,17 @@
 	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
+		"timestamp": 1767043553000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ee94ee6a058807c8bb712750f6a8b5ea053f5c01.jpg",
+		"title": "Revenant Discovered",
+		"description": "Successfully identify your first Revenant and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
 		"timestamp": 1767036416000,
 		"game": "Phasmophobia",
 		"webpage": "https://store.steampowered.com/app/739630",
@@ -1590,7 +1601,7 @@
 			"NXT GXNXRXTION",
 			"zorssa"
 		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b27320e104c8aa3ebfbc373714da",
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737726833eb09237ce20b308e1",
 		"url": "https://open.spotify.com/track/1m7sO19fHDI21Ksj82Zcqf"
 	},
 	{

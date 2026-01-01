@@ -1,5 +1,32 @@
 [
 	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767274038000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9674e65978ab3a5d0045f9d1141af31c78869289"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767274009000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9674e65978ab3a5d0045f9d1141af31c78869289"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767273966000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a5f2102c37d3a09b572e6f1da147de0741475566"
+	},
+	{
 		"$type": "GitHubCreateBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1767187023000,
@@ -146,9 +173,9 @@
 		"timestamp": 1767043553000,
 		"game": "Phasmophobia",
 		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/8f0eee4b8ee2dd7f82c521dcaa6cfba7da4b169b.jpg",
-		"title": "Poltergeist Discovered",
-		"description": "Successfully identify your first Poltergeist and survive",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ee94ee6a058807c8bb712750f6a8b5ea053f5c01.jpg",
+		"title": "Revenant Discovered",
+		"description": "Successfully identify your first Revenant and survive",
 		"url": "https://steamcommunity.com/stats/739630/achievements"
 	},
 	{
@@ -157,9 +184,9 @@
 		"timestamp": 1767043553000,
 		"game": "Phasmophobia",
 		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ee94ee6a058807c8bb712750f6a8b5ea053f5c01.jpg",
-		"title": "Revenant Discovered",
-		"description": "Successfully identify your first Revenant and survive",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/8f0eee4b8ee2dd7f82c521dcaa6cfba7da4b169b.jpg",
+		"title": "Poltergeist Discovered",
+		"description": "Successfully identify your first Poltergeist and survive",
 		"url": "https://steamcommunity.com/stats/739630/achievements"
 	},
 	{

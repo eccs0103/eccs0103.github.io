@@ -2,6 +2,55 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
+		"timestamp": 1765727177000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "80b824e6ca1be19dd0e529b11e005499d6a731d8"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1765718537000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "f0c145b15fc4b9a8e6a81d94bdc440a11ebbd503"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1765718402000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "f9a633bb853099f19d4eb3cea1e08e5cca020994"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1765715623000,
+		"title": "Give It To Dem",
+		"artists": [
+			"Skan",
+			"Drama B",
+			"Highdiwaan"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273a1ec622b76f2a89009ca0ca5",
+		"url": "https://open.spotify.com/track/0SgIqozTDJNmyRQH1348UZ"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1765652100000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9017f41d8c97e1053fc054f5541b6af93f517fd6"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
 		"timestamp": 1765652083000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
@@ -884,54 +933,5 @@
 		"url": "https://github.com/eccs0103/vscode-quartz",
 		"repository": "vscode-quartz",
 		"sha": "99173ce56cdc7231941cc9879d5a04c655b6bd08"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1763459548000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "31cb217a37c2e2eb3be7b77b19534f6bd66c0869"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1763447241000,
-		"title": "empty room",
-		"artists": [
-			"skyfall beats",
-			"bulletrain"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273ef59df4aba4390ed1bd2c207",
-		"url": "https://open.spotify.com/track/2w1DUEJ8rqjeRt1o3blEFK"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1763416199000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "3ad7e942d0f27c60b4da4a79fd7003c623d16ef2"
-	},
-	{
-		"$type": "GitHubReleaseActivity",
-		"platform": "GitHub",
-		"timestamp": 1763404324000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"title": "0.4.3",
-		"is_prerelease": false
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1763404088000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "b66c8e295ddaae0849e5f9c9b8b2644da12d211b"
 	}
 ]

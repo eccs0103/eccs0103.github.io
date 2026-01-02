@@ -2,6 +2,55 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
+		"timestamp": 1763459548000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "31cb217a37c2e2eb3be7b77b19534f6bd66c0869"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1763447241000,
+		"title": "empty room",
+		"artists": [
+			"skyfall beats",
+			"bulletrain"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273ef59df4aba4390ed1bd2c207",
+		"url": "https://open.spotify.com/track/2w1DUEJ8rqjeRt1o3blEFK"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1763416199000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "3ad7e942d0f27c60b4da4a79fd7003c623d16ef2"
+	},
+	{
+		"$type": "GitHubReleaseActivity",
+		"platform": "GitHub",
+		"timestamp": 1763404324000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"title": "0.4.3",
+		"is_prerelease": false
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1763404088000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "b66c8e295ddaae0849e5f9c9b8b2644da12d211b"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
 		"timestamp": 1763404068000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/quartz",

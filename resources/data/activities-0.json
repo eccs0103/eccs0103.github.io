@@ -2,6 +2,51 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
+		"timestamp": 1767318108000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a1dea6a902b36eb0caefdab55954e36e7ffb4576"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767318058000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a1dea6a902b36eb0caefdab55954e36e7ffb4576"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767317492000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "892235364d7907ba9a03b3907d1a7ecde94fed46"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767317465000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "892235364d7907ba9a03b3907d1a7ecde94fed46"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767317352000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c153229760305f1ff489b954307ada01afebec10"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
 		"timestamp": 1767315420000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
@@ -894,54 +939,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "052dd98aa1f1deaede3d1a3c7db6aa275c4303cb"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765727177000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "80b824e6ca1be19dd0e529b11e005499d6a731d8"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765718537000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "f0c145b15fc4b9a8e6a81d94bdc440a11ebbd503"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765718402000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "f9a633bb853099f19d4eb3cea1e08e5cca020994"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1765715623000,
-		"title": "Give It To Dem",
-		"artists": [
-			"Skan",
-			"Drama B",
-			"Highdiwaan"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273a1ec622b76f2a89009ca0ca5",
-		"url": "https://open.spotify.com/track/0SgIqozTDJNmyRQH1348UZ"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765652100000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "9017f41d8c97e1053fc054f5541b6af93f517fd6"
 	}
 ]

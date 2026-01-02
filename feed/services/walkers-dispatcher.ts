@@ -73,7 +73,8 @@ export class ActivityDispatcher {
 
 	async execute(platforms: readonly Platform[]): Promise<void> {
 		const activities = this.#activities;
-		await activities.load();
+		let page = 0;
+		while (await activities.load(page++));
 		await ActivityDispatcher.#runWalkers(this.#walkers, platforms, this.#since, activities);
 		await activities.save();
 	}

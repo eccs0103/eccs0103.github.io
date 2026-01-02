@@ -24,7 +24,9 @@ class ActivityController extends Controller {
 	async run(): Promise<void> {
 		const activities = new ServerDataTable(new URL("../../resources/data/activities.json", meta.url), Activity);
 		const platforms = new ServerDataTable(new URL("../../resources/data/platforms.json", meta.url), Platform);
-		await platforms.load();
+
+		let page = 0;
+		while (await platforms.load(page++));
 
 		const dispatcher = new ActivityDispatcher(activities, origin);
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));

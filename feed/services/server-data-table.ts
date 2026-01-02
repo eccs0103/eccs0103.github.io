@@ -3,10 +3,10 @@
 import "adaptive-extender/core";
 import AsyncFileSystem from "fs/promises";
 import { type PortableConstructor } from "adaptive-extender/core";
-import { type DataTable } from "./data-table.js";
+import { DataTable } from "./data-table.js";
 
 //#region Server data table
-export class ServerDataTable<C extends PortableConstructor> extends Array<InstanceType<C>> implements DataTable<C> {
+export class ServerDataTable<C extends PortableConstructor> extends DataTable<C> {
 	#path: URL;
 	#type: C;
 
@@ -16,22 +16,38 @@ export class ServerDataTable<C extends PortableConstructor> extends Array<Instan
 		this.#type = type;
 	}
 
-	async load(): Promise<void> {
-		const path = this.#path;
-		await AsyncFileSystem.mkdir(new URL(".", path), { recursive: true });
-		const text = await AsyncFileSystem.readFile(path, "utf-8");
+	async #read(path: URL): Promise<string | null> {
+		try {
+			return await AsyncFileSystem.readFile(path, "utf-8");
+		} catch {
+			return null;
+		}
+	}
+
+	async load(page: number): Promise<boolean> {
+		const limit = DataTable.PAGE_COUNT;
+		const target = DataTable.toPaginatedPath(this.#path, page);
+		const text = await this.#read(target);
+		if (text === null) return false;
 		const object = JSON.parse(text);
 		const type = this.#type;
 		const { name } = type;
 		const array = Array.import(object, name).map((item, index) => type.import(item, `${name}[${index}]`));
-		this.splice(0, this.length, ...array);
+		this.splice(page * limit, limit, ...array);
+		return true;
 	}
 
 	async save(): Promise<void> {
+		const limit = DataTable.PAGE_COUNT;
 		const type = this.#type;
-		const array = this.map(item => type.export(item));
-		const object = JSON.stringify(array, null, "\t");
-		await AsyncFileSystem.writeFile(this.#path, object);
+		const total = Math.ceil(this.length / limit);
+		for (let page = 0; page < total; page++) {
+			const target = DataTable.toPaginatedPath(this.#path, page);
+			const chunk = this.slice(page * limit, (page + 1) * limit);
+			const array = chunk.map(item => type.export(item));
+			const object = JSON.stringify(array, null, "\t");
+			await AsyncFileSystem.writeFile(target, object);
+		}
 	}
 }
 //#endregion

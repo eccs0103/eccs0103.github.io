@@ -17,8 +17,9 @@ class WebpageController extends Controller {
 	async run(): Promise<void> {
 		const activities = new ClientDataTable(new URL("../data/activities.json", baseURI), Activity);
 		const platforms = new ClientDataTable(new URL("../data/platforms.json", baseURI), Platform);
-		await activities.load();
-		await platforms.load();
+		// await activities.load(0);
+		let page = 0;
+		while (await platforms.load(page++));
 
 		const header = await body.getElementAsync(HTMLElement, "header");
 		const rendererHeader = new HeaderRenderer(header);

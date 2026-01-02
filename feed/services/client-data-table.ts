@@ -2,10 +2,10 @@
 
 import "adaptive-extender/web";
 import { type PortableConstructor } from "adaptive-extender/web";
-import { type DataTable } from "./data-table.js";
+import { DataTable } from "./data-table.js";
 
 //#region Client data table
-export class ClientDataTable<C extends PortableConstructor> extends Array<InstanceType<C>> implements DataTable<C> {
+export class ClientDataTable<C extends PortableConstructor> extends DataTable<C> {
 	#path: URL;
 	#type: C;
 
@@ -15,14 +15,17 @@ export class ClientDataTable<C extends PortableConstructor> extends Array<Instan
 		this.#type = type;
 	}
 
-	async load(): Promise<void> {
-		const response = await fetch(this.#path);
-		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+	async load(page: number): Promise<boolean> {
+		const limit = DataTable.PAGE_COUNT;
+		const target = DataTable.toPaginatedPath(this.#path, page);
+		const response = await fetch(target);
+		if (!response.ok) return false;
 		const object = await response.json();
 		const type = this.#type;
 		const { name } = type;
 		const array = Array.import(object, name).map((item, index) => type.import(item, `${name}[${index}]`));
-		this.splice(0, this.length, ...array);
+		this.splice(page * limit, limit, ...array);
+		return true;
 	}
 
 	async save(): Promise<void> {

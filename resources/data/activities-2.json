@@ -2,6 +2,36 @@
 	{
 		"$type": "SpotifyLikeActivity",
 		"platform": "Spotify",
+		"timestamp": 1763804098000,
+		"title": "NO BATIDÃO - Slowed",
+		"artists": [
+			"ZXKAI",
+			"slxughter"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737bff89cf90806ae22a6b72df",
+		"url": "https://open.spotify.com/track/72YttnPRxyHe8zCG50jYhj"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1763545170000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "c2b79358d717550621f66709fc8576e1fa77cdbf"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1763544800000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "65f2044709e8b5935e72243e8fb6de40973faa04"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
 		"timestamp": 1763537048000,
 		"title": "Ocean Drive",
 		"artists": [

@@ -2,6 +2,39 @@
 	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
+		"timestamp": 1767472369000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/2afaa2bccb84ebbde4af968286aaad6eb44aa2ae.jpg",
+		"title": "A Shadow in the Fog",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767469304000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/260e7e4c4b769bbc4427a0ce3b74b192a73c49b6.jpg",
+		"title": "Adrenaline Spike",
+		"description": "Achieve maximum Adrenaline Level",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767465609000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/c71aee624e9efd12d06c0f4f930a8e51bf70f404.jpg",
+		"title": "Second Chance",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
 		"timestamp": 1767463709000,
 		"game": "Returnal™",
 		"webpage": "https://store.steampowered.com/app/1649240",
@@ -922,32 +955,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "d2c5b62370481eeb50695e1e1d7af5911e83b9c1"
-	},
-	{
-		"$type": "GitHubCreateBranchActivity",
-		"platform": "GitHub",
-		"timestamp": 1766085661000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "github-workflow"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765976573000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "a9df15f72edf1708772d2b8827dba8a848c82993"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765957070000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "f89d4841b22bde4ebf65c8496fe6e6022dbe1492"
 	}
 ]

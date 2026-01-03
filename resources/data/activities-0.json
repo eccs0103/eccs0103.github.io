@@ -1,5 +1,16 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767396687000,
+		"title": "Hay Zinvor",
+		"artists": [
+			"Lilit Karapetyan"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273601dc11ad45002f8043b839b",
+		"url": "https://open.spotify.com/track/1Yk7DLLwxqKK5PHA3YVKZp"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1767318108000,
@@ -127,6 +138,28 @@
 	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
+		"timestamp": 1767291972000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/645bebb0bcd8cd03fdad714d01d13ed13aa43eba.jpg",
+		"title": "Cryptic Messages",
+		"description": "Scan a Xenoglyph",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767291972000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/07e045e5b8f3cdb463e078299484c95485d5a5b1.jpg",
+		"title": "Welcome Home",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
 		"timestamp": 1767290624000,
 		"game": "Phasmophobia",
 		"webpage": "https://store.steampowered.com/app/739630",
@@ -134,6 +167,17 @@
 		"title": "Banshee Discovered",
 		"description": "Successfully identify your first Banshee and survive",
 		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767287040000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/5d1f14dd932b7bb381b5a4083740da923e712668.jpg",
+		"title": "Eternal Return",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -903,41 +947,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "fc3599a843e8af260a823f7960fe8fbba4ef6618"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765793919000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "100ee9fd57915f58e91fb332436a0aca45c305e8"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765791257000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "a30934a4fe5f9944dc8d088e6450d36de8e38abd"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765790161000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "56562345ff938d6e648e0565b5cec9c3dcf9b102"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1765790007000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "052dd98aa1f1deaede3d1a3c7db6aa275c4303cb"
 	}
 ]

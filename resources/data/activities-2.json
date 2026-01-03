@@ -1,5 +1,16 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1763537048000,
+		"title": "Ocean Drive",
+		"artists": [
+			"Duke Dumont"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732500bcdc1790d13e7ac1a0c0",
+		"url": "https://open.spotify.com/track/0b6wdul3A5sQNpIOv03OxP"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1763502761000,

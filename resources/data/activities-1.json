@@ -2,6 +2,15 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
+		"timestamp": 1765794081000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "fc3599a843e8af260a823f7960fe8fbba4ef6618"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
 		"timestamp": 1765793919000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
@@ -922,16 +931,5 @@
 		"url": "https://github.com/eccs0103/quartz",
 		"repository": "quartz",
 		"sha": "65f2044709e8b5935e72243e8fb6de40973faa04"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1763537048000,
-		"title": "Ocean Drive",
-		"artists": [
-			"Duke Dumont"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2732500bcdc1790d13e7ac1a0c0",
-		"url": "https://open.spotify.com/track/0b6wdul3A5sQNpIOv03OxP"
 	}
 ]

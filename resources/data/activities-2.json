@@ -1,5 +1,80 @@
 [
 	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1764153421000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "fb9e1e6a8edd1a6c53536ebf3eef2f89468cb1db"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764142903000,
+		"title": "Float Away",
+		"artists": [
+			"Animadrop",
+			"Jaël"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273400b22b13a3de6d612866861",
+		"url": "https://open.spotify.com/track/77gV2tXiRNKchCjpXFCFPF"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764141908000,
+		"title": "Come Home - 432 HZ",
+		"artists": [
+			"Aleister Temple"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273f811700e1c0687a14e5e9a9c",
+		"url": "https://open.spotify.com/track/4aysGdMZRDn4jJ0Kdkj4A1"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764140857000,
+		"title": "Absolute Eclipse",
+		"artists": [
+			"NXT GXNXRXTION",
+			"zorssa"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737726833eb09237ce20b308e1",
+		"url": "https://open.spotify.com/track/1m7sO19fHDI21Ksj82Zcqf"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1764106009000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "edb161f49080d6c351cd4945be9bdca6296416ae"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1764102669000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/aef1624b2c8d613853bb0450fa19ba9c73f3f579.jpg",
+		"title": "That Was Cold",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764020425000,
+		"title": "Impossible",
+		"artists": [
+			"James Arthur"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273192221f838b7b6b9cb4629bf",
+		"url": "https://open.spotify.com/track/5yVIlYEHZxQVLyInCdldoS"
+	},
+	{
 		"$type": "SpotifyLikeActivity",
 		"platform": "Spotify",
 		"timestamp": 1763804098000,

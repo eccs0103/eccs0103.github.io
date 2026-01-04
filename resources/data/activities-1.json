@@ -1,5 +1,68 @@
 [
 	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766093689000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "development"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766093675000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "fa08faa5cad207b0f3c7eb5a21da2e954a32de06"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766093615000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ef9ac312a972c8d8b9c31d22d91f083d43b544ba"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766086233000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ebc03341fd61e5e38dd3ec408d9bacb41bbea463"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766085992000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "github-workflow"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766085978000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "d2c5b62370481eeb50695e1e1d7af5911e83b9c1"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766085925000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "d2c5b62370481eeb50695e1e1d7af5911e83b9c1"
+	},
+	{
 		"$type": "GitHubCreateBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1766085661000,
@@ -853,80 +916,5 @@
 		"url": "https://github.com/eccs0103/Visualizer",
 		"repository": "Visualizer",
 		"sha": "046b63b000941670ee7cd6030f321f337f2205c3"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764153421000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "fb9e1e6a8edd1a6c53536ebf3eef2f89468cb1db"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1764142903000,
-		"title": "Float Away",
-		"artists": [
-			"Animadrop",
-			"Jaël"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273400b22b13a3de6d612866861",
-		"url": "https://open.spotify.com/track/77gV2tXiRNKchCjpXFCFPF"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1764141908000,
-		"title": "Come Home - 432 HZ",
-		"artists": [
-			"Aleister Temple"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273f811700e1c0687a14e5e9a9c",
-		"url": "https://open.spotify.com/track/4aysGdMZRDn4jJ0Kdkj4A1"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1764140857000,
-		"title": "Absolute Eclipse",
-		"artists": [
-			"NXT GXNXRXTION",
-			"zorssa"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2737726833eb09237ce20b308e1",
-		"url": "https://open.spotify.com/track/1m7sO19fHDI21Ksj82Zcqf"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764106009000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "edb161f49080d6c351cd4945be9bdca6296416ae"
-	},
-	{
-		"$type": "SteamAchievementActivity",
-		"platform": "Steam",
-		"timestamp": 1764102669000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/aef1624b2c8d613853bb0450fa19ba9c73f3f579.jpg",
-		"title": "That Was Cold",
-		"description": "",
-		"url": "https://steamcommunity.com/stats/397540/achievements"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1764020425000,
-		"title": "Impossible",
-		"artists": [
-			"James Arthur"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273192221f838b7b6b9cb4629bf",
-		"url": "https://open.spotify.com/track/5yVIlYEHZxQVLyInCdldoS"
 	}
 ]

@@ -1,5 +1,65 @@
 [
 	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767546896000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "db8d4ceced1b661b3c374e54ff7fee35390f8e3b"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767546881000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "db8d4ceced1b661b3c374e54ff7fee35390f8e3b"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767546864000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "3657edb2968b448cd240a0fdbe002697f2203cd0"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767546526000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/3a58ba10f4c25f7633e4072a7bef0f80f921bc55.jpg",
+		"title": "Cryptic Translations",
+		"description": "Unlock all translation tiers of a Xenoglyph",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767546216000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/e15f8c892901d462e2c3541635a9f1174a21acf5.jpg",
+		"title": "Surgical Precision",
+		"description": "Perform 5 successful Overloads in a row",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767545788000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/a9a2fdf6037e17bb1d89046c09f1e707f93a97e2.jpg",
+		"title": "Alternate Fates",
+		"description": "Retrieve 10 Scout Logs",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
 		"$type": "GitHubCreateBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1767537782000,
@@ -899,61 +959,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "ed736ea38f1b9db17896ff96820c896b1507ac73"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1766257799000,
-		"title": "F1 - Symphonic Version",
-		"artists": [
-			"Imperial Orchestra"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b27311a12855d64345d4a90014b2",
-		"url": "https://open.spotify.com/track/6Cb1rKHcpfGMsvAIW2HRgi"
-	},
-	{
-		"$type": "GitHubCreateBranchActivity",
-		"platform": "GitHub",
-		"timestamp": 1766236015000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "walkers-improvement"
-	},
-	{
-		"$type": "GitHubDeleteBranchActivity",
-		"platform": "GitHub",
-		"timestamp": 1766235971000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "walkers-improvment"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766235951000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "0ad9ea223560a3f7d310c4989749ef62ca36ccfe"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766235902000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "0d3d61d60e4fc8de31df5cbb26e48e815e63c6cc"
-	},
-	{
-		"$type": "GitHubCreateBranchActivity",
-		"platform": "GitHub",
-		"timestamp": 1766093861000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "walkers-improvment"
 	}
 ]

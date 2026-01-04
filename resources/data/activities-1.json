@@ -1,5 +1,61 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1766257799000,
+		"title": "F1 - Symphonic Version",
+		"artists": [
+			"Imperial Orchestra"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27311a12855d64345d4a90014b2",
+		"url": "https://open.spotify.com/track/6Cb1rKHcpfGMsvAIW2HRgi"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766236015000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "walkers-improvement"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766235971000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "walkers-improvment"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766235951000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "0ad9ea223560a3f7d310c4989749ef62ca36ccfe"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766235902000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "0d3d61d60e4fc8de31df5cbb26e48e815e63c6cc"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766093861000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "walkers-improvment"
+	},
+	{
 		"$type": "GitHubDeleteBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1766093689000,
@@ -859,62 +915,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "841010ceea0b1739e6827a9fd2bc99efae927868"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764355802000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "18da939e5715f00fb8cf717b8db5e9957e833a0d"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764354979000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "9befbec458c97e77e52f7bd5d8e02093a3cdc9d9"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764354821000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "a2f0efdd5ceb1541f819a7d29886c8822f8083e5"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764353839000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "f5d7e7ecf603557c8fef08ebb2ff21617bdfc9e9"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1764328825000,
-		"title": "Пусть Бог будет рядом с твоими планами",
-		"artists": [
-			"MACAN",
-			"Basta"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273b3ca871cb420d01758892668",
-		"url": "https://open.spotify.com/track/5btmzICOnW8Vl6A2zqOV2S"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764284717000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/Visualizer",
-		"repository": "Visualizer",
-		"sha": "046b63b000941670ee7cd6030f321f337f2205c3"
 	}
 ]

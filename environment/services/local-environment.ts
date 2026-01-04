@@ -7,6 +7,7 @@ class LocalEnvironment {
 	static #lock: boolean = true;
 	static #instance: LocalEnvironment | null = null;
 	#host: string;
+	#specialDictionary: Map<string, string>;
 	#origin: Date;
 	#githubToken: string;
 	#githubUsername: string;
@@ -24,6 +25,13 @@ class LocalEnvironment {
 		const { env } = Environment;
 		const name = typename(env);
 		this.#host = env.hasValue("HOST") ? String.import(env.readValue("HOST"), `${name}.HOST`) : "localhost";
+		const specificKeys = Array.import(env.readValue("SPECIFIC_KEYS"), `${name}.SPECIFIC_KEYS`).map((item, index) => {
+			return String.import(item, `${name}.SPECIFIC_KEYS[${index}]`);
+		});
+		const specificValues = Array.import(env.readValue("SPECIFIC_VALUES"), `${name}.SPECIFIC_VALUES`).map((item, index) => {
+			return String.import(item, `${name}.SPECIFIC_VALUES[${index}]`);
+		});
+		this.#specialDictionary = new Map(Array.zip(specificKeys, specificValues));
 		this.#origin = new Date(String.import(env.readValue("ORIGIN"), `${name}.ORIGIN`));
 		this.#githubUsername = String.import(env.readValue("GITHUB_USERNAME"), `${name}.GITHUB_USERNAME`);
 		this.#githubToken = String.import(env.readValue("GITHUB_TOKEN"), `${name}.GITHUB_TOKEN`);
@@ -44,6 +52,10 @@ class LocalEnvironment {
 			LocalEnvironment.#lock = true;
 		}
 		return LocalEnvironment.#instance;
+	}
+
+	get specialDictionary(): Map<string, string> {
+		return this.#specialDictionary;
 	}
 
 	get host(): string {

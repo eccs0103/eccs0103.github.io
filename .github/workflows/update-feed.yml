@@ -30,6 +30,9 @@ jobs:
             env:
                 ORIGIN: ${{ vars.ORIGIN }}
 
+                SPECIFIC_KEYS: ${{ secrets.SPECIFIC_KEYS }}
+                SPECIFIC_VALUES: ${{ secrets.SPECIFIC_VALUES }}
+
                 GITHUB_USERNAME: ${{ vars.USERNAME_GITHUB }}
                 GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
 

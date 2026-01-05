@@ -350,7 +350,7 @@ export class SteamAchievement {
 	static export(source: SteamAchievement): SteamAchievementScheme {
 		const apiname = source.apiName;
 		const achieved = Number(source.achieved);
-		const unlocktime = Number(source.unlockTime);
+		const unlocktime = Number(source.unlockTime) / 1000;
 		const name = source.name;
 		const description = source.description;
 		return { apiname, achieved, unlocktime, name, description };

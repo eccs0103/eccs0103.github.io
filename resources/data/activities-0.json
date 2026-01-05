@@ -2,6 +2,15 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
+		"timestamp": 1767618044000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cd1e75e86f94d53ad5564f146c95e9c3da20cd66"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
 		"timestamp": 1767606915000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
@@ -947,17 +956,6 @@
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/ae5fc1985199f7af045634d1c9f19fcb8f439a4e.jpg",
 		"title": "Heir To An Empty Castle",
 		"description": "",
-		"url": "https://steamcommunity.com/stats/397540/achievements"
-	},
-	{
-		"$type": "SteamAchievementActivity",
-		"platform": "Steam",
-		"timestamp": 1766525107000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/aaab8116d5605e85b3fad8d9a302f0df06a5c560.jpg",
-		"title": "On Fleek",
-		"description": "Equip purple-rated gear or better in every slot.",
 		"url": "https://steamcommunity.com/stats/397540/achievements"
 	}
 ]

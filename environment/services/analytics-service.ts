@@ -8,7 +8,7 @@ declare global {
 	}
 }
 
-window.dataLayer = window.dataLayer || [];
+window.dataLayer = window.dataLayer ?? [];
 
 window.gtag = function (): void {
 	window.dataLayer.push(arguments);

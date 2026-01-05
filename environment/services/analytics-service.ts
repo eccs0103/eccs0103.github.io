@@ -1,6 +1,6 @@
 "use strict";
 
-//#region GTag
+//#region G Tag
 declare global {
 	export interface Window {
 		dataLayer: any[];

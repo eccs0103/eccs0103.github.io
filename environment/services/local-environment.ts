@@ -54,12 +54,12 @@ class LocalEnvironment {
 		return LocalEnvironment.#instance;
 	}
 
-	get specialDictionary(): Map<string, string> {
-		return this.#specialDictionary;
-	}
-
 	get host(): string {
 		return this.#host;
+	}
+
+	get specialDictionary(): Map<string, string> {
+		return this.#specialDictionary;
 	}
 
 	get origin(): Date {

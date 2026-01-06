@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ImplementationError, type PortableConstructor } from "adaptive-extender/core";
+import { type PortableConstructor } from "adaptive-extender/core";
 
 //#region Data table
 export abstract class DataTable<C extends PortableConstructor> extends Array<InstanceType<C>> {
@@ -21,12 +21,8 @@ export abstract class DataTable<C extends PortableConstructor> extends Array<Ins
 		return DataTable.#PAGE_COUNT;
 	}
 
-	load(page: number): Promise<boolean> {
-		throw new ImplementationError();
-	}
+	abstract load(page: number): Promise<boolean>;
 
-	save(): Promise<void> {
-		throw new ImplementationError();
-	}
+	abstract save(): Promise<void>;
 }
 //#endregion

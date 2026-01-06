@@ -74,6 +74,80 @@
 		"sha": "ed736ea38f1b9db17896ff96820c896b1507ac73"
 	},
 	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766525107000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/aaab8116d5605e85b3fad8d9a302f0df06a5c560.jpg",
+		"title": "On Fleek",
+		"description": "Equip purple-rated gear or better in every slot.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766330288000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "steam-integration"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766330252000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "pinterest-integration"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766330083000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "walkers-improvement"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766330055000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "43a0ed6cce567972c8e16d4ce5c9cef5976b5027"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766329886000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "43a0ed6cce567972c8e16d4ce5c9cef5976b5027"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766328818000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cb6eed852a063a3b1b387d02ab6210ed31d13f3f"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766328630000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ed736ea38f1b9db17896ff96820c896b1507ac73"
+	},
+	{
 		"$type": "SpotifyLikeActivity",
 		"platform": "Spotify",
 		"timestamp": 1766257799000,
@@ -377,6 +451,21 @@
 		"sha": "fa279d2689f8ef5c6f5dece216bcfc102fd90cc4"
 	},
 	{
+		"$type": "StackOverflowQuestionActivity",
+		"platform": "Stack overflow",
+		"timestamp": 1765459799000,
+		"title": "Странные метрики GA4",
+		"body": "<h2>Описание</h2>\n<p>Устанавливаю скрипт для сбора аналитики. Гугл предлагет вот это сразу в <code>&lt;head&gt;</code> страницы:</p>\n<pre class=\"lang-html prettyprint-override\"><code>&lt;script async src=&quot;https://www.googletagmanager.com/gtag/js?id=G-ID&quot;&gt;&lt;/script&gt;\n&lt;script&gt;\n    window.dataLayer = window.dataLayer || [];\n    function gtag() { dataLayer.push(arguments); }\n    gtag('js', new Date());\n    gtag('config', 'G-ID');\n&lt;/script&gt;\n</code></pre>\n<p>Не очень люблю засорять <code>&lt;head&gt;</code>, создаю простой скрипт, чтобы делал вышеуказанное:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>&quot;use strict&quot;;\n\ndeclare global {\n    export interface Window {\n        dataLayer?: any[];\n    }\n}\n\nconst id = &quot;G-ID&quot;;\n\nfunction gtag(layer: any[], ...args: any[]): void {\n    layer.push(args);\n}\n\nwindow.dataLayer = window.dataLayer || [];\ngtag(window.dataLayer, &quot;js&quot;, new Date());\ngtag(window.dataLayer, &quot;config&quot;, id);\n\nconst script = document.head.appendChild(document.createElement(&quot;script&quot;));\nscript.async = true;\nscript.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;\n</code></pre>\n<p>И подключаю так же в <code>&lt;head&gt;</code>:</p>\n<pre class=\"lang-html prettyprint-override\"><code>&lt;script type=&quot;module&quot; src=&quot;./services/analytics-service.ts&quot;&gt;&lt;/script&gt;\n</code></pre>\n<h2>Проблема</h2>\n<p>Аналитика собирается 1-2 раза и стоит тупо на 0... всегда. Уже неделя прошла и полный 0. Даже когда я захожу через ПК и телефон с отключенным Tracking prevention, все равно не регистрирует.</p>\n<h2>Вопрос</h2>\n<p>Что не так у моего скрипта?<br />\nПочему сбор останавливается?</p>\n",
+		"score": 2,
+		"url": "https://ru.stackoverflow.com/questions/1622198/%d0%a1%d1%82%d1%80%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5-%d0%bc%d0%b5%d1%82%d1%80%d0%b8%d0%ba%d0%b8-ga4",
+		"tags": [
+			"typescript",
+			"google-analytics"
+		],
+		"views": 51,
+		"is_answered": false
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1765362164000,
@@ -384,6 +473,22 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "01d43a331bb05b01ad15acb5056776cef8878c87"
+	},
+	{
+		"$type": "StackOverflowQuestionActivity",
+		"platform": "Stack overflow",
+		"timestamp": 1765359833000,
+		"title": "Отключать все обработки Vite",
+		"body": "<h2>Описание</h2>\n<p>Мне понадобился компилятор и линкер для Node модулей на Front-end, и мне посоветовали Vite. Я решил его попробовать... В целом, он справляется с компиляцией и подключением модулей, что неплохо. Однако он делает много лишнего: меняет пути, компилирует изображения, создает новые папки и превращает мою многослойную структуру в плоскую.</p>\n<p>Кому-то это может показаться удобным, но мне это ломает все расчеты и пути. Если в режиме разработки все работает прекрасно, то после компиляции возникает полная неразбериха.</p>\n<p>Мне нужно настроить его так, чтобы он просто копировал всю структуру, компилируя файлы TS в файлы JS с сохранением прежних имен, то есть создавал абсолютную копию.</p>\n<p><div class=\"snippet\" data-lang=\"js\" data-hide=\"true\" data-console=\"false\" data-babel=\"false\" data-babel-preset-react=\"false\" data-babel-preset-ts=\"false\">\n<div class=\"snippet-code snippet-currently-hidden\">\n<pre class=\"snippet-code-js lang-js prettyprint-override\"><code>\"use strict\";\n\nimport \"adaptive-extender/node\";\nimport { defineConfig } from \"vite\";\nimport { viteStaticCopy, type Target } from \"vite-plugin-static-copy\";\nimport FileSystem from \"fs\";\n\nconst input: Record&lt;string, string&gt; = {\n    [\"main\"]: \"index.html\",\n    [\"feed/index\"]: \"feed/index.html\",\n    [\"applications/209-birthdays/index\"]: \"applications/209-birthdays/index.html\",\n    [\"shortcuts/vscode-quartz/index\"]: \"shortcuts/vscode-quartz/index.html\",\n    // [\"404/index\"]: \"404/index.html\",\n};\n\nfunction collectStaticFiles(dir: string, baseDir: string = \"\"): Target[] {\n    const ignoreList = [\"node_modules\", \"dist\", \".git\", \".vscode\", \".idea\", \"types\"];\n    const results: Target[] = [];\n\n    try {\n        const items = FileSystem.readdirSync(dir);\n\n        for (const item of items) {\n            if (ignoreList.includes(item)) continue;\n            if (item === \"vite.config.ts\") continue;\n            if (item === \"tsconfig.json\") continue;\n            if (item.startsWith(\"package\")) continue;\n            if (item.startsWith(\".\")) continue;\n\n            const fullPath = baseDir ? `${dir}/${item}` : item;\n            const isDirectory = FileSystem.statSync(fullPath).isDirectory();\n\n            if (isDirectory) {\n                results.push(...collectStaticFiles(fullPath, fullPath));\n            } else {\n                const isViteFile = item.endsWith(\".ts\") || item.endsWith(\".html\");\n                if (!isViteFile) {\n                    const destFolder = baseDir || \".\";\n                    results.push({ src: fullPath, dest: destFolder });\n                }\n            }\n        }\n    } catch (e) {\n        console.error(`Error scanning directory ${dir}:`, e);\n    }\n\n    return results;\n}\n\nexport default defineConfig(({ command }) =&gt; {\n    const isBuild = command === 'build';\n    const copyTargets = collectStaticFiles(\".\");\n\n    return {\n        publicDir: false,\n        base: \"/\",\n        build: {\n            outDir: \"dist\",\n            emptyOutDir: true,\n            rollupOptions: {\n                preserveEntrySignatures: \"strict\",\n                input,\n                output: {\n                    preserveModules: true,\n                    entryFileNames: \"[name].js\",\n                    chunkFileNames: \"chunks/[name].js\",\n                    assetFileNames: \"assets/[name][extname]\",\n                },\n            },\n        },\n        plugins: [\n            isBuild ? viteStaticCopy({\n                targets: copyTargets\n            }) : undefined,\n        ],\n    };\n});</code></pre>\n</div>\n</div>\n</p>\n<h2>Вопрос</h2>\n<p>Не могу я его вот так настроить.</p>\n<p>Поможете?<br />\nИли может есть более хорошие и простые инструменты для этого дела?</p>\n",
+		"score": 0,
+		"url": "https://ru.stackoverflow.com/questions/1622165/%d0%9e%d1%82%d0%ba%d0%bb%d1%8e%d1%87%d0%b0%d1%82%d1%8c-%d0%b2%d1%81%d0%b5-%d0%be%d0%b1%d1%80%d0%b0%d0%b1%d0%be%d1%82%d0%ba%d0%b8-vite",
+		"tags": [
+			"node.js",
+			"typescript",
+			"vite"
+		],
+		"views": 49,
+		"is_answered": false
 	},
 	{
 		"$type": "GitHubPushActivity",
@@ -899,23 +1004,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "bd21b3fe92c1560aec47b644cd91db8b9272a883"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764426036000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b3d8e8bb8d6c54fd23d2c33f09d6af22d767d15d"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764425758000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "6785302ed5391f0100a502158cd19c649f0a2ec3"
 	}
 ]

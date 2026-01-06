@@ -33,14 +33,14 @@ export class ActivityDispatcher {
 		}
 
 		if (buffer.length > 0) {
-			const oldest = buffer.reduce((min, current) => current.timestamp.valueOf() < min.valueOf() ? current.timestamp : min, new Date(8640_000_000_000_000));
-			if (oldest.valueOf() > since.valueOf()) since = oldest;
+			const oldest = buffer.reduce((min, current) => current.timestamp < min ? current.timestamp : min, new Date(8640_000_000_000_000));
+			if (oldest > since) since = oldest;
 		}
 		let index = activities.length;
 		while (index--) {
 			const activity = activities[index];
 			if (activity.platform !== walker.name) continue;
-			if (activity.timestamp.valueOf() < since.valueOf()) continue;
+			if (activity.timestamp < since) continue;
 			const indexRemote = buffer.findIndex(remote => Activity.isSame(activity, remote));
 			if (indexRemote < 0) {
 				activities.splice(index, 1);

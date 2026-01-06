@@ -364,29 +364,29 @@ export interface SpotifySaveEventScheme {
 }
 
 export class SpotifySaveEvent {
-	#addedAt: string;
+	#addedAt: Date;
 	#track: SpotifyTrack;
 
-	constructor(addedAt: string, track: SpotifyTrack) {
+	constructor(addedAt: Date, track: SpotifyTrack) {
 		this.#addedAt = addedAt;
 		this.#track = track;
 	}
 
 	static import(source: any, name: string): SpotifySaveEvent {
 		const object = Object.import(source, name);
-		const addedAt = String.import(Reflect.get(object, "added_at"), `${name}.added_at`);
+		const addedAt = new Date(String.import(Reflect.get(object, "added_at"), `${name}.added_at`));
 		const track = SpotifyTrack.import(Reflect.get(object, "track"), `${name}.track`);
 		const result = new SpotifySaveEvent(addedAt, track);
 		return result;
 	}
 
 	static export(source: SpotifySaveEvent): SpotifySaveEventScheme {
-		const added_at = source.addedAt;
+		const added_at = source.addedAt.toISOString();
 		const track = SpotifyTrack.export(source.track);
 		return { added_at, track };
 	}
 
-	get addedAt(): string {
+	get addedAt(): Date {
 		return this.#addedAt;
 	}
 
@@ -404,7 +404,7 @@ export interface SpotifySavesCollectionScheme {
 	offset: number;
 	previous: string | null;
 	total: number;
-	items: SpotifySaveEventScheme[];
+	items: any[];
 }
 
 export class SpotifySavesCollection {
@@ -414,7 +414,7 @@ export class SpotifySavesCollection {
 	#offset: number;
 	#previous: string | null;
 	#total: number;
-	#items: SpotifySaveEvent[];
+	#items: any[];
 
 	constructor(href: string, limit: number, next: string | null, offset: number, previous: string | null, total: number, items: SpotifySaveEvent[]) {
 		this.#href = href;
@@ -434,9 +434,7 @@ export class SpotifySavesCollection {
 		const offset = Number.import(Reflect.get(object, "offset"), `${name}.offset`);
 		const previous = Reflect.mapNull(Reflect.get(object, "previous") as unknown, previous => String.import(previous, `${name}.previous`));
 		const total = Number.import(Reflect.get(object, "total"), `${name}.total`);
-		const items = Array.import(Reflect.get(object, "items"), `${name}.items`).map((item, index) => {
-			return SpotifySaveEvent.import(item, `${name}.items[${index}]`);
-		});
+		const items = Array.import(Reflect.get(object, "items"), `${name}.items`);
 		const result = new SpotifySavesCollection(href, limit, next, offset, previous, total, items);
 		return result;
 	}
@@ -448,7 +446,7 @@ export class SpotifySavesCollection {
 		const offset = source.offset;
 		const previous = source.previous;
 		const total = source.total;
-		const items = source.items.map(SpotifySaveEvent.export);
+		const items = source.items;
 		return { href, limit, next, offset, previous, total, items };
 	}
 
@@ -476,7 +474,7 @@ export class SpotifySavesCollection {
 		return this.#total;
 	}
 
-	get items(): SpotifySaveEvent[] {
+	get items(): any[] {
 		return this.#items;
 	}
 }

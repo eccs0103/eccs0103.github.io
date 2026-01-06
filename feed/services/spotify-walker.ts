@@ -35,7 +35,7 @@ export class SpotifyWalker extends ActivityWalker {
 		return SpotifyToken.import(await response.json(), "spotify_token");
 	}
 
-	async *#fetchPage(token: SpotifyToken, page: number, count: number): AsyncIterable<SpotifySaveEvent> {
+	async *#fetchPaginated(token: SpotifyToken, page: number, count: number): AsyncIterable<any> {
 		const url = new URL("https://api.spotify.com/v1/me/tracks");
 		url.searchParams.set("limit", String(count));
 		url.searchParams.set("offset", String((page - 1) * count));
@@ -49,28 +49,31 @@ export class SpotifyWalker extends ActivityWalker {
 		yield* collection.items;
 	}
 
-	async *#readTracks(token: SpotifyToken, since: Date): AsyncIterable<SpotifySaveEvent> {
+	async *#fetchTracks(token: SpotifyToken, since: Date): AsyncIterable<SpotifySaveEvent> {
+		const chunk = 50;
 		let page = 1;
-		const count = 50;
 		while (true) {
-			let items = 0;
-			for await (const event of this.#fetchPage(token, page, count)) {
-				const date = new Date(event.addedAt);
-				if (date < since) return;
-				items++;
-				yield event;
+			let index = 0;
+			for await (const item of this.#fetchPaginated(token, page, chunk)) {
+				try {
+					const event = SpotifySaveEvent.import(item, `spotify_saves_collection[${index++}]`);
+					if (event.addedAt < since) return;
+					yield event;
+				} catch (reason) {
+					console.error(reason);
+				}
 			}
-			if (items < count) return;
+			if (index < chunk) return;
 			page++;
 		}
 	}
 
 	async *crawl(since: Date): AsyncIterable<Activity> {
 		const token = await this.#authenticate();
-		for await (const event of this.#readTracks(token, since)) {
-			const { track, addedAt } = event;
+		for await (const event of this.#fetchTracks(token, since)) {
+			const { track } = event;
 			const platform = this.name;
-			const timestamp = new Date(addedAt);
+			const timestamp = event.addedAt;
 			const title = track.name;
 			const artists = track.artists.map(artist => artist.name);
 			const cover = track.album.images.at(0)?.url ?? null;

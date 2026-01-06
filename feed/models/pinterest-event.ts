@@ -262,7 +262,7 @@ export interface PinterestPinScheme {
 
 export class PinterestPin {
 	#id: string;
-	#createdAt: string;
+	#createdAt: Date;
 	#link: string | null;
 	#title: string | null;
 	#description: string | null;
@@ -270,7 +270,7 @@ export class PinterestPin {
 	#boardId: string;
 	#media: PinterestMediaContainer | null;
 
-	constructor(id: string, createdAt: string, link: string | null, title: string | null, description: string | null, altText: string | null, boardId: string, media: PinterestMediaContainer | null) {
+	constructor(id: string, createdAt: Date, link: string | null, title: string | null, description: string | null, altText: string | null, boardId: string, media: PinterestMediaContainer | null) {
 		this.#id = id;
 		this.#createdAt = createdAt;
 		this.#link = link;
@@ -284,7 +284,7 @@ export class PinterestPin {
 	static import(source: any, name: string): PinterestPin {
 		const object = Object.import(source, name);
 		const id = String.import(Reflect.get(object, "id"), `${name}.id`);
-		const createdAt = String.import(Reflect.get(object, "created_at"), `${name}.created_at`);
+		const createdAt = new Date(String.import(Reflect.get(object, "created_at"), `${name}.created_at`));
 		const link = Reflect.mapNull(Reflect.get(object, "link") as unknown, link => String.import(link, `${name}.link`));
 		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
 		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
@@ -297,7 +297,7 @@ export class PinterestPin {
 
 	static export(source: PinterestPin): PinterestPinScheme {
 		const id = source.id;
-		const created_at = source.createdAt;
+		const created_at = source.createdAt.toISOString();
 		const link = source.link;
 		const title = source.title;
 		const description = source.description;
@@ -311,7 +311,7 @@ export class PinterestPin {
 		return this.#id;
 	}
 
-	get createdAt(): string {
+	get createdAt(): Date {
 		return this.#createdAt;
 	}
 

@@ -43,15 +43,24 @@ export class SteamWalker extends ActivityWalker {
 		yield* games;
 	}
 
-	async #fetchGameSchema(appId: number): Promise<SteamGameSchemaContainer | null> {
+	async *#fetchAchievementsMapping(appId: number): AsyncIterable<[string, string]> {
 		try {
 			const data = await this.#fetchApi("ISteamUserStats", "GetSchemaForGame", "v2", {
 				["appid"]: String(appId),
 				["l"]: "english"
 			});
-			return SteamGameSchemaContainer.import(data, "steam_game_schema");
-		} catch {
-			return null;
+			const { game } = SteamGameSchemaContainer.import(data, "steam_game_schema");
+			const { availableGameStats } = game;
+			if (availableGameStats === undefined) return;
+			const { achievements } = availableGameStats;
+			if (achievements === undefined) return;
+			for (const achievement of achievements) {
+				const { name, icon } = achievement;
+				yield [name, icon];
+			}
+		} catch (reason) {
+			console.error(reason);
+			return;
 		}
 	}
 
@@ -74,8 +83,8 @@ export class SteamWalker extends ActivityWalker {
 			const { appId, imgIconUrl, hasCommunityVisibleStats } = game;
 			if (hasCommunityVisibleStats === undefined || !hasCommunityVisibleStats) continue;
 			const webpage = `https://store.steampowered.com/app/${appId}`;
-			const schema = await this.#fetchGameSchema(appId);
-			const icons = new Map(schema?.game.availableGameStats?.achievements?.map(({ name, icon }) => [name, icon]));
+			const mapping = await Array.fromAsync(this.#fetchAchievementsMapping(appId));
+			const icons = new Map(mapping);
 			for await (const achievement of this.#fetchAchievements(appId)) {
 				if (!achievement.achieved) continue;
 				const { unlockTime, apiName } = achievement;

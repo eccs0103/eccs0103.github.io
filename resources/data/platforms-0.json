@@ -3,7 +3,7 @@
 		"name": "Stack overflow",
 		"icon": "./icons/stack-overflow.svg",
 		"webpage": "https://ru.stackoverflow.com/users/324730",
-		"is_active": false
+		"is_active": true
 	},
 	{
 		"name": "GitHub",

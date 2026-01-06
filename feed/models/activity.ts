@@ -3,7 +3,7 @@
 import "adaptive-extender/core";
 
 //#region Activity
-export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator {
+export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator {
 }
 
 export interface ActivityScheme {
@@ -12,7 +12,7 @@ export interface ActivityScheme {
 	timestamp: number;
 }
 
-export class Activity {
+export abstract class Activity {
 	#platform: string;
 	#timestamp: Date;
 
@@ -38,6 +38,8 @@ export class Activity {
 		case "PinterestImagePinActivity":
 		case "PinterestVideoPinActivity": return PinterestActivity.import(source, name);
 		case "SteamAchievementActivity": return SteamActivity.import(source, name);
+		case "StackOverflowQuestionActivity":
+		case "StackOverflowAnswerActivity": return StackOverflowActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
@@ -47,6 +49,7 @@ export class Activity {
 		if (source instanceof SpotifyActivity) return SpotifyActivity.export(source);
 		if (source instanceof PinterestActivity) return PinterestActivity.export(source);
 		if (source instanceof SteamActivity) return SteamActivity.export(source);
+		if (source instanceof StackOverflowActivity) return StackOverflowActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 
@@ -81,7 +84,7 @@ export interface GitHubActivityScheme extends ActivityScheme {
 	repository: string;
 }
 
-export class GitHubActivity extends Activity {
+export abstract class GitHubActivity extends Activity {
 	#username: string;
 	#url: string;
 	#repository: string;
@@ -278,7 +281,7 @@ export interface GitHubCreateActivityScheme extends GitHubActivityScheme {
 	name: string;
 }
 
-export class GitHubCreateActivity extends GitHubActivity {
+export abstract class GitHubCreateActivity extends GitHubActivity {
 	#name: string;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
@@ -433,7 +436,7 @@ export interface GitHubDeleteActivityScheme extends GitHubActivityScheme {
 	name: string;
 }
 
-export class GitHubDeleteActivity extends GitHubActivity {
+export abstract class GitHubDeleteActivity extends GitHubActivity {
 	#name: string;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
@@ -548,7 +551,7 @@ export interface SpotifyActivityScheme extends ActivityScheme {
 	$type: keyof SpotifyActivityDiscriminator;
 }
 
-export class SpotifyActivity extends Activity {
+export abstract class SpotifyActivity extends Activity {
 	constructor(platform: string, timestamp: Date) {
 		super(platform, timestamp);
 		if (new.target === SpotifyActivity) throw new TypeError("Unable to create an instance of an abstract class");
@@ -647,9 +650,10 @@ export interface PinterestActivityScheme extends ActivityScheme {
 	$type: keyof PinterestActivityDiscriminator;
 }
 
-export class PinterestActivity extends Activity {
+export abstract class PinterestActivity extends Activity {
 	constructor(platform: string, timestamp: Date) {
 		super(platform, timestamp);
+		if (new.target === PinterestActivity) throw new TypeError("Unable to create an instance of an abstract class");
 	}
 
 	static import(source: any, name: string): PinterestActivity {
@@ -683,7 +687,7 @@ export interface PinterestPinActivityScheme extends PinterestActivityScheme {
 	url: string;
 }
 
-export class PinterestPinActivity extends PinterestActivity {
+export abstract class PinterestPinActivity extends PinterestActivity {
 	#content: string;
 	#width: number;
 	#height: number;
@@ -694,6 +698,7 @@ export class PinterestPinActivity extends PinterestActivity {
 
 	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
 		super(platform, timestamp);
+		if (new.target === PinterestPinActivity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.#content = content;
 		this.#width = width;
 		this.#height = height;
@@ -845,9 +850,10 @@ export interface SteamActivityScheme extends ActivityScheme {
 	$type: keyof SteamActivityDiscriminator;
 }
 
-export class SteamActivity extends Activity {
+export abstract class SteamActivity extends Activity {
 	constructor(platform: string, timestamp: Date) {
 		super(platform, timestamp);
+		if (new.target === SteamActivity) throw new TypeError("Unable to create an instance of an abstract class");
 	}
 
 	static import(source: any, name: string): SteamActivity {
@@ -947,6 +953,183 @@ export class SteamAchievementActivity extends SteamActivity {
 
 	get url(): string {
 		return this.#url;
+	}
+}
+//#endregion
+
+//#region Stack overflow activity
+export interface StackOverflowActivityDiscriminator extends StackOverflowQuestionActivityDiscriminator, StackOverflowAnswerActivityDiscriminator {
+}
+
+export interface StackOverflowActivityScheme extends ActivityScheme {
+	$type: keyof StackOverflowActivityDiscriminator;
+	title: string;
+	body: string;
+	score: number;
+	url: string;
+}
+
+export abstract class StackOverflowActivity extends Activity {
+	#title: string;
+	#body: string;
+	#score: number;
+	#url: string;
+
+	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string) {
+		super(platform, timestamp);
+		if (new.target === StackOverflowActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.#title = title;
+		this.#body = body;
+		this.#score = score;
+		this.#url = url;
+	}
+
+	static import(source: any, name: string): StackOverflowActivity {
+		const object = Object.import(source, name);
+		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
+		switch ($type) {
+		case "StackOverflowQuestionActivity": return StackOverflowQuestionActivity.import(source, name);
+		case "StackOverflowAnswerActivity": return StackOverflowAnswerActivity.import(source, name);
+		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
+		}
+	}
+
+	static export(source: StackOverflowActivity): StackOverflowActivityScheme {
+		if (source instanceof StackOverflowQuestionActivity) return StackOverflowQuestionActivity.export(source);
+		if (source instanceof StackOverflowAnswerActivity) return StackOverflowAnswerActivity.export(source);
+		throw new TypeError(`Invalid '${typename(source)}' type for source`);
+	}
+
+	get title(): string {
+		return this.#title;
+	}
+
+	get body(): string {
+		return this.#body;
+	}
+
+	get score(): number {
+		return this.#score;
+	}
+
+	get url(): string {
+		return this.#url;
+	}
+}
+//#endregion
+//#region Stack overflow question activity
+export interface StackOverflowQuestionActivityDiscriminator {
+	"StackOverflowQuestionActivity": StackOverflowQuestionActivity;
+}
+
+export interface StackOverflowQuestionActivityScheme extends StackOverflowActivityScheme {
+	$type: keyof StackOverflowQuestionActivityDiscriminator;
+	tags: string[];
+	views: number;
+	is_answered: boolean;
+}
+
+export class StackOverflowQuestionActivity extends StackOverflowActivity {
+	#tags: string[];
+	#views: number;
+	#isAnswered: boolean;
+
+	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, tags: string[], views: number, isAnswered: boolean) {
+		super(platform, timestamp, title, body, score, url);
+		this.#tags = tags;
+		this.#views = views;
+		this.#isAnswered = isAnswered;
+	}
+
+	static import(source: any, name: string): StackOverflowQuestionActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
+		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
+		const score = Number.import(Reflect.get(object, "score"), `${name}.score`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const tags = Array.import(Reflect.get(object, "tags"), `${name}.tags`).map((item, index) => {
+			return String.import(item, `${name}.tags[${index}]`);
+		});
+		const views = Number.import(Reflect.get(object, "views"), `${name}.views`);
+		const isAnswered = Boolean.import(Reflect.get(object, "is_answered"), `${name}.is_answered`);
+		const result = new StackOverflowQuestionActivity(platform, timestamp, title, body, score, url, tags, views, isAnswered);
+		return result;
+	}
+
+	static export(source: StackOverflowQuestionActivity): StackOverflowQuestionActivityScheme {
+		const $type = "StackOverflowQuestionActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const title = source.title;
+		const body = source.body;
+		const score = source.score;
+		const url = source.url;
+		const tags = source.tags;
+		const views = source.views;
+		const is_answered = source.isAnswered;
+		return { $type, platform, timestamp, title, body, score, url, tags, views, is_answered };
+	}
+
+	get tags(): string[] {
+		return this.#tags;
+	}
+
+	get views(): number {
+		return this.#views;
+	}
+
+	get isAnswered(): boolean {
+		return this.#isAnswered;
+	}
+}
+//#endregion
+//#region Stack overflow answer activity
+export interface StackOverflowAnswerActivityDiscriminator {
+	"StackOverflowAnswerActivity": StackOverflowAnswerActivity;
+}
+
+export interface StackOverflowAnswerActivityScheme extends StackOverflowActivityScheme {
+	$type: keyof StackOverflowAnswerActivityDiscriminator;
+	is_accepted: boolean;
+}
+
+export class StackOverflowAnswerActivity extends StackOverflowActivity {
+	#isAccepted: boolean;
+
+	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, isAccepted: boolean) {
+		super(platform, timestamp, title, body, score, url);
+		this.#isAccepted = isAccepted;
+	}
+
+	static import(source: any, name: string): StackOverflowAnswerActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
+		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
+		const score = Number.import(Reflect.get(object, "score"), `${name}.score`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const isAccepted = Boolean.import(Reflect.get(object, "is_accepted"), `${name}.is_accepted`);
+		const result = new StackOverflowAnswerActivity(platform, timestamp, title, body, score, url, isAccepted);
+		return result;
+	}
+
+	static export(source: StackOverflowAnswerActivity): StackOverflowAnswerActivityScheme {
+		const $type = "StackOverflowAnswerActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const title = source.title;
+		const body = source.body;
+		const score = source.score;
+		const url = source.url;
+		const is_accepted = source.isAccepted;
+		return { $type, platform, timestamp, title, body, score, url, is_accepted };
+	}
+
+	get isAccepted(): boolean {
+		return this.#isAccepted;
 	}
 }
 //#endregion

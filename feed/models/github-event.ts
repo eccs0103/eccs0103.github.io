@@ -21,10 +21,10 @@ export class GitHubEvent {
 	#actor: GitHubEventActor;
 	#repo: GitHubEventRepository;
 	#public: boolean;
-	#createdAt: string;
+	#createdAt: Date;
 	#payload: GitHubEventPayload;
 
-	constructor(id: string, actor: GitHubEventActor, repo: GitHubEventRepository, $public: boolean, createdAt: string, payload: GitHubEventPayload) {
+	constructor(id: string, actor: GitHubEventActor, repo: GitHubEventRepository, $public: boolean, createdAt: Date, payload: GitHubEventPayload) {
 		this.#id = id;
 		this.#actor = actor;
 		this.#repo = repo;
@@ -39,7 +39,7 @@ export class GitHubEvent {
 		const actor = GitHubEventActor.import(Reflect.get(object, "actor"), `${name}.actor`);
 		const repo = GitHubEventRepository.import(Reflect.get(object, "repo"), `${name}.repo`);
 		const $public = Boolean.import(Reflect.get(object, "public"), `${name}.public`);
-		const createdAt = String.import(Reflect.get(object, "created_at"), `${name}.created_at`);
+		const createdAt = new Date(String.import(Reflect.get(object, "created_at"), `${name}.created_at`));
 		const type = String.import(Reflect.get(object, "type"), `${name}.type`);
 		const payload = GitHubEventPayload.import(Object.assign(Object.import(Reflect.get(object, "payload"), `${name}.payload`), { $type: type }), `${name}.payload`);
 		const result = new GitHubEvent(id, actor, repo, $public, createdAt, payload);
@@ -51,7 +51,7 @@ export class GitHubEvent {
 		const actor = GitHubEventActor.export(source.actor);
 		const repo = GitHubEventRepository.export(source.repo);
 		const $public = source.public;
-		const created_at = source.createdAt;
+		const created_at = source.createdAt.toISOString();
 		const payload = GitHubEventPayload.export(source.payload);
 		const type = payload.$type;
 		return { id, type, actor, repo, public: $public, created_at, payload };
@@ -73,7 +73,7 @@ export class GitHubEvent {
 		return this.#public;
 	}
 
-	get createdAt(): string {
+	get createdAt(): Date {
 		return this.#createdAt;
 	}
 

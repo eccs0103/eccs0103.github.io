@@ -16,7 +16,7 @@ export class GitHubWalker extends ActivityWalker {
 		this.#token = token;
 	}
 
-	async *#fetchPage(page: number, count: number): AsyncIterable<GitHubEvent> {
+	async *#fetchPaginated(page: number, count: number): AsyncIterable<any> {
 		const url = new URL(`https://api.github.com/users/${this.#username}/events`);
 		url.searchParams.set("per_page", String(count));
 		url.searchParams.set("page", String(page));
@@ -27,42 +27,37 @@ export class GitHubWalker extends ActivityWalker {
 		};
 		const response = await fetch(url, { headers });
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const name = "github_events";
-		let index = 0;
-		for (const item of Array.import(await response.json(), name)) {
-			try {
-				yield GitHubEvent.import(item, `${name}[${index++}]`);
-			} catch (reason) {
-				console.error(reason);
-			}
-		}
+		yield* Array.import(await response.json(), "github_events");
 	}
 
-	async *#readEvents(since: Date): AsyncIterable<GitHubEvent> {
+	async *#fetchEvents(since: Date): AsyncIterable<GitHubEvent> {
+		const chunk = 100;
 		let page = 1;
-		const count = 100;
 		while (true) {
-			let items = 0;
-			for await (const event of this.#fetchPage(page, count)) {
-				const date = new Date(event.createdAt);
-				if (date < since) return;
-				items++;
-				yield event;
+			let index = 0;
+			for await (const item of this.#fetchPaginated(page, chunk)) {
+				try {
+					const event = GitHubEvent.import(item, `github_events[${index++}]`);
+					if (event.createdAt < since) return;
+					yield event;
+				} catch (reason) {
+					console.error(reason);
+				}
 			}
-			if (items < count) return;
+			if (index < chunk) return;
 			page++;
 		}
 	}
 
 	async *crawl(since: Date): AsyncIterable<Activity> {
-		for await (const event of this.#readEvents(since)) {
+		for await (const event of this.#fetchEvents(since)) {
 			if (!event.public) continue;
-			const { payload } = event;
+			const { payload, repo } = event;
 			const platform = this.name;
-			const timestamp = new Date(event.createdAt);
+			const timestamp = event.createdAt;
 			const username = event.actor.login;
-			const parts = event.repo.name.split("/", 2);
-			if (parts.length < 2) throw new SyntaxError(`Incorrect syntax of '${event.repo.name}' repository`);
+			const parts = repo.name.split("/", 2);
+			if (parts.length < 2) throw new SyntaxError(`Incorrect syntax of '${repo.name}' repository`);
 			const [, repository] = parts;
 			const url = `https://github.com/${username}/${repository}`;
 			if (payload instanceof GitHubPushEventPayload) {

@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller } from "adaptive-extender/web";
+import { Controller, Timespan } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ClientDataTable } from "../services/client-data-table.js";
 import { Activity } from "../models/activity.js";
@@ -26,7 +26,7 @@ class WebpageController extends Controller {
 
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);
-		await rendererActivies.render(activities, platforms);
+		await rendererActivies.render(activities, platforms, { gap: Timespan.fromComponents(36, 0, 0) });
 
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);

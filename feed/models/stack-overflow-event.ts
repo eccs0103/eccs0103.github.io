@@ -91,6 +91,7 @@ export interface StackOverflowQuestionScheme {
 	view_count: number; /** Количество просмотров. */
 	answer_count: number; /** Количество ответов на этот вопрос. */
 	is_answered: boolean; /** Принят ли какой-либо ответ на этот вопрос (не обязательно твой). */
+	body: string; // <-- Добавлено поле body (HTML)
 }
 
 export class StackOverflowQuestion {
@@ -104,8 +105,9 @@ export class StackOverflowQuestion {
 	#viewCount: number;
 	#answerCount: number;
 	#isAnswered: boolean;
+	#body: string;
 
-	constructor(tags: string[], owner: StackOverflowOwner, score: number, creationDate: Date, questionId: number, link: string, title: string, viewCount: number, answerCount: number, isAnswered: boolean) {
+	constructor(tags: string[], owner: StackOverflowOwner, score: number, creationDate: Date, questionId: number, link: string, title: string, viewCount: number, answerCount: number, isAnswered: boolean, body: string) {
 		this.#tags = tags;
 		this.#owner = owner;
 		this.#score = score;
@@ -116,6 +118,7 @@ export class StackOverflowQuestion {
 		this.#viewCount = viewCount;
 		this.#answerCount = answerCount;
 		this.#isAnswered = isAnswered;
+		this.#body = body;
 	}
 
 	static import(source: any, name: string): StackOverflowQuestion {
@@ -132,7 +135,8 @@ export class StackOverflowQuestion {
 		const viewCount = Number.import(Reflect.get(object, "view_count"), `${name}.view_count`);
 		const answerCount = Number.import(Reflect.get(object, "answer_count"), `${name}.answer_count`);
 		const isAnswered = Boolean.import(Reflect.get(object, "is_answered"), `${name}.is_answered`);
-		const result = new StackOverflowQuestion(tags, owner, score, creationDate, questionId, link, title, viewCount, answerCount, isAnswered);
+		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
+		const result = new StackOverflowQuestion(tags, owner, score, creationDate, questionId, link, title, viewCount, answerCount, isAnswered, body);
 		return result;
 	}
 
@@ -147,7 +151,8 @@ export class StackOverflowQuestion {
 		const view_count = source.viewCount;
 		const answer_count = source.answerCount;
 		const is_answered = source.isAnswered;
-		return { tags, owner, score, creation_date, question_id, link, title, view_count, answer_count, is_answered };
+		const body = source.body;
+		return { tags, owner, score, creation_date, question_id, link, title, view_count, answer_count, is_answered, body };
 	}
 
 	get tags(): string[] {
@@ -189,6 +194,10 @@ export class StackOverflowQuestion {
 	get isAnswered(): boolean {
 		return this.#isAnswered;
 	}
+
+	get body(): string {
+		return this.#body;
+	}
 }
 //#endregion
 
@@ -205,7 +214,8 @@ export interface StackOverflowAnswerScheme {
 	answer_id: number; /** Уникальный ID ответа. */
 	question_id: number;/** ID вопроса, к которому относится ответ. */
 	link: string;/** Прямая ссылка на ответ. */
-	title?: string; /** Заголовок вопроса. Появляется ТОЛЬКО при использовании фильтра !nNPvSNPHlk */
+	title: string; /** Заголовок вопроса. Появляется ТОЛЬКО при использовании фильтра !6WPIomplt */
+	body: string; // <-- Добавлено поле body (HTML). Появляется ТОЛЬКО при использовании фильтра !6WPIomplt
 }
 
 export class StackOverflowAnswer {
@@ -216,9 +226,10 @@ export class StackOverflowAnswer {
 	#answerId: number;
 	#questionId: number;
 	#link: string;
-	#title: string | undefined;
+	#title: string;
+	#body: string;
 
-	constructor(owner: StackOverflowOwner, isAccepted: boolean, score: number, creationDate: Date, answerId: number, questionId: number, link: string, title: string | undefined) {
+	constructor(owner: StackOverflowOwner, isAccepted: boolean, score: number, creationDate: Date, answerId: number, questionId: number, link: string, title: string, body: string) {
 		this.#owner = owner;
 		this.#isAccepted = isAccepted;
 		this.#score = score;
@@ -227,6 +238,7 @@ export class StackOverflowAnswer {
 		this.#questionId = questionId;
 		this.#link = link;
 		this.#title = title;
+		this.#body = body;
 	}
 
 	static import(source: any, name: string): StackOverflowAnswer {
@@ -238,8 +250,9 @@ export class StackOverflowAnswer {
 		const answerId = Number.import(Reflect.get(object, "answer_id"), `${name}.answer_id`);
 		const questionId = Number.import(Reflect.get(object, "question_id"), `${name}.question_id`);
 		const link = String.import(Reflect.get(object, "link"), `${name}.link`);
-		const title = Reflect.mapUndefined(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
-		const result = new StackOverflowAnswer(owner, isAccepted, score, creationDate, answerId, questionId, link, title);
+		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
+		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
+		const result = new StackOverflowAnswer(owner, isAccepted, score, creationDate, answerId, questionId, link, title, body);
 		return result;
 	}
 
@@ -252,7 +265,8 @@ export class StackOverflowAnswer {
 		const question_id = source.questionId;
 		const link = source.link;
 		const title = source.title;
-		return { owner, is_accepted, score, creation_date, answer_id, question_id, link, title };
+		const body = source.body;
+		return { owner, is_accepted, score, creation_date, answer_id, question_id, link, title, body };
 	}
 
 	get owner(): StackOverflowOwner {
@@ -283,8 +297,12 @@ export class StackOverflowAnswer {
 		return this.#link;
 	}
 
-	get title(): string | undefined {
+	get title(): string {
 		return this.#title;
+	}
+
+	get body(): string {
+		return this.#body;
 	}
 }
 //#endregion

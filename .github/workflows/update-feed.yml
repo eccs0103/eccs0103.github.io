@@ -28,10 +28,10 @@ jobs:
 
           - name: Run collector script
             env:
-                ORIGIN: ${{ vars.ORIGIN }}
-
                 SPECIFIC_KEYS: ${{ secrets.SPECIFIC_KEYS }}
                 SPECIFIC_VALUES: ${{ secrets.SPECIFIC_VALUES }}
+
+                ORIGIN: ${{ vars.ORIGIN }}
 
                 GITHUB_USERNAME: ${{ vars.USERNAME_GITHUB }}
                 GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
@@ -46,6 +46,9 @@ jobs:
 
                 STEAM_ID: ${{ vars.ID_STEAM }}
                 STEAM_API_KEY: ${{ secrets.API_KEY_STEAM }}
+
+                STACK_OVERFLOW_ID: ${{ vars.ID_STACK_OVERFLOW }}
+                STACK_OVERFLOW_API_KEY: ${{ secrets.API_KEY_STACK_OVERFLOW }}
             run: npm run walk
 
           - name: Get Version

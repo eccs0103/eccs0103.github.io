@@ -15,10 +15,8 @@ export class FixTrailingSlashPlugin extends VitePlugin {
 	#redirect(request: Connect.IncomingMessage, response: ServerResponse, next: Connect.NextFunction): void {
 		if (request.url === undefined) return next();
 		const url = new URL(`http://${env.host}${request.url}`);
-		console.log(url.toString()); /** @todo Remove before production */
 		// const [url] = request.url.split("?", 2);
 		// if (url.startsWith("/@") || url.includes("/node_modules/") || url.includes("/.vite/")) return next();
-		// console.log(url); /** @todo Remove before production */
 		// if (url.includes(".") || url.endsWith("/")) return next();
 		// response.statusCode = 301;
 		// response.setHeader("Location", `${request.url}/`);

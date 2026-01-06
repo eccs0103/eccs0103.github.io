@@ -5,6 +5,8 @@ import AsyncFileSystem from "fs/promises";
 import { type PortableConstructor } from "adaptive-extender/core";
 import { DataTable } from "./data-table.js";
 
+const { ceil } = Math;
+
 //#region Server data table
 export class ServerDataTable<C extends PortableConstructor> extends DataTable<C> {
 	#path: URL;
@@ -40,8 +42,7 @@ export class ServerDataTable<C extends PortableConstructor> extends DataTable<C>
 	async save(): Promise<void> {
 		const limit = DataTable.PAGE_COUNT;
 		const type = this.#type;
-		const total = Math.ceil(this.length / limit);
-		for (let page = 0; page < total; page++) {
+		for (let page = 0; page < ceil(this.length / limit); page++) {
 			const target = DataTable.toPaginatedPath(this.#path, page);
 			const chunk = this.slice(page * limit, (page + 1) * limit);
 			const array = chunk.map(item => type.export(item));

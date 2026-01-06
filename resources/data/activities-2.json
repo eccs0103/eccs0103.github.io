@@ -2,69 +2,6 @@
 	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
-		"timestamp": 1764426036000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b3d8e8bb8d6c54fd23d2c33f09d6af22d767d15d"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764425758000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "6785302ed5391f0100a502158cd19c649f0a2ec3"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764425733000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "8873d010d7a7ddf560bc17e42c75b02b0b4c5122"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764425165000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "ef23d5d2d91101785ac878dc4bf499d0f6311881"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764423959000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "0f1dc6238496266da75db9de75131472c175a817"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764421358000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "d97488fafdcae75839ba4a1072039b7f2825f830"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1764377978000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "bd0564f0e2ceb627b95b53ebb8ea223a99600447"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
 		"timestamp": 1764375536000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/adaptive-extender",

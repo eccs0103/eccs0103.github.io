@@ -1,5 +1,15 @@
 [
 	{
+		"$type": "StackOverflowAnswerActivity",
+		"platform": "Stack overflow",
+		"timestamp": 1767825118000,
+		"title": "Странные метрики GA4",
+		"body": "<h2>Что не так у моего скрипта?</h2>\n<p>У скрипта все в порядке, проблема в костылях Google.<br />\nДело в том, что для корректной работы GA4 необходимо не только наличие <code>window.dataLayer</code>, но и функция <code>window.gtag(...args: any[]): void;</code>. Именно через эту функцию отправляются данные.</p>\n<p>Когда мы просто вставляем в head...</p>\n<pre class=\"lang-ts prettyprint-override\"><code>window.dataLayer = window.dataLayer || [];\nfunction gtag() { dataLayer.push(arguments); }\ngtag('js', new Date());\ngtag('config', 'G-ID');\n</code></pre>\n<p>... то функция становится доступной в глобальном объекте <code>window</code>. Однако, если мы выполняем те же действия в модуле, функция остается в контексте этого модуля, и скрипт GA4 его не видит.</p>\n<h2>Почему сбор останавливается?</h2>\n<p>Далее по сценарию, первые два запроса выглядят так:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>gtag(window.dataLayer, &quot;js&quot;, new Date());\ngtag(window.dataLayer, &quot;config&quot;, id);\n</code></pre>\n<p>А все остальные запросы просто не проходят по вышеуказанным причинам. После этого GA4 начинает фиксировать пустые данные без действий и считает это ложными срабатываниями, тем самым игнорируя последующие данные.</p>\n<h2>Как это исправить?</h2>\n<p>Всего лишь...</p>\n<pre class=\"lang-ts prettyprint-override\"><code>declare global {\n    export interface Window {\n        dataLayer: any[];\n        gtag(...args: any[]): void;\n    }\n}\n\nwindow.dataLayer = window.dataLayer ?? [];\nwindow.gtag = function (): void {\n    window.dataLayer.push(arguments);\n};\n\nconst id = &quot;G-ID&quot;;\n\nwindow.gtag(&quot;js&quot;, new Date());\nwindow.gtag(&quot;config&quot;, id);\n\nconst script = document.head.appendChild(document.createElement(&quot;script&quot;));\nscript.async = true;\nscript.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;\n</code></pre>\n",
+		"score": 0,
+		"url": "https://ru.stackoverflow.com/questions/1622198/%d0%a1%d1%82%d1%80%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5-%d0%bc%d0%b5%d1%82%d1%80%d0%b8%d0%ba%d0%b8-ga4/1623701#1623701",
+		"is_accepted": true
+	},
+	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
 		"timestamp": 1767818264000,
@@ -955,14 +965,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "59393ed7036e72f82a2e83751580b84030e41dca"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766847996000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "877ab1cff092dfed093187317db3921ae497dc98"
 	}
 ]

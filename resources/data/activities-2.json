@@ -1,5 +1,14 @@
 [
 	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1764709376000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"name": "web-development"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1764691331000,

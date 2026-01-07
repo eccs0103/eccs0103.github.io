@@ -99,6 +99,63 @@ body {
 				& img.steam-icon {
 					width: calc(2 * var(--size-standart));
 				}
+
+				& img.steam-screenshot {
+					max-width: 100%;
+					max-height: 400px;
+					object-fit: cover;
+					border: 1px solid var(--color-heavy-main);
+				}
+
+				& details.stack-overflow {
+					& > summary {
+						cursor: pointer;
+						list-style: none;
+
+						&::-webkit-details-marker {
+							display: none;
+						}
+					}
+					
+					& > summary > div {
+						padding: calc(var(--size-gap) / 2) 0;
+					}
+
+					& > div.stack-overflow-content {
+						margin-top: var(--size-gap);
+						padding-left: var(--size-gap);
+						border-left: 2px solid var(--color-light-negative);
+						
+						& div.markup {
+							font-family: inherit;
+							
+							& pre, & code {
+								background-color: var(--color-heavy-main);
+								padding: 0.1em 0.3em;
+								border-radius: 4px;
+								font-family: "Cascadia Code", "Consolas", monospace;
+							}
+							
+							& blockquote {
+								border-left: 3px solid var(--color-light-negative);
+								padding-left: var(--size-gap);
+								color: var(--color-light-negative);
+							}
+						}
+
+						& div.tags {
+							flex-wrap: wrap;
+
+							& span.tag {
+								background-color: var(--color-heavy-main);
+								color: var(--color-highlight);
+								padding: 0.2em 0.5em;
+								border-radius: 4px;
+								font-size: 0.8em;
+							}
+						}
+					}
+				}
 			}
 		}
 

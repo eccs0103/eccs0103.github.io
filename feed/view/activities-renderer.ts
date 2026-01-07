@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
-import { Activity, GitHubActivity, SpotifyActivity, SteamActivity } from "../models/activity.js";
+import { Activity, GitHubActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { type Platform } from "../models/platform.js";
 import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
@@ -11,6 +11,7 @@ import { SpotifyRenderStrategy } from "./spotify-render-strategy.js";
 import { SteamRenderStrategy } from "./steam-render-strategy.js";
 import { ActivityCollector, type TypeOf } from "../services/activity-collector.js";
 import { type DataTable } from "../services/data-table.js";
+import { StackOverflowRenderStrategy } from "./stack-overflow-render-strategy.js";
 
 //#region Activities renderer
 export interface ActivityRenderStrategy<T extends Activity> {
@@ -44,7 +45,9 @@ export class ActivitiesRenderer {
 		this.#itemContainer = itemContainer;
 		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy);
 		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy);
-		this.registerStrategy(SteamActivity, new SteamRenderStrategy);
+		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy);
+		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy);
+		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy);
 	}
 
 	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void {

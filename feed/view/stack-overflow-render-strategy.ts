@@ -7,49 +7,56 @@ import { DOMBuilder } from "./view-builders.js";
 
 //#region Stack Overflow render strategy
 export class StackOverflowRenderStrategy implements ActivityRenderStrategy<StackOverflowActivity> {
+	#renderStatus(container: HTMLElement, isSuccess: boolean, tooltip: string): void {
+		if (!isSuccess) return;
+
+		const spanStatus = container.appendChild(document.createElement("span"));
+		spanStatus.textContent = "✓";
+		spanStatus.title = tooltip;
+		spanStatus.classList.add("highlight", "bold", "status-icon");
+	}
+
 	#renderQuestion(itemContainer: HTMLElement, activity: StackOverflowQuestionActivity): void {
 		const { title, score, tags, isAnswered, body, url } = activity;
 
 		const details = itemContainer.appendChild(document.createElement("details"));
 		details.classList.add("stack-overflow");
 
+		// Summary: "Asked about [Tag]: [Title]"
 		const summary = details.appendChild(document.createElement("summary"));
-		const divHeader = summary.appendChild(document.createElement("div"));
-		divHeader.classList.add("flex", "with-gap", "alt-center");
 
-		const strongTitle = divHeader.appendChild(document.createElement("strong"));
-		strongTitle.textContent = title;
-
-		if (isAnswered) {
-			const spanAnswered = divHeader.appendChild(document.createElement("span"));
-			spanAnswered.textContent = "✓";
-			spanAnswered.title = "Answered";
-			spanAnswered.classList.add("highlight", "bold");
+		summary.appendChild(DOMBuilder.newText("Asked "));
+		if (tags.length > 0) {
+			summary.appendChild(DOMBuilder.newText("about "));
+			const codeTag = summary.appendChild(document.createElement("code"));
+			codeTag.textContent = tags[0]; // Show main context only to keep it human-readable
+			summary.appendChild(DOMBuilder.newText(": "));
+		} else {
+			summary.appendChild(DOMBuilder.newText(": "));
 		}
 
-		const spanScore = divHeader.appendChild(document.createElement("span"));
-		spanScore.textContent = `Score: ${score}`;
-		spanScore.classList.add("description");
+		const strongTitle = summary.appendChild(document.createElement("strong"));
+		strongTitle.textContent = title;
 
+		this.#renderStatus(summary, isAnswered, "Question answered");
+
+		if (score !== 0) {
+			const spanScore = summary.appendChild(document.createElement("span"));
+			spanScore.textContent = ` (${score > 0 ? "+" : ""}${score})`;
+			spanScore.classList.add("description", "faded-score");
+		}
+
+		// Content
 		const divContent = details.appendChild(document.createElement("div"));
 		divContent.classList.add("stack-overflow-content", "flex", "column", "with-gap");
+
+		// Link as a header inside content
+		const headerLink = divContent.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		headerLink.classList.add("content-header");
 
 		const divBody = divContent.appendChild(document.createElement("div"));
 		divBody.innerHTML = body;
 		divBody.classList.add("markup");
-
-		if (tags.length > 0) {
-			const divTags = divContent.appendChild(document.createElement("div"));
-			divTags.classList.add("flex", "with-gap", "tags");
-			for (const tag of tags) {
-				const spanTag = divTags.appendChild(document.createElement("span"));
-				spanTag.textContent = tag;
-				spanTag.classList.add("tag");
-			}
-		}
-
-		const aLink = divContent.appendChild(DOMBuilder.newLink("View on Stack Overflow ↗", new URL(url)));
-		aLink.classList.add("self-end");
 	}
 
 	#renderAnswer(itemContainer: HTMLElement, activity: StackOverflowAnswerActivity): void {
@@ -58,33 +65,33 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 		const details = itemContainer.appendChild(document.createElement("details"));
 		details.classList.add("stack-overflow");
 
+		// Summary: "Posted an answer to: [Title]"
 		const summary = details.appendChild(document.createElement("summary"));
-		const divHeader = summary.appendChild(document.createElement("div"));
-		divHeader.classList.add("flex", "with-gap", "alt-center");
 
-		const strongTitle = divHeader.appendChild(document.createElement("strong"));
+		summary.appendChild(DOMBuilder.newText("Posted an answer to: "));
+
+		const strongTitle = summary.appendChild(document.createElement("strong"));
 		strongTitle.textContent = title;
 
-		if (isAccepted) {
-			const spanAccepted = divHeader.appendChild(document.createElement("span"));
-			spanAccepted.textContent = "✓";
-			spanAccepted.title = "Accepted";
-			spanAccepted.classList.add("highlight", "bold");
+		this.#renderStatus(summary, isAccepted, "Answer accepted");
+
+		if (score !== 0) {
+			const spanScore = summary.appendChild(document.createElement("span"));
+			spanScore.textContent = ` (${score > 0 ? "+" : ""}${score})`;
+			spanScore.classList.add("description", "faded-score");
 		}
 
-		const spanScore = divHeader.appendChild(document.createElement("span"));
-		spanScore.textContent = `Score: ${score}`;
-		spanScore.classList.add("description");
-
+		// Content
 		const divContent = details.appendChild(document.createElement("div"));
 		divContent.classList.add("stack-overflow-content", "flex", "column", "with-gap");
+
+		// Link as a header inside content
+		const headerLink = divContent.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		headerLink.classList.add("content-header");
 
 		const divBody = divContent.appendChild(document.createElement("div"));
 		divBody.innerHTML = body;
 		divBody.classList.add("markup");
-
-		const aLink = divContent.appendChild(DOMBuilder.newLink("View on Stack Overflow ↗", new URL(url)));
-		aLink.classList.add("self-end");
 	}
 
 	#renderSingle(itemContainer: HTMLElement, activity: StackOverflowActivity): void {
@@ -94,10 +101,7 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 
 	render(itemContainer: HTMLElement, buffer: readonly StackOverflowActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
-
-		const spanLabel = itemContainer.appendChild(document.createElement("span"));
-		spanLabel.classList.add("activity-label");
-		spanLabel.textContent = "Stack Overflow Activity";
+		// Removed the "Stack Overflow Activity" label as requested
 
 		for (const activity of buffer) {
 			this.#renderSingle(itemContainer, activity);

@@ -4,14 +4,14 @@
 declare global {
 	export interface Window {
 		dataLayer: any[];
-		gtag(...args: any): void;
+		gtag(...args: any[]): void;
 	}
 }
 
-window.dataLayer = window.dataLayer ?? [];
+window.dataLayer ??= [];
 
-window.gtag = function (): void {
-	window.dataLayer.push(arguments);
+window.gtag = function (...args: any[]): void {
+	window.dataLayer.push(args);
 };
 //#endregion
 //#region Analytics service

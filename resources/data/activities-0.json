@@ -1,5 +1,38 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767769069000,
+		"title": "Plasma Storm",
+		"artists": [
+			"Beds and Beats"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273ad6f50983e7f93b6accc322b",
+		"url": "https://open.spotify.com/track/727cQTYfamvvC8Udcffdyf"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767769055000,
+		"title": "Calvaire",
+		"artists": [
+			"Code: Pandorum"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732f7d14eaa4d6fc91ce534b15",
+		"url": "https://open.spotify.com/track/64GgSqv4B2pUtN3IW1g0Dc"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767769039000,
+		"title": "Gathering Coven",
+		"artists": [
+			"Caster"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273dfddac921145f52153c28a91",
+		"url": "https://open.spotify.com/track/223TKhq1KvVayHmT6H7XtW"
+	},
+	{
 		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1767745877000,
@@ -929,32 +962,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "5dd87396d0e4463af625f00348253416dadfa009"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766732421000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "84f32f4b55c7a3686dce06ce4955f64efc8a37ef"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766732359000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "fa6f363c82716538d5366d86e0828d243ff21cf9"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766702155000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "4d6ab11811fa24d0583b4209bb2980ef174618b1"
 	}
 ]

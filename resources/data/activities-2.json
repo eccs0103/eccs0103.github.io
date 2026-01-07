@@ -1,5 +1,35 @@
 [
 	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1764574278000,
+		"title": "Main Title",
+		"artists": [
+			"John Paesano",
+			"Braden Kimball"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2739f7dd8a7ce5d7826805293ed",
+		"url": "https://open.spotify.com/track/4t20umh0eSuYstasrSl2HV"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1764546860000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6de57cf19c045ab94dc4857b8df334c8b7852c26"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1764540836000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "development"
+	},
+	{
 		"$type": "GitHubDeleteBranchActivity",
 		"platform": "GitHub",
 		"timestamp": 1764540811000,

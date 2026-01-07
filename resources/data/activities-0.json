@@ -1,5 +1,41 @@
 [
 	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745877000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "320dabd0f49e1d1cb0521d9743b1b33b5207c275"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745841000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "320dabd0f49e1d1cb0521d9743b1b33b5207c275"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745815000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "320dabd0f49e1d1cb0521d9743b1b33b5207c275"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745413000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "37b3643e524d2cb8f361a509d859e46f012d645c"
+	},
+	{
 		"$type": "SteamAchievementActivity",
 		"platform": "Steam",
 		"timestamp": 1767733150000,
@@ -920,44 +956,5 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "4d6ab11811fa24d0583b4209bb2980ef174618b1"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766690114000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "032dd357d799f935b632014a681b91a8f0f824cf"
-	},
-	{
-		"$type": "SpotifyLikeActivity",
-		"platform": "Spotify",
-		"timestamp": 1766673983000,
-		"title": "Where'd You Go",
-		"artists": [
-			"2nd Life",
-			"RYVN"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2737e15e0f49f5f8aab47ef8cd5",
-		"url": "https://open.spotify.com/track/7xukLsvxV5raJ1xBIlg26H"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766670705000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b49d01de2e0b8f8622c7d0dc8547aa983a85f2ee"
-	},
-	{
-		"$type": "GitHubPushActivity",
-		"platform": "GitHub",
-		"timestamp": 1766670369000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "f7fa0c18fa39c9d4d129b7c1a335a69f0b6848df"
 	}
 ]

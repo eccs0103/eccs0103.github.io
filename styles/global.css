@@ -29,7 +29,7 @@
 	--size-gap: calc(var(--size-standart) / 4);
 	--size-small-gap: calc(var(--size-gap) / 2);
 	--size-large-gap: calc(var(--size-gap) * 2);
-	
+
 	--size-separator: calc(var(--size-standart) / 12);
 	--size-small-separator: calc(var(--size-separator) / 2);
 	--size-large-separator: calc(var(--size-separator) * 2);
@@ -144,7 +144,7 @@ body {
 
 *:read-write {
 	cursor: text;
-	text-overflow: revert;
+	text-overflow: unset;
 }
 
 input[type="radio"]:checked,
@@ -158,7 +158,7 @@ input[type="radio"]:checked + label,
 }
 
 *[contenteditable] {
-	text-overflow: revert;
+	text-overflow: unset;
 
 	&:empty::before {
 		content: attr(aria-placeholder);
@@ -354,7 +354,8 @@ kbd {
 	font-weight: bold;
 }
 
-code {
+code,
+pre {
 	white-space: pre;
 	tab-size: 4;
 	counter-reset: line;
@@ -362,7 +363,7 @@ code {
 	-webkit-user-select: text;
 	user-select: text;
 	overflow-x: auto;
-	text-overflow: revert;
+	text-overflow: unset;
 
 	& * {
 		-moz-user-select: inherit;

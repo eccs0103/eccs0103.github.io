@@ -43,10 +43,10 @@ export class ActivitiesRenderer {
 
 	constructor(itemContainer: HTMLElement) {
 		this.#itemContainer = itemContainer;
-		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy);
-		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy);
-		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy);
-		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy);
+		// this.registerStrategy(GitHubActivity, new GitHubRenderStrategy);
+		// this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy);
+		// this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy);
+		// this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy);
 		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy);
 	}
 

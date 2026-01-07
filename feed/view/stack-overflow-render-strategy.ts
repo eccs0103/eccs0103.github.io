@@ -8,7 +8,7 @@ import { DOMBuilder } from "./view-builders.js";
 //#region Stack Overflow render strategy
 export class StackOverflowRenderStrategy implements ActivityRenderStrategy<StackOverflowActivity> {
 
-	#renderScoreBox(itemContainer: HTMLElement, score: number, successMessage: string | null): void {
+	#renderScoreBox(itemContainer: HTMLElement, score: number, successMessage: string | null, views: number | null): void {
 		const divScore = itemContainer.appendChild(document.createElement("div"));
 		divScore.classList.add("so-score-box", "flex", "column", "alt-center", "main-center");
 
@@ -21,9 +21,12 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 		spanValue.textContent = score.toString();
 		spanValue.classList.add("score-value");
 
-		const spanLabel = divScore.appendChild(document.createElement("span"));
-		spanLabel.textContent = "score";
-		spanLabel.classList.add("score-label");
+		if (views !== null) {
+			const divViews = divScore.appendChild(document.createElement("div"));
+			divViews.classList.add("view-count", "description");
+			divViews.textContent = `${new Intl.NumberFormat("en-US", { notation: "compact", compactDisplay: "short" }).format(views).toLowerCase()} views`;
+			divViews.title = `${views} views`;
+		}
 	}
 
 	#renderTags(itemContainer: HTMLElement, tags: readonly string[]): void {
@@ -39,39 +42,46 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 		}
 	}
 
-	#renderBody(itemContainer: HTMLElement, bodyHTML: string): void {
-		const details = itemContainer.appendChild(document.createElement("details"));
+	#renderContent(container: HTMLElement, introText: string, title: string, url: string, bodyHTML: string): void {
+		const details = container.appendChild(document.createElement("details"));
 		details.classList.add("so-details");
 
 		const summary = details.appendChild(document.createElement("summary"));
-		summary.textContent = "Show content";
 
-		const divContent = details.appendChild(document.createElement("div"));
-		divContent.classList.add("so-body", "markup");
-		divContent.innerHTML = bodyHTML;
+		const divHeaderLine = summary.appendChild(document.createElement("div"));
+		divHeaderLine.classList.add("so-header-line");
+
+		// "Asked question: " или "Answer to: "
+		divHeaderLine.appendChild(DOMBuilder.newText(introText));
+
+		// Сама ссылка.
+		const aTitle = divHeaderLine.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		aTitle.classList.add("so-title");
+
+		// 2. Body (скрыто внутри details)
+		const divBody = details.appendChild(document.createElement("div"));
+		divBody.classList.add("so-body", "markup");
+		divBody.innerHTML = bodyHTML;
 	}
 
 	#renderQuestion(itemContainer: HTMLElement, activity: StackOverflowQuestionActivity): void {
+		// @ts-ignore: views может отсутствовать в типах, но приходить с бэка
 		const { title, score, tags, isAnswered, body, url, views } = activity;
 
 		const divWrapper = itemContainer.appendChild(document.createElement("div"));
 		divWrapper.classList.add("so-card", "flex", "with-gap");
 
-		this.#renderScoreBox(divWrapper, score, isAnswered ? "Question has an accepted answer" : null);
+		// Left: Score Box (c views)
+		this.#renderScoreBox(divWrapper, score, isAnswered ? "Question has an accepted answer" : null, views);
 
+		// Right: Content Area
 		const divMain = divWrapper.appendChild(document.createElement("div"));
 		divMain.classList.add("flex", "column", "so-content-area");
 
-		if (views !== undefined) {
-			const divMeta = divMain.appendChild(document.createElement("div"));
-			divMeta.classList.add("so-header-meta");
-			divMeta.textContent = `${views} views`;
-		}
+		// Details (Header + Body)
+		this.#renderContent(divMain, "Asked question: ", title, url, body);
 
-		const aTitle = divMain.appendChild(DOMBuilder.newLink(title, new URL(url)));
-		aTitle.classList.add("so-title");
-
-		this.#renderBody(divMain, body);
+		// Tags (всегда видны, под details)
 		this.#renderTags(divMain, tags);
 	}
 
@@ -81,19 +91,15 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 		const divWrapper = itemContainer.appendChild(document.createElement("div"));
 		divWrapper.classList.add("so-card", "flex", "with-gap");
 
-		this.#renderScoreBox(divWrapper, score, isAccepted ? "This answer is accepted" : null);
+		// Left: Score Box
+		this.#renderScoreBox(divWrapper, score, isAccepted ? "This answer is accepted" : null, null);
 
+		// Right: Content Area
 		const divMain = divWrapper.appendChild(document.createElement("div"));
 		divMain.classList.add("flex", "column", "so-content-area");
 
-		const divHeader = divMain.appendChild(document.createElement("div"));
-		divHeader.classList.add("so-header-line");
-		divHeader.appendChild(DOMBuilder.newText("Answer to: "));
-
-		const aTitle = divHeader.appendChild(DOMBuilder.newLink(title, new URL(url)));
-		aTitle.classList.add("so-title");
-
-		this.#renderBody(divMain, body);
+		// Details (Header + Body)
+		this.#renderContent(divMain, "Answer to: ", title, url, body);
 	}
 
 	#renderSingle(itemContainer: HTMLElement, activity: StackOverflowActivity): void {
@@ -103,7 +109,6 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 
 	render(itemContainer: HTMLElement, buffer: readonly StackOverflowActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
-
 		for (const activity of buffer) {
 			this.#renderSingle(itemContainer, activity);
 		}

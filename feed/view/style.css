@@ -119,6 +119,7 @@ body {
 						& span.score-value {
 							font-size: 1.4em;
 							font-weight: bold;
+							line-height: 1;
 						}
 
 						& span.score-label {
@@ -127,9 +128,23 @@ body {
 							color: var(--color-light-negative);
 						}
 
+						& div.view-count {
+							margin-top: var(--size-small-gap);
+							padding-top: var(--size-small-gap);
+							border-top: var(--size-separator) solid var(--color-heavy-main);
+							font-size: 0.7em;
+							width: 100%;
+							text-align: center;
+							white-space: nowrap;
+						}
+
 						&.status-success {
 							border-color: var(--color-highlight);
 							background-color: rgb(from var(--color-highlight) r g b / 10%);
+
+							& div.view-count {
+								border-top-color: var(--color-highlight);
+							}
 						}
 					}
 
@@ -138,21 +153,32 @@ body {
 						min-width: 0;
 						gap: var(--size-small-gap);
 
-						& div.so-header-meta {
-							font-size: 0.8em;
-							margin-bottom: calc(-1 * var(--size-small-gap));
-						}
-
-						& a.so-title {
-							font-size: 1.1em;
-							font-weight: bold;
-						}
-
 						& details.so-details {
 							& summary {
 								cursor: pointer;
-								font-size: 0.9em;
+								list-style-type: none;
+
+								&::-webkit-details-marker {
+									display: none;
+								}
+							}
+
+							& div.so-header-line {
+								/* font-size: 0.9em; */
 								color: var(--color-light-negative);
+
+								& a.so-title {
+									/* font-size: 1.1em; */
+									font-weight: bold;
+									/* display: block; */
+									margin-top: calc(var(--size-small-gap) / 2);
+									/* color: var(--color-main); */
+									text-decoration: none;
+
+									/* &:hover {
+										color: var(--color-highlight);
+									} */
+								}
 							}
 
 							& > div.so-body {

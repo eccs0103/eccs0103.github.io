@@ -107,51 +107,112 @@ body {
 					border: 1px solid var(--color-heavy-main);
 				}
 
-				& details.stack-overflow {
-					& > summary {
-						cursor: pointer;
-						list-style: none;
+				& div.so-card {
+					align-items: flex-start;
 
-						&::-webkit-details-marker {
-							display: none;
+					& div.so-score-box {
+						min-width: 60px;
+						padding: var(--size-gap);
+						border: var(--size-separator) solid var(--color-heavy-main);
+						border-radius: var(--size-gap);
+
+						& span.score-value {
+							font-size: 1.4em;
+							font-weight: bold;
+						}
+
+						& span.score-label {
+							font-size: 0.7em;
+							text-transform: uppercase;
+							color: var(--color-light-negative);
+						}
+
+						&.status-success {
+							border-color: var(--color-highlight);
+							background-color: rgb(from var(--color-highlight) r g b / 10%);
 						}
 					}
-					
-					& > summary > div {
-						padding: calc(var(--size-gap) / 2) 0;
-					}
 
-					& > div.stack-overflow-content {
-						margin-top: var(--size-gap);
-						padding-left: var(--size-gap);
-						border-left: 2px solid var(--color-light-negative);
-						
-						& div.markup {
-							font-family: inherit;
-							
-							& pre, & code {
-								background-color: var(--color-heavy-main);
-								padding: 0.1em 0.3em;
-								border-radius: 4px;
-								font-family: "Cascadia Code", "Consolas", monospace;
-							}
-							
-							& blockquote {
-								border-left: 3px solid var(--color-light-negative);
-								padding-left: var(--size-gap);
+					& div.so-content-area {
+						flex: 1;
+						min-width: 0;
+						gap: var(--size-small-gap);
+
+						& div.so-header-meta {
+							font-size: 0.8em;
+							margin-bottom: calc(-1 * var(--size-small-gap));
+						}
+
+						& a.so-title {
+							font-size: 1.1em;
+							font-weight: bold;
+						}
+
+						& details.so-details {
+							& summary {
+								cursor: pointer;
+								font-size: 0.9em;
 								color: var(--color-light-negative);
 							}
+
+							& > div.so-body {
+								margin-top: var(--size-gap);
+								font-size: 0.95em;
+								line-height: 1.6;
+
+								& p {
+									margin-bottom: 0.8em;
+								}
+
+								& pre {
+									background-color: var(--color-heavy-main);
+									padding: var(--size-gap);
+									border-radius: var(--size-gap);
+									overflow-x: auto;
+									margin: 1em 0;
+								}
+
+								& code {
+									font-family: "Cascadia Code", monospace;
+									background-color: var(--color-heavy-main);
+									padding: 0.1em 0.3em;
+									border-radius: 3px;
+								}
+
+								& pre code {
+									background-color: transparent;
+									padding: 0;
+								}
+
+								& blockquote {
+									border-left: var(--size-gap) solid var(--color-light-negative);
+									padding-left: var(--size-gap);
+									margin: 1em 0;
+									font-style: italic;
+								}
+
+								& img {
+									max-width: 100%;
+									height: auto;
+									border-radius: var(--size-small-gap);
+								}
+							}
 						}
 
-						& div.tags {
+						& div.so-tags {
 							flex-wrap: wrap;
+							margin-top: var(--size-small-gap);
 
-							& span.tag {
-								background-color: var(--color-heavy-main);
-								color: var(--color-highlight);
-								padding: 0.2em 0.5em;
-								border-radius: 4px;
-								font-size: 0.8em;
+							& a.tag {
+								font-size: 0.9em;
+
+								&.rounded {
+									border-radius: var(--size-small-gap);
+								}
+
+								&.with-padding {
+									padding: var(--size-small-gap) var(--size-gap);
+								}
 							}
 						}
 					}

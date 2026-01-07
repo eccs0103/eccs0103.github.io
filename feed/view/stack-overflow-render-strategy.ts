@@ -7,91 +7,93 @@ import { DOMBuilder } from "./view-builders.js";
 
 //#region Stack Overflow render strategy
 export class StackOverflowRenderStrategy implements ActivityRenderStrategy<StackOverflowActivity> {
-	#renderStatus(container: HTMLElement, isSuccess: boolean, tooltip: string): void {
-		if (!isSuccess) return;
 
-		const spanStatus = container.appendChild(document.createElement("span"));
-		spanStatus.textContent = "✓";
-		spanStatus.title = tooltip;
-		spanStatus.classList.add("highlight", "bold", "status-icon");
+	#renderScoreBox(itemContainer: HTMLElement, score: number, successMessage: string | null): void {
+		const divScore = itemContainer.appendChild(document.createElement("div"));
+		divScore.classList.add("so-score-box", "flex", "column", "alt-center", "main-center");
+
+		if (successMessage !== null) {
+			divScore.classList.add("status-success");
+			divScore.title = successMessage;
+		}
+
+		const spanValue = divScore.appendChild(document.createElement("span"));
+		spanValue.textContent = score.toString();
+		spanValue.classList.add("score-value");
+
+		const spanLabel = divScore.appendChild(document.createElement("span"));
+		spanLabel.textContent = "score";
+		spanLabel.classList.add("score-label");
+	}
+
+	#renderTags(itemContainer: HTMLElement, tags: readonly string[]): void {
+		if (tags.length < 1) return;
+
+		const divTags = itemContainer.appendChild(document.createElement("div"));
+		divTags.classList.add("so-tags", "flex", "with-gap");
+
+		for (const tag of tags) {
+			const url = new URL(`https://ru.stackoverflow.com/tags/${tag}`);
+			const aTag = divTags.appendChild(DOMBuilder.newLink(tag, url));
+			aTag.classList.add("tag", "depth", "rounded", "with-padding");
+		}
+	}
+
+	#renderBody(itemContainer: HTMLElement, bodyHTML: string): void {
+		const details = itemContainer.appendChild(document.createElement("details"));
+		details.classList.add("so-details");
+
+		const summary = details.appendChild(document.createElement("summary"));
+		summary.textContent = "Show content";
+
+		const divContent = details.appendChild(document.createElement("div"));
+		divContent.classList.add("so-body", "markup");
+		divContent.innerHTML = bodyHTML;
 	}
 
 	#renderQuestion(itemContainer: HTMLElement, activity: StackOverflowQuestionActivity): void {
-		const { title, score, tags, isAnswered, body, url } = activity;
+		const { title, score, tags, isAnswered, body, url, views } = activity;
 
-		const details = itemContainer.appendChild(document.createElement("details"));
-		details.classList.add("stack-overflow");
+		const divWrapper = itemContainer.appendChild(document.createElement("div"));
+		divWrapper.classList.add("so-card", "flex", "with-gap");
 
-		// Summary: "Asked about [Tag]: [Title]"
-		const summary = details.appendChild(document.createElement("summary"));
+		this.#renderScoreBox(divWrapper, score, isAnswered ? "Question has an accepted answer" : null);
 
-		summary.appendChild(DOMBuilder.newText("Asked "));
-		if (tags.length > 0) {
-			summary.appendChild(DOMBuilder.newText("about "));
-			const codeTag = summary.appendChild(document.createElement("code"));
-			codeTag.textContent = tags[0]; // Show main context only to keep it human-readable
-			summary.appendChild(DOMBuilder.newText(": "));
-		} else {
-			summary.appendChild(DOMBuilder.newText(": "));
+		const divMain = divWrapper.appendChild(document.createElement("div"));
+		divMain.classList.add("flex", "column", "so-content-area");
+
+		if (views !== undefined) {
+			const divMeta = divMain.appendChild(document.createElement("div"));
+			divMeta.classList.add("so-header-meta");
+			divMeta.textContent = `${views} views`;
 		}
 
-		const strongTitle = summary.appendChild(document.createElement("strong"));
-		strongTitle.textContent = title;
+		const aTitle = divMain.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		aTitle.classList.add("so-title");
 
-		this.#renderStatus(summary, isAnswered, "Question answered");
-
-		if (score !== 0) {
-			const spanScore = summary.appendChild(document.createElement("span"));
-			spanScore.textContent = ` (${score > 0 ? "+" : ""}${score})`;
-			spanScore.classList.add("description", "faded-score");
-		}
-
-		// Content
-		const divContent = details.appendChild(document.createElement("div"));
-		divContent.classList.add("stack-overflow-content", "flex", "column", "with-gap");
-
-		// Link as a header inside content
-		const headerLink = divContent.appendChild(DOMBuilder.newLink(title, new URL(url)));
-		headerLink.classList.add("content-header");
-
-		const divBody = divContent.appendChild(document.createElement("div"));
-		divBody.innerHTML = body;
-		divBody.classList.add("markup");
+		this.#renderBody(divMain, body);
+		this.#renderTags(divMain, tags);
 	}
 
 	#renderAnswer(itemContainer: HTMLElement, activity: StackOverflowAnswerActivity): void {
 		const { title, score, isAccepted, body, url } = activity;
 
-		const details = itemContainer.appendChild(document.createElement("details"));
-		details.classList.add("stack-overflow");
+		const divWrapper = itemContainer.appendChild(document.createElement("div"));
+		divWrapper.classList.add("so-card", "flex", "with-gap");
 
-		// Summary: "Posted an answer to: [Title]"
-		const summary = details.appendChild(document.createElement("summary"));
+		this.#renderScoreBox(divWrapper, score, isAccepted ? "This answer is accepted" : null);
 
-		summary.appendChild(DOMBuilder.newText("Posted an answer to: "));
+		const divMain = divWrapper.appendChild(document.createElement("div"));
+		divMain.classList.add("flex", "column", "so-content-area");
 
-		const strongTitle = summary.appendChild(document.createElement("strong"));
-		strongTitle.textContent = title;
+		const divHeader = divMain.appendChild(document.createElement("div"));
+		divHeader.classList.add("so-header-line");
+		divHeader.appendChild(DOMBuilder.newText("Answer to: "));
 
-		this.#renderStatus(summary, isAccepted, "Answer accepted");
+		const aTitle = divHeader.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		aTitle.classList.add("so-title");
 
-		if (score !== 0) {
-			const spanScore = summary.appendChild(document.createElement("span"));
-			spanScore.textContent = ` (${score > 0 ? "+" : ""}${score})`;
-			spanScore.classList.add("description", "faded-score");
-		}
-
-		// Content
-		const divContent = details.appendChild(document.createElement("div"));
-		divContent.classList.add("stack-overflow-content", "flex", "column", "with-gap");
-
-		// Link as a header inside content
-		const headerLink = divContent.appendChild(DOMBuilder.newLink(title, new URL(url)));
-		headerLink.classList.add("content-header");
-
-		const divBody = divContent.appendChild(document.createElement("div"));
-		divBody.innerHTML = body;
-		divBody.classList.add("markup");
+		this.#renderBody(divMain, body);
 	}
 
 	#renderSingle(itemContainer: HTMLElement, activity: StackOverflowActivity): void {
@@ -101,7 +103,6 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 
 	render(itemContainer: HTMLElement, buffer: readonly StackOverflowActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
-		// Removed the "Stack Overflow Activity" label as requested
 
 		for (const activity of buffer) {
 			this.#renderSingle(itemContainer, activity);

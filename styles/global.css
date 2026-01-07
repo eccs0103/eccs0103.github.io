@@ -8,9 +8,9 @@
 	user-select: none;
 	border-style: none;
 	outline-style: none;
-	border-width: var(--size-serpator);
-	outline-width: var(--size-serpator);
-	outline-offset: calc(-1 * var(--size-serpator));
+	border-width: var(--size-separator);
+	outline-width: var(--size-separator);
+	outline-offset: calc(-1 * var(--size-separator));
 	text-overflow: ellipsis;
 	scroll-behavior: smooth;
 }
@@ -23,10 +23,16 @@
 
 :root {
 	--size-standart: clamp(1.75rem, 1rem + 1.5vmin, 2.25rem);
-	--size-gap: calc(var(--size-standart) / 4);
+	--size-small-standart: calc(var(--size-standart) / 2);
 	--size-large-standart: calc(var(--size-standart) * 2);
+
+	--size-gap: calc(var(--size-standart) / 4);
+	--size-small-gap: calc(var(--size-gap) / 2);
 	--size-large-gap: calc(var(--size-gap) * 2);
-	--size-serpator: calc(var(--size-gap) / 3)
+	
+	--size-separator: calc(var(--size-standart) / 12);
+	--size-small-separator: calc(var(--size-separator) / 2);
+	--size-large-separator: calc(var(--size-separator) * 2);
 }
 
 body {
@@ -43,6 +49,10 @@ body {
 *:where(.with-inline-padding, .with-padding) {
 	padding-inline: var(--size-gap);
 
+	&.small-padding {
+		padding-inline: var(--size-small-gap);
+	}
+
 	&.large-padding {
 		padding-inline: var(--size-large-gap);
 	}
@@ -50,6 +60,10 @@ body {
 
 *:where(.with-block-padding, .with-padding) {
 	padding-block: var(--size-gap);
+
+	&.small-padding {
+		padding-block: var(--size-small-gap);
+	}
 
 	&.large-padding {
 		padding-block: var(--size-large-gap);
@@ -59,6 +73,10 @@ body {
 *:where(.with-inline-gap, .with-gap) {
 	column-gap: var(--size-gap);
 
+	&.small-gap {
+		column-gap: var(--size-small-gap);
+	}
+
 	&.large-gap {
 		column-gap: var(--size-large-gap);
 	}
@@ -67,6 +85,10 @@ body {
 
 *:where(.with-block-gap, .with-gap) {
 	row-gap: var(--size-gap);
+
+	&.small-gap {
+		row-gap: var(--size-small-gap);
+	}
 
 	&.large-gap {
 		row-gap: var(--size-large-gap);
@@ -164,7 +186,7 @@ input[type="checkbox"] {
 		height: 1.25em;
 		display: flex;
 		border-radius: 50vmin;
-		padding: var(--size-serpator);
+		padding: var(--size-separator);
 
 		& > span.knob {
 			aspect-ratio: 1;
@@ -245,7 +267,7 @@ section.option {
 		'title		value' max-content
 		'definition	value' 1fr
 		/ 1fr auto;
-	gap: var(--size-serpator) var(--size-gap);
+	gap: var(--size-separator) var(--size-gap);
 	padding-top: var(--size-gap);
 
 	& > section.option {
@@ -322,7 +344,7 @@ span {
 hr {
 	width: 100%;
 	margin: var(--size-gap) 0;
-	padding: calc(var(--size-serpator) / 2);
+	padding: calc(var(--size-separator) / 2);
 }
 
 kbd {

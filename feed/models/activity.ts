@@ -37,7 +37,8 @@ export abstract class Activity {
 		case "SpotifyLikeActivity": return SpotifyActivity.import(source, name);
 		case "PinterestImagePinActivity":
 		case "PinterestVideoPinActivity": return PinterestActivity.import(source, name);
-		case "SteamAchievementActivity": return SteamActivity.import(source, name);
+		case "SteamAchievementActivity":
+		case "SteamScreenshotActivity": return SteamActivity.import(source, name);
 		case "StackOverflowQuestionActivity":
 		case "StackOverflowAnswerActivity": return StackOverflowActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
@@ -843,17 +844,24 @@ export class PinterestVideoPinActivity extends PinterestPinActivity {
 //#endregion
 
 //#region Steam activity
-export interface SteamActivityDiscriminator extends SteamAchievementActivityDiscriminator {
+export interface SteamActivityDiscriminator extends SteamAchievementActivityDiscriminator, SteamScreenshotActivityDiscriminator {
 }
 
 export interface SteamActivityScheme extends ActivityScheme {
 	$type: keyof SteamActivityDiscriminator;
+	game: string;
+	webpage: string;
 }
 
 export abstract class SteamActivity extends Activity {
-	constructor(platform: string, timestamp: Date) {
+	#game: string;
+	#webpage: string;
+
+	constructor(platform: string, timestamp: Date, game: string, webpage: string) {
 		super(platform, timestamp);
 		if (new.target === SteamActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.#game = game;
+		this.#webpage = webpage;
 	}
 
 	static import(source: any, name: string): SteamActivity {
@@ -861,13 +869,23 @@ export abstract class SteamActivity extends Activity {
 		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
 		switch ($type) {
 		case "SteamAchievementActivity": return SteamAchievementActivity.import(source, name);
+		case "SteamScreenshotActivity": return SteamScreenshotActivity.import(source, name);
 		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
 		}
 	}
 
 	static export(source: SteamActivity): SteamActivityScheme {
 		if (source instanceof SteamAchievementActivity) return SteamAchievementActivity.export(source);
+		if (source instanceof SteamScreenshotActivity) return SteamScreenshotActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
+	}
+
+	get game(): string {
+		return this.#game;
+	}
+
+	get webpage(): string {
+		return this.#webpage;
 	}
 }
 //#endregion
@@ -878,8 +896,6 @@ export interface SteamAchievementActivityDiscriminator {
 
 export interface SteamAchievementActivityScheme extends SteamActivityScheme {
 	$type: keyof SteamAchievementActivityDiscriminator;
-	game: string;
-	webpage: string;
 	icon: string | null;
 	title: string;
 	description: string | null;
@@ -887,17 +903,13 @@ export interface SteamAchievementActivityScheme extends SteamActivityScheme {
 }
 
 export class SteamAchievementActivity extends SteamActivity {
-	#game: string;
-	#webpage: string;
 	#icon: string | null;
 	#title: string;
 	#description: string | null;
 	#url: string;
 
 	constructor(platform: string, timestamp: Date, game: string, webpage: string, icon: string | null, title: string, description: string | null, url: string) {
-		super(platform, timestamp);
-		this.#game = game;
-		this.#webpage = webpage;
+		super(platform, timestamp, game, webpage);
 		this.#icon = icon;
 		this.#title = title;
 		this.#description = description;
@@ -931,14 +943,6 @@ export class SteamAchievementActivity extends SteamActivity {
 		return { $type, platform, timestamp, game, webpage, icon, title, description, url };
 	}
 
-	get game(): string {
-		return this.#game;
-	}
-
-	get webpage(): string {
-		return this.#webpage;
-	}
-
 	get icon(): string | null {
 		return this.#icon;
 	}
@@ -953,6 +957,59 @@ export class SteamAchievementActivity extends SteamActivity {
 
 	get url(): string {
 		return this.#url;
+	}
+}
+//#endregion
+//#region Steam screenshot activity
+export interface SteamScreenshotActivityDiscriminator {
+	"SteamScreenshotActivity": SteamScreenshotActivity;
+}
+
+export interface SteamScreenshotActivityScheme extends SteamActivityScheme {
+	$type: keyof SteamScreenshotActivityDiscriminator;
+	url: string;
+	title: string | null;
+}
+
+export class SteamScreenshotActivity extends SteamActivity {
+	#url: string;
+	#title: string | null;
+
+	constructor(platform: string, timestamp: Date, game: string, webpage: string, url: string, title: string | null) {
+		super(platform, timestamp, game, webpage);
+		this.#url = url;
+		this.#title = title;
+	}
+
+	static import(source: any, name: string): SteamScreenshotActivity {
+		const object = Object.import(source, name);
+		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
+		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
+		const game = String.import(Reflect.get(object, "game"), `${name}.game`);
+		const webpage = String.import(Reflect.get(object, "webpage"), `${name}.webpage`);
+		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
+		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
+		const result = new SteamScreenshotActivity(platform, timestamp, game, webpage, url, title);
+		return result;
+	}
+
+	static export(source: SteamScreenshotActivity): SteamScreenshotActivityScheme {
+		const $type = "SteamScreenshotActivity";
+		const platform = source.platform;
+		const timestamp = Number(source.timestamp);
+		const game = source.game;
+		const webpage = source.webpage;
+		const url = source.url;
+		const title = source.title;
+		return { $type, platform, timestamp, game, webpage, url, title };
+	}
+
+	get url(): string {
+		return this.#url;
+	}
+
+	get title(): string | null {
+		return this.#title;
 	}
 }
 //#endregion

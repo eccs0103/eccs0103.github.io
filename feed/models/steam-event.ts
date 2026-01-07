@@ -47,7 +47,7 @@ export class SteamGame {
 		const playtimeWindowsForever = Reflect.mapUndefined(Reflect.get(object, "playtime_windows_forever") as unknown, playtimeWindowsForever => Number.import(playtimeWindowsForever, `${name}.playtime_windows_forever`));
 		const playtimeMacForever = Reflect.mapUndefined(Reflect.get(object, "playtime_mac_forever") as unknown, playtimeMacForever => Number.import(playtimeMacForever, `${name}.playtime_mac_forever`));
 		const playtimeLinuxForever = Reflect.mapUndefined(Reflect.get(object, "playtime_linux_forever") as unknown, playtimeLinuxForever => Number.import(playtimeLinuxForever, `${name}.playtime_linux_forever`));
-		const rtimeLastPlayed = new Date(Number.import(Reflect.get(object, "rtime_last_played"), `${name}.rtime_last_played`));
+		const rtimeLastPlayed = new Date(Number.import(Reflect.get(object, "rtime_last_played"), `${name}.rtime_last_played`) * 1000);
 		const hasCommunityVisibleStats = Reflect.mapUndefined(Reflect.get(object, "has_community_visible_stats") as unknown, hasCommunityVisibleStats => Boolean.import(hasCommunityVisibleStats, `${name}.has_community_visible_stats`));
 		const result = new SteamGame(appId, $name, playtimeForever, imgIconUrl, playtimeWindowsForever, playtimeMacForever, playtimeLinuxForever, rtimeLastPlayed, hasCommunityVisibleStats);
 		return result;
@@ -61,7 +61,7 @@ export class SteamGame {
 		const playtime_windows_forever = source.playtimeWindowsForever;
 		const playtime_mac_forever = source.playtimeMacForever;
 		const playtime_linux_forever = source.playtimeLinuxForever;
-		const rtime_last_played = Number(source.rtimeLastPlayed);
+		const rtime_last_played = Number(source.rtimeLastPlayed) / 1000;
 		const has_community_visible_stats = source.hasCommunityVisibleStats;
 		return { appid, name, playtime_forever, img_icon_url, playtime_windows_forever, playtime_mac_forever, playtime_linux_forever, rtime_last_played, has_community_visible_stats };
 	}
@@ -472,6 +472,167 @@ export class SteamPlayerStatsContainer {
 
 	get playerStats(): SteamPlayerStats {
 		return this.#playerStats;
+	}
+}
+//#endregion
+
+//#region Steam published file
+export interface SteamPublishedFileScheme {
+	// publishedfileid: string; // Уникальный ID опубликованного файла (строка, так как uint64)
+	// creator: string; // SteamID автора (строка)
+	// creator_app_id: number; // ID приложения, через которое загружено (например, Steam Cloud)
+	consumer_app_id: number; // ID игры, к которой относится скриншот
+	// filename: string; // Имя файла на сервере (редко нужно для логики)
+	// file_size: number; // Размер файла в байтах
+	file_url?: string; // Прямая ссылка на полный скриншот (может отсутствовать, если доступ закрыт/удалено)
+	// hcontent_file?: string; // Хэш контента файла (внутренний механизм Steam)
+	preview_url?: string; // Ссылка на превью/миниатюру (обычно есть всегда)
+	// hcontent_preview?: string; // Хэш превью
+	title: string; // Заголовок/описание, которое дал пользователь
+	// description: string; // Дополнительное описание (часто пустое для скриншотов)
+	time_created: number; // Время публикации (Unix Timestamp)
+	// time_updated: number; // Время последнего обновления (Unix Timestamp)
+	visibility: number; // Уровень приватности (0 = Public, 1 = FriendsOnly, 2 = Private)
+	banned: number; // Флаг бана (1 = забанен модерацией)
+	// ban_reason?: string; // Причина бана (если banned = 1)
+	// subscriptions: number; // Количество подписок (для Workshop, у скриншотов обычно 0)
+	// favorited: number; // Количество добавлений в избранное
+	// lifetime_subscriptions: number; // Подписки за все время
+	// lifetime_favorited: number; // Избранное за все время
+	// views: number; // Количество просмотров
+}
+
+export class SteamPublishedFile {
+	#consumerAppId: number;
+	#fileUrl: string | undefined;
+	#previewUrl: string | undefined;
+	#title: string;
+	#timeCreated: Date;
+	#visibility: number;
+	#banned: boolean;
+
+	constructor(consumerAppId: number, fileUrl: string | undefined, previewUrl: string | undefined, title: string, timeCreated: Date, visibility: number, banned: boolean) {
+		this.#consumerAppId = consumerAppId;
+		this.#fileUrl = fileUrl;
+		this.#previewUrl = previewUrl;
+		this.#title = title;
+		this.#timeCreated = timeCreated;
+		this.#visibility = visibility;
+		this.#banned = banned;
+	}
+
+	static import(source: any, name: string): SteamPublishedFile {
+		const object = Object.import(source, name);
+		const consumerAppId = Number.import(Reflect.get(object, "consumer_app_id"), `${name}.consumer_app_id`);
+		const fileUrl = Reflect.mapUndefined(Reflect.get(object, "file_url") as unknown, fileUrl => String.import(fileUrl, `${name}.file_url`));
+		const previewUrl = Reflect.mapUndefined(Reflect.get(object, "preview_url") as unknown, previewUrl => String.import(previewUrl, `${name}.preview_url`));
+		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
+		const timeCreated = new Date(Number.import(Reflect.get(object, "time_created"), `${name}.time_created`) * 1000);
+		const visibility = Number.import(Reflect.get(object, "visibility"), `${name}.visibility`);
+		const banned = Boolean(Number.import(Reflect.get(object, "banned"), `${name}.banned`));
+		const result = new SteamPublishedFile(consumerAppId, fileUrl, previewUrl, title, timeCreated, visibility, banned);
+		return result;
+	}
+
+	static export(source: SteamPublishedFile): SteamPublishedFileScheme {
+		const consumer_app_id = source.consumerAppId;
+		const file_url = source.fileUrl;
+		const preview_url = source.previewUrl;
+		const title = source.title;
+		const time_created = Number(source.timeCreated) / 1000;
+		const visibility = source.visibility;
+		const banned = Number(source.banned);
+		return { consumer_app_id, file_url, preview_url, title, time_created, visibility, banned };
+	}
+
+	get consumerAppId(): number {
+		return this.#consumerAppId;
+	}
+
+	get fileUrl(): string | undefined {
+		return this.#fileUrl;
+	}
+
+	get previewUrl(): string | undefined {
+		return this.#previewUrl;
+	}
+
+	get title(): string {
+		return this.#title;
+	}
+
+	get timeCreated(): Date {
+		return this.#timeCreated;
+	}
+	get visibility(): number {
+		return this.#visibility;
+	}
+
+	get banned(): boolean {
+		return this.#banned;
+	}
+}
+//#endregion
+
+//#region Steam user files response
+export interface SteamUserFilesResponseScheme {
+	// total: number; // Общее количество файлов у пользователя (для пагинации)
+	publishedfiledetails?: SteamPublishedFileScheme[]; // Массив самих файлов (может быть пустым)
+}
+
+export class SteamUserFilesResponse {
+	#publishedFileDetails: SteamPublishedFile[] | undefined;
+
+	constructor(publishedFileDetails: SteamPublishedFile[]| undefined) {
+		this.#publishedFileDetails = publishedFileDetails;
+	}
+
+	static import(source: any, name: string): SteamUserFilesResponse {
+		const object = Object.import(source, name);
+		const publishedFileDetails = Reflect.mapUndefined(Reflect.get(object, "publishedfiledetails") as unknown, publishedfiledetails => Array.import(Reflect.get(object, "publishedfiledetails"), `${name}.publishedfiledetails`).map((item, index) => {
+			return SteamPublishedFile.import(item, `${name}.publishedfiledetails[${index}]`);
+		}));
+		const result = new SteamUserFilesResponse(publishedFileDetails);
+		return result;
+	}
+
+	static export(source: SteamUserFilesResponse): SteamUserFilesResponseScheme {
+		const publishedfiledetails = Reflect.mapUndefined(source.publishedFileDetails, publishedFileDetails => publishedFileDetails.map(SteamPublishedFile.export));
+		return { publishedfiledetails };
+	}
+
+	get publishedFileDetails(): SteamPublishedFile[] | undefined {
+		return this.#publishedFileDetails;
+	}
+}
+//#endregion
+
+//#region Steam user files response container
+export interface SteamUserFilesResponseContainerScheme {
+	response: SteamUserFilesResponseScheme;
+}
+
+export class SteamUserFilesResponseContainer {
+	#response: SteamUserFilesResponse;
+
+	constructor(response: SteamUserFilesResponse) {
+		this.#response = response;
+	}
+
+	static import(source: any, name: string): SteamUserFilesResponseContainer {
+		const object = Object.import(source, name);
+		const response = SteamUserFilesResponse.import(Reflect.get(object, "response"), `${name}.response`);
+		const result = new SteamUserFilesResponseContainer(response);
+		return result;
+	}
+
+	static export(source: SteamUserFilesResponseContainer): SteamUserFilesResponseContainerScheme {
+		const response = SteamUserFilesResponse.export(source.response);
+		return { response };
+	}
+
+	get response(): SteamUserFilesResponse {
+		return this.#response;
 	}
 }
 //#endregion

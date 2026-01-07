@@ -1,5 +1,14 @@
 [
 	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1764586014000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "e7279f0631cf7e73e6245f32b3d7d4c8cb0c5002"
+	},
+	{
 		"$type": "SpotifyLikeActivity",
 		"platform": "Spotify",
 		"timestamp": 1764574278000,

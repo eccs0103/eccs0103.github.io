@@ -24,8 +24,8 @@ const { stackOverflowId, stackOverflowApiKey } = env;
 //#region Activity controller
 class ActivityController extends Controller {
 	async run(): Promise<void> {
-		const activities = new ServerDataTable(new URL("../../resources/data/activities.json", meta.url), Activity);
-		const platforms = new ServerDataTable(new URL("../../resources/data/platforms.json", meta.url), Platform);
+		const activities = new ServerDataTable(new URL("../../resources/data/activities", meta.url), Activity);
+		const platforms = new ServerDataTable(new URL("../../resources/data/platforms", meta.url), Platform);
 
 		let page = 0;
 		while (await platforms.load(page++));

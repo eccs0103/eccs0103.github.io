@@ -1,0 +1,940 @@
+[
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766852052000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/4fa2f74efaef0c7541e2f8d9830b226f64b502e8.jpg",
+		"title": "Tips Appreciated",
+		"description": "Tip Moxxi.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766862672000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f10c0f74b4b223f0cfe16d68d11c971a0b22b1f6.jpg",
+		"title": "I Hope You Didn't Tea-bag",
+		"description": "Win a duel.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766883487000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "interface-enhance"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1766951385000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5b00d96948b169d95846b242aade921c2755de84.jpg",
+		"title": "Swamped",
+		"description": "Discover all named locations on Eden-6.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766971171000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "89ae51eaa805f454118cc54f5934535ed74c2ff0"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1766971222000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "531befaa030596aafebb9f12795286502ce99454"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1766971259000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "531befaa030596aafebb9f12795286502ce99454"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767013162000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "37ad960b30afc6563cfe0af54a7dfa2c796b66fb"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767015195000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "7cfa48136a133ff92e1174dae108ee11a18117df"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767015217000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "7cfa48136a133ff92e1174dae108ee11a18117df"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767035037000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ed2d08f4f65a4c66d9af48a925c1b2a0be04e3b7.jpg",
+		"title": "Work Experience",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767036416000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/6e407474aa59188d1176d03a414e9a06f4844927.jpg",
+		"title": "Chump Change",
+		"description": "Spend $1",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767043553000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/8f0eee4b8ee2dd7f82c521dcaa6cfba7da4b169b.jpg",
+		"title": "Poltergeist Discovered",
+		"description": "Successfully identify your first Poltergeist and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767043553000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ee94ee6a058807c8bb712750f6a8b5ea053f5c01.jpg",
+		"title": "Revenant Discovered",
+		"description": "Successfully identify your first Revenant and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767055468000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c1bf042d9b7a4af775477a346320d35ba75044df"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767085211000,
+		"title": "SKORN - Slowed",
+		"artists": [
+			"VUKEINE"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737bdfaa725cbbfa6cba502fcd",
+		"url": "https://open.spotify.com/track/0P9InPWq1e6wvGzQz7XCmG"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767094291000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "98a62f57aa8c0dc41d8e9adc7d72c58d24a1f15d"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767120428000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/c68cb898a26bed8e947984cd48ea1a3dcb7a5939.jpg",
+		"title": "Yokai Discovered",
+		"description": "Successfully identify your first Yokai and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767124245000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/fa94d0e7a3ba509826754e962e603d7bd6f90f51.jpg",
+		"title": "Raiju Discovered",
+		"description": "Successfully identify your first Raiju and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767145548000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "4e6be6babdb08366ed59f8ad0b3de9cb954f04f4"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767145584000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cde5a0ab6c27ba1d5dff1af27d64ad972ac924fd"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767145617000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cde5a0ab6c27ba1d5dff1af27d64ad972ac924fd"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767185722000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "18dc0f949221a43052ee2717aa11fe80b294298a"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767185812000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1ff940c9e08fa7da6cfe57253191716e286eac8a"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767185866000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1ff940c9e08fa7da6cfe57253191716e286eac8a"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767186900000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c39a2ae04072b021ac229a4f511af4d3ac999050"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767186952000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c39a2ae04072b021ac229a4f511af4d3ac999050"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1767186989000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "interface-enhance"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1767187023000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "telegram-integration"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767273966000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a5f2102c37d3a09b572e6f1da147de0741475566"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767274009000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9674e65978ab3a5d0045f9d1141af31c78869289"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767274038000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9674e65978ab3a5d0045f9d1141af31c78869289"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767287040000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/5d1f14dd932b7bb381b5a4083740da923e712668.jpg",
+		"title": "Eternal Return",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767290624000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/b61cf1bf211ae9493e556949d6b4b39f6410a4ec.jpg",
+		"title": "Banshee Discovered",
+		"description": "Successfully identify your first Banshee and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767291972000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/645bebb0bcd8cd03fdad714d01d13ed13aa43eba.jpg",
+		"title": "Cryptic Messages",
+		"description": "Scan a Xenoglyph",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767291972000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/07e045e5b8f3cdb463e078299484c95485d5a5b1.jpg",
+		"title": "Welcome Home",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767294760000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/70ae7720e760a0488700103300c49578f35332ba.jpg",
+		"title": "Oni Discovered",
+		"description": "Successfully identify your first Oni and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767296470000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/169d7023c389aa2507e25a932fc9526a9c5e21a4.jpg",
+		"title": "Myling Discovered",
+		"description": "Successfully identify your first Myling and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767298207000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/74b25aa3b137110bbbb4d9f76a6520a048ef36f2.jpg",
+		"title": "Thaye Discovered",
+		"description": "Successfully identify your first Thaye and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767299278000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/31d490c691d4bd99a4e78b34163f5f186109185c.jpg",
+		"title": "Mare Discovered",
+		"description": "Successfully identify your first Mare and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767315236000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "24f7cc0df32c0b27e36f1d636917df87cf69187e"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767315267000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "8f39ae24a3bfdc82ec07084694853b5e52d87837"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767315395000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1d28696b5f48f414bb190b0d99dc6122d93868b1"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767315420000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1d28696b5f48f414bb190b0d99dc6122d93868b1"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767317352000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c153229760305f1ff489b954307ada01afebec10"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767317465000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "892235364d7907ba9a03b3907d1a7ecde94fed46"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767317492000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "892235364d7907ba9a03b3907d1a7ecde94fed46"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767318058000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a1dea6a902b36eb0caefdab55954e36e7ffb4576"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767318108000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a1dea6a902b36eb0caefdab55954e36e7ffb4576"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767396687000,
+		"title": "Hay Zinvor",
+		"artists": [
+			"Lilit Karapetyan"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273601dc11ad45002f8043b839b",
+		"url": "https://open.spotify.com/track/1Yk7DLLwxqKK5PHA3YVKZp"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767463709000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/7b8a8b757498b25fabcc3af21226330dab83d7d8.jpg",
+		"title": "Atropian Survival",
+		"description": "Learn the basics of survival on Atropos",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767465609000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/c71aee624e9efd12d06c0f4f930a8e51bf70f404.jpg",
+		"title": "Second Chance",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767469304000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/260e7e4c4b769bbc4427a0ce3b74b192a73c49b6.jpg",
+		"title": "Adrenaline Spike",
+		"description": "Achieve maximum Adrenaline Level",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767472369000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/2afaa2bccb84ebbde4af968286aaad6eb44aa2ae.jpg",
+		"title": "A Shadow in the Fog",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767535095000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "570d05693e917433dd2ca4a1b78cd52a9f7f8629"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767536220000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c8e78ce59980b22bb4aae02c5d473baa8ae64346"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767537645000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c14025d58ed6f462459fdb64b89a2627cd4ad987"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767537676000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a1111190f690f10428a077bccd1ee55fd6b2462c"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767537706000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a1111190f690f10428a077bccd1ee55fd6b2462c"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1767537724000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "telegram-integration"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1767537782000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "stack-overflow-integration"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767545788000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/a9a2fdf6037e17bb1d89046c09f1e707f93a97e2.jpg",
+		"title": "Alternate Fates",
+		"description": "Retrieve 10 Scout Logs",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767546216000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/e15f8c892901d462e2c3541635a9f1174a21acf5.jpg",
+		"title": "Surgical Precision",
+		"description": "Perform 5 successful Overloads in a row",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767546526000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/3a58ba10f4c25f7633e4072a7bef0f80f921bc55.jpg",
+		"title": "Cryptic Translations",
+		"description": "Unlock all translation tiers of a Xenoglyph",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767546864000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "3657edb2968b448cd240a0fdbe002697f2203cd0"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767546881000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "db8d4ceced1b661b3c374e54ff7fee35390f8e3b"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767546896000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "db8d4ceced1b661b3c374e54ff7fee35390f8e3b"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767605535000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "51bb0e3b019658a525b0d271740b7e904c7dd5fa"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767605553000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "2f386923be728848dbf699cefa7b5c535eacb388"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767605777000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6843840db055cdeff513a37b41c19d479aa8fa3f"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767605806000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6843840db055cdeff513a37b41c19d479aa8fa3f"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767606023000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "41506024c92a54fc7a0df99665d5a3ffbfa40c87"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767606878000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "71b1c243496e3664756279facc9b399d1141d7ff"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767606915000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "71b1c243496e3664756279facc9b399d1141d7ff"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767618044000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cd1e75e86f94d53ad5564f146c95e9c3da20cd66"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767703122000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "8ac46a1092260d2b6f3d2908a93cc3a0f0723621"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767704076000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ce3fc918aeba9479c2451cf1c59a678e9e0a3323"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767704160000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ce3fc918aeba9479c2451cf1c59a678e9e0a3323"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1767704362000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "steam-integration-enhance"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767732779000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/544966677904670c1e3f008eff07c445468b88b3.jpg",
+		"title": "Cross The Streamers",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767733150000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f9c426c01b6fed8184ad35ef8baf170914c8f1c3.jpg",
+		"title": "Stay Golden",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745413000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "37b3643e524d2cb8f361a509d859e46f012d645c"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745815000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "320dabd0f49e1d1cb0521d9743b1b33b5207c275"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745841000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "320dabd0f49e1d1cb0521d9743b1b33b5207c275"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767745877000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "320dabd0f49e1d1cb0521d9743b1b33b5207c275"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767769039000,
+		"title": "Gathering Coven",
+		"artists": [
+			"Caster"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273dfddac921145f52153c28a91",
+		"url": "https://open.spotify.com/track/223TKhq1KvVayHmT6H7XtW"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767769055000,
+		"title": "Calvaire",
+		"artists": [
+			"Code: Pandorum"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732f7d14eaa4d6fc91ce534b15",
+		"url": "https://open.spotify.com/track/64GgSqv4B2pUtN3IW1g0Dc"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767769069000,
+		"title": "Plasma Storm",
+		"artists": [
+			"Beds and Beats"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273ad6f50983e7f93b6accc322b",
+		"url": "https://open.spotify.com/track/727cQTYfamvvC8Udcffdyf"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767795788000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "b4cd1f5ab8f632402615c87985a88998b08ca5f1"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767814454000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "db8fba388c370c10d5723d284081dbea1047d6b3"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767814711000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "71d4fa5336c176c7fa33ad7db16ecd808b8380fd"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767814736000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "71d4fa5336c176c7fa33ad7db16ecd808b8380fd"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1767814845000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "stack-overflow-integration"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1767814869000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "71d4fa5336c176c7fa33ad7db16ecd808b8380fd"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767818264000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/3dd2f628679050abc3be029098d6cdc969ba730b.jpg",
+		"title": "Risk Assessment",
+		"description": "Finish Calculated Risk",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "StackOverflowAnswerActivity",
+		"platform": "Stack overflow",
+		"timestamp": 1767825118000,
+		"title": "Странные метрики GA4",
+		"body": "<h2>Что не так у моего скрипта?</h2>\n<p>У скрипта все в порядке, проблема в костылях Google.<br />\nДело в том, что для корректной работы GA4 необходимо не только наличие <code>window.dataLayer</code>, но и функция <code>window.gtag(...args: any[]): void;</code>. Именно через эту функцию отправляются данные.</p>\n<p>Когда мы просто вставляем в head...</p>\n<pre class=\"lang-ts prettyprint-override\"><code>window.dataLayer = window.dataLayer || [];\nfunction gtag() { dataLayer.push(arguments); }\ngtag('js', new Date());\ngtag('config', 'G-ID');\n</code></pre>\n<p>... то функция становится доступной в глобальном объекте <code>window</code>. Однако, если мы выполняем те же действия в модуле, функция остается в контексте этого модуля, и скрипт GA4 его не видит.</p>\n<h2>Почему сбор останавливается?</h2>\n<p>Далее по сценарию, первые два запроса выглядят так:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>gtag(window.dataLayer, &quot;js&quot;, new Date());\ngtag(window.dataLayer, &quot;config&quot;, id);\n</code></pre>\n<p>А все остальные запросы просто не проходят по вышеуказанным причинам. После этого GA4 начинает фиксировать пустые данные без действий и считает это ложными срабатываниями, тем самым игнорируя последующие данные.</p>\n<h2>Как это исправить?</h2>\n<p>Всего лишь...</p>\n<pre class=\"lang-ts prettyprint-override\"><code>declare global {\n    export interface Window {\n        dataLayer: any[];\n        gtag(...args: any[]): void;\n    }\n}\n\nwindow.dataLayer = window.dataLayer ?? [];\nwindow.gtag = function (): void {\n    window.dataLayer.push(arguments);\n};\n\nconst id = &quot;G-ID&quot;;\n\nwindow.gtag(&quot;js&quot;, new Date());\nwindow.gtag(&quot;config&quot;, id);\n\nconst script = document.head.appendChild(document.createElement(&quot;script&quot;));\nscript.async = true;\nscript.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;\n</code></pre>\n",
+		"score": 0,
+		"url": "https://ru.stackoverflow.com/questions/1622198/%d0%a1%d1%82%d1%80%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5-%d0%bc%d0%b5%d1%82%d1%80%d0%b8%d0%ba%d0%b8-ga4/1623701#1623701",
+		"is_accepted": true
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1767827877000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "system-improvements"
+	}
+]

@@ -51,7 +51,7 @@
 		"sha": "89ae51eaa805f454118cc54f5934535ed74c2ff0"
 	},
 	{
-		"$type": "GitHubCreateBranchActivity",
+		"$type": "GitHubPushActivity",
 		"platform": "GitHub",
 		"timestamp": 1766971222000,
 		"username": "eccs0103",

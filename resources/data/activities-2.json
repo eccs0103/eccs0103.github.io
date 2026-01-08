@@ -2,6 +2,15 @@
 	{
 		"$type": "GitHubDeleteBranchActivity",
 		"platform": "GitHub",
+		"timestamp": 1764709393000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"name": "core-development"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
 		"timestamp": 1764709376000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/adaptive-extender",

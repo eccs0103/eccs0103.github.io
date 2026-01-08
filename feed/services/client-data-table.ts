@@ -2,62 +2,40 @@
 
 import "adaptive-extender/web";
 import { type PortableConstructor } from "adaptive-extender/web";
-import { DataTable, type DataTableMetadata } from "./data-table.js";
+import { DataTable, DataTableMetadata } from "./data-table.js";
 
 //#region Client data table
 export class ClientDataTable<C extends PortableConstructor> extends DataTable<C> {
-	#path: URL;
-	#type: C;
-	#metadata: DataTableMetadata | null = null;
+	async #fetchJson(target: URL): Promise<unknown | null> {
+		const response = await fetch(target);
+		if (response.status === 404) return null;
+		if (!response.ok) throw new Error(`${response.status}: ${response.statusText} at ${target.href}`);
+		return await response.json();
+	}
 
-	constructor(path: URL, type: C) {
-		super();
-		this.#path = DataTable.normalizePath(path);
-		this.#type = type;
+	async readMetadata(): Promise<DataTableMetadata | null> {
+		const target = this.getMetaPath();
+		const object = await this.#fetchJson(target);
+		if (object === null) return null;
+		return DataTableMetadata.import(object, target.pathname);
 	}
 
 	async load(page: number): Promise<boolean> {
-		if (this.#metadata === null) {
-			const targetMeta = DataTable.getMetaPath(this.#path);
-			const responseMeta = await fetch(targetMeta);
-			
-			// 404 implies empty table, strictly adhere to non-throwing on missing
-			if (responseMeta.status === 404) return false;
-			if (!responseMeta.ok) throw new Error(`Failed to fetch metadata: ${responseMeta.statusText}`);
-			
-			try {
-				this.#metadata = await responseMeta.json();
-			} catch {
-				throw new Error("Invalid JSON in metadata");
-			}
-		}
-
-		const metadata = this.#metadata!;
-		if (metadata.pages === 0) return false;
-
-		const indexFile = metadata.pages - 1 - page;
-		if (indexFile < 0) return false;
-
-		const target = DataTable.getFilePath(this.#path, indexFile);
-		const response = await fetch(target);
-		
-		if (!response.ok) throw new Error(`Failed to fetch data chunk ${indexFile}: ${response.statusText}`);
-
-		let object: any;
-		try {
-			object = await response.json();
-		} catch {
-			throw new Error("Invalid JSON in data chunk");
-		}
-
-		const type = this.#type;
+		const meta = await this.readMetadata();
+		if (meta === null) return false;
+		const { length } = meta;
+		if (length < 1) return false;
+		const index = this.getFileIndex(page, length);
+		if (index < 0) return false;
+		const target = this.getFilePath(index);
+		const object = await this.#fetchJson(target);
+		if (object === null) throw new Error(`Integrity error: Missing data file at ${target.href}`);
+		const type = this.type;
 		const { name } = type;
-
 		const array = Array.import(object, name)
 			.map((item, index) => type.import(item, `${name}[${index}]`))
 			.reverse();
-
-		const limit = DataTable.PAGE_COUNT;
+		const limit = DataTable.PAGE_LIMIT;
 		this.splice(page * limit, limit, ...array);
 		return true;
 	}

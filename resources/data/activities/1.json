@@ -293,7 +293,7 @@
 			"typescript",
 			"vite"
 		],
-		"views": 55,
+		"views": 56,
 		"is_answered": false
 	},
 	{
@@ -317,7 +317,7 @@
 			"typescript",
 			"google-analytics"
 		],
-		"views": 63,
+		"views": 70,
 		"is_answered": true
 	},
 	{

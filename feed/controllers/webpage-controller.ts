@@ -5,20 +5,26 @@ import { Controller, Timespan } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ClientDataTable } from "../services/client-data-table.js";
 import { Activity } from "../models/activity.js";
-import { Platform } from "../models/platform.js";
 import { FooterRenderer } from "../view/footer-renderer.js";
 import { MetadataInjector } from "../../environment/services/metadata-injector.js";
 import { HeaderRenderer } from "../view/header-renderer.js";
+import { Configuration } from "../models/configuration.js";
 
 const { baseURI, body } = document;
 
 //#region Webpage controller
 class WebpageController extends Controller {
+	async #readConfiguration(url: Readonly<URL>): Promise<Configuration> {
+		const response = await fetch(url);
+		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		const object = await response.json();
+		return Configuration.import(object, "configuration");
+	}
+
 	async run(): Promise<void> {
+		const { platforms } = await this.#readConfiguration(new URL("../data/configuration.json", baseURI));
+
 		const activities = new ClientDataTable(new URL("../data/activities", baseURI), Activity);
-		const platforms = new ClientDataTable(new URL("../data/platforms", baseURI), Platform);
-		let page = 0;
-		while (await platforms.load(page++));
 
 		const header = await body.getElementAsync(HTMLElement, "header");
 		const rendererHeader = new HeaderRenderer(header);

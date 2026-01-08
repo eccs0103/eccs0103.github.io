@@ -936,5 +936,16 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"name": "system-improvements"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1767888652000,
+		"title": "Fragments",
+		"artists": [
+			"King Of None"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2733f2026dd0eb52c20c6d18df1",
+		"url": "https://open.spotify.com/track/5S4L6Bimxr2veUlHnSwhx1"
 	}
 ]

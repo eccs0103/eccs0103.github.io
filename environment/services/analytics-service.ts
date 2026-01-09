@@ -10,8 +10,8 @@ declare global {
 
 window.dataLayer ??= [];
 
-window.gtag = function (...args: any[]): void {
-	window.dataLayer.push(args);
+window.gtag = function (): void {
+	window.dataLayer.push(arguments);
 };
 //#endregion
 //#region Analytics service

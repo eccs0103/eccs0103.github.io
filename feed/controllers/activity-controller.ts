@@ -31,7 +31,7 @@ class ActivityController extends Controller {
 	}
 
 	async run(): Promise<void> {
-		const { platforms } = await this.#readConfiguration(new URL("../../resources/data/configuration.json", meta.url));
+		const { platforms } = await this.#readConfiguration(new URL("../../resources/data/feed-configuration.json", meta.url));
 
 		const activities = new ServerDataTable(new URL("../../resources/data/activities", meta.url), Activity);
 

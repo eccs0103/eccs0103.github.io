@@ -22,7 +22,7 @@ class WebpageController extends Controller {
 	}
 
 	async run(): Promise<void> {
-		const { platforms } = await this.#readConfiguration(new URL("../data/configuration.json", baseURI));
+		const { platforms } = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
 
 		const activities = new ClientDataTable(new URL("../data/activities", baseURI), Activity);
 

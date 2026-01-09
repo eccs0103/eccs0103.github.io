@@ -4,7 +4,7 @@ import "adaptive-extender/core";
 import { type ActivityWalker } from "./activity-walker.js";
 import { Activity } from "../models/activity.js";
 import { type DataTable } from "./data-table.js";
-import { type Platform } from "../models/platform.js";
+import { type Platform } from "../models/configuration.js";
 
 //#region Activity dispatcher
 export class ActivityDispatcher {
@@ -73,8 +73,7 @@ export class ActivityDispatcher {
 
 	async execute(platforms: readonly Platform[]): Promise<void> {
 		const activities = this.#activities;
-		let page = 0;
-		while (await activities.load(page++));
+		await activities.load();
 		await ActivityDispatcher.#runWalkers(this.#walkers, platforms, this.#since, activities);
 		await activities.save();
 	}

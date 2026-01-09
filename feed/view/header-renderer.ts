@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { type Platform } from "../models/platform.js";
+import { type Platform } from "../models/configuration";
 
 const { baseURI } = document;
 

@@ -4,7 +4,7 @@ import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
 import { Activity, GitHubActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
-import { type Platform } from "../models/platform.js";
+import { type Platform } from "../models/configuration.js";
 import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
 import { GitHubRenderStrategy } from "./github-render-strategy.js";
 import { SpotifyRenderStrategy } from "./spotify-render-strategy.js";

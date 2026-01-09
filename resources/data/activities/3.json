@@ -79,5 +79,16 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "ad65edee7f0e339c3c320f06dde2dfa89e008481"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1767981656000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/7179fd0e9b5ca91bd5e865961ff6ddeb1f17249a.jpg",
+		"title": "Rewards Card",
+		"description": "Earn a Loyalty Package from each weapon manufacturer.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
 	}
 ]

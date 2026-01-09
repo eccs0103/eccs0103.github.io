@@ -3,7 +3,8 @@
 import "adaptive-extender/web";
 import { Controller, Timespan } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
-import { ClientDataTable } from "../services/client-data-table.js";
+import { ClientBridge } from "../services/client-bridge.js";
+import { DataTable } from "../services/data-table.js";
 import { Activity } from "../models/activity.js";
 import { FooterRenderer } from "../view/footer-renderer.js";
 import { MetadataInjector } from "../../environment/services/metadata-injector.js";
@@ -24,7 +25,8 @@ class WebpageController extends Controller {
 	async run(): Promise<void> {
 		const { platforms } = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
 
-		const activities = new ClientDataTable(new URL("../data/activities", baseURI), Activity);
+		const bridge = new ClientBridge();
+		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
 
 		const header = await body.getElementAsync(HTMLElement, "header");
 		const rendererHeader = new HeaderRenderer(header);

@@ -5,7 +5,8 @@ import { env } from "../../environment/services/local-environment.js";
 import AsyncFileSystem from "fs/promises";
 import { Controller } from "adaptive-extender/node";
 import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
-import { ServerDataTable } from "../services/server-data-table.js";
+import { ServerBridge } from "../services/server-bridge.js";
+import { DataTable } from "../services/data-table.js";
 import { Activity } from "../models/activity.js";
 import { GitHubWalker } from "../services/github-walker.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
@@ -33,7 +34,8 @@ class ActivityController extends Controller {
 	async run(): Promise<void> {
 		const { platforms } = await this.#readConfiguration(new URL("../../resources/data/feed-configuration.json", meta.url));
 
-		const activities = new ServerDataTable(new URL("../../resources/data/activities", meta.url), Activity);
+		const bridge = new ServerBridge();
+		const activities = new DataTable(bridge, new URL("../../resources/data/activities", meta.url), Activity);
 
 		const dispatcher = new ActivityDispatcher(activities, origin);
 		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));

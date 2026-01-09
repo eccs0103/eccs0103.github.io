@@ -2,6 +2,9 @@
 
 import "adaptive-extender/core";
 import { type PortableConstructor } from "adaptive-extender/core";
+import { Bridge } from "./bridge.js";
+
+const { ceil } = Math;
 
 //#region Data table metadata
 export interface DataTableMetadataScheme {
@@ -33,50 +36,100 @@ export class DataTableMetadata {
 }
 //#endregion
 //#region Data table
-export abstract class DataTable<C extends PortableConstructor> extends Array<InstanceType<C>> {
-	static #PAGE_LIMIT: number = 100;
-	#path: URL;
-	#type: C;
-
-	constructor(path: Readonly<URL>, type: C) {
-		if (new.target === DataTable) throw new TypeError("Unable to create an instance of an abstract class");
+export class DataTable<C extends PortableConstructor> extends Array<InstanceType<C>> {
+	constructor(bridge: Bridge, path: URL, entity: C) {
 		super();
+		this.#bridge = bridge;
 		this.#path = path.href.endsWith("/") ? path : new URL(`${path.href}/`);
-		this.#type = type;
+		this.#entity = entity;
 	}
+
+	#bridge: Bridge;
+	#path: URL;
+	#entity: C;
+	#chunk: number = 100;
 
 	static get [Symbol.species](): ArrayConstructor {
 		return Array;
 	}
 
-	static get PAGE_LIMIT(): number {
-		return DataTable.#PAGE_LIMIT;
-	}
-
-	get path(): URL {
-		return this.#path;
-	}
-
-	get type(): C {
-		return this.#type;
-	}
-
-	getMetaPath(): URL {
+	#getMetadataPath(): URL {
 		return new URL("meta.json", this.#path);
 	}
 
-	getFilePath(index: number): URL {
+	#getChunkPath(index: number): URL {
 		return new URL(`${index}.json`, this.#path);
 	}
 
-	getFileIndex(page: number, length: number): number {
-		return length - 1 - page;
+	async #readMetadata(): Promise<DataTableMetadata | null> {
+		const bridge = this.#bridge;
+		const path = this.#getMetadataPath();
+		const content = await bridge.read(path);
+		if (content === null) {
+			const meta = new DataTableMetadata(0);
+			if (!await this.#writeMetadata(meta)) return null;
+			return meta;
+		}
+		const object = JSON.parse(content);
+		return DataTableMetadata.import(object, "metadata");
 	}
 
-	abstract readMetadata(): Promise<DataTableMetadata | null>;
+	async #writeMetadata(meta: DataTableMetadata): Promise<boolean> {
+		const bridge = this.#bridge;
+		const path = this.#getMetadataPath();
+		const object = DataTableMetadata.export(meta);
+		const content = JSON.stringify(object, null, "\t");
+		try {
+			await bridge.write(path, content);
+			return true;
+		} catch (reason) {
+			if (reason instanceof TypeError && reason.message === "Write operation is restricted in Web context") return false;
+			throw reason;
+		}
+	}
 
-	abstract load(page: number): Promise<boolean>;
+	async load(page: number): Promise<boolean> {
+		const meta = await this.#readMetadata();
+		if (meta === null) return false;
+		const { length } = meta;
+		if (length < 1) return false;
 
-	abstract save(): Promise<void>;
+		const index = length - 1 - page;
+		if (index < 0) return false;
+		const bridge = this.#bridge;
+		const path = this.#getChunkPath(index);
+		const content = await bridge.read(path);
+		if (content === null) throw new ReferenceError(`Missing data chunk at ${path.pathname}`);
+		const object = JSON.parse(content);
+		const entity = this.#entity;
+		const name = typename(entity);
+		const array = Array.import(object, name)
+			.map((item, index) => entity.import(item, `${name}[${index}]`))
+			.reverse();
+		const chunk = this.#chunk;
+		this.splice(page * chunk, chunk, ...array);
+
+		return true;
+	}
+
+	async save(): Promise<void> {
+		// await AsyncFileSystem.mkdir(this.path, { recursive: true });
+		const chunk = this.#chunk;
+		const source = Array.from(this)
+			.reverse();
+		const length = ceil(source.length / chunk)
+		const entity = this.#entity;
+		const bridge = this.#bridge;
+		for (let index = 0; index < length; index++) {
+			const path = this.#getChunkPath(index);
+			const array = source
+				.slice(index * chunk, (index + 1) * chunk)
+				.map(entity.export);
+			const content = JSON.stringify(array, null, "\t");
+			await bridge.write(path, content);
+		}
+		const meta = new DataTableMetadata(length);
+		await this.#writeMetadata(meta);
+	}
 }
 //#endregion

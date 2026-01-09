@@ -72,6 +72,7 @@
 			"webpage": "https://soundcloud.com/eccs0103",
 			"is_active": false
 		}
-	]
-
+	],
+	"begin_message": "Content is generated automatically. In case of complaints, please contact the developer.",
+	"end_message": "History is silent about what happened next."
 }

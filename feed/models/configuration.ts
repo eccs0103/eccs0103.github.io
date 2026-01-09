@@ -61,13 +61,19 @@ export class Platform {
 //#region Configuration
 export interface ConfigurationScheme {
 	platforms: PlatformScheme[];
+	begin_message: string;
+	end_message: string;
 }
 
 export class Configuration {
 	#platforms: Platform[];
+	#beginMessage: string;
+	#endMessage: string;
 
-	constructor(platforms: Platform[]) {
+	constructor(platforms: Platform[], beginMessage: string, endMessage: string) {
 		this.#platforms = platforms;
+		this.#beginMessage = beginMessage;
+		this.#endMessage = endMessage;
 	}
 
 	static import(source: any, name: string): Configuration {
@@ -75,17 +81,29 @@ export class Configuration {
 		const platforms = Array.import(Reflect.get(object, "platforms"), `${name}.platforms`).map((item, index) => {
 			return Platform.import(item, `${name}.platforms[${index}]`);
 		});
-		const result = new Configuration(platforms);
+		const beginMessage = String.import(Reflect.get(object, "begin_message"), `${name}.begin_message`);
+		const endMessage = String.import(Reflect.get(object, "end_message"), `${name}.end_message`);
+		const result = new Configuration(platforms, beginMessage, endMessage);
 		return result;
 	}
 
 	static export(source: Configuration): ConfigurationScheme {
 		const platforms = source.platforms.map(Platform.export);
-		return { platforms };
+		const begin_message = source.beginMessage;
+		const end_message = source.endMessage;
+		return { platforms, begin_message, end_message };
 	}
 
 	get platforms(): Platform[] {
 		return this.#platforms;
+	}
+
+	get beginMessage(): string {
+		return this.#beginMessage;
+	}
+
+	get endMessage(): string {
+		return this.#endMessage;
 	}
 }
 //#endregion

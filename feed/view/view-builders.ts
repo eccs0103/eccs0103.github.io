@@ -21,9 +21,9 @@ export class DOMBuilder {
 		return spanDescription;
 	}
 
-	static newLink(text: string, url: URL): HTMLAnchorElement;
-	static newLink(text: string, url: URL, disabled: boolean): HTMLAnchorElement;
-	static newLink(text: string, url: URL, disabled: boolean = false): HTMLAnchorElement {
+	static newLink(text: string, url: Readonly<URL>): HTMLAnchorElement;
+	static newLink(text: string, url: Readonly<URL>, disabled: boolean): HTMLAnchorElement;
+	static newLink(text: string, url: Readonly<URL>, disabled: boolean = false): HTMLAnchorElement {
 		const aLink = document.createElement("a");
 		aLink.href = String(url);
 		aLink.textContent = text;
@@ -49,11 +49,26 @@ export class DOMBuilder {
 //#endregion
 //#region Activity builder
 export class ActivityBuilder {
+	static newIntro(itemContainer: HTMLElement, message: string): HTMLElement {
+		const itemIntro = itemContainer.appendChild(DOMBuilder.newDescription(message));
+		itemIntro.classList.add("intro");
+
+		return itemIntro;
+	}
+
 	static newSentinel(itemContainer: HTMLElement): HTMLElement {
 		const itemSentinel = itemContainer.appendChild(document.createElement("div"));
 		itemSentinel.classList.add("sentinel");
 
 		return itemSentinel;
+	}
+
+	static newOutro(itemContainer: HTMLElement, itemChild: HTMLElement, message: string): HTMLElement {
+		const itemOutro = DOMBuilder.newDescription(message);
+		itemContainer.replaceChild(itemOutro, itemChild);
+		itemOutro.classList.add("outro");
+
+		return itemOutro;
 	}
 
 	static newContainer(itemParent: HTMLElement, platforms: Map<string, Platform>, activity: Activity, observer: IntersectionObserver): HTMLElement {

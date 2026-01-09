@@ -4,8 +4,8 @@ import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
 import { Activity, GitHubActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
-import { type Platform } from "../models/configuration.js";
-import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
+import { Configuration, type Platform } from "../models/configuration.js";
+import { ActivityBuilder } from "./view-builders.js";
 import { GitHubRenderStrategy } from "./github-render-strategy.js";
 import { SpotifyRenderStrategy } from "./spotify-render-strategy.js";
 import { SteamRenderStrategy } from "./steam-render-strategy.js";
@@ -22,6 +22,7 @@ interface RenderContext {
 	cursor: ArrayCursor<Activity>;
 	collector: ActivityCollector;
 	platforms: Map<string, Platform>;
+	outro: string;
 	batch: number;
 	observerAnimatedReveal: IntersectionObserver;
 	observerDynamicLoad: IntersectionObserver;
@@ -78,7 +79,7 @@ export class ActivitiesRenderer {
 
 	async #render(context: RenderContext): Promise<unknown> {
 		if (!this.#isSentinelIntersecting) return;
-		const { cursor, collector, platforms, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities } = context;
+		const { cursor, collector, platforms, outro, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities } = context;
 		const hasMore = this.#renderChunk(cursor, collector, platforms, batch, observerAnimatedReveal);
 		if (hasMore) return requestAnimationFrame(this.#render.bind(this, context));
 
@@ -89,17 +90,17 @@ export class ActivitiesRenderer {
 		if (isLoaded) return requestAnimationFrame(this.#render.bind(this, context));
 
 		observerDynamicLoad.disconnect();
-		const itemEnding = DOMBuilder.newDescription("History is silent about what happened next.");
-		itemEnding.classList.add("ending");
-		this.#itemContainer.replaceChild(itemEnding, itemSentinel);
+		ActivityBuilder.newOutro(this.#itemContainer, itemSentinel, outro);
 	}
 
-	async render(activities: DataTable<typeof Activity>, platforms: readonly Platform[]): Promise<void>;
-	async render(activities: DataTable<typeof Activity>, platforms: readonly Platform[], options: Partial<ActivitiesRendererOptions>): Promise<void>;
-	async render(activities: DataTable<typeof Activity>, platforms: readonly Platform[], options: Partial<ActivitiesRendererOptions> = {}): Promise<void> {
+	async render(activities: DataTable<typeof Activity>, configuration: Configuration): Promise<void>;
+	async render(activities: DataTable<typeof Activity>, configuration: Configuration, options: Partial<ActivitiesRendererOptions>): Promise<void>;
+	async render(activities: DataTable<typeof Activity>, configuration: Configuration, options: Partial<ActivitiesRendererOptions> = {}): Promise<void> {
+		const itemContainer = this.#itemContainer;
 		const gap = options.gap ?? Timespan.newDay;
+		const outro = configuration.outro;
 		const batch = options.batch ?? 10;
-		const mapping = new Map(platforms.map(platform => [platform.name, platform]));
+		const platforms = new Map(configuration.platforms.map(platform => [platform.name, platform]));
 		const cursor = new ArrayCursor(activities);
 
 		const collector = new ActivityCollector(gap);
@@ -115,12 +116,14 @@ export class ActivitiesRenderer {
 			}
 		}, { threshold: 0.1 });
 
-		const itemSentinel = ActivityBuilder.newSentinel(this.#itemContainer);
+		ActivityBuilder.newIntro(itemContainer, configuration.intro);
+
+		const itemSentinel = ActivityBuilder.newSentinel(itemContainer);
 		const observerDynamicLoad = new IntersectionObserver(([entry]) => {
 			this.#isSentinelIntersecting = entry.isIntersecting;
 			this.#render(context);
 		}, { rootMargin: "200px" });
-		const context: RenderContext = { cursor, collector, platforms: mapping, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities };
+		const context: RenderContext = { cursor, collector, platforms, outro, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities };
 		observerDynamicLoad.observe(itemSentinel);
 		this.#render(context);
 	}

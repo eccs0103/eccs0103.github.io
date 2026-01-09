@@ -28,7 +28,7 @@ body {
 	}
 
 	& main {
-		& span.warning {
+		& span.intro {
 			align-self: center;
 			font-size: 0.9em;
 		}
@@ -237,7 +237,7 @@ body {
 			visibility: hidden;
 		}
 
-		& span.ending {
+		& span.outro {
 			align-self: center;
 			font-size: 0.9em;
 		}

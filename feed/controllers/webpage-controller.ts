@@ -23,18 +23,18 @@ class WebpageController extends Controller {
 	}
 
 	async run(): Promise<void> {
-		const { platforms } = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
+		const configuration = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
 
 		const bridge = new ClientBridge();
 		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
 
 		const header = await body.getElementAsync(HTMLElement, "header");
 		const rendererHeader = new HeaderRenderer(header);
-		await rendererHeader.render(platforms);
+		await rendererHeader.render(configuration.platforms);
 
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);
-		await rendererActivies.render(activities, platforms, { gap: Timespan.fromComponents(36, 0, 0) });
+		await rendererActivies.render(activities, configuration, { gap: Timespan.fromComponents(36, 0, 0) });
 
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);
@@ -45,7 +45,7 @@ class WebpageController extends Controller {
 			name: "eccs0103",
 			webpage: new URL("https://eccs0103.github.io"),
 			preview: new URL("../icons/circuit-transparent.gif", baseURI),
-			associations: platforms.map(platform => new URL(platform.webpage)),
+			associations: configuration.platforms.map(platform => new URL(platform.webpage)),
 			job: "Software engineer",
 			description: "Webpage of the person known by the nickname eccs0103.",
 		});

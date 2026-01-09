@@ -61,19 +61,19 @@ export class Platform {
 //#region Configuration
 export interface ConfigurationScheme {
 	platforms: PlatformScheme[];
-	begin_message: string;
-	end_message: string;
+	intro: string;
+	outro: string;
 }
 
 export class Configuration {
 	#platforms: Platform[];
-	#beginMessage: string;
-	#endMessage: string;
+	#intro: string;
+	#outro: string;
 
-	constructor(platforms: Platform[], beginMessage: string, endMessage: string) {
+	constructor(platforms: Platform[], intro: string, outro: string) {
 		this.#platforms = platforms;
-		this.#beginMessage = beginMessage;
-		this.#endMessage = endMessage;
+		this.#intro = intro;
+		this.#outro = outro;
 	}
 
 	static import(source: any, name: string): Configuration {
@@ -81,29 +81,29 @@ export class Configuration {
 		const platforms = Array.import(Reflect.get(object, "platforms"), `${name}.platforms`).map((item, index) => {
 			return Platform.import(item, `${name}.platforms[${index}]`);
 		});
-		const beginMessage = String.import(Reflect.get(object, "begin_message"), `${name}.begin_message`);
-		const endMessage = String.import(Reflect.get(object, "end_message"), `${name}.end_message`);
-		const result = new Configuration(platforms, beginMessage, endMessage);
+		const intro = String.import(Reflect.get(object, "intro"), `${name}.intro`);
+		const outro = String.import(Reflect.get(object, "outro"), `${name}.outro`);
+		const result = new Configuration(platforms, intro, outro);
 		return result;
 	}
 
 	static export(source: Configuration): ConfigurationScheme {
 		const platforms = source.platforms.map(Platform.export);
-		const begin_message = source.beginMessage;
-		const end_message = source.endMessage;
-		return { platforms, begin_message, end_message };
+		const intro = source.intro;
+		const outro = source.outro;
+		return { platforms, intro, outro };
 	}
 
 	get platforms(): Platform[] {
 		return this.#platforms;
 	}
 
-	get beginMessage(): string {
-		return this.#beginMessage;
+	get intro(): string {
+		return this.#intro;
 	}
 
-	get endMessage(): string {
-		return this.#endMessage;
+	get outro(): string {
+		return this.#outro;
 	}
 }
 //#endregion

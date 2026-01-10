@@ -90,5 +90,38 @@
 		"title": "Rewards Card",
 		"description": "Earn a Loyalty Package from each weapon manufacturer.",
 		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768060082000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a0a5679f54b702b82a0a2d81d1826eae66016042.jpg",
+		"title": "Apocalypso!",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768065483000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/cba8bb0ceb868eeaa74e7d6bcf17d0f48692c65f.jpg",
+		"title": "My Name Is Earl",
+		"description": "Buy 20 cosmetic items from Crazy Earl.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768066068000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b99eef0fbed070279d89e3c4358bd3cd83c84559.jpg",
+		"title": "Tales From The Eridian Slab",
+		"description": "Decipher all of the Eridian Slabs.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
 	}
 ]

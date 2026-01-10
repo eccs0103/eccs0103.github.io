@@ -123,5 +123,60 @@
 		"title": "Tales From The Eridian Slab",
 		"description": "Decipher all of the Eridian Slabs.",
 		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768075704000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/cc56589c066bc7ef7196a5aa1a725f464c3bbaed.jpg",
+		"title": "Goryo Discovered",
+		"description": "Successfully identify your first Goryo and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768075725000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/0d8c5c8ff15a3f1a4b0394413c7a843dc296ae04.jpg",
+		"title": "Rookie",
+		"description": "Complete 10 contracts",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768075994000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/7198cdb15c3e3e4b7963e372635461ae1b8d0fa7.jpg",
+		"title": "Spirit Discovered",
+		"description": "Successfully identify your first Spirit and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768076755000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/95c491517cb7037d296c5f3bb002f3cd79859dd1.jpg",
+		"title": "Phantom Discovered",
+		"description": "Successfully identify your first Phantom and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768078188000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/1757ad92e164428122ecaa6eeaff11e2d96d40a8.jpg",
+		"title": "Shade Discovered",
+		"description": "Successfully identify your first Shade and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
 	}
 ]

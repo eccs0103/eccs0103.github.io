@@ -178,5 +178,16 @@
 		"title": "Shade Discovered",
 		"description": "Successfully identify your first Shade and survive",
 		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768082536000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/e769ac90c013236cc9a42318112c3186c597148e.jpg",
+		"title": "Onryo Discovered",
+		"description": "Successfully identify your first Onryo and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements"
 	}
 ]

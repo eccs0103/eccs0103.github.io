@@ -189,5 +189,14 @@
 		"title": "Onryo Discovered",
 		"description": "Successfully identify your first Onryo and survive",
 		"url": "https://steamcommunity.com/stats/739630/achievements"
+	},
+	{
+		"$type": "GitHubCreateBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1768152470000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "death-detection-system"
 	}
 ]

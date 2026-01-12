@@ -67,7 +67,6 @@ class ActivityController extends Controller {
 
 	async #updateActivities(configuration: Configuration): Promise<void> {
 		const bridge = this.#bridge;
-
 		const activities = new DataTable(bridge, new URL("../../resources/data/activities", meta.url), Activity);
 
 		const dispatcher = new ActivityDispatcher(activities, origin);

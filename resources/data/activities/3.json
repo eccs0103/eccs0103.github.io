@@ -198,5 +198,60 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"name": "death-detection-system"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768161044000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/bb2fd29b1a7269febb3012bda8d59ea41a96d824.jpg",
+		"title": "Convection Refinement",
+		"description": "Ruin the microwave casserole.",
+		"url": "https://steamcommunity.com/stats/362890/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768161246000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/10a60fce128f3b65bd6ca012daf8957c5314ed0c.jpg",
+		"title": "Brownian Motion",
+		"description": "Pass the toilet paper to the Scientist in need.",
+		"url": "https://steamcommunity.com/stats/362890/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768163289000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/2a8a17a9fe58ba8aa987e60b0d8f9f5afdc91d3e.jpg",
+		"title": "Inflammatory Actions",
+		"description": "Kill a Headcrab using fire.",
+		"url": "https://steamcommunity.com/stats/362890/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768166964000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/902ad4cdd1433bc56ecd9590db10d1aad5753903.jpg",
+		"title": "Caffeine Extraction",
+		"description": "Perform surgical caffeine extraction from 20 vending machines.",
+		"url": "https://steamcommunity.com/stats/362890/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768169782000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5448028b896d9a4360e0abc6471e6aac00ca4502.jpg",
+		"title": "Biggest Badass In The Borderlands",
+		"description": "Reach level 50.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
 	}
 ]

@@ -348,5 +348,16 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "b8e129c8344b0ba0007e3926a179fb61fb5f0092"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768252551000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/3ec1d642a0b1d913a5bd494c2c0f3a64d354dd02.jpg",
+		"title": "Digital Wizardry",
+		"description": "Kill 10 enemies with a reprogrammed Sentry.",
+		"url": "https://steamcommunity.com/stats/362890/achievements"
 	}
 ]

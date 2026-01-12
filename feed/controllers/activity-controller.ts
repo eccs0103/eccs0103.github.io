@@ -2,7 +2,6 @@
 
 import "adaptive-extender/node";
 import { env } from "../../environment/services/local-environment.js";
-import AsyncFileSystem from "fs/promises";
 import { Controller } from "adaptive-extender/node";
 import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
 import { ServerBridge } from "../services/server-bridge.js";
@@ -14,8 +13,12 @@ import { PinterestWalker } from "../services/pinterest-walker.js";
 import { SteamWalker } from "../services/steam-walker.js";
 import { StackOverflowWalker } from "../services/stack-overflow-walker.js";
 import { Configuration } from "../models/configuration.js";
+import { type Bridge } from "../services/bridge.js";
 
 const meta = import.meta;
+
+const { specialDictionary } = env;
+
 const { origin } = env;
 const { githubUsername, githubToken } = env;
 const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
@@ -25,16 +28,46 @@ const { stackOverflowId, stackOverflowApiKey } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
+	#bridge: Bridge = new ServerBridge();
+
 	async #readConfiguration(url: Readonly<URL>): Promise<Configuration> {
-		const text = await AsyncFileSystem.readFile(url, "utf-8");
-		const object = await JSON.parse(text);
+		const bridge = this.#bridge;
+		const content = await bridge.read(url);
+		if (content === null) throw new ReferenceError();
+		const object = JSON.parse(content);
 		return Configuration.import(object, "configuration");
 	}
 
-	async run(): Promise<void> {
-		const { platforms } = await this.#readConfiguration(new URL("../../resources/data/feed-configuration.json", meta.url));
+	#updateIntro(configuration: Configuration): void {
+		const date = new Date();
+		const key = `${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+		const content = specialDictionary.get(`1~${key}`);
+		if (content === undefined) {
+			configuration.intro = "Content is generated automatically. In case of complaints, please contact the developer.";
+			return;
+		}
+		configuration.intro = content;
+	}
 
-		const bridge = new ServerBridge();
+	#updateOutro(configuration: Configuration): void {
+		configuration.outro = "History is silent about what happened next.";
+	}
+
+	#updateConfiguration(configuration: Configuration): void {
+		this.#updateIntro(configuration);
+		this.#updateOutro(configuration);
+	}
+
+	async #writeConfiguration(url: Readonly<URL>, configuration: Configuration): Promise<void> {
+		const bridge = this.#bridge;
+		const object = Configuration.export(configuration);
+		const content = JSON.stringify(object, null, "\t");
+		await bridge.write(url, content);
+	}
+
+	async #updateActivities(configuration: Configuration): Promise<void> {
+		const bridge = this.#bridge;
+
 		const activities = new DataTable(bridge, new URL("../../resources/data/activities", meta.url), Activity);
 
 		const dispatcher = new ActivityDispatcher(activities, origin);
@@ -45,8 +78,17 @@ class ActivityController extends Controller {
 		dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
 
 		console.log("Starting feed update...");
-		await dispatcher.execute(platforms);
+		await dispatcher.execute(configuration.platforms);
 		console.log("Feed update completed");
+	}
+
+	async run(): Promise<void> {
+		const urlConfiguration = new URL("../../resources/data/feed-configuration.json", meta.url);
+		const configuration = await this.#readConfiguration(urlConfiguration);
+		this.#updateConfiguration(configuration);
+		await this.#writeConfiguration(urlConfiguration, configuration);
+
+		// await this.#updateActivities(configuration);
 	}
 
 	async catch(error: Error): Promise<void> {

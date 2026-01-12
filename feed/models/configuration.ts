@@ -101,9 +101,15 @@ export class Configuration {
 	get intro(): string {
 		return this.#intro;
 	}
+	set intro(value: string) {
+		this.#intro = value;
+	}
 
 	get outro(): string {
 		return this.#outro;
+	}
+	set outro(value: string) {
+		this.#outro = value;
 	}
 }
 //#endregion

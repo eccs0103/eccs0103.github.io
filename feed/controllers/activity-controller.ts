@@ -88,7 +88,7 @@ class ActivityController extends Controller {
 		this.#updateConfiguration(configuration);
 		await this.#writeConfiguration(urlConfiguration, configuration);
 
-		// await this.#updateActivities(configuration);
+		await this.#updateActivities(configuration);
 	}
 
 	async catch(error: Error): Promise<void> {

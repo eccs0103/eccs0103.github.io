@@ -253,5 +253,55 @@
 		"title": "Biggest Badass In The Borderlands",
 		"description": "Reach level 50.",
 		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1768218584000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "aa9fc8a152442c8e556292c3b9d664df6eabe750"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1768218615000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "4929e5cca437ebbb5eb9a98cacc1c294a64f4309"
+	},
+	{
+		"$type": "GitHubPushActivity",
+		"platform": "GitHub",
+		"timestamp": 1768218629000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "4929e5cca437ebbb5eb9a98cacc1c294a64f4309"
+	},
+	{
+		"$type": "GitHubDeleteBranchActivity",
+		"platform": "GitHub",
+		"timestamp": 1768218672000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "system-improvements"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1768231377000,
+		"title": "Black and Yellow (feat. Juicy J, Snoop Dogg & T-Pain) - G-Mix [G-Mix]",
+		"artists": [
+			"Wiz Khalifa",
+			"Juicy J",
+			"Snoop Dogg",
+			"T-Pain"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273fd84fedd1859fb54ea900f43",
+		"url": "https://open.spotify.com/track/7EWaWcYUdatuLQQ7NJjh1O"
 	}
 ]

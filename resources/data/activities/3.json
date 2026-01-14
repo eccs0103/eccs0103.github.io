@@ -359,5 +359,16 @@
 		"title": "Digital Wizardry",
 		"description": "Kill 10 enemies with a reprogrammed Sentry.",
 		"url": "https://steamcommunity.com/stats/362890/achievements"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1768374824000,
+		"title": "Twilight Empress",
+		"artists": [
+			"Celestial Void"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2739bbb03fbccee2eb37b0017b2",
+		"url": "https://open.spotify.com/track/6du4H42s6SZbNjMkbOeiaJ"
 	}
 ]

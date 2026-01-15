@@ -370,5 +370,16 @@
 		],
 		"cover": "https://i.scdn.co/image/ab67616d0000b2739bbb03fbccee2eb37b0017b2",
 		"url": "https://open.spotify.com/track/6du4H42s6SZbNjMkbOeiaJ"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768500858000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/1a6617d111960c5d5cb816ef475a16ed70bed7bf.jpg",
+		"title": "Ascension",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
 	}
 ]

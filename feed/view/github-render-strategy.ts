@@ -70,9 +70,9 @@ export class GitHubRenderStrategy implements ActivityRenderStrategy<GitHubActivi
 
 	#renderDeleteBranch(itemContainer: HTMLElement, activity: GitHubDeleteBranchActivity): void {
 		const { name, url, repository } = activity;
-		itemContainer.appendChild(DOMBuilder.newText("Removed the "));
+		itemContainer.appendChild(DOMBuilder.newText("Finished working on the \""));
 		itemContainer.appendChild(DOMBuilder.newLink(name, new URL(`${url}/tree/${name}`), true));
-		itemContainer.appendChild(DOMBuilder.newText(" draft from "));
+		itemContainer.appendChild(DOMBuilder.newText("\" feature in "));
 		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}

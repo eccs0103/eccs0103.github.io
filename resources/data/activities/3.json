@@ -491,5 +491,27 @@
 		"title": "Florida Man",
 		"description": "",
 		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768690833000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b240a30e93e20ac89a6662dda5693ab6d05ad8e5.jpg",
+		"title": "Damn, Gina",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768691374000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/8b651d0d3a3344b062b89cf7f2cb2c647ee44947.jpg",
+		"title": "Zer0ed In",
+		"description": "Defeat all of Zer0's Targets of Opportunity.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
 	}
 ]

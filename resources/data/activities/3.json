@@ -572,5 +572,29 @@
 		"title": "Broken, Restored, Empty",
 		"description": "",
 		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768776959000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/d58479400831b5b60c475476126833ce53a892ce.jpg",
+		"title": "Visions of the Past",
+		"description": "Complete a Xeno-archive set (excluding Tower of Sisyphus)",
+		"url": "https://steamcommunity.com/stats/1649240/achievements"
+	},
+	{
+		"$type": "SpotifyLikeActivity",
+		"platform": "Spotify",
+		"timestamp": 1768783554000,
+		"title": "The Sown",
+		"artists": [
+			"Celestial Void",
+			"IVEEN",
+			"Nightlark"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2739bbb03fbccee2eb37b0017b2",
+		"url": "https://open.spotify.com/track/0m6Oxh1Umanz547cfnLbQV"
 	}
 ]

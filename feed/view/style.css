@@ -28,6 +28,11 @@ body {
 	}
 
 	& main {
+		& span.experimetnal-core {
+			align-self: center;
+			font-size: 0.9em;
+		}
+		
 		& span.intro {
 			align-self: center;
 			font-size: 0.9em;

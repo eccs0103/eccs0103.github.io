@@ -56,6 +56,15 @@ export class ActivityBuilder {
 		return itemIntro;
 	}
 
+	static newWarning(itemContainer: HTMLElement): void {
+		const span = itemContainer.appendChild(document.createElement("span"));
+		span.classList.add("warn", "experimetnal-core");
+
+		span.appendChild(DOMBuilder.newText("This page operates on an "));
+		span.appendChild(DOMBuilder.newLink("experimental core", new URL("https://github.com/eccs0103/adaptive-extender/commits/main/")));
+		span.appendChild(DOMBuilder.newText(". Generated content may exhibit instability. Technical stabilization is in progress."));
+	}
+
 	static newSentinel(itemContainer: HTMLElement): HTMLElement {
 		const itemSentinel = itemContainer.appendChild(document.createElement("div"));
 		itemSentinel.classList.add("sentinel");

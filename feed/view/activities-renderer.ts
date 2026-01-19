@@ -116,6 +116,7 @@ export class ActivitiesRenderer {
 			}
 		}, { threshold: 0.1 });
 
+		ActivityBuilder.newWarning(itemContainer);
 		ActivityBuilder.newIntro(itemContainer, configuration.intro);
 
 		const itemSentinel = ActivityBuilder.newSentinel(itemContainer);

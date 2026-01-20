@@ -11,20 +11,20 @@ export interface StackOverflowOwnerScheme {
 }
 
 export class StackOverflowOwner {
-	#reputation: number | undefined;
-	#userId: number | undefined;
-	#userType: string;
-	#displayName: string | undefined;
-	#link: string | undefined;
-	#profileImage: string | undefined;
+	reputation: number | undefined;
+	userId: number | undefined;
+	userType: string;
+	displayName: string | undefined;
+	link: string | undefined;
+	profileImage: string | undefined;
 
 	constructor(reputation: number | undefined, userId: number | undefined, userType: string, displayName: string | undefined, link: string | undefined, profileImage: string | undefined) {
-		this.#reputation = reputation;
-		this.#userId = userId;
-		this.#userType = userType;
-		this.#displayName = displayName;
-		this.#link = link;
-		this.#profileImage = profileImage;
+		this.reputation = reputation;
+		this.userId = userId;
+		this.userType = userType;
+		this.displayName = displayName;
+		this.link = link;
+		this.profileImage = profileImage;
 	}
 
 	static import(source: any, name: string): StackOverflowOwner {
@@ -47,30 +47,6 @@ export class StackOverflowOwner {
 		const link = source.link;
 		const profile_image = source.profileImage;
 		return { reputation, user_id, user_type, display_name, link, profile_image };
-	}
-
-	get reputation(): number | undefined {
-		return this.#reputation;
-	}
-
-	get userId(): number | undefined {
-		return this.#userId;
-	}
-
-	get userType(): string {
-		return this.#userType;
-	}
-
-	get displayName(): string | undefined {
-		return this.#displayName;
-	}
-
-	get link(): string | undefined {
-		return this.#link;
-	}
-
-	get profileImage(): string | undefined {
-		return this.#profileImage;
 	}
 }
 //#endregion
@@ -95,30 +71,30 @@ export interface StackOverflowQuestionScheme {
 }
 
 export class StackOverflowQuestion {
-	#tags: string[];
-	#owner: StackOverflowOwner;
-	#score: number;
-	#creationDate: Date;
-	#questionId: number;
-	#link: string;
-	#title: string;
-	#viewCount: number;
-	#answerCount: number;
-	#isAnswered: boolean;
-	#body: string;
+	tags: string[];
+	owner: StackOverflowOwner;
+	score: number;
+	creationDate: Date;
+	questionId: number;
+	link: string;
+	title: string;
+	viewCount: number;
+	answerCount: number;
+	isAnswered: boolean;
+	body: string;
 
 	constructor(tags: string[], owner: StackOverflowOwner, score: number, creationDate: Date, questionId: number, link: string, title: string, viewCount: number, answerCount: number, isAnswered: boolean, body: string) {
-		this.#tags = tags;
-		this.#owner = owner;
-		this.#score = score;
-		this.#creationDate = creationDate;
-		this.#questionId = questionId;
-		this.#link = link;
-		this.#title = title;
-		this.#viewCount = viewCount;
-		this.#answerCount = answerCount;
-		this.#isAnswered = isAnswered;
-		this.#body = body;
+		this.tags = tags;
+		this.owner = owner;
+		this.score = score;
+		this.creationDate = creationDate;
+		this.questionId = questionId;
+		this.link = link;
+		this.title = title;
+		this.viewCount = viewCount;
+		this.answerCount = answerCount;
+		this.isAnswered = isAnswered;
+		this.body = body;
 	}
 
 	static import(source: any, name: string): StackOverflowQuestion {
@@ -154,50 +130,6 @@ export class StackOverflowQuestion {
 		const body = source.body;
 		return { tags, owner, score, creation_date, question_id, link, title, view_count, answer_count, is_answered, body };
 	}
-
-	get tags(): string[] {
-		return this.#tags;
-	}
-
-	get owner(): StackOverflowOwner {
-		return this.#owner;
-	}
-
-	get score(): number {
-		return this.#score;
-	}
-
-	get creationDate(): Date {
-		return this.#creationDate;
-	}
-
-	get questionId(): number {
-		return this.#questionId;
-	}
-
-	get link(): string {
-		return this.#link;
-	}
-
-	get title(): string {
-		return this.#title;
-	}
-
-	get viewCount(): number {
-		return this.#viewCount;
-	}
-
-	get answerCount(): number {
-		return this.#answerCount;
-	}
-
-	get isAnswered(): boolean {
-		return this.#isAnswered;
-	}
-
-	get body(): string {
-		return this.#body;
-	}
 }
 //#endregion
 
@@ -219,26 +151,26 @@ export interface StackOverflowAnswerScheme {
 }
 
 export class StackOverflowAnswer {
-	#owner: StackOverflowOwner;
-	#isAccepted: boolean;
-	#score: number;
-	#creationDate: Date;
-	#answerId: number;
-	#questionId: number;
-	#link: string;
-	#title: string;
-	#body: string;
+	owner: StackOverflowOwner;
+	isAccepted: boolean;
+	score: number;
+	creationDate: Date;
+	answerId: number;
+	questionId: number;
+	link: string;
+	title: string;
+	body: string;
 
 	constructor(owner: StackOverflowOwner, isAccepted: boolean, score: number, creationDate: Date, answerId: number, questionId: number, link: string, title: string, body: string) {
-		this.#owner = owner;
-		this.#isAccepted = isAccepted;
-		this.#score = score;
-		this.#creationDate = creationDate;
-		this.#answerId = answerId;
-		this.#questionId = questionId;
-		this.#link = link;
-		this.#title = title;
-		this.#body = body;
+		this.owner = owner;
+		this.isAccepted = isAccepted;
+		this.score = score;
+		this.creationDate = creationDate;
+		this.answerId = answerId;
+		this.questionId = questionId;
+		this.link = link;
+		this.title = title;
+		this.body = body;
 	}
 
 	static import(source: any, name: string): StackOverflowAnswer {
@@ -268,42 +200,6 @@ export class StackOverflowAnswer {
 		const body = source.body;
 		return { owner, is_accepted, score, creation_date, answer_id, question_id, link, title, body };
 	}
-
-	get owner(): StackOverflowOwner {
-		return this.#owner;
-	}
-
-	get isAccepted(): boolean {
-		return this.#isAccepted;
-	}
-
-	get score(): number {
-		return this.#score;
-	}
-
-	get creationDate(): Date {
-		return this.#creationDate;
-	}
-
-	get answerId(): number {
-		return this.#answerId;
-	}
-
-	get questionId(): number {
-		return this.#questionId;
-	}
-
-	get link(): string {
-		return this.#link;
-	}
-
-	get title(): string {
-		return this.#title;
-	}
-
-	get body(): string {
-		return this.#body;
-	}
 }
 //#endregion
 
@@ -320,18 +216,18 @@ export interface StackExchangeResponseScheme<T = any> {
 }
 
 export class StackExchangeResponse {
-	#items: any[];
-	#hasMore: boolean;
-	#quotaRemaining: number;
-	#quotaMax: number;
-	#backoff: number | undefined;
+	items: any[];
+	hasMore: boolean;
+	quotaRemaining: number;
+	quotaMax: number;
+	backoff: number | undefined;
 
 	constructor(items: any[], hasMore: boolean, quotaRemaining: number, quotaMax: number, backoff: number | undefined) {
-		this.#items = items;
-		this.#hasMore = hasMore;
-		this.#quotaRemaining = quotaRemaining;
-		this.#quotaMax = quotaMax;
-		this.#backoff = backoff;
+		this.items = items;
+		this.hasMore = hasMore;
+		this.quotaRemaining = quotaRemaining;
+		this.quotaMax = quotaMax;
+		this.backoff = backoff;
 	}
 
 	static import(source: any, name: string): StackExchangeResponse {
@@ -352,26 +248,6 @@ export class StackExchangeResponse {
 		const quota_max = source.quotaMax;
 		const backoff = source.backoff;
 		return { items, has_more, quota_remaining, quota_max, backoff };
-	}
-
-	get items(): any[] {
-		return this.#items;
-	}
-
-	get hasMore(): boolean {
-		return this.#hasMore;
-	}
-
-	get quotaRemaining(): number {
-		return this.#quotaRemaining;
-	}
-
-	get quotaMax(): number {
-		return this.#quotaMax;
-	}
-
-	get backoff(): number | undefined {
-		return this.#backoff;
 	}
 }
 //#endregion

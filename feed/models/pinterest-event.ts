@@ -9,12 +9,12 @@ export interface PinterestTokenScheme {
 }
 
 export class PinterestToken {
-	#accessToken: string;
-	#scope: string;
+	accessToken: string;
+	scope: string;
 
 	constructor(accessToken: string, scope: string) {
-		this.#accessToken = accessToken;
-		this.#scope = scope;
+		this.accessToken = accessToken;
+		this.scope = scope;
 	}
 
 	static import(source: any, name: string): PinterestToken {
@@ -29,14 +29,6 @@ export class PinterestToken {
 		const scope = source.scope;
 		return { access_token, scope };
 	}
-
-	get accessToken(): string {
-		return this.#accessToken;
-	}
-
-	get scope(): string {
-		return this.#scope;
-	}
 }
 //#endregion
 
@@ -48,14 +40,14 @@ export interface PinterestImageScheme {
 }
 
 export class PinterestImage {
-	#url: string;
-	#width: number;
-	#height: number;
+	url: string;
+	width: number;
+	height: number;
 
 	constructor(url: string, width: number, height: number) {
-		this.#url = url;
-		this.#width = width;
-		this.#height = height;
+		this.url = url;
+		this.width = width;
+		this.height = height;
 	}
 
 	static import(source: any, name: string): PinterestImage {
@@ -73,18 +65,6 @@ export class PinterestImage {
 		const height = source.height;
 		return { url, width, height };
 	}
-
-	get url(): string {
-		return this.#url;
-	}
-
-	get width(): number {
-		return this.#width;
-	}
-
-	get height(): number {
-		return this.#height;
-	}
 }
 //#endregion
 
@@ -97,16 +77,16 @@ export interface PinterestImagesCollectionScheme {
 }
 
 export class PinterestImagesCollection {
-	#thumbnail: PinterestImage | undefined;
-	#feed: PinterestImage | undefined;
-	#preview: PinterestImage | undefined;
-	#original: PinterestImage | undefined;
+	thumbnail: PinterestImage | undefined;
+	feed: PinterestImage | undefined;
+	preview: PinterestImage | undefined;
+	original: PinterestImage | undefined;
 
 	constructor(thumbnail: PinterestImage | undefined, feed: PinterestImage | undefined, preview: PinterestImage | undefined, original: PinterestImage | undefined) {
-		this.#thumbnail = thumbnail;
-		this.#feed = feed;
-		this.#preview = preview;
-		this.#original = original;
+		this.thumbnail = thumbnail;
+		this.feed = feed;
+		this.preview = preview;
+		this.original = original;
 	}
 
 	static import(source: any, name: string): PinterestImagesCollection {
@@ -126,22 +106,6 @@ export class PinterestImagesCollection {
 		const original = Reflect.mapUndefined(source.original, original => PinterestImage.export(original));
 		return { ["150x150"]: thumbnail, ["400x300"]: feed, ["600x"]: preview, ["1200x"]: original };
 	}
-
-	get thumbnail(): PinterestImage | undefined {
-		return this.#thumbnail;
-	}
-
-	get feed(): PinterestImage | undefined {
-		return this.#feed;
-	}
-
-	get preview(): PinterestImage | undefined {
-		return this.#preview;
-	}
-
-	get original(): PinterestImage | undefined {
-		return this.#original;
-	}
 }
 //#endregion
 
@@ -152,12 +116,12 @@ export interface PinterestMediaContainerScheme {
 }
 
 export class PinterestMediaContainer {
-	#mediaType: string | undefined;
-	#images: PinterestImagesCollection;
+	mediaType: string | undefined;
+	images: PinterestImagesCollection;
 
 	constructor(mediaType: string | undefined, images: PinterestImagesCollection) {
-		this.#mediaType = mediaType;
-		this.#images = images;
+		this.mediaType = mediaType;
+		this.images = images;
 	}
 
 	static import(source: any, name: string): PinterestMediaContainer {
@@ -172,14 +136,6 @@ export class PinterestMediaContainer {
 		const media_type = source.mediaType;
 		const images = PinterestImagesCollection.export(source.images);
 		return { media_type, images };
-	}
-
-	get mediaType(): string | undefined {
-		return this.#mediaType;
-	}
-
-	get images(): PinterestImagesCollection {
-		return this.#images;
 	}
 }
 //#endregion
@@ -200,16 +156,16 @@ export interface PinterestBoardScheme {
 }
 
 export class PinterestBoard {
-	#id: string;
-	#name: string;
-	#description: string | null;
-	#privacy: string;
+	id: string;
+	name: string;
+	description: string | null;
+	privacy: string;
 
 	constructor(id: string, name: string, description: string | null, privacy: string) {
-		this.#id = id;
-		this.#name = name;
-		this.#description = description;
-		this.#privacy = privacy;
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.privacy = privacy;
 	}
 
 	static import(source: any, name: string): PinterestBoard {
@@ -229,22 +185,6 @@ export class PinterestBoard {
 		const privacy = source.privacy;
 		return { id, name, description, privacy };
 	}
-
-	get id(): string {
-		return this.#id;
-	}
-
-	get name(): string {
-		return this.#name;
-	}
-
-	get description(): string | null {
-		return this.#description;
-	}
-
-	get privacy(): string {
-		return this.#privacy;
-	}
 }
 //#endregion
 
@@ -261,24 +201,24 @@ export interface PinterestPinScheme {
 }
 
 export class PinterestPin {
-	#id: string;
-	#createdAt: Date;
-	#link: string | null;
-	#title: string | null;
-	#description: string | null;
-	#altText: string | null;
-	#boardId: string;
-	#media: PinterestMediaContainer | null;
+	id: string;
+	createdAt: Date;
+	link: string | null;
+	title: string | null;
+	description: string | null;
+	altText: string | null;
+	boardId: string;
+	media: PinterestMediaContainer | null;
 
 	constructor(id: string, createdAt: Date, link: string | null, title: string | null, description: string | null, altText: string | null, boardId: string, media: PinterestMediaContainer | null) {
-		this.#id = id;
-		this.#createdAt = createdAt;
-		this.#link = link;
-		this.#title = title;
-		this.#description = description;
-		this.#altText = altText;
-		this.#boardId = boardId;
-		this.#media = media;
+		this.id = id;
+		this.createdAt = createdAt;
+		this.link = link;
+		this.title = title;
+		this.description = description;
+		this.altText = altText;
+		this.boardId = boardId;
+		this.media = media;
 	}
 
 	static import(source: any, name: string): PinterestPin {
@@ -306,38 +246,6 @@ export class PinterestPin {
 		const media = Reflect.mapNull(source.media, media => PinterestMediaContainer.export(media));
 		return { id, created_at, link, title, description, alt_text, board_id, media };
 	}
-
-	get id(): string {
-		return this.#id;
-	}
-
-	get createdAt(): Date {
-		return this.#createdAt;
-	}
-
-	get link(): string | null {
-		return this.#link;
-	}
-
-	get title(): string | null {
-		return this.#title;
-	}
-
-	get description(): string | null {
-		return this.#description;
-	}
-
-	get altText(): string | null {
-		return this.#altText;
-	}
-
-	get boardId(): string {
-		return this.#boardId;
-	}
-
-	get media(): PinterestMediaContainer | null {
-		return this.#media;
-	}
 }
 //#endregion
 
@@ -350,16 +258,16 @@ export interface PinterestResponseScheme<T = any> {
 }
 
 export class PinterestResponse {
-	#items: any[];
-	#bookmark: string | null;
-	#code: number | undefined;
-	#message: string | undefined;
+	items: any[];
+	bookmark: string | null;
+	code: number | undefined;
+	message: string | undefined;
 
 	constructor(items: any[], bookmark: string | null, code: number | undefined, message: string | undefined) {
-		this.#items = items;
-		this.#bookmark = bookmark;
-		this.#code = code;
-		this.#message = message;
+		this.items = items;
+		this.bookmark = bookmark;
+		this.code = code;
+		this.message = message;
 	}
 
 	static import(source: any, name: string): PinterestResponse {
@@ -378,22 +286,6 @@ export class PinterestResponse {
 		const code = source.code;
 		const message = source.message;
 		return { items, bookmark, code, message };
-	}
-
-	get items(): any[] {
-		return this.#items;
-	}
-
-	get bookmark(): string | null {
-		return this.#bookmark;
-	}
-
-	get code(): number | undefined {
-		return this.#code;
-	}
-
-	get message(): string | undefined {
-		return this.#message;
 	}
 }
 //#endregion

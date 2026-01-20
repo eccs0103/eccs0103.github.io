@@ -17,20 +17,20 @@ export interface GitHubEventScheme {
 }
 
 export class GitHubEvent {
-	#id: string;
-	#actor: GitHubEventActor;
-	#repo: GitHubEventRepository;
-	#public: boolean;
-	#createdAt: Date;
-	#payload: GitHubEventPayload;
+	id: string;
+	actor: GitHubEventActor;
+	repo: GitHubEventRepository;
+	public: boolean;
+	createdAt: Date;
+	payload: GitHubEventPayload;
 
 	constructor(id: string, actor: GitHubEventActor, repo: GitHubEventRepository, $public: boolean, createdAt: Date, payload: GitHubEventPayload) {
-		this.#id = id;
-		this.#actor = actor;
-		this.#repo = repo;
-		this.#public = $public;
-		this.#createdAt = createdAt;
-		this.#payload = payload;
+		this.id = id;
+		this.actor = actor;
+		this.repo = repo;
+		this.public = $public;
+		this.createdAt = createdAt;
+		this.payload = payload;
 	}
 
 	static import(source: any, name: string): GitHubEvent {
@@ -56,30 +56,6 @@ export class GitHubEvent {
 		const type = payload.$type;
 		return { id, type, actor, repo, public: $public, created_at, payload };
 	}
-
-	get id(): string {
-		return this.#id;
-	}
-
-	get actor(): GitHubEventActor {
-		return this.#actor;
-	}
-
-	get repo(): GitHubEventRepository {
-		return this.#repo;
-	}
-
-	get public(): boolean {
-		return this.#public;
-	}
-
-	get createdAt(): Date {
-		return this.#createdAt;
-	}
-
-	get payload(): GitHubEventPayload {
-		return this.#payload;
-	}
 }
 //#endregion
 
@@ -94,20 +70,20 @@ export interface GitHubEventActorScheme {
 }
 
 export class GitHubEventActor {
-	#id: number;
-	#login: string;
-	#displayLogin?: string;
-	#gravatarId: string;
-	#url: string;
-	#avatarUrl: string;
+	id: number;
+	login: string;
+	displayLogin?: string;
+	gravatarId: string;
+	url: string;
+	avatarUrl: string;
 
 	constructor(id: number, login: string, displayLogin: string | undefined, gravatarId: string, url: string, avatarUrl: string) {
-		this.#id = id;
-		this.#login = login;
-		this.#displayLogin = displayLogin;
-		this.#gravatarId = gravatarId;
-		this.#url = url;
-		this.#avatarUrl = avatarUrl;
+		this.id = id;
+		this.login = login;
+		this.displayLogin = displayLogin;
+		this.gravatarId = gravatarId;
+		this.url = url;
+		this.avatarUrl = avatarUrl;
 	}
 
 	static import(source: any, name: string): GitHubEventActor {
@@ -131,30 +107,6 @@ export class GitHubEventActor {
 		const avatar_url = source.avatarUrl;
 		return { id, login, display_login, gravatar_id, url, avatar_url };
 	}
-
-	get id(): number {
-		return this.#id;
-	}
-
-	get login(): string {
-		return this.#login;
-	}
-
-	get displayLogin(): string | undefined {
-		return this.#displayLogin;
-	}
-
-	get gravatarId(): string {
-		return this.#gravatarId;
-	}
-
-	get url(): string {
-		return this.#url;
-	}
-
-	get avatarUrl(): string {
-		return this.#avatarUrl;
-	}
 }
 //#endregion
 
@@ -166,14 +118,14 @@ export interface GitHubEventRepositoryScheme {
 }
 
 export class GitHubEventRepository {
-	#id: number;
-	#name: string;
-	#url: string;
+	id: number;
+	name: string;
+	url: string;
 
 	constructor(id: number, name: string, url: string) {
-		this.#id = id;
-		this.#name = name;
-		this.#url = url;
+		this.id = id;
+		this.name = name;
+		this.url = url;
 	}
 
 	static import(source: any, name: string): GitHubEventRepository {
@@ -190,18 +142,6 @@ export class GitHubEventRepository {
 		const name = source.name;
 		const url = source.url;
 		return { id, name, url };
-	}
-
-	get id(): number {
-		return this.#id;
-	}
-
-	get name(): string {
-		return this.#name;
-	}
-
-	get url(): string {
-		return this.#url;
 	}
 }
 //#endregion
@@ -256,16 +196,16 @@ export interface GitHubPushEventPayloadScheme {
 }
 
 export class GitHubPushEventPayload {
-	#pushId: number;
-	#ref: string;
-	#head: string;
-	#before: string;
+	pushId: number;
+	ref: string;
+	head: string;
+	before: string;
 
 	constructor(pushId: number, ref: string, head: string, before: string) {
-		this.#pushId = pushId;
-		this.#ref = ref;
-		this.#head = head;
-		this.#before = before;
+		this.pushId = pushId;
+		this.ref = ref;
+		this.head = head;
+		this.before = before;
 	}
 
 	static import(source: any, name: string): GitHubPushEventPayload {
@@ -286,22 +226,6 @@ export class GitHubPushEventPayload {
 		const before = source.before;
 		return { $type, push_id, ref, head, before };
 	}
-
-	get pushId(): number {
-		return this.#pushId;
-	}
-
-	get ref(): string {
-		return this.#ref;
-	}
-
-	get head(): string {
-		return this.#head;
-	}
-
-	get before(): string {
-		return this.#before;
-	}
 }
 //#endregion
 
@@ -317,22 +241,22 @@ export interface GitHubEventReleaseScheme {
 }
 
 export class GitHubEventRelease {
-	#htmlUrl: string;
-	#tagName: string;
-	#name: string | null;
-	#draft: boolean;
-	#prerelease: boolean;
-	#publishedAt: string;
-	#body: string | null;
+	htmlUrl: string;
+	tagName: string;
+	name: string | null;
+	draft: boolean;
+	prerelease: boolean;
+	publishedAt: string;
+	body: string | null;
 
 	constructor(htmlUrl: string, tagName: string, name: string | null, draft: boolean, prerelease: boolean, publishedAt: string, body: string | null) {
-		this.#htmlUrl = htmlUrl;
-		this.#tagName = tagName;
-		this.#name = name;
-		this.#draft = draft;
-		this.#prerelease = prerelease;
-		this.#publishedAt = publishedAt;
-		this.#body = body;
+		this.htmlUrl = htmlUrl;
+		this.tagName = tagName;
+		this.name = name;
+		this.draft = draft;
+		this.prerelease = prerelease;
+		this.publishedAt = publishedAt;
+		this.body = body;
 	}
 
 	static import(source: any, name: string): GitHubEventRelease {
@@ -358,34 +282,6 @@ export class GitHubEventRelease {
 		const body = source.body;
 		return { html_url, tag_name, name, draft, prerelease, published_at, body };
 	}
-
-	get htmlUrl(): string {
-		return this.#htmlUrl;
-	}
-
-	get tagName(): string {
-		return this.#tagName;
-	}
-
-	get name(): string | null {
-		return this.#name;
-	}
-
-	get draft(): boolean {
-		return this.#draft;
-	}
-
-	get prerelease(): boolean {
-		return this.#prerelease;
-	}
-
-	get publishedAt(): string {
-		return this.#publishedAt;
-	}
-
-	get body(): string | null {
-		return this.#body;
-	}
 }
 //#endregion
 
@@ -401,12 +297,12 @@ export interface GitHubReleaseEventPayloadScheme {
 }
 
 export class GitHubReleaseEventPayload {
-	#action: string;
-	#release: GitHubEventRelease;
+	action: string;
+	release: GitHubEventRelease;
 
 	constructor(action: string, release: GitHubEventRelease) {
-		this.#action = action;
-		this.#release = release;
+		this.action = action;
+		this.release = release;
 	}
 
 	static import(source: any, name: string): GitHubReleaseEventPayload {
@@ -423,14 +319,6 @@ export class GitHubReleaseEventPayload {
 		const release = GitHubEventRelease.export(source.release);
 		return { $type, action, release };
 	}
-
-	get action(): string {
-		return this.#action;
-	}
-
-	get release(): GitHubEventRelease {
-		return this.#release;
-	}
 }
 //#endregion
 
@@ -445,10 +333,10 @@ export interface GitHubWatchEventPayloadScheme {
 }
 
 export class GitHubWatchEventPayload {
-	#action: string;
+	action: string;
 
 	constructor(action: string) {
-		this.#action = action;
+		this.action = action;
 	}
 
 	static import(source: any, name: string): GitHubWatchEventPayload {
@@ -462,10 +350,6 @@ export class GitHubWatchEventPayload {
 		const $type = "WatchEvent";
 		const action = source.action;
 		return { $type, action };
-	}
-
-	get action(): string {
-		return this.#action;
 	}
 }
 //#endregion
@@ -485,18 +369,18 @@ export interface GitHubCreateEventPayloadScheme {
 }
 
 export class GitHubCreateEventPayload {
-	#ref: string | null;
-	#refType: string;
-	#masterBranch: string;
-	#description: string | null;
-	#pusherType: string;
+	ref: string | null;
+	refType: string;
+	masterBranch: string;
+	description: string | null;
+	pusherType: string;
 
 	constructor(ref: string | null, refType: string, masterBranch: string, description: string | null, pusherType: string) {
-		this.#ref = ref;
-		this.#refType = refType;
-		this.#masterBranch = masterBranch;
-		this.#description = description;
-		this.#pusherType = pusherType;
+		this.ref = ref;
+		this.refType = refType;
+		this.masterBranch = masterBranch;
+		this.description = description;
+		this.pusherType = pusherType;
 	}
 
 	static import(source: any, name: string): GitHubCreateEventPayload {
@@ -519,26 +403,6 @@ export class GitHubCreateEventPayload {
 		const pusher_type = source.pusherType;
 		return { $type, ref, ref_type, master_branch, description, pusher_type };
 	}
-
-	get ref(): string | null {
-		return this.#ref;
-	}
-
-	get refType(): string {
-		return this.#refType;
-	}
-
-	get masterBranch(): string {
-		return this.#masterBranch;
-	}
-
-	get description(): string | null {
-		return this.#description;
-	}
-
-	get pusherType(): string {
-		return this.#pusherType;
-	}
 }
 //#endregion
 
@@ -555,14 +419,14 @@ export interface GitHubDeleteEventPayloadScheme {
 }
 
 export class GitHubDeleteEventPayload {
-	#ref: string;
-	#refType: string;
-	#pusherType: string;
+	ref: string;
+	refType: string;
+	pusherType: string;
 
 	constructor(ref: string, refType: string, pusherType: string) {
-		this.#ref = ref;
-		this.#refType = refType;
-		this.#pusherType = pusherType;
+		this.ref = ref;
+		this.refType = refType;
+		this.pusherType = pusherType;
 	}
 
 	static import(source: any, name: string): GitHubDeleteEventPayload {
@@ -580,18 +444,6 @@ export class GitHubDeleteEventPayload {
 		const ref_type = source.refType;
 		const pusher_type = source.pusherType;
 		return { $type, ref, ref_type, pusher_type };
-	}
-
-	get ref(): string {
-		return this.#ref;
-	}
-
-	get refType(): string {
-		return this.#refType;
-	}
-
-	get pusherType(): string {
-		return this.#pusherType;
 	}
 }
 //#endregion

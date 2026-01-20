@@ -16,26 +16,26 @@ export interface SteamGameScheme {
 }
 
 export class SteamGame {
-	#appId: number;
-	#name: string;
-	#playtimeForever: number;
-	#imgIconUrl: string | undefined;
-	#playtimeWindowsForever: number | undefined;
-	#playtimeMacForever: number | undefined;
-	#playtimeLinuxForever: number | undefined;
-	#rtimeLastPlayed: Date;
-	#hasCommunityVisibleStats: boolean | undefined;
+	appId: number;
+	name: string;
+	playtimeForever: number;
+	imgIconUrl: string | undefined;
+	playtimeWindowsForever: number | undefined;
+	playtimeMacForever: number | undefined;
+	playtimeLinuxForever: number | undefined;
+	rtimeLastPlayed: Date;
+	hasCommunityVisibleStats: boolean | undefined;
 
 	constructor(appId: number, name: string, playtimeForever: number, imgIconUrl: string | undefined, playtimeWindowsForever: number | undefined, playtimeMacForever: number | undefined, playtimeLinuxForever: number | undefined, rtimeLastPlayed: Date, hasCommunityVisibleStats: boolean | undefined) {
-		this.#appId = appId;
-		this.#name = name;
-		this.#playtimeForever = playtimeForever;
-		this.#imgIconUrl = imgIconUrl;
-		this.#playtimeWindowsForever = playtimeWindowsForever;
-		this.#playtimeMacForever = playtimeMacForever;
-		this.#playtimeLinuxForever = playtimeLinuxForever;
-		this.#rtimeLastPlayed = rtimeLastPlayed;
-		this.#hasCommunityVisibleStats = hasCommunityVisibleStats;
+		this.appId = appId;
+		this.name = name;
+		this.playtimeForever = playtimeForever;
+		this.imgIconUrl = imgIconUrl;
+		this.playtimeWindowsForever = playtimeWindowsForever;
+		this.playtimeMacForever = playtimeMacForever;
+		this.playtimeLinuxForever = playtimeLinuxForever;
+		this.rtimeLastPlayed = rtimeLastPlayed;
+		this.hasCommunityVisibleStats = hasCommunityVisibleStats;
 	}
 
 	static import(source: any, name: string): SteamGame {
@@ -65,42 +65,6 @@ export class SteamGame {
 		const has_community_visible_stats = source.hasCommunityVisibleStats;
 		return { appid, name, playtime_forever, img_icon_url, playtime_windows_forever, playtime_mac_forever, playtime_linux_forever, rtime_last_played, has_community_visible_stats };
 	}
-
-	get appId(): number {
-		return this.#appId;
-	}
-
-	get name(): string {
-		return this.#name;
-	}
-
-	get playtimeForever(): number {
-		return this.#playtimeForever;
-	}
-
-	get imgIconUrl(): string | undefined {
-		return this.#imgIconUrl;
-	}
-
-	get playtimeWindowsForever(): number | undefined {
-		return this.#playtimeWindowsForever;
-	}
-
-	get playtimeMacForever(): number | undefined {
-		return this.#playtimeMacForever;
-	}
-
-	get playtimeLinuxForever(): number | undefined {
-		return this.#playtimeLinuxForever;
-	}
-
-	get rtimeLastPlayed(): Date {
-		return this.#rtimeLastPlayed;
-	}
-
-	get hasCommunityVisibleStats(): boolean | undefined {
-		return this.#hasCommunityVisibleStats;
-	}
 }
 //#endregion
 
@@ -111,12 +75,12 @@ export interface SteamOwnedGamesScheme {
 }
 
 export class SteamOwnedGames {
-	#gameCount: number | undefined;
-	#games: SteamGame[] | undefined;
+	gameCount: number | undefined;
+	games: SteamGame[] | undefined;
 
 	constructor(gameCount: number | undefined, games: SteamGame[] | undefined) {
-		this.#gameCount = gameCount;
-		this.#games = games;
+		this.gameCount = gameCount;
+		this.games = games;
 	}
 
 	static import(source: any, name: string): SteamOwnedGames {
@@ -134,14 +98,6 @@ export class SteamOwnedGames {
 		const games = Reflect.mapUndefined(source.games, games => games.map(SteamGame.export));
 		return { game_count, games };
 	}
-
-	get gameCount(): number | undefined {
-		return this.#gameCount;
-	}
-
-	get games(): SteamGame[] | undefined {
-		return this.#games;
-	}
 }
 //#endregion
 
@@ -151,10 +107,10 @@ export interface SteamOwnedGamesContainerScheme {
 }
 
 export class SteamOwnedGamesContainer {
-	#response: SteamOwnedGames;
+	response: SteamOwnedGames;
 
 	constructor(response: SteamOwnedGames) {
-		this.#response = response;
+		this.response = response;
 	}
 
 	static import(source: any, name: string): SteamOwnedGamesContainer {
@@ -167,10 +123,6 @@ export class SteamOwnedGamesContainer {
 	static export(source: SteamOwnedGamesContainer): SteamOwnedGamesContainerScheme {
 		const response = SteamOwnedGames.export(source.response);
 		return { response };
-	}
-
-	get response(): SteamOwnedGames {
-		return this.#response;
 	}
 }
 //#endregion
@@ -187,12 +139,12 @@ export interface SteamGameSchemaStatsAchievementScheme {
 }
 
 export class SteamGameSchemaStatsAchievement {
-	#name: string;
-	#icon: string;
+	name: string;
+	icon: string;
 
 	constructor(apiName: string, icon: string) {
-		this.#name = apiName;
-		this.#icon = icon;
+		this.name = apiName;
+		this.icon = icon;
 	}
 
 	static import(source: any, name: string): SteamGameSchemaStatsAchievement {
@@ -207,14 +159,6 @@ export class SteamGameSchemaStatsAchievement {
 		const icon = source.icon;
 		return { name, icon };
 	}
-
-	get name(): string {
-		return this.#name;
-	}
-
-	get icon(): string {
-		return this.#icon;
-	}
 }
 //#endregion
 
@@ -224,10 +168,10 @@ export interface SteamGameSchemaStatsScheme {
 }
 
 export class SteamGameSchemaStats {
-	#achievements: SteamGameSchemaStatsAchievement[] | undefined;
+	achievements: SteamGameSchemaStatsAchievement[] | undefined;
 
 	constructor(achievements: SteamGameSchemaStatsAchievement[] | undefined) {
-		this.#achievements = achievements;
+		this.achievements = achievements;
 	}
 
 	static import(source: any, name: string): SteamGameSchemaStats {
@@ -243,10 +187,6 @@ export class SteamGameSchemaStats {
 		const achievements = Reflect.mapUndefined(source.achievements, achievements => achievements.map(SteamGameSchemaStatsAchievement.export));
 		return { achievements };
 	}
-
-	get achievements(): SteamGameSchemaStatsAchievement[] | undefined {
-		return this.#achievements;
-	}
 }
 //#endregion
 
@@ -258,10 +198,10 @@ export interface SteamGameSchemaScheme {
 }
 
 export class SteamGameSchema {
-	#availableGameStats: SteamGameSchemaStats | undefined;
+	availableGameStats: SteamGameSchemaStats | undefined;
 
 	constructor(availableGameStats: SteamGameSchemaStats | undefined) {
-		this.#availableGameStats = availableGameStats;
+		this.availableGameStats = availableGameStats;
 	}
 
 	static import(source: any, name: string): SteamGameSchema {
@@ -275,10 +215,6 @@ export class SteamGameSchema {
 		const availableGameStats = Reflect.mapUndefined(source.availableGameStats, availableGameStats => SteamGameSchemaStats.export(availableGameStats));
 		return { availableGameStats };
 	}
-
-	get availableGameStats(): SteamGameSchemaStats | undefined {
-		return this.#availableGameStats;
-	}
 }
 //#endregion
 
@@ -288,10 +224,10 @@ export interface SteamGameSchemaContainerScheme {
 }
 
 export class SteamGameSchemaContainer {
-	#game: SteamGameSchema;
+	game: SteamGameSchema;
 
 	constructor(game: SteamGameSchema) {
-		this.#game = game;
+		this.game = game;
 	}
 
 	static import(source: any, name: string): SteamGameSchemaContainer {
@@ -304,10 +240,6 @@ export class SteamGameSchemaContainer {
 	static export(source: SteamGameSchemaContainer): SteamGameSchemaContainerScheme {
 		const game = SteamGameSchema.export(source.game);
 		return { game };
-	}
-
-	get game(): SteamGameSchema {
-		return this.#game;
 	}
 }
 //#endregion
@@ -322,18 +254,18 @@ export interface SteamAchievementScheme {
 }
 
 export class SteamAchievement {
-	#apiName: string;
-	#achieved: boolean;
-	#unlockTime: Date;
-	#name: string | undefined;
-	#description: string | undefined;
+	apiName: string;
+	achieved: boolean;
+	unlockTime: Date;
+	name: string | undefined;
+	description: string | undefined;
 
 	constructor(apiName: string, achieved: boolean, unlockTime: Date, name: string | undefined, description: string | undefined) {
-		this.#apiName = apiName;
-		this.#achieved = achieved;
-		this.#unlockTime = unlockTime;
-		this.#name = name;
-		this.#description = description;
+		this.apiName = apiName;
+		this.achieved = achieved;
+		this.unlockTime = unlockTime;
+		this.name = name;
+		this.description = description;
 	}
 
 	static import(source: any, name: string): SteamAchievement {
@@ -355,26 +287,6 @@ export class SteamAchievement {
 		const description = source.description;
 		return { apiname, achieved, unlocktime, name, description };
 	}
-
-	get apiName(): string {
-		return this.#apiName;
-	}
-
-	get achieved(): boolean {
-		return this.#achieved;
-	}
-
-	get unlockTime(): Date {
-		return this.#unlockTime;
-	}
-
-	get name(): string | undefined {
-		return this.#name;
-	}
-
-	get description(): string | undefined {
-		return this.#description;
-	}
 }
 //#endregion
 
@@ -388,18 +300,18 @@ export interface SteamPlayerStatsScheme {
 }
 
 export class SteamPlayerStats {
-	#steamId: string | undefined;
-	#gameName: string | undefined;
-	#achievements: SteamAchievement[] | undefined;
-	#success: boolean;
-	#error: string | undefined;
+	steamId: string | undefined;
+	gameName: string | undefined;
+	achievements: SteamAchievement[] | undefined;
+	success: boolean;
+	error: string | undefined;
 
 	constructor(steamId: string | undefined, gameName: string | undefined, achievements: SteamAchievement[] | undefined, success: boolean, error: string | undefined) {
-		this.#steamId = steamId;
-		this.#gameName = gameName;
-		this.#achievements = achievements;
-		this.#success = success;
-		this.#error = error;
+		this.steamId = steamId;
+		this.gameName = gameName;
+		this.achievements = achievements;
+		this.success = success;
+		this.error = error;
 	}
 
 	static import(source: any, name: string): SteamPlayerStats {
@@ -423,26 +335,6 @@ export class SteamPlayerStats {
 		const error = source.error;
 		return { steamID, gameName, achievements, success, error };
 	}
-
-	get steamId(): string | undefined {
-		return this.#steamId;
-	}
-
-	get gameName(): string | undefined {
-		return this.#gameName;
-	}
-
-	get achievements(): SteamAchievement[] | undefined {
-		return this.#achievements;
-	}
-
-	get success(): boolean {
-		return this.#success;
-	}
-
-	get error(): string | undefined {
-		return this.#error;
-	}
 }
 //#endregion
 
@@ -452,10 +344,10 @@ export interface SteamPlayerStatsContainerScheme {
 }
 
 export class SteamPlayerStatsContainer {
-	#playerStats: SteamPlayerStats;
+	playerStats: SteamPlayerStats;
 
 	constructor(playerStats: SteamPlayerStats) {
-		this.#playerStats = playerStats;
+		this.playerStats = playerStats;
 	}
 
 	static import(source: any, name: string): SteamPlayerStatsContainer {
@@ -468,10 +360,6 @@ export class SteamPlayerStatsContainer {
 	static export(source: SteamPlayerStatsContainer): SteamPlayerStatsContainerScheme {
 		const playerstats = SteamPlayerStats.export(source.playerStats);
 		return { playerstats };
-	}
-
-	get playerStats(): SteamPlayerStats {
-		return this.#playerStats;
 	}
 }
 //#endregion
@@ -503,22 +391,22 @@ export interface SteamPublishedFileScheme {
 }
 
 export class SteamPublishedFile {
-	#consumerAppId: number;
-	#fileUrl: string | undefined;
-	#previewUrl: string | undefined;
-	#title: string;
-	#timeCreated: Date;
-	#visibility: number;
-	#banned: boolean;
+	consumerAppId: number;
+	fileUrl: string | undefined;
+	previewUrl: string | undefined;
+	title: string;
+	timeCreated: Date;
+	visibility: number;
+	banned: boolean;
 
 	constructor(consumerAppId: number, fileUrl: string | undefined, previewUrl: string | undefined, title: string, timeCreated: Date, visibility: number, banned: boolean) {
-		this.#consumerAppId = consumerAppId;
-		this.#fileUrl = fileUrl;
-		this.#previewUrl = previewUrl;
-		this.#title = title;
-		this.#timeCreated = timeCreated;
-		this.#visibility = visibility;
-		this.#banned = banned;
+		this.consumerAppId = consumerAppId;
+		this.fileUrl = fileUrl;
+		this.previewUrl = previewUrl;
+		this.title = title;
+		this.timeCreated = timeCreated;
+		this.visibility = visibility;
+		this.banned = banned;
 	}
 
 	static import(source: any, name: string): SteamPublishedFile {
@@ -544,33 +432,6 @@ export class SteamPublishedFile {
 		const banned = Number(source.banned);
 		return { consumer_app_id, file_url, preview_url, title, time_created, visibility, banned };
 	}
-
-	get consumerAppId(): number {
-		return this.#consumerAppId;
-	}
-
-	get fileUrl(): string | undefined {
-		return this.#fileUrl;
-	}
-
-	get previewUrl(): string | undefined {
-		return this.#previewUrl;
-	}
-
-	get title(): string {
-		return this.#title;
-	}
-
-	get timeCreated(): Date {
-		return this.#timeCreated;
-	}
-	get visibility(): number {
-		return this.#visibility;
-	}
-
-	get banned(): boolean {
-		return this.#banned;
-	}
 }
 //#endregion
 
@@ -581,10 +442,10 @@ export interface SteamUserFilesResponseScheme {
 }
 
 export class SteamUserFilesResponse {
-	#publishedFileDetails: SteamPublishedFile[] | undefined;
+	publishedFileDetails: SteamPublishedFile[] | undefined;
 
 	constructor(publishedFileDetails: SteamPublishedFile[]| undefined) {
-		this.#publishedFileDetails = publishedFileDetails;
+		this.publishedFileDetails = publishedFileDetails;
 	}
 
 	static import(source: any, name: string): SteamUserFilesResponse {
@@ -600,10 +461,6 @@ export class SteamUserFilesResponse {
 		const publishedfiledetails = Reflect.mapUndefined(source.publishedFileDetails, publishedFileDetails => publishedFileDetails.map(SteamPublishedFile.export));
 		return { publishedfiledetails };
 	}
-
-	get publishedFileDetails(): SteamPublishedFile[] | undefined {
-		return this.#publishedFileDetails;
-	}
 }
 //#endregion
 
@@ -613,10 +470,10 @@ export interface SteamUserFilesResponseContainerScheme {
 }
 
 export class SteamUserFilesResponseContainer {
-	#response: SteamUserFilesResponse;
+	response: SteamUserFilesResponse;
 
 	constructor(response: SteamUserFilesResponse) {
-		this.#response = response;
+		this.response = response;
 	}
 
 	static import(source: any, name: string): SteamUserFilesResponseContainer {
@@ -629,10 +486,6 @@ export class SteamUserFilesResponseContainer {
 	static export(source: SteamUserFilesResponseContainer): SteamUserFilesResponseContainerScheme {
 		const response = SteamUserFilesResponse.export(source.response);
 		return { response };
-	}
-
-	get response(): SteamUserFilesResponse {
-		return this.#response;
 	}
 }
 //#endregion

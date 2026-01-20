@@ -13,13 +13,13 @@ export interface ActivityScheme {
 }
 
 export abstract class Activity {
-	#platform: string;
-	#timestamp: Date;
+	platform: string;
+	timestamp: Date;
 
 	constructor(platform: string, timestamp: Date) {
 		if (new.target === Activity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#platform = platform;
-		this.#timestamp = timestamp;
+		this.platform = platform;
+		this.timestamp = timestamp;
 	}
 
 	static import(source: any, name: string): Activity {
@@ -55,21 +55,13 @@ export abstract class Activity {
 	}
 
 	static earlier(first: Activity, second: Activity): number {
-		return second.#timestamp.valueOf() - first.#timestamp.valueOf();
+		return second.timestamp.valueOf() - first.timestamp.valueOf();
 	}
 
 	static isSame(first: Activity, second: Activity): boolean {
-		if (first.#platform !== second.#platform) return false;
-		if (first.#timestamp.valueOf() !== second.#timestamp.valueOf()) return false;
+		if (first.platform !== second.platform) return false;
+		if (first.timestamp.valueOf() !== second.timestamp.valueOf()) return false;
 		return true;
-	}
-
-	get platform(): string {
-		return this.#platform;
-	}
-
-	get timestamp(): Date {
-		return this.#timestamp;
 	}
 }
 //#endregion
@@ -86,16 +78,16 @@ export interface GitHubActivityScheme extends ActivityScheme {
 }
 
 export abstract class GitHubActivity extends Activity {
-	#username: string;
-	#url: string;
-	#repository: string;
+	username: string;
+	url: string;
+	repository: string;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string) {
 		super(platform, timestamp);
 		if (new.target === GitHubActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#username = username;
-		this.#url = url;
-		this.#repository = repository;
+		this.username = username;
+		this.url = url;
+		this.repository = repository;
 	}
 
 	static import(source: any, name: string): GitHubActivity {
@@ -122,18 +114,6 @@ export abstract class GitHubActivity extends Activity {
 		if (source instanceof GitHubDeleteActivity) return GitHubDeleteActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
-
-	get username(): string {
-		return this.#username;
-	}
-
-	get url(): string {
-		return this.#url;
-	}
-
-	get repository(): string {
-		return this.#repository;
-	}
 }
 //#endregion
 //#region GitHub push activity
@@ -147,11 +127,11 @@ export interface GitHubPushActivityScheme extends GitHubActivityScheme {
 }
 
 export class GitHubPushActivity extends GitHubActivity {
-	#sha: string;
+	sha: string;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, sha: string) {
 		super(platform, timestamp, username, url, repository);
-		this.#sha = sha;
+		this.sha = sha;
 	}
 
 	static import(source: any, name: string): GitHubPushActivity {
@@ -176,10 +156,6 @@ export class GitHubPushActivity extends GitHubActivity {
 		const sha = source.sha;
 		return { $type, platform, timestamp, username, url, repository, sha };
 	}
-
-	get sha(): string {
-		return this.#sha;
-	}
 }
 //#endregion
 //#region GitHub release activity
@@ -194,13 +170,13 @@ export interface GitHubReleaseActivityScheme extends GitHubActivityScheme {
 }
 
 export class GitHubReleaseActivity extends GitHubActivity {
-	#title: string;
-	#isPrerelease: boolean;
+	title: string;
+	isPrerelease: boolean;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, title: string, isPrerelease: boolean) {
 		super(platform, timestamp, username, url, repository);
-		this.#title = title;
-		this.#isPrerelease = isPrerelease;
+		this.title = title;
+		this.isPrerelease = isPrerelease;
 	}
 
 	static import(source: any, name: string): GitHubReleaseActivity {
@@ -226,14 +202,6 @@ export class GitHubReleaseActivity extends GitHubActivity {
 		const title = source.title;
 		const is_prerelease = source.isPrerelease;
 		return { $type, platform, timestamp, username, url, repository, title, is_prerelease };
-	}
-
-	get title(): string {
-		return this.#title;
-	}
-
-	get isPrerelease(): boolean {
-		return this.#isPrerelease;
 	}
 }
 //#endregion
@@ -283,12 +251,12 @@ export interface GitHubCreateActivityScheme extends GitHubActivityScheme {
 }
 
 export abstract class GitHubCreateActivity extends GitHubActivity {
-	#name: string;
+	name: string;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
 		super(platform, timestamp, username, url, repository);
 		if (new.target === GitHubCreateActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#name = name;
+		this.name = name;
 	}
 
 	static import(source: any, name: string): GitHubCreateActivity {
@@ -307,10 +275,6 @@ export abstract class GitHubCreateActivity extends GitHubActivity {
 		if (source instanceof GitHubCreateBranchActivity) return GitHubCreateBranchActivity.export(source);
 		if (source instanceof GitHubCreateRepositoryActivity) return GitHubCreateRepositoryActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
-	}
-
-	get name(): string {
-		return this.#name;
 	}
 }
 //#endregion
@@ -438,12 +402,12 @@ export interface GitHubDeleteActivityScheme extends GitHubActivityScheme {
 }
 
 export abstract class GitHubDeleteActivity extends GitHubActivity {
-	#name: string;
+	name: string;
 
 	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
 		super(platform, timestamp, username, url, repository);
 		if (new.target === GitHubDeleteActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#name = name;
+		this.name = name;
 	}
 
 	static import(source: any, name: string): GitHubDeleteActivity {
@@ -460,10 +424,6 @@ export abstract class GitHubDeleteActivity extends GitHubActivity {
 		if (source instanceof GitHubDeleteTagActivity) return GitHubDeleteTagActivity.export(source);
 		if (source instanceof GitHubDeleteBranchActivity) return GitHubDeleteBranchActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
-	}
-
-	get name(): string {
-		return this.#name;
 	}
 }
 //#endregion
@@ -587,17 +547,17 @@ export interface SpotifyLikeActivityScheme extends SpotifyActivityScheme {
 }
 
 export class SpotifyLikeActivity extends SpotifyActivity {
-	#title: string;
-	#artists: string[];
-	#cover: string | null;
-	#url: string;
+	title: string;
+	artists: string[];
+	cover: string | null;
+	url: string;
 
 	constructor(platform: string, timestamp: Date, title: string, artists: string[], cover: string | null, url: string) {
 		super(platform, timestamp);
-		this.#title = title;
-		this.#artists = artists;
-		this.#cover = cover;
-		this.#url = url;
+		this.title = title;
+		this.artists = artists;
+		this.cover = cover;
+		this.url = url;
 	}
 
 	static import(source: any, name: string): SpotifyLikeActivity {
@@ -623,22 +583,6 @@ export class SpotifyLikeActivity extends SpotifyActivity {
 		const cover = source.cover;
 		const url = source.url;
 		return { $type, platform, timestamp, title, artists, cover, url };
-	}
-
-	get title(): string {
-		return this.#title;
-	}
-
-	get artists(): string[] {
-		return this.#artists;
-	}
-
-	get cover(): string | null {
-		return this.#cover;
-	}
-
-	get url(): string {
-		return this.#url;
 	}
 }
 //#endregion
@@ -689,24 +633,24 @@ export interface PinterestPinActivityScheme extends PinterestActivityScheme {
 }
 
 export abstract class PinterestPinActivity extends PinterestActivity {
-	#content: string;
-	#width: number;
-	#height: number;
-	#title: string | null;
-	#description: string | null;
-	#board: string;
-	#url: string;
+	content: string;
+	width: number;
+	height: number;
+	title: string | null;
+	description: string | null;
+	board: string;
+	url: string;
 
 	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
 		super(platform, timestamp);
 		if (new.target === PinterestPinActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#content = content;
-		this.#width = width;
-		this.#height = height;
-		this.#title = title;
-		this.#description = description;
-		this.#board = board;
-		this.#url = url;
+		this.content = content;
+		this.width = width;
+		this.height = height;
+		this.title = title;
+		this.description = description;
+		this.board = board;
+		this.url = url;
 	}
 
 	static import(source: any, name: string): PinterestPinActivity {
@@ -723,34 +667,6 @@ export abstract class PinterestPinActivity extends PinterestActivity {
 		if (source instanceof PinterestImagePinActivity) return PinterestImagePinActivity.export(source);
 		if (source instanceof PinterestVideoPinActivity) return PinterestVideoPinActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
-	}
-
-	get content(): string {
-		return this.#content;
-	}
-
-	get width(): number {
-		return this.#width;
-	}
-
-	get height(): number {
-		return this.#height;
-	}
-
-	get title(): string | null {
-		return this.#title;
-	}
-
-	get description(): string | null {
-		return this.#description;
-	}
-
-	get board(): string {
-		return this.#board;
-	}
-
-	get url(): string {
-		return this.#url;
 	}
 }
 //#endregion
@@ -854,14 +770,14 @@ export interface SteamActivityScheme extends ActivityScheme {
 }
 
 export abstract class SteamActivity extends Activity {
-	#game: string;
-	#webpage: string;
+	game: string;
+	webpage: string;
 
 	constructor(platform: string, timestamp: Date, game: string, webpage: string) {
 		super(platform, timestamp);
 		if (new.target === SteamActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#game = game;
-		this.#webpage = webpage;
+		this.game = game;
+		this.webpage = webpage;
 	}
 
 	static import(source: any, name: string): SteamActivity {
@@ -879,14 +795,6 @@ export abstract class SteamActivity extends Activity {
 		if (source instanceof SteamScreenshotActivity) return SteamScreenshotActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
-
-	get game(): string {
-		return this.#game;
-	}
-
-	get webpage(): string {
-		return this.#webpage;
-	}
 }
 //#endregion
 //#region Steam achievement activity
@@ -903,17 +811,17 @@ export interface SteamAchievementActivityScheme extends SteamActivityScheme {
 }
 
 export class SteamAchievementActivity extends SteamActivity {
-	#icon: string | null;
-	#title: string;
-	#description: string | null;
-	#url: string;
+	icon: string | null;
+	title: string;
+	description: string | null;
+	url: string;
 
 	constructor(platform: string, timestamp: Date, game: string, webpage: string, icon: string | null, title: string, description: string | null, url: string) {
 		super(platform, timestamp, game, webpage);
-		this.#icon = icon;
-		this.#title = title;
-		this.#description = description;
-		this.#url = url;
+		this.icon = icon;
+		this.title = title;
+		this.description = description;
+		this.url = url;
 	}
 
 	static import(source: any, name: string): SteamAchievementActivity {
@@ -942,22 +850,6 @@ export class SteamAchievementActivity extends SteamActivity {
 		const url = source.url;
 		return { $type, platform, timestamp, game, webpage, icon, title, description, url };
 	}
-
-	get icon(): string | null {
-		return this.#icon;
-	}
-
-	get title(): string {
-		return this.#title;
-	}
-
-	get description(): string | null {
-		return this.#description;
-	}
-
-	get url(): string {
-		return this.#url;
-	}
 }
 //#endregion
 //#region Steam screenshot activity
@@ -972,13 +864,13 @@ export interface SteamScreenshotActivityScheme extends SteamActivityScheme {
 }
 
 export class SteamScreenshotActivity extends SteamActivity {
-	#url: string;
-	#title: string | null;
+	url: string;
+	title: string | null;
 
 	constructor(platform: string, timestamp: Date, game: string, webpage: string, url: string, title: string | null) {
 		super(platform, timestamp, game, webpage);
-		this.#url = url;
-		this.#title = title;
+		this.url = url;
+		this.title = title;
 	}
 
 	static import(source: any, name: string): SteamScreenshotActivity {
@@ -1003,14 +895,6 @@ export class SteamScreenshotActivity extends SteamActivity {
 		const title = source.title;
 		return { $type, platform, timestamp, game, webpage, url, title };
 	}
-
-	get url(): string {
-		return this.#url;
-	}
-
-	get title(): string | null {
-		return this.#title;
-	}
 }
 //#endregion
 
@@ -1027,18 +911,18 @@ export interface StackOverflowActivityScheme extends ActivityScheme {
 }
 
 export abstract class StackOverflowActivity extends Activity {
-	#title: string;
-	#body: string;
-	#score: number;
-	#url: string;
+	title: string;
+	body: string;
+	score: number;
+	url: string;
 
 	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string) {
 		super(platform, timestamp);
 		if (new.target === StackOverflowActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.#title = title;
-		this.#body = body;
-		this.#score = score;
-		this.#url = url;
+		this.title = title;
+		this.body = body;
+		this.score = score;
+		this.url = url;
 	}
 
 	static import(source: any, name: string): StackOverflowActivity {
@@ -1056,22 +940,6 @@ export abstract class StackOverflowActivity extends Activity {
 		if (source instanceof StackOverflowAnswerActivity) return StackOverflowAnswerActivity.export(source);
 		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
-
-	get title(): string {
-		return this.#title;
-	}
-
-	get body(): string {
-		return this.#body;
-	}
-
-	get score(): number {
-		return this.#score;
-	}
-
-	get url(): string {
-		return this.#url;
-	}
 }
 //#endregion
 //#region Stack overflow question activity
@@ -1087,15 +955,15 @@ export interface StackOverflowQuestionActivityScheme extends StackOverflowActivi
 }
 
 export class StackOverflowQuestionActivity extends StackOverflowActivity {
-	#tags: string[];
-	#views: number;
-	#isAnswered: boolean;
+	tags: string[];
+	views: number;
+	isAnswered: boolean;
 
 	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, tags: string[], views: number, isAnswered: boolean) {
 		super(platform, timestamp, title, body, score, url);
-		this.#tags = tags;
-		this.#views = views;
-		this.#isAnswered = isAnswered;
+		this.tags = tags;
+		this.views = views;
+		this.isAnswered = isAnswered;
 	}
 
 	static import(source: any, name: string): StackOverflowQuestionActivity {
@@ -1128,18 +996,6 @@ export class StackOverflowQuestionActivity extends StackOverflowActivity {
 		const is_answered = source.isAnswered;
 		return { $type, platform, timestamp, title, body, score, url, tags, views, is_answered };
 	}
-
-	get tags(): string[] {
-		return this.#tags;
-	}
-
-	get views(): number {
-		return this.#views;
-	}
-
-	get isAnswered(): boolean {
-		return this.#isAnswered;
-	}
 }
 //#endregion
 //#region Stack overflow answer activity
@@ -1153,11 +1009,11 @@ export interface StackOverflowAnswerActivityScheme extends StackOverflowActivity
 }
 
 export class StackOverflowAnswerActivity extends StackOverflowActivity {
-	#isAccepted: boolean;
+	isAccepted: boolean;
 
 	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, isAccepted: boolean) {
 		super(platform, timestamp, title, body, score, url);
-		this.#isAccepted = isAccepted;
+		this.isAccepted = isAccepted;
 	}
 
 	static import(source: any, name: string): StackOverflowAnswerActivity {
@@ -1183,10 +1039,6 @@ export class StackOverflowAnswerActivity extends StackOverflowActivity {
 		const url = source.url;
 		const is_accepted = source.isAccepted;
 		return { $type, platform, timestamp, title, body, score, url, is_accepted };
-	}
-
-	get isAccepted(): boolean {
-		return this.#isAccepted;
 	}
 }
 //#endregion

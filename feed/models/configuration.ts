@@ -11,16 +11,16 @@ export interface PlatformScheme {
 }
 
 export class Platform {
-	#name: string;
-	#icon: string;
-	#webpage: string;
-	#isActive: boolean;
+	name: string;
+	icon: string;
+	webpage: string;
+	isActive: boolean;
 
 	constructor(name: string, icon: string, webpage: string, isActive: boolean) {
-		this.#name = name;
-		this.#icon = icon;
-		this.#webpage = webpage;
-		this.#isActive = isActive;
+		this.name = name;
+		this.icon = icon;
+		this.webpage = webpage;
+		this.isActive = isActive;
 	}
 
 	static import(source: any, name: string): Platform {
@@ -40,22 +40,6 @@ export class Platform {
 		const is_active = source.isActive;
 		return { name, icon, webpage, is_active };
 	}
-
-	get name(): string {
-		return this.#name;
-	}
-
-	get icon(): string {
-		return this.#icon;
-	}
-
-	get webpage(): string {
-		return this.#webpage;
-	}
-
-	get isActive(): boolean {
-		return this.#isActive;
-	}
 }
 //#endregion
 //#region Configuration
@@ -66,14 +50,14 @@ export interface ConfigurationScheme {
 }
 
 export class Configuration {
-	#platforms: Platform[];
-	#intro: string;
-	#outro: string;
+	platforms: Platform[];
+	intro: string;
+	outro: string;
 
 	constructor(platforms: Platform[], intro: string, outro: string) {
-		this.#platforms = platforms;
-		this.#intro = intro;
-		this.#outro = outro;
+		this.platforms = platforms;
+		this.intro = intro;
+		this.outro = outro;
 	}
 
 	static import(source: any, name: string): Configuration {
@@ -92,24 +76,6 @@ export class Configuration {
 		const intro = source.intro;
 		const outro = source.outro;
 		return { platforms, intro, outro };
-	}
-
-	get platforms(): Platform[] {
-		return this.#platforms;
-	}
-
-	get intro(): string {
-		return this.#intro;
-	}
-	set intro(value: string) {
-		this.#intro = value;
-	}
-
-	get outro(): string {
-		return this.#outro;
-	}
-	set outro(value: string) {
-		this.#outro = value;
 	}
 }
 //#endregion

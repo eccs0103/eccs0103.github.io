@@ -731,5 +731,38 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "10d710a104310e9a46dd797c10291bced50d00f4"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768942470000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/06a93118c349d13328a1e40bf7b072be13bb63dd.jpg",
+		"title": "Exoarchaeolo—You Get The Gist",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768942594000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/59b522503bd8a1e8693e020f15ff756079a0fbbb.jpg",
+		"title": "Got Big Game",
+		"description": "Defeat all of Hammerlock's Legendary Hunts.",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768943124000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/9c8b7a0d223d3dad59d0f03930f43646dcdc4f1c.jpg",
+		"title": "I Am A Goddess, A Glorious Female Warrior",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
 	}
 ]

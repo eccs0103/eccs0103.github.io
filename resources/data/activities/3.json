@@ -764,5 +764,16 @@
 		"title": "I Am A Goddess, A Glorious Female Warrior",
 		"description": "",
 		"url": "https://steamcommunity.com/stats/397540/achievements"
+	},
+	{
+		"$type": "SteamAchievementActivity",
+		"platform": "Steam",
+		"timestamp": 1768946376000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/952d5e58d19ca2f1780fe011456d410f429fb4b7.jpg",
+		"title": "Bye, Felicia!",
+		"description": "",
+		"url": "https://steamcommunity.com/stats/397540/achievements"
 	}
 ]

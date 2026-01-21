@@ -2,7 +2,7 @@
 
 import "adaptive-extender/node";
 import { type InputOption, type RollupOptions } from "rollup";
-import { type AppType, type BuildEnvironmentOptions, type ServerOptions, type UserConfig } from "vite";
+import { type AppType, type BuildEnvironmentOptions, type ESBuildOptions, type ServerOptions, type UserConfig } from "vite";
 import { VitePlugin } from "../plugins/vite-plugin.js";
 import { fileURLToPath } from "node:url";
 
@@ -41,7 +41,7 @@ export class ViteConfig {
 	#buildEnvironment(): BuildEnvironmentOptions {
 		const outDir: string = fileURLToPath(this.#output);
 		const emptyOutDir: boolean = true;
-		const target: string = "ESNext";
+		const target: string = "ES2022";
 		const rollupOptions: RollupOptions = this.#buildRollupOptions();
 		return { outDir, emptyOutDir, target, rollupOptions };
 	}
@@ -51,16 +51,23 @@ export class ViteConfig {
 		return { strictPort };
 	}
 
+	#buildESBuild(): ESBuildOptions {
+		const target: string = "ES2022";
+		const keepNames: boolean = true;
+		return { target, keepNames };
+	}
+
 	build(): UserConfig {
 		const base: string = "./";
 		const appType: AppType = "mpa";
 		const publicDir: string = "resources";
 		const build: BuildEnvironmentOptions = this.#buildEnvironment();
 		const server: ServerOptions = this.#buildServer();
+		const esbuild: ESBuildOptions = this.#buildESBuild();
 
 		const plugins = this.#plugins.map(p => p.build());
 
-		return { base, appType, publicDir, build, server, plugins };
+		return { base, appType, publicDir, build, server, esbuild, plugins };
 	}
 }
 //#endregion

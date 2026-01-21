@@ -1,6 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
+import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Timestamp } from "adaptive-extender/core";
 
 //#region Activity
 export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator {
@@ -12,46 +13,40 @@ export interface ActivityScheme {
 	timestamp: number;
 }
 
-export abstract class Activity {
+@Descendant(Deferred(_ => GitHubPushActivity))
+@Descendant(Deferred(_ => GitHubReleaseActivity))
+@Descendant(Deferred(_ => GitHubWatchActivity))
+@Descendant(Deferred(_ => GitHubCreateTagActivity))
+@Descendant(Deferred(_ => GitHubCreateBranchActivity))
+@Descendant(Deferred(_ => GitHubCreateRepositoryActivity))
+@Descendant(Deferred(_ => GitHubDeleteTagActivity))
+@Descendant(Deferred(_ => GitHubDeleteBranchActivity))
+@Descendant(Deferred(_ => SpotifyLikeActivity))
+@Descendant(Deferred(_ => PinterestImagePinActivity))
+@Descendant(Deferred(_ => PinterestVideoPinActivity))
+@Descendant(Deferred(_ => SteamAchievementActivity))
+@Descendant(Deferred(_ => SteamScreenshotActivity))
+@Descendant(Deferred(_ => StackOverflowQuestionActivity))
+@Descendant(Deferred(_ => StackOverflowAnswerActivity))
+export abstract class Activity extends Model {
+	@Field(String, "platform")
 	platform: string;
+
+	@Field(Timestamp, "timestamp")
 	timestamp: Date;
 
-	constructor(platform: string, timestamp: Date) {
+	constructor();
+	constructor(platform: string, timestamp: Date);
+	constructor(platform?: string, timestamp?: Date) {
+		if (platform === undefined || timestamp === undefined) {
+			super();
+			return;
+		}
+
+		super();
 		if (new.target === Activity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.platform = platform;
 		this.timestamp = timestamp;
-	}
-
-	static import(source: any, name: string): Activity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "GitHubPushActivity":
-		case "GitHubReleaseActivity":
-		case "GitHubWatchActivity":
-		case "GitHubCreateTagActivity":
-		case "GitHubCreateBranchActivity":
-		case "GitHubCreateRepositoryActivity":
-		case "GitHubDeleteTagActivity":
-		case "GitHubDeleteBranchActivity": return GitHubActivity.import(source, name);
-		case "SpotifyLikeActivity": return SpotifyActivity.import(source, name);
-		case "PinterestImagePinActivity":
-		case "PinterestVideoPinActivity": return PinterestActivity.import(source, name);
-		case "SteamAchievementActivity":
-		case "SteamScreenshotActivity": return SteamActivity.import(source, name);
-		case "StackOverflowQuestionActivity":
-		case "StackOverflowAnswerActivity": return StackOverflowActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: Activity): ActivityScheme {
-		if (source instanceof GitHubActivity) return GitHubActivity.export(source);
-		if (source instanceof SpotifyActivity) return SpotifyActivity.export(source);
-		if (source instanceof PinterestActivity) return PinterestActivity.export(source);
-		if (source instanceof SteamActivity) return SteamActivity.export(source);
-		if (source instanceof StackOverflowActivity) return StackOverflowActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 
 	static earlier(first: Activity, second: Activity): number {
@@ -77,42 +72,37 @@ export interface GitHubActivityScheme extends ActivityScheme {
 	repository: string;
 }
 
+@Descendant(Deferred(_ => GitHubPushActivity))
+@Descendant(Deferred(_ => GitHubReleaseActivity))
+@Descendant(Deferred(_ => GitHubWatchActivity))
+@Descendant(Deferred(_ => GitHubCreateTagActivity))
+@Descendant(Deferred(_ => GitHubCreateBranchActivity))
+@Descendant(Deferred(_ => GitHubCreateRepositoryActivity))
+@Descendant(Deferred(_ => GitHubDeleteTagActivity))
+@Descendant(Deferred(_ => GitHubDeleteBranchActivity))
 export abstract class GitHubActivity extends Activity {
+	@Field(String, "username")
 	username: string;
+
+	@Field(String, "url")
 	url: string;
+
+	@Field(String, "repository")
 	repository: string;
 
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp);
 		if (new.target === GitHubActivity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.username = username;
 		this.url = url;
 		this.repository = repository;
-	}
-
-	static import(source: any, name: string): GitHubActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "GitHubPushActivity": return GitHubPushActivity.import(source, name);
-		case "GitHubReleaseActivity": return GitHubReleaseActivity.import(source, name);
-		case "GitHubWatchActivity": return GitHubWatchActivity.import(source, name);
-		case "GitHubCreateTagActivity":
-		case "GitHubCreateBranchActivity":
-		case "GitHubCreateRepositoryActivity": return GitHubCreateActivity.import(source, name);
-		case "GitHubDeleteTagActivity":
-		case "GitHubDeleteBranchActivity": return GitHubDeleteActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: GitHubActivity): GitHubActivityScheme {
-		if (source instanceof GitHubPushActivity) return GitHubPushActivity.export(source);
-		if (source instanceof GitHubReleaseActivity) return GitHubReleaseActivity.export(source);
-		if (source instanceof GitHubWatchActivity) return GitHubWatchActivity.export(source);
-		if (source instanceof GitHubCreateActivity) return GitHubCreateActivity.export(source);
-		if (source instanceof GitHubDeleteActivity) return GitHubDeleteActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -127,34 +117,19 @@ export interface GitHubPushActivityScheme extends GitHubActivityScheme {
 }
 
 export class GitHubPushActivity extends GitHubActivity {
+	@Field(String, "sha")
 	sha: string;
 
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, sha: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, sha: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, sha?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || sha === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository);
 		this.sha = sha;
-	}
-
-	static import(source: any, name: string): GitHubPushActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const sha = String.import(Reflect.get(object, "sha"), `${name}.sha`);
-		const result = new GitHubPushActivity(platform, timestamp, username, url, repository, sha);
-		return result;
-	}
-
-	static export(source: GitHubPushActivity): GitHubPushActivityScheme {
-		const $type = "GitHubPushActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		const sha = source.sha;
-		return { $type, platform, timestamp, username, url, repository, sha };
 	}
 }
 //#endregion
@@ -170,38 +145,23 @@ export interface GitHubReleaseActivityScheme extends GitHubActivityScheme {
 }
 
 export class GitHubReleaseActivity extends GitHubActivity {
+	@Field(String, "title")
 	title: string;
+
+	@Field(Boolean, "is_prerelease")
 	isPrerelease: boolean;
 
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, title: string, isPrerelease: boolean) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, title: string, isPrerelease: boolean);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, title?: string, isPrerelease?: boolean) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || title === undefined || isPrerelease === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository);
 		this.title = title;
 		this.isPrerelease = isPrerelease;
-	}
-
-	static import(source: any, name: string): GitHubReleaseActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
-		const isPrerelease = Boolean.import(Reflect.get(object, "is_prerelease"), `${name}.is_prerelease`);
-		const result = new GitHubReleaseActivity(platform, timestamp, username, url, repository, title, isPrerelease);
-		return result;
-	}
-
-	static export(source: GitHubReleaseActivity): GitHubReleaseActivityScheme {
-		const $type = "GitHubReleaseActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		const title = source.title;
-		const is_prerelease = source.isPrerelease;
-		return { $type, platform, timestamp, username, url, repository, title, is_prerelease };
 	}
 }
 //#endregion
@@ -215,29 +175,15 @@ export interface GitHubWatchActivityScheme extends GitHubActivityScheme {
 }
 
 export class GitHubWatchActivity extends GitHubActivity {
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository);
-	}
-
-	static import(source: any, name: string): GitHubWatchActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const result = new GitHubWatchActivity(platform, timestamp, username, url, repository);
-		return result;
-	}
-
-	static export(source: GitHubWatchActivity): GitHubWatchActivityScheme {
-		const $type = "GitHubWatchActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		return { $type, platform, timestamp, username, url, repository };
 	}
 }
 //#endregion
@@ -250,31 +196,24 @@ export interface GitHubCreateActivityScheme extends GitHubActivityScheme {
 	name: string;
 }
 
+@Descendant(Deferred(_ => GitHubCreateTagActivity))
+@Descendant(Deferred(_ => GitHubCreateBranchActivity))
+@Descendant(Deferred(_ => GitHubCreateRepositoryActivity))
 export abstract class GitHubCreateActivity extends GitHubActivity {
+	@Field(String, "name")
 	name: string;
 
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, name?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || name === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository);
 		if (new.target === GitHubCreateActivity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.name = name;
-	}
-
-	static import(source: any, name: string): GitHubCreateActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "GitHubCreateTagActivity": return GitHubCreateTagActivity.import(source, name);
-		case "GitHubCreateBranchActivity": return GitHubCreateBranchActivity.import(source, name);
-		case "GitHubCreateRepositoryActivity": return GitHubCreateRepositoryActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: GitHubCreateActivity): GitHubCreateActivityScheme {
-		if (source instanceof GitHubCreateTagActivity) return GitHubCreateTagActivity.export(source);
-		if (source instanceof GitHubCreateBranchActivity) return GitHubCreateBranchActivity.export(source);
-		if (source instanceof GitHubCreateRepositoryActivity) return GitHubCreateRepositoryActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -288,31 +227,15 @@ export interface GitHubCreateTagActivityScheme extends GitHubCreateActivitySchem
 }
 
 export class GitHubCreateTagActivity extends GitHubCreateActivity {
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, name?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || name === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository, name);
-	}
-
-	static import(source: any, name: string): GitHubCreateTagActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
-		const result = new GitHubCreateTagActivity(platform, timestamp, username, url, repository, $name);
-		return result;
-	}
-
-	static export(source: GitHubCreateTagActivity): GitHubCreateTagActivityScheme {
-		const $type = "GitHubCreateTagActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		const name = source.name;
-		return { $type, platform, timestamp, username, url, repository, name };
 	}
 }
 //#endregion
@@ -326,31 +249,15 @@ export interface GitHubCreateBranchActivityScheme extends GitHubCreateActivitySc
 }
 
 export class GitHubCreateBranchActivity extends GitHubCreateActivity {
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, name?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || name === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository, name);
-	}
-
-	static import(source: any, name: string): GitHubCreateBranchActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
-		const result = new GitHubCreateBranchActivity(platform, timestamp, username, url, repository, $name);
-		return result;
-	}
-
-	static export(source: GitHubCreateBranchActivity): GitHubCreateBranchActivityScheme {
-		const $type = "GitHubCreateBranchActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		const name = source.name;
-		return { $type, platform, timestamp, username, url, repository, name };
 	}
 }
 //#endregion
@@ -364,31 +271,15 @@ export interface GitHubCreateRepositoryActivityScheme extends GitHubCreateActivi
 }
 
 export class GitHubCreateRepositoryActivity extends GitHubCreateActivity {
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, name?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || name === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository, name);
-	}
-
-	static import(source: any, name: string): GitHubCreateRepositoryActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
-		const result = new GitHubCreateRepositoryActivity(platform, timestamp, username, url, repository, $name);
-		return result;
-	}
-
-	static export(source: GitHubCreateRepositoryActivity): GitHubCreateRepositoryActivityScheme {
-		const $type = "GitHubCreateRepositoryActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		const name = source.name;
-		return { $type, platform, timestamp, username, url, repository, name };
 	}
 }
 //#endregion
@@ -401,29 +292,23 @@ export interface GitHubDeleteActivityScheme extends GitHubActivityScheme {
 	name: string;
 }
 
+@Descendant(Deferred(_ => GitHubDeleteTagActivity))
+@Descendant(Deferred(_ => GitHubDeleteBranchActivity))
 export abstract class GitHubDeleteActivity extends GitHubActivity {
+	@Field(String, "name")
 	name: string;
 
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, name?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || name === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository);
 		if (new.target === GitHubDeleteActivity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.name = name;
-	}
-
-	static import(source: any, name: string): GitHubDeleteActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "GitHubDeleteTagActivity": return GitHubDeleteTagActivity.import(source, name);
-		case "GitHubDeleteBranchActivity": return GitHubDeleteBranchActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: GitHubDeleteActivity): GitHubDeleteActivityScheme {
-		if (source instanceof GitHubDeleteTagActivity) return GitHubDeleteTagActivity.export(source);
-		if (source instanceof GitHubDeleteBranchActivity) return GitHubDeleteBranchActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -437,31 +322,15 @@ export interface GitHubDeleteTagActivityScheme extends GitHubDeleteActivitySchem
 }
 
 export class GitHubDeleteTagActivity extends GitHubDeleteActivity {
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, name?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || name === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository, name);
-	}
-
-	static import(source: any, name: string): GitHubDeleteTagActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
-		const result = new GitHubDeleteTagActivity(platform, timestamp, username, url, repository, $name);
-		return result;
-	}
-
-	static export(source: GitHubDeleteTagActivity): GitHubDeleteTagActivityScheme {
-		const $type = "GitHubDeleteTagActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		const name = source.name;
-		return { $type, platform, timestamp, username, url, repository, name };
 	}
 }
 //#endregion
@@ -475,31 +344,15 @@ export interface GitHubDeleteBranchActivityScheme extends GitHubDeleteActivitySc
 }
 
 export class GitHubDeleteBranchActivity extends GitHubDeleteActivity {
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, name: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, name?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || name === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, username, url, repository, name);
-	}
-
-	static import(source: any, name: string): GitHubDeleteBranchActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const username = String.import(Reflect.get(object, "username"), `${name}.username`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const repository = String.import(Reflect.get(object, "repository"), `${name}.repository`);
-		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
-		const result = new GitHubDeleteBranchActivity(platform, timestamp, username, url, repository, $name);
-		return result;
-	}
-
-	static export(source: GitHubDeleteBranchActivity): GitHubDeleteBranchActivityScheme {
-		const $type = "GitHubDeleteBranchActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const username = source.username;
-		const url = source.url;
-		const repository = source.repository;
-		const name = source.name;
-		return { $type, platform, timestamp, username, url, repository, name };
 	}
 }
 //#endregion
@@ -512,24 +365,18 @@ export interface SpotifyActivityScheme extends ActivityScheme {
 	$type: keyof SpotifyActivityDiscriminator;
 }
 
+@Descendant(Deferred(_ => SpotifyLikeActivity))
 export abstract class SpotifyActivity extends Activity {
-	constructor(platform: string, timestamp: Date) {
+	constructor();
+	constructor(platform: string, timestamp: Date);
+	constructor(platform?: string, timestamp?: Date) {
+		if (platform === undefined || timestamp === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp);
 		if (new.target === SpotifyActivity) throw new TypeError("Unable to create an instance of an abstract class");
-	}
-
-	static import(source: any, name: string): SpotifyActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "SpotifyLikeActivity": return SpotifyLikeActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: SpotifyActivity): SpotifyActivityScheme {
-		if (source instanceof SpotifyLikeActivity) return SpotifyLikeActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -547,42 +394,31 @@ export interface SpotifyLikeActivityScheme extends SpotifyActivityScheme {
 }
 
 export class SpotifyLikeActivity extends SpotifyActivity {
+	@Field(String, "title")
 	title: string;
+
+	@Field(ArrayOf(String), "artists")
 	artists: string[];
+
+	@Field(Nullable(String), "cover")
 	cover: string | null;
+
+	@Field(String, "url")
 	url: string;
 
-	constructor(platform: string, timestamp: Date, title: string, artists: string[], cover: string | null, url: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, artists: string[], cover: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, artists?: string[], cover?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || artists === undefined || cover === undefined || url === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp);
 		this.title = title;
 		this.artists = artists;
 		this.cover = cover;
 		this.url = url;
-	}
-
-	static import(source: any, name: string): SpotifyLikeActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
-		const artists = Array.import(Reflect.get(object, "artists"), `${name}.artists`).map((item, index) => {
-			return String.import(item, `${name}.artists[${index}]`);
-		});
-		const cover = Reflect.mapNull(Reflect.get(object, "cover") as unknown, cover => String.import(cover, `${name}.cover`));
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const result = new SpotifyLikeActivity(platform, timestamp, title, artists, cover, url);
-		return result;
-	}
-
-	static export(source: SpotifyLikeActivity): SpotifyLikeActivityScheme {
-		const $type = "SpotifyLikeActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const title = source.title;
-		const artists = source.artists;
-		const cover = source.cover;
-		const url = source.url;
-		return { $type, platform, timestamp, title, artists, cover, url };
 	}
 }
 //#endregion
@@ -595,25 +431,19 @@ export interface PinterestActivityScheme extends ActivityScheme {
 	$type: keyof PinterestActivityDiscriminator;
 }
 
+@Descendant(Deferred(_ => PinterestImagePinActivity))
+@Descendant(Deferred(_ => PinterestVideoPinActivity))
 export abstract class PinterestActivity extends Activity {
-	constructor(platform: string, timestamp: Date) {
+	constructor();
+	constructor(platform: string, timestamp: Date);
+	constructor(platform?: string, timestamp?: Date) {
+		if (platform === undefined || timestamp === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp);
 		if (new.target === PinterestActivity) throw new TypeError("Unable to create an instance of an abstract class");
-	}
-
-	static import(source: any, name: string): PinterestActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "PinterestImagePinActivity":
-		case "PinterestVideoPinActivity": return PinterestPinActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: PinterestActivity): PinterestActivityScheme {
-		if (source instanceof PinterestPinActivity) return PinterestPinActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -632,16 +462,38 @@ export interface PinterestPinActivityScheme extends PinterestActivityScheme {
 	url: string;
 }
 
+@Descendant(Deferred(_ => PinterestImagePinActivity))
+@Descendant(Deferred(_ => PinterestVideoPinActivity))
 export abstract class PinterestPinActivity extends PinterestActivity {
+	@Field(String, "content")
 	content: string;
+
+	@Field(Number, "width")
 	width: number;
+
+	@Field(Number, "height")
 	height: number;
+
+	@Field(Nullable(String), "title")
 	title: string | null;
+
+	@Field(Nullable(String), "description")
 	description: string | null;
+
+	@Field(String, "board")
 	board: string;
+
+	@Field(String, "url")
 	url: string;
 
-	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string);
+	constructor(platform?: string, timestamp?: Date, content?: string, width?: number, height?: number, title?: string | null, description?: string | null, board?: string, url?: string) {
+		if (platform === undefined || timestamp === undefined || content === undefined || width === undefined || height === undefined || title === undefined || description === undefined || board === undefined || url === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp);
 		if (new.target === PinterestPinActivity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.content = content;
@@ -651,22 +503,6 @@ export abstract class PinterestPinActivity extends PinterestActivity {
 		this.description = description;
 		this.board = board;
 		this.url = url;
-	}
-
-	static import(source: any, name: string): PinterestPinActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "PinterestImagePinActivity": return PinterestImagePinActivity.import(source, name);
-		case "PinterestVideoPinActivity": return PinterestVideoPinActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: PinterestPinActivity): PinterestPinActivityScheme {
-		if (source instanceof PinterestImagePinActivity) return PinterestImagePinActivity.export(source);
-		if (source instanceof PinterestVideoPinActivity) return PinterestVideoPinActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -680,37 +516,15 @@ export interface PinterestImagePinActivityScheme extends PinterestPinActivitySch
 }
 
 export class PinterestImagePinActivity extends PinterestPinActivity {
-	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string);
+	constructor(platform?: string, timestamp?: Date, content?: string, width?: number, height?: number, title?: string | null, description?: string | null, board?: string, url?: string) {
+		if (platform === undefined || timestamp === undefined || content === undefined || width === undefined || height === undefined || title === undefined || description === undefined || board === undefined || url === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, content, width, height, title, description, board, url);
-	}
-
-	static import(source: any, name: string): PinterestImagePinActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const content = String.import(Reflect.get(object, "content"), `${name}.content`);
-		const width = Number.import(Reflect.get(object, "width"), `${name}.width`);
-		const height = Number.import(Reflect.get(object, "height"), `${name}.height`);
-		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
-		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
-		const board = String.import(Reflect.get(object, "board"), `${name}.board`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const result = new PinterestImagePinActivity(platform, timestamp, content, width, height, title, description, board, url);
-		return result;
-	}
-
-	static export(source: PinterestImagePinActivity): PinterestImagePinActivityScheme {
-		const $type = "PinterestImagePinActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const content = source.content;
-		const width = source.width;
-		const height = source.height;
-		const title = source.title;
-		const description = source.description;
-		const board = source.board;
-		const url = source.url;
-		return { $type, platform, timestamp, content, width, height, title, description, board, url };
 	}
 }
 //#endregion
@@ -724,37 +538,15 @@ export interface PinterestVideoPinActivityScheme extends PinterestPinActivitySch
 }
 
 export class PinterestVideoPinActivity extends PinterestPinActivity {
-	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, content: string, width: number, height: number, title: string | null, description: string | null, board: string, url: string);
+	constructor(platform?: string, timestamp?: Date, content?: string, width?: number, height?: number, title?: string | null, description?: string | null, board?: string, url?: string) {
+		if (platform === undefined || timestamp === undefined || content === undefined || width === undefined || height === undefined || title === undefined || description === undefined || board === undefined || url === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, content, width, height, title, description, board, url);
-	}
-
-	static import(source: any, name: string): PinterestVideoPinActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const content = String.import(Reflect.get(object, "content"), `${name}.content`);
-		const width = Number.import(Reflect.get(object, "width"), `${name}.width`);
-		const height = Number.import(Reflect.get(object, "height"), `${name}.height`);
-		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
-		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
-		const board = String.import(Reflect.get(object, "board"), `${name}.board`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const result = new PinterestVideoPinActivity(platform, timestamp, content, width, height, title, description, board, url);
-		return result;
-	}
-
-	static export(source: PinterestVideoPinActivity): PinterestVideoPinActivityScheme {
-		const $type = "PinterestVideoPinActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const content = source.content;
-		const width = source.width;
-		const height = source.height;
-		const title = source.title;
-		const description = source.description;
-		const board = source.board;
-		const url = source.url;
-		return { $type, platform, timestamp, content, width, height, title, description, board, url };
 	}
 }
 //#endregion
@@ -769,31 +561,27 @@ export interface SteamActivityScheme extends ActivityScheme {
 	webpage: string;
 }
 
+@Descendant(Deferred(_ => SteamAchievementActivity))
+@Descendant(Deferred(_ => SteamScreenshotActivity))
 export abstract class SteamActivity extends Activity {
+	@Field(String, "game")
 	game: string;
+
+	@Field(String, "webpage")
 	webpage: string;
 
-	constructor(platform: string, timestamp: Date, game: string, webpage: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, game: string, webpage: string);
+	constructor(platform?: string, timestamp?: Date, game?: string, webpage?: string) {
+		if (platform === undefined || timestamp === undefined || game === undefined || webpage === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp);
 		if (new.target === SteamActivity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.game = game;
 		this.webpage = webpage;
-	}
-
-	static import(source: any, name: string): SteamActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "SteamAchievementActivity": return SteamAchievementActivity.import(source, name);
-		case "SteamScreenshotActivity": return SteamScreenshotActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: SteamActivity): SteamActivityScheme {
-		if (source instanceof SteamAchievementActivity) return SteamAchievementActivity.export(source);
-		if (source instanceof SteamScreenshotActivity) return SteamScreenshotActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -811,44 +599,31 @@ export interface SteamAchievementActivityScheme extends SteamActivityScheme {
 }
 
 export class SteamAchievementActivity extends SteamActivity {
+	@Field(Nullable(String), "icon")
 	icon: string | null;
+
+	@Field(String, "title")
 	title: string;
+
+	@Field(Nullable(String), "description")
 	description: string | null;
+
+	@Field(String, "url")
 	url: string;
 
-	constructor(platform: string, timestamp: Date, game: string, webpage: string, icon: string | null, title: string, description: string | null, url: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, game: string, webpage: string, icon: string | null, title: string, description: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, game?: string, webpage?: string, icon?: string | null, title?: string, description?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || game === undefined || webpage === undefined || icon === undefined || title === undefined || description === undefined || url === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, game, webpage);
 		this.icon = icon;
 		this.title = title;
 		this.description = description;
 		this.url = url;
-	}
-
-	static import(source: any, name: string): SteamAchievementActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const game = String.import(Reflect.get(object, "game"), `${name}.game`);
-		const webpage = String.import(Reflect.get(object, "webpage"), `${name}.webpage`);
-		const icon = Reflect.mapNull(Reflect.get(object, "icon") as unknown, icon => String.import(icon, `${name}.icon`));
-		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
-		const description = Reflect.mapNull(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const result = new SteamAchievementActivity(platform, timestamp, game, webpage, icon, title, description, url);
-		return result;
-	}
-
-	static export(source: SteamAchievementActivity): SteamAchievementActivityScheme {
-		const $type = "SteamAchievementActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const game = source.game;
-		const webpage = source.webpage;
-		const icon = source.icon;
-		const title = source.title;
-		const description = source.description;
-		const url = source.url;
-		return { $type, platform, timestamp, game, webpage, icon, title, description, url };
 	}
 }
 //#endregion
@@ -864,36 +639,23 @@ export interface SteamScreenshotActivityScheme extends SteamActivityScheme {
 }
 
 export class SteamScreenshotActivity extends SteamActivity {
+	@Field(String, "url")
 	url: string;
+
+	@Field(Nullable(String), "title")
 	title: string | null;
 
-	constructor(platform: string, timestamp: Date, game: string, webpage: string, url: string, title: string | null) {
+	constructor();
+	constructor(platform: string, timestamp: Date, game: string, webpage: string, url: string, title: string | null);
+	constructor(platform?: string, timestamp?: Date, game?: string, webpage?: string, url?: string, title?: string | null) {
+		if (platform === undefined || timestamp === undefined || game === undefined || webpage === undefined || url === undefined || title === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, game, webpage);
 		this.url = url;
 		this.title = title;
-	}
-
-	static import(source: any, name: string): SteamScreenshotActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const game = String.import(Reflect.get(object, "game"), `${name}.game`);
-		const webpage = String.import(Reflect.get(object, "webpage"), `${name}.webpage`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const title = Reflect.mapNull(Reflect.get(object, "title") as unknown, title => String.import(title, `${name}.title`));
-		const result = new SteamScreenshotActivity(platform, timestamp, game, webpage, url, title);
-		return result;
-	}
-
-	static export(source: SteamScreenshotActivity): SteamScreenshotActivityScheme {
-		const $type = "SteamScreenshotActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const game = source.game;
-		const webpage = source.webpage;
-		const url = source.url;
-		const title = source.title;
-		return { $type, platform, timestamp, game, webpage, url, title };
 	}
 }
 //#endregion
@@ -910,35 +672,35 @@ export interface StackOverflowActivityScheme extends ActivityScheme {
 	url: string;
 }
 
+@Descendant(Deferred(_ => StackOverflowQuestionActivity))
+@Descendant(Deferred(_ => StackOverflowAnswerActivity))
 export abstract class StackOverflowActivity extends Activity {
+	@Field(String, "title")
 	title: string;
+
+	@Field(String, "body")
 	body: string;
+
+	@Field(Number, "score")
 	score: number;
+
+	@Field(String, "url")
 	url: string;
 
-	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string) {
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, body?: string, score?: number, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || body === undefined || score === undefined || url === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp);
 		if (new.target === StackOverflowActivity) throw new TypeError("Unable to create an instance of an abstract class");
 		this.title = title;
 		this.body = body;
 		this.score = score;
 		this.url = url;
-	}
-
-	static import(source: any, name: string): StackOverflowActivity {
-		const object = Object.import(source, name);
-		const $type = String.import(Reflect.get(object, "$type"), `${name}.$type`);
-		switch ($type) {
-		case "StackOverflowQuestionActivity": return StackOverflowQuestionActivity.import(source, name);
-		case "StackOverflowAnswerActivity": return StackOverflowAnswerActivity.import(source, name);
-		default: throw new TypeError(`Invalid '${$type}' type for ${name}`);
-		}
-	}
-
-	static export(source: StackOverflowActivity): StackOverflowActivityScheme {
-		if (source instanceof StackOverflowQuestionActivity) return StackOverflowQuestionActivity.export(source);
-		if (source instanceof StackOverflowAnswerActivity) return StackOverflowAnswerActivity.export(source);
-		throw new TypeError(`Invalid '${typename(source)}' type for source`);
 	}
 }
 //#endregion
@@ -955,46 +717,27 @@ export interface StackOverflowQuestionActivityScheme extends StackOverflowActivi
 }
 
 export class StackOverflowQuestionActivity extends StackOverflowActivity {
+	@Field(ArrayOf(String), "tags")
 	tags: string[];
+
+	@Field(Number, "views")
 	views: number;
+
+	@Field(Boolean, "is_answered")
 	isAnswered: boolean;
 
-	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, tags: string[], views: number, isAnswered: boolean) {
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, tags: string[], views: number, isAnswered: boolean);
+	constructor(platform?: string, timestamp?: Date, title?: string, body?: string, score?: number, url?: string, tags?: string[], views?: number, isAnswered?: boolean) {
+		if (platform === undefined || timestamp === undefined || title === undefined || body === undefined || score === undefined || url === undefined || tags === undefined || views === undefined || isAnswered === undefined) {
+			super();
+			return;
+		}
+
 		super(platform, timestamp, title, body, score, url);
 		this.tags = tags;
 		this.views = views;
 		this.isAnswered = isAnswered;
-	}
-
-	static import(source: any, name: string): StackOverflowQuestionActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
-		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
-		const score = Number.import(Reflect.get(object, "score"), `${name}.score`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const tags = Array.import(Reflect.get(object, "tags"), `${name}.tags`).map((item, index) => {
-			return String.import(item, `${name}.tags[${index}]`);
-		});
-		const views = Number.import(Reflect.get(object, "views"), `${name}.views`);
-		const isAnswered = Boolean.import(Reflect.get(object, "is_answered"), `${name}.is_answered`);
-		const result = new StackOverflowQuestionActivity(platform, timestamp, title, body, score, url, tags, views, isAnswered);
-		return result;
-	}
-
-	static export(source: StackOverflowQuestionActivity): StackOverflowQuestionActivityScheme {
-		const $type = "StackOverflowQuestionActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const title = source.title;
-		const body = source.body;
-		const score = source.score;
-		const url = source.url;
-		const tags = source.tags;
-		const views = source.views;
-		const is_answered = source.isAnswered;
-		return { $type, platform, timestamp, title, body, score, url, tags, views, is_answered };
 	}
 }
 //#endregion
@@ -1009,36 +752,19 @@ export interface StackOverflowAnswerActivityScheme extends StackOverflowActivity
 }
 
 export class StackOverflowAnswerActivity extends StackOverflowActivity {
+	@Field(Boolean, "is_accepted")
 	isAccepted: boolean;
 
-	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, isAccepted: boolean) {
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, body: string, score: number, url: string, isAccepted: boolean);
+	constructor(platform?: string, timestamp?: Date, title?: string, body?: string, score?: number, url?: string, isAccepted?: boolean) {
+		if (platform === undefined || timestamp === undefined || title === undefined || body === undefined || score === undefined || url === undefined || isAccepted === undefined) {
+			super();
+			return;
+		}
+		
 		super(platform, timestamp, title, body, score, url);
 		this.isAccepted = isAccepted;
-	}
-
-	static import(source: any, name: string): StackOverflowAnswerActivity {
-		const object = Object.import(source, name);
-		const platform = String.import(Reflect.get(object, "platform"), `${name}.platform`);
-		const timestamp = new Date(Number.import(Reflect.get(object, "timestamp"), `${name}.timestamp`));
-		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
-		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
-		const score = Number.import(Reflect.get(object, "score"), `${name}.score`);
-		const url = String.import(Reflect.get(object, "url"), `${name}.url`);
-		const isAccepted = Boolean.import(Reflect.get(object, "is_accepted"), `${name}.is_accepted`);
-		const result = new StackOverflowAnswerActivity(platform, timestamp, title, body, score, url, isAccepted);
-		return result;
-	}
-
-	static export(source: StackOverflowAnswerActivity): StackOverflowAnswerActivityScheme {
-		const $type = "StackOverflowAnswerActivity";
-		const platform = source.platform;
-		const timestamp = Number(source.timestamp);
-		const title = source.title;
-		const body = source.body;
-		const score = source.score;
-		const url = source.url;
-		const is_accepted = source.isAccepted;
-		return { $type, platform, timestamp, title, body, score, url, is_accepted };
 	}
 }
 //#endregion

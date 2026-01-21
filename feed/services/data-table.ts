@@ -114,7 +114,7 @@ export class DataTable<C extends PortableConstructor> extends Array<InstanceType
 		const bridge = this.#bridge;
 		const path = this.#getChunkPath(index);
 		const entity = this.#entity;
-		const source = array.map(entity.export);
+		const source = array.map(item => entity.export(item));
 		const content = JSON.stringify(source, null, "\t");
 		await bridge.write(path, content);
 	}

@@ -10,22 +10,26 @@ import { FooterRenderer } from "../view/footer-renderer.js";
 import { MetadataInjector } from "../../environment/services/metadata-injector.js";
 import { HeaderRenderer } from "../view/header-renderer.js";
 import { Configuration } from "../models/configuration.js";
+import { type Bridge } from "../services/bridge.js";
 
 const { baseURI, body } = document;
 
 //#region Webpage controller
 class WebpageController extends Controller {
+	#bridge: Bridge = new ClientBridge();
+
 	async #readConfiguration(url: Readonly<URL>): Promise<Configuration> {
-		const response = await fetch(url);
-		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const object = await response.json();
+		const bridge = this.#bridge;
+		const content = await bridge.read(url);
+		if (content === null) throw new ReferenceError();
+		const object = JSON.parse(content);
 		return Configuration.import(object, "configuration");
 	}
 
 	async run(): Promise<void> {
 		const configuration = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
 
-		const bridge = new ClientBridge();
+		const bridge = this.#bridge;
 		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
 
 		const header = await body.getElementAsync(HTMLElement, "header");

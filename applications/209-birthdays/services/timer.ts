@@ -21,8 +21,7 @@ export class Timer extends EventTarget {
 	constructor(options: Partial<TimerOptions> = {}) {
 		super();
 
-		const { multiple } = options;
-		this.#multiple = multiple ?? false;
+		this.#multiple = options.multiple ?? false;
 
 		setInterval(this.#callback.bind(this));
 	}

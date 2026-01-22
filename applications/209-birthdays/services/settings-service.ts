@@ -9,7 +9,7 @@ export class SettingsService {
 	#repository: ArchiveRepository<typeof Settings>;
 
 	constructor() {
-		this.#repository = new ArchiveRepository(`Personal webpage\\Settings`, Settings);
+		this.#repository = new ArchiveRepository("Personal webpage\\Settings", Settings, new Settings);
 	}
 
 	readSelection(): number {

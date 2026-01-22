@@ -856,5 +856,15 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "1f815f393a13f463754ad76c8661c61ab65f1a0c"
+	},
+	{
+		"$type": "StackOverflowAnswerActivity",
+		"platform": "Stack overflow",
+		"timestamp": 1769099485000,
+		"title": "Как можно оптимизировать данный код по TS?",
+		"body": "<p>Покажу вам 3 этапа оптимизации</p>\n<h2>DRY оптимизация</h2>\n<p>Делаем код чище и убираем повторения:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>function saveNumberVisits(key: string = &quot;userVisit&quot;): void {\n    const item: string | null = localStorage.getItem(key);\n    let counter = (item ? Number(JSON.parse(item)) : 0);\n    counter++;\n    localStorage.setItem(key, JSON.stringify(counter));\n}\n</code></pre>\n<h2>Машинная оптимизация</h2>\n<p>Чистый код делаем еще и быстрым:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>const key: string = &quot;userVisit&quot;;\nconst item: string | null = localStorage.getItem(key); // загружаем 1 раз в начале\nlet counter = (item ? Number(JSON.parse(item)) : 0);\n\nfunction incrementVisits(): void {\n    counter++;\n}\n\nwindow.addEventListener(&quot;beforeunload&quot;, (event) =&gt; {\n    const item = JSON.stringify(counter);\n    localStorage.setItem(key, item); // сохраняем 1 раз, в конце\n});\n</code></pre>\n<h2>SOLID оптимизация</h2>\n<p>Чистый и быстрый код делаем расширяемым и универсальным, соблюдая правила SOLID:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>class Archive {\n    #counter: number;\n\n    constructor(key: string) {\n        const item: string | null = localStorage.getItem(key);\n        this.#counter = (item ? Number(JSON.parse(item)) : 0);\n        window.addEventListener(&quot;beforeunload&quot;, (event) =&gt; {\n            const item = JSON.stringify(counter);\n            localStorage.setItem(key, item);\n        });\n    }\n\n    increment(): void {\n        this.#counter++;\n    }\n}\n\nconst archive = new Archive(&quot;userVisit&quot;);\narchive.increment();\n</code></pre>\n",
+		"score": 0,
+		"url": "https://ru.stackoverflow.com/questions/1623999/%d0%9a%d0%b0%d0%ba-%d0%bc%d0%be%d0%b6%d0%bd%d0%be-%d0%be%d0%bf%d1%82%d0%b8%d0%bc%d0%b8%d0%b7%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d1%82%d1%8c-%d0%b4%d0%b0%d0%bd%d0%bd%d1%8b%d0%b9-%d0%ba%d0%be%d0%b4-%d0%bf%d0%be-ts/1624001#1624001",
+		"is_accepted": false
 	}
 ]

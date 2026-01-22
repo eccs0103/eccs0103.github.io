@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { type PortableConstructor } from "adaptive-extender/core";
+import { Field, Model, type PortableConstructor } from "adaptive-extender/core";
 import { Bridge } from "./bridge.js";
 
 const { ceil } = Math;
@@ -11,27 +11,20 @@ export interface DataTableMetadataScheme {
 	length: number;
 }
 
-export class DataTableMetadata {
-	#length: number;
+export class DataTableMetadata extends Model {
+	@Field(Number, "length")
+	length: number;
 
-	constructor(length: number) {
-		this.#length = length;
-	}
+	constructor();
+	constructor(length: number);
+	constructor(length?: number) {
+		if (length === undefined) {
+			super();
+			return;
+		}
 
-	static import(source: any, name: string): DataTableMetadata {
-		const object = Object.import(source, name);
-		const length = Number.import(Reflect.get(object, "length"), `${name}.length`);
-		const result = new DataTableMetadata(length);
-		return result;
-	}
-
-	static export(source: DataTableMetadata): DataTableMetadataScheme {
-		const length = source.length;
-		return { length };
-	}
-
-	get length(): number {
-		return this.#length;
+		super();
+		this.length = length;
 	}
 }
 //#endregion

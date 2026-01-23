@@ -1,85 +1,72 @@
 {
-	"$type": "Configuration",
 	"platforms": [
 		{
-			"$type": "Platform",
 			"name": "Stack overflow",
 			"icon": "./icons/stack-overflow.svg",
 			"webpage": "https://ru.stackoverflow.com/users/324730",
 			"is_active": true
 		},
 		{
-			"$type": "Platform",
 			"name": "GitHub",
 			"icon": "./icons/github.svg",
 			"webpage": "https://github.com/eccs0103",
 			"is_active": true
 		},
 		{
-			"$type": "Platform",
 			"name": "LinkedIn",
 			"icon": "./icons/linkedin.svg",
 			"webpage": "https://www.linkedin.com/in/eccs0103",
 			"is_active": false
 		},
 		{
-			"$type": "Platform",
 			"name": "Telegram",
 			"icon": "./icons/telegram.svg",
 			"webpage": "https://t.me/eccs0103",
 			"is_active": false
 		},
 		{
-			"$type": "Platform",
 			"name": "Instagram",
 			"icon": "./icons/instagram.svg",
 			"webpage": "https://www.instagram.com/eccs0103",
 			"is_active": false
 		},
 		{
-			"$type": "Platform",
 			"name": "ВКонтакте",
 			"icon": "./icons/vk.svg",
 			"webpage": "https://vk.com/eccs0103",
 			"is_active": false
 		},
 		{
-			"$type": "Platform",
 			"name": "Spotify",
 			"icon": "./icons/spotify.svg",
 			"webpage": "https://open.spotify.com/user/317zm5tuh2bgwxdckyqgxkjlxqji",
 			"is_active": true
 		},
 		{
-			"$type": "Platform",
 			"name": "Steam",
 			"icon": "./icons/steam.svg",
 			"webpage": "https://steamcommunity.com/id/eccs0103",
 			"is_active": true
 		},
 		{
-			"$type": "Platform",
 			"name": "Discord",
 			"icon": "./icons/discord.svg",
 			"webpage": "https://discord.gg/kwUByVT9",
 			"is_active": false
 		},
 		{
-			"$type": "Platform",
 			"name": "YouTube",
 			"icon": "./icons/youtube.svg",
 			"webpage": "https://www.youtube.com/@eccs0103",
 			"is_active": false
 		},
 		{
-			"$type": "Platform",
 			"name": "Facebook",
 			"icon": "./icons/facebook.svg",
 			"webpage": "https://www.facebook.com/eccs0103.arman",
 			"is_active": false
 		},
 		{
-			"$type": "Platform",
 			"name": "SoundCloud",
 			"icon": "./icons/soundcloud.svg",
 			"webpage": "https://soundcloud.com/eccs0103",

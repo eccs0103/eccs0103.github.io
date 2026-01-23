@@ -1,5 +1,8 @@
 "use strict";
 
+import "adaptive-extender/core";
+import { Any, ArrayOf, Field, Model, Optional, UnixSeconds } from "adaptive-extender/core";
+
 //#region Stack overflow owner
 export interface StackOverflowOwnerScheme {
 	reputation?: number; /** Репутация пользователя. Осутствует, если user_type = "does_not_exist" */
@@ -10,44 +13,24 @@ export interface StackOverflowOwnerScheme {
 	profile_image?: string; /** Ссылка на аватар. */
 }
 
-export class StackOverflowOwner {
+export class StackOverflowOwner extends Model {
+	@Field(Optional(Number), "reputation")
 	reputation: number | undefined;
+
+	@Field(Optional(Number), "user_id")
 	userId: number | undefined;
+
+	@Field(String, "user_type")
 	userType: string;
+
+	@Field(Optional(String), "display_name")
 	displayName: string | undefined;
+
+	@Field(Optional(String), "link")
 	link: string | undefined;
+
+	@Field(Optional(String), "profile_image")
 	profileImage: string | undefined;
-
-	constructor(reputation: number | undefined, userId: number | undefined, userType: string, displayName: string | undefined, link: string | undefined, profileImage: string | undefined) {
-		this.reputation = reputation;
-		this.userId = userId;
-		this.userType = userType;
-		this.displayName = displayName;
-		this.link = link;
-		this.profileImage = profileImage;
-	}
-
-	static import(source: any, name: string): StackOverflowOwner {
-		const object = Object.import(source, name);
-		const reputation = Reflect.mapUndefined(Reflect.get(object, "reputation") as unknown, reputation => Number.import(reputation, `${name}.reputation`));
-		const userId = Reflect.mapUndefined(Reflect.get(object, "user_id") as unknown, userId => Number.import(userId, `${name}.user_id`));
-		const userType = String.import(Reflect.get(object, "user_type"), `${name}.user_type`);
-		const displayName = Reflect.mapUndefined(Reflect.get(object, "display_name") as unknown, displayName => String.import(displayName, `${name}.display_name`));
-		const link = Reflect.mapUndefined(Reflect.get(object, "link") as unknown, link => String.import(link, `${name}.link`));
-		const profileImage = Reflect.mapUndefined(Reflect.get(object, "profile_image") as unknown, profileImage => String.import(profileImage, `${name}.profile_image`));
-		const result = new StackOverflowOwner(reputation, userId, userType, displayName, link, profileImage);
-		return result;
-	}
-
-	static export(source: StackOverflowOwner): StackOverflowOwnerScheme {
-		const reputation = source.reputation;
-		const user_id = source.userId;
-		const user_type = source.userType;
-		const display_name = source.displayName;
-		const link = source.link;
-		const profile_image = source.profileImage;
-		return { reputation, user_id, user_type, display_name, link, profile_image };
-	}
 }
 //#endregion
 
@@ -70,66 +53,39 @@ export interface StackOverflowQuestionScheme {
 	body: string; // <-- Добавлено поле body (HTML)
 }
 
-export class StackOverflowQuestion {
+export class StackOverflowQuestion extends Model {
+	@Field(ArrayOf(String), "tags")
 	tags: string[];
+
+	@Field(StackOverflowOwner, "owner")
 	owner: StackOverflowOwner;
+
+	@Field(Number, "score")
 	score: number;
+
+	@Field(UnixSeconds, "creation_date")
 	creationDate: Date;
+
+	@Field(Number, "question_id")
 	questionId: number;
+
+	@Field(String, "link")
 	link: string;
+
+	@Field(String, "title")
 	title: string;
+
+	@Field(Number, "view_count")
 	viewCount: number;
+
+	@Field(Number, "answer_count")
 	answerCount: number;
+
+	@Field(Boolean, "is_answered")
 	isAnswered: boolean;
+
+	@Field(String, "body")
 	body: string;
-
-	constructor(tags: string[], owner: StackOverflowOwner, score: number, creationDate: Date, questionId: number, link: string, title: string, viewCount: number, answerCount: number, isAnswered: boolean, body: string) {
-		this.tags = tags;
-		this.owner = owner;
-		this.score = score;
-		this.creationDate = creationDate;
-		this.questionId = questionId;
-		this.link = link;
-		this.title = title;
-		this.viewCount = viewCount;
-		this.answerCount = answerCount;
-		this.isAnswered = isAnswered;
-		this.body = body;
-	}
-
-	static import(source: any, name: string): StackOverflowQuestion {
-		const object = Object.import(source, name);
-		const tags = Array.import(Reflect.get(object, "tags"), `${name}.tags`).map((item, index) => {
-			return String.import(item, `${name}.tags[${index}]`);
-		});
-		const owner = StackOverflowOwner.import(Reflect.get(object, "owner"), `${name}.owner`);
-		const score = Number.import(Reflect.get(object, "score"), `${name}.score`);
-		const creationDate = new Date(Number.import(Reflect.get(object, "creation_date"), `${name}.creation_date`) * 1000);
-		const questionId = Number.import(Reflect.get(object, "question_id"), `${name}.question_id`);
-		const link = String.import(Reflect.get(object, "link"), `${name}.link`);
-		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
-		const viewCount = Number.import(Reflect.get(object, "view_count"), `${name}.view_count`);
-		const answerCount = Number.import(Reflect.get(object, "answer_count"), `${name}.answer_count`);
-		const isAnswered = Boolean.import(Reflect.get(object, "is_answered"), `${name}.is_answered`);
-		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
-		const result = new StackOverflowQuestion(tags, owner, score, creationDate, questionId, link, title, viewCount, answerCount, isAnswered, body);
-		return result;
-	}
-
-	static export(source: StackOverflowQuestion): StackOverflowQuestionScheme {
-		const tags = source.tags;
-		const owner = StackOverflowOwner.export(source.owner);
-		const score = source.score;
-		const creation_date = Number(source.creationDate) / 1000;
-		const question_id = source.questionId;
-		const link = source.link;
-		const title = source.title;
-		const view_count = source.viewCount;
-		const answer_count = source.answerCount;
-		const is_answered = source.isAnswered;
-		const body = source.body;
-		return { tags, owner, score, creation_date, question_id, link, title, view_count, answer_count, is_answered, body };
-	}
 }
 //#endregion
 
@@ -150,56 +106,33 @@ export interface StackOverflowAnswerScheme {
 	body: string; // <-- Добавлено поле body (HTML). Появляется ТОЛЬКО при использовании фильтра !6WPIomplt
 }
 
-export class StackOverflowAnswer {
+export class StackOverflowAnswer extends Model {
+	@Field(StackOverflowOwner, "owner")
 	owner: StackOverflowOwner;
+
+	@Field(Boolean, "is_accepted")
 	isAccepted: boolean;
+
+	@Field(Number, "score")
 	score: number;
+
+	@Field(UnixSeconds, "creation_date")
 	creationDate: Date;
+
+	@Field(Number, "answer_id")
 	answerId: number;
+
+	@Field(Number, "question_id")
 	questionId: number;
+
+	@Field(String, "link")
 	link: string;
+
+	@Field(String, "title")
 	title: string;
+
+	@Field(String, "body")
 	body: string;
-
-	constructor(owner: StackOverflowOwner, isAccepted: boolean, score: number, creationDate: Date, answerId: number, questionId: number, link: string, title: string, body: string) {
-		this.owner = owner;
-		this.isAccepted = isAccepted;
-		this.score = score;
-		this.creationDate = creationDate;
-		this.answerId = answerId;
-		this.questionId = questionId;
-		this.link = link;
-		this.title = title;
-		this.body = body;
-	}
-
-	static import(source: any, name: string): StackOverflowAnswer {
-		const object = Object.import(source, name);
-		const owner = StackOverflowOwner.import(Reflect.get(object, "owner"), `${name}.owner`);
-		const isAccepted = Boolean.import(Reflect.get(object, "is_accepted"), `${name}.is_accepted`);
-		const score = Number.import(Reflect.get(object, "score"), `${name}.score`);
-		const creationDate = new Date(Number.import(Reflect.get(object, "creation_date"), `${name}.creation_date`) * 1000);
-		const answerId = Number.import(Reflect.get(object, "answer_id"), `${name}.answer_id`);
-		const questionId = Number.import(Reflect.get(object, "question_id"), `${name}.question_id`);
-		const link = String.import(Reflect.get(object, "link"), `${name}.link`);
-		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
-		const body = String.import(Reflect.get(object, "body"), `${name}.body`);
-		const result = new StackOverflowAnswer(owner, isAccepted, score, creationDate, answerId, questionId, link, title, body);
-		return result;
-	}
-
-	static export(source: StackOverflowAnswer): StackOverflowAnswerScheme {
-		const owner = StackOverflowOwner.export(source.owner);
-		const is_accepted = source.isAccepted;
-		const score = source.score;
-		const creation_date = Number(source.creationDate) / 1000;
-		const answer_id = source.answerId;
-		const question_id = source.questionId;
-		const link = source.link;
-		const title = source.title;
-		const body = source.body;
-		return { owner, is_accepted, score, creation_date, answer_id, question_id, link, title, body };
-	}
 }
 //#endregion
 
@@ -215,39 +148,20 @@ export interface StackExchangeResponseScheme<T = any> {
 	backoff?: number; /** Время ожидания перед следующим запросом в секундах (приходит только при перегрузке). */
 }
 
-export class StackExchangeResponse {
+export class StackExchangeResponse extends Model {
+	@Field(ArrayOf(Any), "items")
 	items: any[];
+
+	@Field(Boolean, "has_more")
 	hasMore: boolean;
+
+	@Field(Number, "quota_remaining")
 	quotaRemaining: number;
+
+	@Field(Number, "quota_max")
 	quotaMax: number;
+
+	@Field(Optional(Number), "backoff")
 	backoff: number | undefined;
-
-	constructor(items: any[], hasMore: boolean, quotaRemaining: number, quotaMax: number, backoff: number | undefined) {
-		this.items = items;
-		this.hasMore = hasMore;
-		this.quotaRemaining = quotaRemaining;
-		this.quotaMax = quotaMax;
-		this.backoff = backoff;
-	}
-
-	static import(source: any, name: string): StackExchangeResponse {
-		const object = Object.import(source, name);
-		const items = Array.import(Reflect.get(object, "items"), `${name}.items`);
-		const hasMore = Boolean.import(Reflect.get(object, "has_more"), `${name}.has_more`);
-		const quotaRemaining = Number.import(Reflect.get(object, "quota_remaining"), `${name}.quota_remaining`);
-		const quotaMax = Number.import(Reflect.get(object, "quota_max"), `${name}.quota_max`);
-		const backoff = Reflect.mapUndefined(Reflect.get(object, "backoff") as unknown, backoff => Number.import(backoff, `${name}.backoff`));
-		const result = new StackExchangeResponse(items, hasMore, quotaRemaining, quotaMax, backoff);
-		return result;
-	}
-
-	static export(source: StackExchangeResponse): StackExchangeResponseScheme {
-		const items = source.items;
-		const has_more = source.hasMore;
-		const quota_remaining = source.quotaRemaining;
-		const quota_max = source.quotaMax;
-		const backoff = source.backoff;
-		return { items, has_more, quota_remaining, quota_max, backoff };
-	}
 }
 //#endregion

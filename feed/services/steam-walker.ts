@@ -77,8 +77,7 @@ export class SteamWalker extends ActivityWalker {
 			["appid"]: "0",
 			["page"]: String(page),
 			["numperpage"]: String(count),
-			["include_app_logo"]: "1",
-			["include_extended_app_details"]: "1"
+			["filetype"]: "4",
 		});
 		const { response } = SteamUserFilesResponseContainer.import(data, "steam_user_files");
 		const { publishedFileDetails } = response;

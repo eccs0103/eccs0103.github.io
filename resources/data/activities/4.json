@@ -79,5 +79,23 @@
 		"repository": "eccs0103.github.io",
 		"sha": "c51a070978f188189810e6bb85e725cc87c001a8",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769292219000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"url": "https://images.steamusercontent.com/ugc/9913897765647303612/10864E15C8D928D39A61475E3FB65FE2FF4F3E5D/",
+		"title": null,
+		"$type": "SteamScreenshotActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769292224000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"url": "https://images.steamusercontent.com/ugc/16790349055634973533/628A90C1188235A7EF4083480401195D62E7F34D/",
+		"title": null,
+		"$type": "SteamScreenshotActivity"
 	}
 ]

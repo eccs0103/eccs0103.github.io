@@ -376,8 +376,8 @@ export class SteamPlayerStatsContainer {
 export interface SteamPublishedFileScheme {
 	// publishedfileid: string; // Уникальный ID опубликованного файла (строка, так как uint64)
 	// creator: string; // SteamID автора (строка)
-	// creator_app_id: number; // ID приложения, через которое загружено (например, Steam Cloud)
-	consumer_app_id: number; // ID игры, к которой относится скриншот
+	// creator_appid: number; // ID приложения, через которое загружено (например, Steam Cloud)
+	consumer_appid: number; // ID игры, к которой относится скриншот
 	// filename: string; // Имя файла на сервере (редко нужно для логики)
 	// file_size: number; // Размер файла в байтах
 	file_url?: string; // Прямая ссылка на полный скриншот (может отсутствовать, если доступ закрыт/удалено)
@@ -385,11 +385,10 @@ export interface SteamPublishedFileScheme {
 	preview_url?: string; // Ссылка на превью/миниатюру (обычно есть всегда)
 	// hcontent_preview?: string; // Хэш превью
 	title: string; // Заголовок/описание, которое дал пользователь
-	// description: string; // Дополнительное описание (часто пустое для скриншотов)
 	time_created: number; // Время публикации (Unix Timestamp)
 	// time_updated: number; // Время последнего обновления (Unix Timestamp)
 	visibility: number; // Уровень приватности (0 = Public, 1 = FriendsOnly, 2 = Private)
-	banned: number; // Флаг бана (1 = забанен модерацией)
+	banned: boolean; // Флаг бана (1 = забанен модерацией)
 	// ban_reason?: string; // Причина бана (если banned = 1)
 	// subscriptions: number; // Количество подписок (для Workshop, у скриншотов обычно 0)
 	// favorited: number; // Количество добавлений в избранное
@@ -419,26 +418,26 @@ export class SteamPublishedFile {
 
 	static import(source: any, name: string): SteamPublishedFile {
 		const object = Object.import(source, name);
-		const consumerAppId = Number.import(Reflect.get(object, "consumer_app_id"), `${name}.consumer_app_id`);
+		const consumerAppId = Number.import(Reflect.get(object, "consumer_appid"), `${name}.consumer_appid`);
 		const fileUrl = Reflect.mapUndefined(Reflect.get(object, "file_url") as unknown, fileUrl => String.import(fileUrl, `${name}.file_url`));
 		const previewUrl = Reflect.mapUndefined(Reflect.get(object, "preview_url") as unknown, previewUrl => String.import(previewUrl, `${name}.preview_url`));
 		const title = String.import(Reflect.get(object, "title"), `${name}.title`);
 		const timeCreated = new Date(Number.import(Reflect.get(object, "time_created"), `${name}.time_created`) * 1000);
 		const visibility = Number.import(Reflect.get(object, "visibility"), `${name}.visibility`);
-		const banned = Boolean(Number.import(Reflect.get(object, "banned"), `${name}.banned`));
+		const banned = Boolean.import(Reflect.get(object, "banned"), `${name}.banned`);
 		const result = new SteamPublishedFile(consumerAppId, fileUrl, previewUrl, title, timeCreated, visibility, banned);
 		return result;
 	}
 
 	static export(source: SteamPublishedFile): SteamPublishedFileScheme {
-		const consumer_app_id = source.consumerAppId;
+		const consumer_appid = source.consumerAppId;
 		const file_url = source.fileUrl;
 		const preview_url = source.previewUrl;
 		const title = source.title;
 		const time_created = Number(source.timeCreated) / 1000;
 		const visibility = source.visibility;
-		const banned = Number(source.banned);
-		return { consumer_app_id, file_url, preview_url, title, time_created, visibility, banned };
+		const banned = source.banned;
+		return { consumer_appid, file_url, preview_url, title, time_created, visibility, banned };
 	}
 }
 //#endregion

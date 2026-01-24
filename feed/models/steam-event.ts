@@ -444,7 +444,7 @@ export interface SteamUserFilesResponseScheme {
 export class SteamUserFilesResponse {
 	publishedFileDetails: SteamPublishedFile[] | undefined;
 
-	constructor(publishedFileDetails: SteamPublishedFile[]| undefined) {
+	constructor(publishedFileDetails: SteamPublishedFile[] | undefined) {
 		this.publishedFileDetails = publishedFileDetails;
 	}
 

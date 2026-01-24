@@ -704,7 +704,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/ae5fc1985199f7af045634d1c9f19fcb8f439a4e.jpg",
 		"title": "Heir To An Empty Castle",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},

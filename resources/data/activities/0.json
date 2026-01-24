@@ -17,7 +17,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/bf2005db5bfaf9ad639ad86d63052fbdb1d82323.jpg",
 		"title": "I Mustache You A Question",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -62,7 +62,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/599c554eafc2132609461040eb55aac633dd3b1a.jpg",
 		"title": "Gone From My Sight",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -598,7 +598,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/aef1624b2c8d613853bb0450fa19ba9c73f3f579.jpg",
 		"title": "That Was Cold",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},

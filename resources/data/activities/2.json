@@ -102,7 +102,7 @@
 		"webpage": "https://store.steampowered.com/app/739630",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ed2d08f4f65a4c66d9af48a925c1b2a0be04e3b7.jpg",
 		"title": "Work Experience",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -314,7 +314,7 @@
 		"webpage": "https://store.steampowered.com/app/1649240",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/5d1f14dd932b7bb381b5a4083740da923e712668.jpg",
 		"title": "Eternal Return",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -347,7 +347,7 @@
 		"webpage": "https://store.steampowered.com/app/1649240",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/07e045e5b8f3cdb463e078299484c95485d5a5b1.jpg",
 		"title": "Welcome Home",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -505,7 +505,7 @@
 		"webpage": "https://store.steampowered.com/app/1649240",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/c71aee624e9efd12d06c0f4f930a8e51bf70f404.jpg",
 		"title": "Second Chance",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -527,7 +527,7 @@
 		"webpage": "https://store.steampowered.com/app/1649240",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/2afaa2bccb84ebbde4af968286aaad6eb44aa2ae.jpg",
 		"title": "A Shadow in the Fog",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -769,7 +769,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/544966677904670c1e3f008eff07c445468b88b3.jpg",
 		"title": "Cross The Streamers",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -780,7 +780,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f9c426c01b6fed8184ad35ef8baf170914c8f1c3.jpg",
 		"title": "Stay Golden",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},

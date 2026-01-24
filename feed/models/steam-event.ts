@@ -131,33 +131,41 @@ export class SteamOwnedGamesContainer {
 export interface SteamGameSchemaStatsAchievementScheme {
 	name: string; /** Технический ID (напр. "NEW_ACHIEVEMENT_1_0"). Совпадает с apiname в stats. */
 	// defaultvalue: number;  /** Начальное значение (обычно 0). */
-	// displayName?: string; /** Отображаемое название (может отсутствовать). */
+	displayName?: string; /** Отображаемое название (может отсутствовать). */
 	// hidden: number; /** Скрытая ачивка (0 или 1). */
-	// description?: string; /** Описание (может отсутствовать). */
+	description?: string; /** Описание (может отсутствовать). */
 	icon: string; /** URL цветной иконки (64x64). */
 	// icongray: string; /** URL серой иконки (64x64). */
 }
 
 export class SteamGameSchemaStatsAchievement {
 	name: string;
+	displayName: string | undefined;
+	description: string | undefined;
 	icon: string;
 
-	constructor(apiName: string, icon: string) {
-		this.name = apiName;
+	constructor(name: string, displayName: string | undefined, description: string | undefined, icon: string) {
+		this.name = name;
+		this.displayName = displayName;
+		this.description = description;
 		this.icon = icon;
 	}
 
 	static import(source: any, name: string): SteamGameSchemaStatsAchievement {
 		const object = Object.import(source, name);
 		const $name = String.import(Reflect.get(object, "name"), `${name}.name`);
+		const displayName = Reflect.mapUndefined(Reflect.get(object, "displayName") as unknown, displayName => String.import(displayName, `${name}.displayName`));
+		const description = Reflect.mapUndefined(Reflect.get(object, "description") as unknown, description => String.import(description, `${name}.description`));
 		const icon = String.import(Reflect.get(object, "icon"), `${name}.icon`);
-		return new SteamGameSchemaStatsAchievement($name, icon);
+		return new SteamGameSchemaStatsAchievement($name, displayName, description, icon);
 	}
 
 	static export(source: SteamGameSchemaStatsAchievement): SteamGameSchemaStatsAchievementScheme {
 		const name = source.name;
+		const displayName = source.displayName;
+		const description = source.description;
 		const icon = source.icon;
-		return { name, icon };
+		return { name, displayName, description, icon };
 	}
 }
 //#endregion

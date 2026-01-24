@@ -98,7 +98,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a0a5679f54b702b82a0a2d81d1826eae66016042.jpg",
 		"title": "Apocalypso!",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -378,7 +378,7 @@
 		"webpage": "https://store.steampowered.com/app/1649240",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/1a6617d111960c5d5cb816ef475a16ed70bed7bf.jpg",
 		"title": "Ascension",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -488,7 +488,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/ef5e5994a5f289c27fc5d2e8ee88cdfcaca80fff.jpg",
 		"title": "Florida Man",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -499,7 +499,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b240a30e93e20ac89a6662dda5693ab6d05ad8e5.jpg",
 		"title": "Damn, Gina",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -558,7 +558,7 @@
 		"webpage": "https://store.steampowered.com/app/1649240",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/dee6388b6ecd469e399e13e8443408cdbf765291.jpg",
 		"title": "Eternal Ascent",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -569,7 +569,7 @@
 		"webpage": "https://store.steampowered.com/app/1649240",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/cca532c0684e7088b79cbe8fb595fe6d94e08a47.jpg",
 		"title": "Broken, Restored, Empty",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -739,7 +739,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/06a93118c349d13328a1e40bf7b072be13bb63dd.jpg",
 		"title": "Exoarchaeolo—You Get The Gist",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -761,7 +761,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/9c8b7a0d223d3dad59d0f03930f43646dcdc4f1c.jpg",
 		"title": "I Am A Goddess, A Glorious Female Warrior",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -772,7 +772,7 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/952d5e58d19ca2f1780fe011456d410f429fb4b7.jpg",
 		"title": "Bye, Felicia!",
-		"description": "",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},

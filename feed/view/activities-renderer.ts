@@ -55,9 +55,10 @@ export class ActivitiesRenderer {
 		this.#strategies.set(root, strategy);
 	}
 
-	#renderChunk(cursor: ArrayCursor<Activity>, collector: ActivityCollector, platforms: Map<string, Platform>, batch: number, observerAnimatedReveal: IntersectionObserver): boolean {
+	#renderChunk(cursor: ArrayCursor<Activity>, collector: ActivityCollector, platforms: Map<string, Platform>, batch: number, observerAnimatedReveal: IntersectionObserver, isFinal: boolean): boolean {
 		let rendered = 0;
 		while (cursor.inRange && rendered < batch) {
+			const index = cursor.index;
 			const root = collector.findRoot(cursor.current);
 			if (root === null) {
 				cursor.index++;
@@ -67,6 +68,10 @@ export class ActivitiesRenderer {
 			if (buffer.length < 1) {
 				cursor.index++;
 				continue;
+			}
+			if (!isFinal && !cursor.inRange) {
+				cursor.index = index;
+				return false;
 			}
 			const strategy = this.#strategies.get(root);
 			if (strategy === undefined) continue;
@@ -80,7 +85,7 @@ export class ActivitiesRenderer {
 	async #render(context: RenderContext): Promise<unknown> {
 		if (!this.#isSentinelIntersecting) return;
 		const { cursor, collector, platforms, outro, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities } = context;
-		const hasMore = this.#renderChunk(cursor, collector, platforms, batch, observerAnimatedReveal);
+		const hasMore = this.#renderChunk(cursor, collector, platforms, batch, observerAnimatedReveal, false);
 		if (hasMore) return requestAnimationFrame(this.#render.bind(this, context));
 
 		if (this.#isLoading) return;
@@ -89,6 +94,7 @@ export class ActivitiesRenderer {
 		this.#isLoading = false;
 		if (isLoaded) return requestAnimationFrame(this.#render.bind(this, context));
 
+		this.#renderChunk(cursor, collector, platforms, batch, observerAnimatedReveal, true);
 		observerDynamicLoad.disconnect();
 		ActivityBuilder.newOutro(this.#itemContainer, itemSentinel, outro);
 	}

@@ -97,5 +97,32 @@
 		"url": "https://images.steamusercontent.com/ugc/16790349055634973533/628A90C1188235A7EF4083480401195D62E7F34D/",
 		"title": null,
 		"$type": "SteamScreenshotActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769295316000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "390f02c251e483bfb9cd9a8d1cc441ff18d4dc5c",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769295535000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "16bc311423e4796ecabf20488393bee37e0651c1",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769295551000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "16bc311423e4796ecabf20488393bee37e0651c1",
+		"$type": "GitHubPushActivity"
 	}
 ]

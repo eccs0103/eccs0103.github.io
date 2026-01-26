@@ -279,6 +279,7 @@
 		"url": "https://github.com/eccs0103/quartz",
 		"repository": "quartz",
 		"title": "0.4.0",
+		"tag_name": "0.4.0",
 		"is_prerelease": false,
 		"$type": "GitHubReleaseActivity"
 	},
@@ -325,6 +326,7 @@
 		"url": "https://github.com/eccs0103/quartz",
 		"repository": "quartz",
 		"title": "0.4.2",
+		"tag_name": "0.4.2",
 		"is_prerelease": false,
 		"$type": "GitHubReleaseActivity"
 	},
@@ -470,6 +472,7 @@
 		"url": "https://github.com/eccs0103/quartz",
 		"repository": "quartz",
 		"title": "0.4.3",
+		"tag_name": "0.4.3",
 		"is_prerelease": false,
 		"$type": "GitHubReleaseActivity"
 	},

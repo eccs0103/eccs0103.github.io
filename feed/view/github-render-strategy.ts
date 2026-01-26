@@ -19,9 +19,9 @@ export class GitHubRenderStrategy implements ActivityRenderStrategy<GitHubActivi
 	}
 
 	#renderRelease(itemContainer: HTMLElement, activity: GitHubReleaseActivity): void {
-		const { isPrerelease, title, url, repository } = activity;
+		const { isPrerelease, title, url, repository, tagName } = activity;
 		itemContainer.appendChild(DOMBuilder.newText(isPrerelease ? "Rolled out a test version " : "Shipped update "));
-		itemContainer.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		itemContainer.appendChild(DOMBuilder.newLink(title, new URL(`${url}/releases/tag/${tagName}`)));
 		itemContainer.appendChild(DOMBuilder.newText(" for "));
 		itemContainer.appendChild(DOMBuilder.newLink(repository, new URL(url)));
 		itemContainer.appendChild(DOMBuilder.newText("."));

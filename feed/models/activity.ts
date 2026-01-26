@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Timestamp } from "adaptive-extender/core";
+import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Optional, Timestamp } from "adaptive-extender/core";
 
 //#region Activity
 export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator {
@@ -141,6 +141,7 @@ export interface GitHubReleaseActivityDiscriminator {
 export interface GitHubReleaseActivityScheme extends GitHubActivityScheme {
 	$type: keyof GitHubReleaseActivityDiscriminator;
 	title: string;
+	tag_name: string;
 	is_prerelease: boolean;
 }
 
@@ -148,19 +149,23 @@ export class GitHubReleaseActivity extends GitHubActivity {
 	@Field(String, "title")
 	title: string;
 
+	@Field(String, "tag_name")
+	tagName: string;
+
 	@Field(Boolean, "is_prerelease")
 	isPrerelease: boolean;
 
 	constructor();
-	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, title: string, isPrerelease: boolean);
-	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, title?: string, isPrerelease?: boolean) {
-		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || title === undefined || isPrerelease === undefined) {
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, title: string, tagName: string, isPrerelease: boolean);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, title?: string, tagName?: string, isPrerelease?: boolean) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || title === undefined || tagName === undefined || isPrerelease === undefined) {
 			super();
 			return;
 		}
 
 		super(platform, timestamp, username, url, repository);
 		this.title = title;
+		this.tagName = tagName;
 		this.isPrerelease = isPrerelease;
 	}
 }

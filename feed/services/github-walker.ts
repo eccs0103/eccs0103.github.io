@@ -65,7 +65,7 @@ export class GitHubWalker extends ActivityWalker {
 			}
 			if (payload instanceof GitHubReleaseEventPayload) {
 				const { name, tagName, prerelease } = payload.release;
-				yield new GitHubReleaseActivity(platform, timestamp, username, url, repository, name ?? tagName, prerelease);
+				yield new GitHubReleaseActivity(platform, timestamp, username, url, repository, name ?? tagName, tagName, prerelease);
 			}
 			if (payload instanceof GitHubWatchEventPayload) {
 				yield new GitHubWatchActivity(platform, timestamp, username, url, repository);

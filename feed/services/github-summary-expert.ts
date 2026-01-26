@@ -172,6 +172,7 @@ export class GitHubSummaryExpert {
 		let deletions: number = 0;
 		let label: string = "new version";
 		let modifier: string = "updates";
+		let highlight: string | undefined;
 		let hasBranchDeletions = false;
 		let hasTagDeletions = false;
 
@@ -185,16 +186,19 @@ export class GitHubSummaryExpert {
 			}
 			if (activity instanceof GitHubCreateRepositoryActivity) {
 				creations++;
+				if (releases === 0) highlight = activity.repository;
 			}
 			if (activity instanceof GitHubCreateTagActivity && releases === 0) {
 				releases++;
 				label = activity.name;
 				modifier = "milestone";
+				highlight = activity.repository;
 			}
 			if (activity instanceof GitHubReleaseActivity) {
 				releases++;
 				label = activity.title;
 				modifier = activity.isPrerelease ? "beta" : "update";
+				highlight = activity.repository;
 			}
 			if (activity instanceof GitHubDeleteBranchActivity) {
 				deletions++;
@@ -220,10 +224,10 @@ export class GitHubSummaryExpert {
 		const total = activities.length;
 
 		if (releases > 0) {
-			return new WorkflowReport(ReportVibes.milestone, primary, undefined, releases, label, modifier, urls);
+			return new WorkflowReport(ReportVibes.milestone, highlight ?? primary, undefined, releases, label, modifier, urls);
 		}
 		if (creations > 0) {
-			return new WorkflowReport(ReportVibes.creation, primary, undefined, creations, "new project", "experiment", urls);
+			return new WorkflowReport(ReportVibes.creation, highlight ?? primary, undefined, creations, "new project", "experiment", urls);
 		}
 		if (deletions > 0 && (deletions > total / 3 || total === deletions)) {
 			return new WorkflowReport(ReportVibes.cleanup, primary, undefined, deletions, "cleanup", modifier, urls);

@@ -112,7 +112,7 @@ export class SteamWalker extends ActivityWalker {
 			if (hasCommunityVisibleStats === undefined || !hasCommunityVisibleStats) continue;
 			const mapping = new Map(await Array.fromAsync(this.#fetchAchievementsMapping(appId)));
 			for await (const achievement of this.#fetchPlayerAchievements(appId)) {
-				if (!achievement.achieved) continue;
+				if (achievement.achieved !== 1) continue;
 				const { unlockTime, apiName } = achievement;
 				if (unlockTime < since) continue;
 				const webpage = `https://store.steampowered.com/app/${appId}`;

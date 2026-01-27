@@ -265,5 +265,49 @@
 		"description": "Get overtaken by a Headcrab's ample anterior.",
 		"url": "https://steamcommunity.com/stats/362890/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769539986000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/d4d88eb026fe7f3adab5d184bd63df15e5d77533.jpg",
+		"title": "Unified Coupling Theorum",
+		"description": "Help the Barnacle and Headcrab find true love.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769541545000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/3f7707c797cb9615cddca6614ad7f61df86b10c8.jpg",
+		"title": "Gray Matter Propulsion",
+		"description": "Headshot 20 Enemies with the .357 Magnum.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769542231000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/e49100fc4f3b6fe555581c1429319f66d0d210f6.jpg",
+		"title": "Remote Detonation",
+		"description": "Kill a Barnacle with a Satchel.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769543751000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/7dc4d281267d190271fdd10e1532e897587f9472.jpg",
+		"title": "Dead Reckoning",
+		"description": "Kill an Assassin with the .357 Magnum.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

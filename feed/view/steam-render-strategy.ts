@@ -14,9 +14,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		divWrapper.classList.add("flex", "with-gap", "alt-center");
 
 		if (icon !== null) {
-			const imgIcon = divWrapper.appendChild(document.createElement("img"));
-			imgIcon.src = icon;
-			imgIcon.alt = `'${title}' icon`;
+			const imgIcon = divWrapper.appendChild(DOMBuilder.newImage(new URL(icon), `'${title}' icon`));
 			imgIcon.classList.add("rounded", "steam-icon");
 		}
 
@@ -36,8 +34,10 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		}
 	}
 
-	#renderGallery(container: HTMLElement, game: string, gameUrl: string, screenshots: SteamScreenshotActivity[]): void {
-		const divGroup = container.appendChild(document.createElement("div"));
+	#renderGallery(itemContainer: HTMLElement, screenshots: readonly SteamScreenshotActivity[]): void {
+		const { game, webpage } = screenshots[0];
+
+		const divGroup = itemContainer.appendChild(document.createElement("div"));
 		divGroup.classList.add("steam-group", "flex", "column", "with-gap");
 
 		const divHeader = divGroup.appendChild(document.createElement("div"));
@@ -48,7 +48,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		const spanCount = divHeader.appendChild(document.createElement("span"));
 		spanCount.textContent = countText;
 		divHeader.appendChild(DOMBuilder.newText(" from "));
-		divHeader.appendChild(DOMBuilder.newLink(game, new URL(gameUrl)));
+		divHeader.appendChild(DOMBuilder.newLink(game, new URL(webpage)));
 
 		const divGrid = divGroup.appendChild(document.createElement("div"));
 		divGrid.classList.add("steam-gallery");
@@ -58,10 +58,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 			const aWrapper = divGrid.appendChild(DOMBuilder.newLink("", new URL(shot.url)));
 			aWrapper.classList.add("screenshot-card");
 
-			const img = aWrapper.appendChild(document.createElement("img"));
-			img.src = shot.url;
-			img.alt = shot.title ?? `Screenshot from ${game}`;
-			img.loading = "lazy";
+			const img = aWrapper.appendChild(DOMBuilder.newImage(new URL(shot.url), shot.title ?? `Screenshot from ${game}`));
 			img.classList.add("steam-screenshot");
 
 			if (shot.title) {
@@ -75,36 +72,38 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 
 	#renderSingle(itemContainer: HTMLElement, activity: SteamActivity): void {
 		if (activity instanceof SteamAchievementActivity) return this.#renderAchievement(itemContainer, activity);
+		if (activity instanceof SteamScreenshotActivity) return this.#renderGallery(itemContainer, [activity]);
 	}
 
-	render(itemContainer: HTMLElement, buffer: readonly SteamActivity[]): void {
+	#renderCollection(itemContainer: HTMLElement, activities: readonly SteamActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
 
-		const screenshots: SteamScreenshotActivity[] = [];
+		for (let index = 0; index < activities.length; index++) {
+			const activity = activities[index];
 
-		for (const activity of buffer) {
-			if (activity instanceof SteamScreenshotActivity) {
-				const last = screenshots.length > 0 ? screenshots[screenshots.length - 1] : null;
-				if (last !== null && last.game !== activity.game) {
-					this.#renderGallery(itemContainer, last.game, last.webpage, screenshots);
-					screenshots.splice(0, screenshots.length);
-				}
-				screenshots.push(activity);
+			if (activity instanceof SteamAchievementActivity) {
+				this.#renderSingle(itemContainer, activity);
 				continue;
 			}
 
-			if (screenshots.length > 0) {
-				const [first] = screenshots;
-				this.#renderGallery(itemContainer, first.game, first.webpage, screenshots);
-				screenshots.splice(0, screenshots.length);
-			}
-			this.#renderSingle(itemContainer, activity);
-		}
+			if (activity instanceof SteamScreenshotActivity) {
+				const group: SteamScreenshotActivity[] = [activity];
+				while (index + 1 < activities.length) {
+					const next = activities[index + 1];
+					if (!(next instanceof SteamScreenshotActivity)) break;
+					if (next.game !== activity.game) break;
 
-		if (screenshots.length > 0) {
-			const [first] = screenshots;
-			this.#renderGallery(itemContainer, first.game, first.webpage, screenshots);
+					group.push(next);
+					index++;
+				}
+				this.#renderGallery(itemContainer, group);
+			}
 		}
+	}
+
+	render(itemContainer: HTMLElement, buffer: readonly SteamActivity[]): void {
+		if (buffer.length > 1) return this.#renderCollection(itemContainer, buffer);
+		return this.#renderSingle(itemContainer, buffer[0]);
 	}
 }
 //#endregion

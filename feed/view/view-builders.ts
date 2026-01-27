@@ -33,6 +33,15 @@ export class DOMBuilder {
 		return aLink;
 	}
 
+	static newImage(url: Readonly<URL>, text: string): HTMLImageElement {
+		const img = document.createElement("img");
+		img.src = String(url);
+		img.alt = text;
+		img.loading = "lazy";
+
+		return img;
+	}
+
 	static print(itemContainer: HTMLElement, strings: TemplateStringsArray, ...values: any[]): void {
 		strings.forEach((string, index) => {
 			itemContainer.appendChild(DOMBuilder.newText(string));

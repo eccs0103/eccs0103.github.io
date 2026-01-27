@@ -14,9 +14,7 @@ export class SpotifyRenderStrategy implements ActivityRenderStrategy<SpotifyActi
 		divWrapper.classList.add("flex", "with-gap");
 
 		if (cover !== null) {
-			const imgCover = divWrapper.appendChild(document.createElement("img"));
-			imgCover.src = cover;
-			imgCover.alt = `'${title}' cover`;
+			const imgCover = divWrapper.appendChild(DOMBuilder.newImage(new URL(cover), `'${title}' cover`));
 			imgCover.classList.add("rounded", "spotify-cover");
 		}
 

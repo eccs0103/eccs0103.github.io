@@ -209,5 +209,61 @@
 		"repository": "eccs0103.github.io",
 		"name": "soundcloud-integration",
 		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529796000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1c8cde78ea7b04130ed682633d5298f6fbc0772e",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529885000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cd40b6de12f34595ec2adf5454148af6d2e68e45",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529907000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cd40b6de12f34595ec2adf5454148af6d2e68e45",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529976000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "ai-kernel-for-death-detection-system",
+		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769530022000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "interface-enhance",
+		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769535945000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/f9a07900fc92075d271d2f890929760e8ec11c75.jpg",
+		"title": "Prophylactic Suggested",
+		"description": "Get overtaken by a Headcrab's ample anterior.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

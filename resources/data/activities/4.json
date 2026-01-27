@@ -189,5 +189,16 @@
 		"repository": "eccs0103.github.io",
 		"sha": "286fe22cdfd0ae4721059f06251f075456b088ef",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1769516144000,
+		"title": "Konrad's Hold - Arrival",
+		"artists": [
+			"Finishing Move Inc."
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2735e90db85b8fe58fef96dd59e",
+		"url": "https://open.spotify.com/track/6WdELVidF88MyRLVcFsAWe",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

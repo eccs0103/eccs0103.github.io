@@ -1,10 +1,10 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Optional, Timestamp } from "adaptive-extender/core";
+import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Timestamp } from "adaptive-extender/core";
 
 //#region Activity
-export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator {
+export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator, SoundCloudActivityDiscriminator {
 }
 
 export interface ActivityScheme {
@@ -28,6 +28,7 @@ export interface ActivityScheme {
 @Descendant(Deferred(_ => SteamScreenshotActivity))
 @Descendant(Deferred(_ => StackOverflowQuestionActivity))
 @Descendant(Deferred(_ => StackOverflowAnswerActivity))
+@Descendant(Deferred(_ => SoundCloudLikeActivity))
 export abstract class Activity extends Model {
 	@Field(String, "platform")
 	platform: string;
@@ -767,9 +768,76 @@ export class StackOverflowAnswerActivity extends StackOverflowActivity {
 			super();
 			return;
 		}
-		
+
 		super(platform, timestamp, title, body, score, url);
 		this.isAccepted = isAccepted;
+	}
+}
+//#endregion
+
+//#region SoundCloud activity
+export interface SoundCloudActivityDiscriminator extends SoundCloudLikeActivityDiscriminator {
+	$type: keyof SoundCloudActivityDiscriminator;
+}
+
+export interface SoundCloudActivityScheme extends ActivityScheme {
+	$type: keyof SoundCloudActivityDiscriminator;
+}
+
+@Descendant(Deferred(_ => SoundCloudLikeActivity))
+export abstract class SoundCloudActivity extends Activity {
+	constructor();
+	constructor(platform: string, timestamp: Date);
+	constructor(platform?: string, timestamp?: Date) {
+		if (platform === undefined || timestamp === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp);
+		if (new.target === SoundCloudActivity) throw new TypeError("Unable to create an instance of an abstract class");
+	}
+}
+//#endregion
+//#region SoundCloud like activity
+export interface SoundCloudLikeActivityDiscriminator {
+	"SoundCloudLikeActivity": SoundCloudLikeActivity;
+}
+
+export interface SoundCloudLikeActivityScheme extends SoundCloudActivityScheme {
+	$type: keyof SoundCloudLikeActivityDiscriminator;
+	title: string;
+	artist: string;
+	cover: string | null;
+	url: string;
+}
+
+export class SoundCloudLikeActivity extends SoundCloudActivity {
+	@Field(String, "title")
+	title: string;
+
+	@Field(String, "artist")
+	artist: string;
+
+	@Field(Nullable(String), "cover")
+	cover: string | null;
+
+	@Field(String, "url")
+	url: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, artist: string, cover: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, artist?: string, cover?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || artist === undefined || cover === undefined || url === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp);
+		this.title = title;
+		this.artist = artist;
+		this.cover = cover;
+		this.url = url;
 	}
 }
 //#endregion

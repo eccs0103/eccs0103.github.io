@@ -13,6 +13,13 @@ export class DOMBuilder {
 		return document.createTextNode(text);
 	}
 
+	static newTextbox(text: string): HTMLElement {
+		const spanDescription = document.createElement("span");
+		spanDescription.textContent = text;
+
+		return spanDescription;
+	}
+
 	static newDescription(text: string): HTMLElement {
 		const spanDescription = document.createElement("span");
 		spanDescription.classList.add("description");

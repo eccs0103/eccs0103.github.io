@@ -11,6 +11,11 @@ export class TextExpert {
 		return String.empty;
 	}
 
+	static getIndefiniteCardinal(count: number): string {
+		if (count === 1) return "a";
+		return count.toString();
+	}
+
 	static formatTime(timestamp: Date): string {
 		const span = Timespan.fromValue(Date.now() - timestamp.valueOf());
 		// if (span.days > 6) return timestamp.toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" });

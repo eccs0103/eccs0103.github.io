@@ -2,6 +2,7 @@
 
 import "adaptive-extender/web";
 import { type Platform } from "../models/configuration";
+import { DOMBuilder } from "./view-builders.js";
 
 const { baseURI } = document;
 
@@ -26,9 +27,8 @@ export class HeaderRenderer {
 		spanIcon.style.setProperty("--url", `url("${new URL(platform.icon, new URL("../", baseURI))}")`);
 		if (!platform.isActive) spanIcon.inert = true;
 
-		const spanTitle = aSocialMedia.appendChild(document.createElement("span"));
+		const spanTitle = aSocialMedia.appendChild(DOMBuilder.newTextbox(platform.name));
 		spanTitle.classList.add("with-inline-padding");
-		spanTitle.textContent = platform.name;
 
 		return aSocialMedia;
 	}

@@ -30,13 +30,17 @@ class LocalEnvironment {
 	#stackOverflowId: string;
 	#stackOverflowApiKey: string;
 
+	#soundcloudClientId: string;
+	#soundcloudClientSecret: string;
+	#soundcloudToken: string;
+
 	constructor() {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
 		const name = typename(env);
-		
+
 		this.#host = env.hasValue("HOST") ? String.import(env.readValue("HOST"), `${name}.HOST`) : "localhost";
-		
+
 		const specificKeys = Array.import(env.readValue("SPECIFIC_KEYS"), `${name}.SPECIFIC_KEYS`).map((item, index) => {
 			return String.import(item, `${name}.SPECIFIC_KEYS[${index}]`);
 		});
@@ -63,6 +67,10 @@ class LocalEnvironment {
 
 		this.#stackOverflowId = String.import(env.readValue("STACK_OVERFLOW_ID"), `${name}.STACK_OVERFLOW_ID`);
 		this.#stackOverflowApiKey = String.import(env.readValue("STACK_OVERFLOW_API_KEY"), `${name}.STACK_OVERFLOW_API_KEY`);
+
+		this.#soundcloudClientId = String.import(env.readValue("SOUNDCLOUD_CLIENT_ID"), `${name}.SOUNDCLOUD_CLIENT_ID`);
+		this.#soundcloudClientSecret = String.import(env.readValue("SOUNDCLOUD_CLIENT_SECRET"), `${name}.SOUNDCLOUD_CLIENT_SECRET`);
+		this.#soundcloudToken = String.import(env.readValue("SOUNDCLOUD_TOKEN"), `${name}.SOUNDCLOUD_TOKEN`);
 	}
 
 	static get env(): LocalEnvironment {
@@ -129,9 +137,21 @@ class LocalEnvironment {
 	get stackOverflowId(): string {
 		return this.#stackOverflowId;
 	}
-	
+
 	get stackOverflowApiKey(): string {
 		return this.#stackOverflowApiKey;
+	}
+
+	get soundcloudClientId(): string {
+		return this.#soundcloudClientId;
+	}
+
+	get soundcloudClientSecret(): string {
+		return this.#soundcloudClientSecret;
+	}
+
+	get soundcloudToken(): string {
+		return this.#soundcloudToken;
 	}
 }
 

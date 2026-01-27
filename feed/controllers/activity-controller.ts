@@ -9,6 +9,7 @@ import { DataTable } from "../services/data-table.js";
 import { Activity } from "../models/activity.js";
 import { GitHubWalker } from "../services/github-walker.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
+import { SoundCloudWalker } from "../services/soundcloud-walker.js";
 import { PinterestWalker } from "../services/pinterest-walker.js";
 import { SteamWalker } from "../services/steam-walker.js";
 import { StackOverflowWalker } from "../services/stack-overflow-walker.js";
@@ -25,6 +26,7 @@ const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 const { pinterestClientId, pinterestClientSecret, pinterestToken } = env;
 const { steamId, steamApiKey } = env;
 const { stackOverflowId, stackOverflowApiKey } = env;
+const { soundcloudClientId, soundcloudClientSecret, soundcloudToken } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -75,6 +77,7 @@ class ActivityController extends Controller {
 		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
 		dispatcher.connect(new SteamWalker(steamId, steamApiKey));
 		dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
+		dispatcher.connect(new SoundCloudWalker(soundcloudClientId, soundcloudClientSecret, soundcloudToken));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute(configuration.platforms);

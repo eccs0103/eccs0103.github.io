@@ -50,6 +50,10 @@ jobs:
 
                 STACK_OVERFLOW_ID: ${{ vars.ID_STACK_OVERFLOW }}
                 STACK_OVERFLOW_API_KEY: ${{ secrets.API_KEY_STACK_OVERFLOW }}
+
+                SOUNDCLOUD_CLIENT_ID: ${{ vars.CLIENT_ID_SOUNDCLOUD }}
+                SOUNDCLOUD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SOUNDCLOUD }}
+                SOUNDCLOUD_TOKEN: ${{ secrets.TOKEN_SOUNDCLOUD }}
             run: npm run walk
 
           - name: Get Version

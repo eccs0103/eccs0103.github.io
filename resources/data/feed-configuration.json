@@ -70,7 +70,7 @@
 			"name": "SoundCloud",
 			"icon": "./icons/soundcloud.svg",
 			"webpage": "https://soundcloud.com/eccs0103",
-			"is_active": false
+			"is_active": true
 		}
 	],
 	"intro": "Content is generated automatically. In case of complaints, please contact the developer.",

@@ -72,11 +72,11 @@ class ActivityController extends Controller {
 		const activities = new DataTable(bridge, new URL("../../resources/data/activities", meta.url), Activity);
 
 		const dispatcher = new ActivityDispatcher(activities, origin);
-		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
-		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
-		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
-		dispatcher.connect(new SteamWalker(steamId, steamApiKey));
-		dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
+		// dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
+		// dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
+		// dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
+		// dispatcher.connect(new SteamWalker(steamId, steamApiKey));
+		// dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
 		dispatcher.connect(new SoundCloudWalker(soundcloudClientId, soundcloudClientSecret, soundcloudToken));
 
 		console.log("Starting feed update...");

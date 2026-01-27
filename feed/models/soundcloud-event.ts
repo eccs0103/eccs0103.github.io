@@ -91,35 +91,15 @@ export class SoundCloudTrack extends Model {
 //#region SoundCloud like event
 export interface SoundCloudLikeEventScheme {
 	created_at: string;
-	id: number;
-	title: string;
-	user: SoundCloudUserScheme;
-	artwork_url: string | null;
-	permalink_url: string;
-	duration: number;
+	track: SoundCloudTrackScheme;
 }
 
 export class SoundCloudLikeEvent extends Model {
 	@Field(Date, "created_at")
 	createdAt: Date;
 
-	@Field(Number, "id")
-	id: number;
-
-	@Field(String, "title")
-	title: string;
-
-	@Field(SoundCloudUser, "user")
-	user: SoundCloudUser;
-
-	@Field(Nullable(String), "artwork_url")
-	artworkUrl: string | null;
-
-	@Field(String, "permalink_url")
-	permalinkUrl: string;
-
-	@Field(Number, "duration")
-	duration: number;
+	@Field(SoundCloudTrack, "track")
+	track: SoundCloudTrack;
 }
 //#endregion
 

@@ -396,5 +396,25 @@
 		"repository": "eccs0103.github.io",
 		"sha": "84c7d172b9be91fc89c97c3d72f7d31c2ad486b0",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769625328000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ed8d7d888a7651693219713fcb88caafc04f41d8",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769633784000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/40fcb9f62eed1207e052eb9514218906b0866f76.jpg",
+		"title": "Irreversibly Contaminated",
+		"description": "Have 5 Parasites simultaneously",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

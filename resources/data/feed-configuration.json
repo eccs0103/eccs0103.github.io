@@ -4,99 +4,99 @@
 			"name": "Stack overflow",
 			"icon": "./icons/stack-overflow.svg",
 			"webpage": "https://ru.stackoverflow.com/users/324730",
-			"status": "connected",
-			"note": "Knowledge exchange synchronized. All asked questions and provided technical solutions are automatically mirrored here."
+			"note": "Knowledge exchange synchronized. All asked questions and provided technical solutions are automatically mirrored here.",
+			"status": "connected"
 		},
 		{
 			"name": "GitHub",
 			"icon": "./icons/github.svg",
 			"webpage": "https://github.com/eccs0103",
-			"status": "connected",
-			"note": "Development activity tracking is active. Code commits, new projects, and global updates are synced in real-time."
+			"note": "Development activity tracking is active. Code commits, new projects, and global updates are synced in real-time.",
+			"status": "connected"
 		},
 		{
 			"name": "LinkedIn",
 			"icon": "./icons/linkedin.svg",
 			"webpage": "https://www.linkedin.com/in/eccs0103",
-			"status": null,
-			"note": null
+			"note": null,
+			"status": null
 		},
 		{
 			"name": "NPM",
 			"icon": "./icons/npm.svg",
 			"webpage": "https://www.npmjs.com/~eccs0103",
-			"status": null,
-			"note": null
+			"note": null,
+			"status": null
 		},
 		{
 			"name": "Telegram",
 			"icon": "./icons/telegram.svg",
 			"webpage": "https://t.me/eccs0103",
-			"status": "delayed",
-			"note": "Synchronization paused. The data stream is moving too fast for the observer robot to process without errors."
+			"note": "Synchronization paused. The data stream is moving too fast for the observer robot to process without errors.",
+			"status": "delayed"
 		},
 		{
 			"name": "Pinterest",
 			"icon": "./icons/pinterest.svg",
 			"webpage": "https://pinterest.com/eccs0103",
-			"status": "terminated",
-			"note": "Access denied by external platform. Pinterest refused the request to share my own visual archives with this system."
+			"note": "Access denied by external platform. Pinterest refused the request to share my own visual archives with this system.",
+			"status": "terminated"
 		},
 		{
 			"name": "Instagram",
 			"icon": "./icons/instagram.svg",
 			"webpage": "https://www.instagram.com/eccs0103",
-			"status": null,
-			"note": null
+			"note": null,
+			"status": null
 		},
 		{
 			"name": "ВКонтакте",
 			"icon": "./icons/vk.svg",
 			"webpage": "https://vk.com/eccs0103",
-			"status": null,
-			"note": null
+			"note": null,
+			"status": null
 		},
 		{
 			"name": "Steam",
 			"icon": "./icons/steam.svg",
 			"webpage": "https://steamcommunity.com/id/eccs0103",
-			"status": "connected",
-			"note": "Digital leisure activity linked. Unlocked achievements and published screenshots are successfully retrieved."
+			"note": "Digital leisure activity linked. Unlocked achievements and published screenshots are successfully retrieved.",
+			"status": "connected"
 		},
 		{
 			"name": "Spotify",
 			"icon": "./icons/spotify.svg",
 			"webpage": "https://open.spotify.com/user/317zm5tuh2bgwxdckyqgxkjlxqji",
-			"status": "connected",
-			"note": "Audio stream connected. Tracks marked as 'Favorites' are automatically detected and added to the collection."
+			"note": "Audio stream connected. Tracks marked as 'Favorites' are automatically detected and added to the collection.",
+			"status": "connected"
 		},
 		{
 			"name": "SoundCloud",
 			"icon": "./icons/soundcloud.svg",
 			"webpage": "https://soundcloud.com/eccs0103",
-			"status": "delayed",
-			"note": "Connection pending. The communication bridge for this platform is currently under construction and calibration."
+			"note": "Connection pending. The communication bridge for this platform is currently under construction and calibration.",
+			"status": "delayed"
 		},
 		{
 			"name": "Discord",
 			"icon": "./icons/discord.svg",
 			"webpage": null,
-			"status": null,
-			"note": null
+			"note": null,
+			"status": null
 		},
 		{
 			"name": "YouTube",
 			"icon": "./icons/youtube.svg",
 			"webpage": "https://www.youtube.com/@eccs0103",
-			"status": null,
-			"note": null
+			"note": null,
+			"status": null
 		},
 		{
 			"name": "Facebook",
 			"icon": "./icons/facebook.svg",
 			"webpage": "https://www.facebook.com/eccs0103.arman",
-			"status": null,
-			"note": null
+			"note": null,
+			"status": null
 		}
 	],
 	"intro": "Was it worth it?",

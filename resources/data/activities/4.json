@@ -342,5 +342,59 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2731f59374d36f35046ec461de4",
 		"url": "https://open.spotify.com/track/5KXzs9VJoJW1Yh7sB7q8gH",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769623719000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "822779a9137c16edf0eb541ed2b95292fe651626",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769623739000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "c377d524f3e43b5cfd44b985882b3ee92c837c2d",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769623830000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6a5c444a538062f96b13d6c5c48996e7cca5c8b5",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769623850000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6a5c444a538062f96b13d6c5c48996e7cca5c8b5",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769623882000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "interface-enhance",
+		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769624030000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "84c7d172b9be91fc89c97c3d72f7d31c2ad486b0",
+		"$type": "GitHubPushActivity"
 	}
 ]

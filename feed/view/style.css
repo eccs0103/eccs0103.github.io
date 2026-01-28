@@ -4,25 +4,21 @@ body {
 	max-width: 100vmin;
 	overflow-y: auto;
 
+	&:has(dialog[open]) {
+		overflow: hidden;
+	}
+
 	& header {
 		& img[alt="eccs0103 logo"] {
 			width: calc(6 * var(--size-standart));
 		}
 
-		& div.social-media {
-			width: 100%;
-			justify-content: space-evenly;
+		& button#connections-hub-trigger {
+			position: absolute;
+			inset: var(--size-large-gap) auto auto var(--size-large-gap);
 
-			&:not(:has(a)) {
-				display: none;
-			}
-
-			& a {
-				color: var(--color-highlight);
-
-				&.integrated {
-					/* TODO */
-				}
+			& > span.icon {
+				--url: url(../../assets/icons/information.svg);
 			}
 		}
 	}
@@ -35,6 +31,7 @@ body {
 
 		& span.intro {
 			align-self: center;
+			text-align: center;
 			font-size: 0.9em;
 		}
 
@@ -393,12 +390,68 @@ body {
 
 		& span.outro {
 			align-self: center;
+			text-align: center;
 			font-size: 0.9em;
 		}
 	}
 
 	& footer {
 		display: grid;
+	}
+
+	& dialog#connections-hub {
+		width: calc(12 * var(--size-standart));
+
+		& div.connection-row {
+			display: grid;
+			grid-template:
+				'connection-icon	connection-name	connection-link	' 1fr
+				'connection-icon	connection-note	connection-note	' auto
+				/ auto 1fr 1fr
+			;
+			border-bottom: var(--size-separator) solid var(--color-heavy-main);
+
+			&[data-status="connected"] {
+				color: var(--color-highlight);
+				background-color: rgb(from var(--color-highlight) r g b / 20%);
+			}
+
+			&[data-status="delayed"] {
+				color: var(--color-warn);
+				background-color: rgb(from var(--color-warn) r g b / 20%);
+			}
+
+			&[data-status="terminated"] {
+				color: var(--color-error);
+				background-color: rgb(from var(--color-error) r g b / 20%);
+			}
+
+			&:last-child {
+				border-bottom: none;
+			}
+
+			& span.connection-icon.icon {
+				grid-area: connection-icon;
+				width: var(--size-standart);
+				height: var(--size-standart);
+			}
+
+			& .connection-name {
+				grid-area: connection-name;
+				align-self: center;
+			}
+
+			& a.connection-link {
+				grid-area: connection-link;
+				justify-self: flex-end;
+				align-self: center;
+			}
+
+			& .connection-note {
+				grid-area: connection-note;
+				font-size: 0.9em;
+			}
+		}
 	}
 
 	& dialog.loader img[alt="Logo"] {

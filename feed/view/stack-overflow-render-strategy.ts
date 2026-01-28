@@ -14,15 +14,13 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 			divPanel.classList.add("status-success");
 		}
 
-		const spanValue = divPanel.appendChild(document.createElement("span"));
-		spanValue.textContent = score.toString();
+		const spanValue = divPanel.appendChild(DOMBuilder.newTextbox(score.toString()));
 		spanValue.classList.add("value");
 
 		if (!Number.isNaN(views)) {
-			const divViews = divPanel.appendChild(document.createElement("div"));
-			divViews.classList.add("view-count", "description");
 			const formattedViews = new Intl.NumberFormat("en-US", { notation: "compact", compactDisplay: "short" }).format(views).toLowerCase();
-			divViews.textContent = `${formattedViews} views`;
+			const spanViews = divPanel.appendChild(DOMBuilder.newDescription(`${formattedViews} views`));
+			spanViews.classList.add("view-count");
 		}
 	}
 

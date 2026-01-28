@@ -209,5 +209,138 @@
 		"repository": "eccs0103.github.io",
 		"name": "soundcloud-integration",
 		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529796000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1c8cde78ea7b04130ed682633d5298f6fbc0772e",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529885000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cd40b6de12f34595ec2adf5454148af6d2e68e45",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529907000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cd40b6de12f34595ec2adf5454148af6d2e68e45",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769529976000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "ai-kernel-for-death-detection-system",
+		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769530022000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "interface-enhance",
+		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769535945000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/f9a07900fc92075d271d2f890929760e8ec11c75.jpg",
+		"title": "Prophylactic Suggested",
+		"description": "Get overtaken by a Headcrab's ample anterior.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769539986000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/d4d88eb026fe7f3adab5d184bd63df15e5d77533.jpg",
+		"title": "Unified Coupling Theorum",
+		"description": "Help the Barnacle and Headcrab find true love.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769541545000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/3f7707c797cb9615cddca6614ad7f61df86b10c8.jpg",
+		"title": "Gray Matter Propulsion",
+		"description": "Headshot 20 Enemies with the .357 Magnum.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769542231000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/e49100fc4f3b6fe555581c1429319f66d0d210f6.jpg",
+		"title": "Remote Detonation",
+		"description": "Kill a Barnacle with a Satchel.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769543751000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/7dc4d281267d190271fdd10e1532e897587f9472.jpg",
+		"title": "Dead Reckoning",
+		"description": "Kill an Assassin with the .357 Magnum.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769548630000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/e40e1eebe784e6fa541e3b6fb7137e1725bdbc15.jpg",
+		"title": "Quantum Capacitance",
+		"description": "Overcharge it anyway.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1769549624000,
+		"title": "On a Rail 1",
+		"artists": [
+			"Joel Nielsen"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2731f59374d36f35046ec461de4",
+		"url": "https://open.spotify.com/track/1iaVMwyd3QYIhweDqA6FgX",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1769549767000,
+		"title": "Blast Pit 3",
+		"artists": [
+			"Joel Nielsen"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2731f59374d36f35046ec461de4",
+		"url": "https://open.spotify.com/track/5KXzs9VJoJW1Yh7sB7q8gH",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

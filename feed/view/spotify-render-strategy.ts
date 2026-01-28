@@ -24,9 +24,7 @@ export class SpotifyRenderStrategy implements ActivityRenderStrategy<SpotifyActi
 		const strongHeader = divInformation.appendChild(document.createElement("strong"));
 		strongHeader.textContent = title;
 
-		const spanArtists = divInformation.appendChild(document.createElement("span"));
-		spanArtists.textContent = activity.artists.join(", ");
-		spanArtists.classList.add("description");
+		const spanArtists = divInformation.appendChild(DOMBuilder.newDescription(activity.artists.join(", ")));
 		spanArtists.style.fontSize = "0.9em";
 
 		const aLink = divInformation.appendChild(DOMBuilder.newLink("Listen on Spotify ↗", new URL(activity.url)));
@@ -39,9 +37,8 @@ export class SpotifyRenderStrategy implements ActivityRenderStrategy<SpotifyActi
 
 	render(itemContainer: HTMLElement, buffer: readonly SpotifyActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
-		
-		const spanLabel = itemContainer.appendChild(document.createElement("span"));
-		spanLabel.textContent = "Added to music collection";
+
+		itemContainer.appendChild(DOMBuilder.newTextbox("Added to music collection"));
 
 		for (const activity of buffer) {
 			this.#renderSingle(itemContainer, activity);

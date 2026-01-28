@@ -32,8 +32,7 @@ class WebpageController extends Controller {
 		const bridge = this.#bridge;
 		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
 
-		const header = await body.getElementAsync(HTMLElement, "header");
-		const rendererHeader = new HeaderRenderer(header);
+		const rendererHeader = new HeaderRenderer(body);
 		await rendererHeader.render(configuration.platforms);
 
 		const main = await body.getElementAsync(HTMLElement, "main");
@@ -49,7 +48,10 @@ class WebpageController extends Controller {
 			name: "eccs0103",
 			webpage: new URL("https://eccs0103.github.io"),
 			preview: new URL("../icons/circuit-transparent.gif", baseURI),
-			associations: configuration.platforms.map(platform => new URL(platform.webpage)),
+			associations: configuration.platforms
+				.map(platform => platform.webpage)
+				.filter(webpage => webpage !== null)
+				.map(webpage => new URL(webpage)),
 			job: "Software engineer",
 			description: "Webpage of the person known by the nickname eccs0103.",
 		});

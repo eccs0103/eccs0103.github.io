@@ -4,73 +4,99 @@
 			"name": "Stack overflow",
 			"icon": "./icons/stack-overflow.svg",
 			"webpage": "https://ru.stackoverflow.com/users/324730",
-			"is_active": true
+			"status": "connected",
+			"note": "Knowledge exchange synchronized. All asked questions and provided technical solutions are automatically mirrored here."
 		},
 		{
 			"name": "GitHub",
 			"icon": "./icons/github.svg",
 			"webpage": "https://github.com/eccs0103",
-			"is_active": true
+			"status": "connected",
+			"note": "Development activity tracking is active. Code commits, new projects, and global updates are synced in real-time."
 		},
 		{
 			"name": "LinkedIn",
 			"icon": "./icons/linkedin.svg",
 			"webpage": "https://www.linkedin.com/in/eccs0103",
-			"is_active": false
+			"status": null,
+			"note": null
+		},
+		{
+			"name": "NPM",
+			"icon": "./icons/npm.svg",
+			"webpage": "https://www.npmjs.com/~eccs0103",
+			"status": null,
+			"note": null
 		},
 		{
 			"name": "Telegram",
 			"icon": "./icons/telegram.svg",
 			"webpage": "https://t.me/eccs0103",
-			"is_active": false
+			"status": "delayed",
+			"note": "Synchronization paused. The data stream is moving too fast for the observer robot to process without errors."
+		},
+		{
+			"name": "Pinterest",
+			"icon": "./icons/pinterest.svg",
+			"webpage": "https://pinterest.com/eccs0103",
+			"status": "terminated",
+			"note": "Access denied by external platform. Pinterest refused the request to share my own visual archives with this system."
 		},
 		{
 			"name": "Instagram",
 			"icon": "./icons/instagram.svg",
 			"webpage": "https://www.instagram.com/eccs0103",
-			"is_active": false
+			"status": null,
+			"note": null
 		},
 		{
 			"name": "ВКонтакте",
 			"icon": "./icons/vk.svg",
 			"webpage": "https://vk.com/eccs0103",
-			"is_active": false
-		},
-		{
-			"name": "Spotify",
-			"icon": "./icons/spotify.svg",
-			"webpage": "https://open.spotify.com/user/317zm5tuh2bgwxdckyqgxkjlxqji",
-			"is_active": true
+			"status": null,
+			"note": null
 		},
 		{
 			"name": "Steam",
 			"icon": "./icons/steam.svg",
 			"webpage": "https://steamcommunity.com/id/eccs0103",
-			"is_active": true
+			"status": "connected",
+			"note": "Digital leisure activity linked. Unlocked achievements and published screenshots are successfully retrieved."
 		},
 		{
-			"name": "Discord",
-			"icon": "./icons/discord.svg",
-			"webpage": "https://discord.gg/kwUByVT9",
-			"is_active": false
-		},
-		{
-			"name": "YouTube",
-			"icon": "./icons/youtube.svg",
-			"webpage": "https://www.youtube.com/@eccs0103",
-			"is_active": false
-		},
-		{
-			"name": "Facebook",
-			"icon": "./icons/facebook.svg",
-			"webpage": "https://www.facebook.com/eccs0103.arman",
-			"is_active": false
+			"name": "Spotify",
+			"icon": "./icons/spotify.svg",
+			"webpage": "https://open.spotify.com/user/317zm5tuh2bgwxdckyqgxkjlxqji",
+			"status": "connected",
+			"note": "Audio stream connected. Tracks marked as 'Favorites' are automatically detected and added to the collection."
 		},
 		{
 			"name": "SoundCloud",
 			"icon": "./icons/soundcloud.svg",
 			"webpage": "https://soundcloud.com/eccs0103",
-			"is_active": false
+			"status": "delayed",
+			"note": "Connection pending. The communication bridge for this platform is currently under construction and calibration."
+		},
+		{
+			"name": "Discord",
+			"icon": "./icons/discord.svg",
+			"webpage": null,
+			"status": null,
+			"note": null
+		},
+		{
+			"name": "YouTube",
+			"icon": "./icons/youtube.svg",
+			"webpage": "https://www.youtube.com/@eccs0103",
+			"status": null,
+			"note": null
+		},
+		{
+			"name": "Facebook",
+			"icon": "./icons/facebook.svg",
+			"webpage": "https://www.facebook.com/eccs0103.arman",
+			"status": null,
+			"note": null
 		}
 	],
 	"intro": "Was it worth it?",

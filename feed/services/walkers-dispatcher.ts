@@ -57,7 +57,7 @@ export class ActivityDispatcher {
 		for (const walker of walkers) {
 			try {
 				const platform = platforms.find(({ name }) => name === walker.name);
-				if (platform === undefined || !platform.isActive) continue;
+				if (platform === undefined || platform.status !== "connected") continue;
 				console.log(`Launching ${walker.name} for crawl`);
 				const before = activities.length;
 				await ActivityDispatcher.#runWalker(walker, since, activities);

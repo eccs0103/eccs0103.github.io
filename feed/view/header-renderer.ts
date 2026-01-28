@@ -8,37 +8,48 @@ const { baseURI } = document;
 
 //#region Header renderer
 export class HeaderRenderer {
-	#headerContainer: HTMLElement;
+	#itemContainer: HTMLElement;
 
-	constructor(headerContainer: HTMLElement) {
-		this.#headerContainer = headerContainer;
-	}
-
-	static #newActivity(itemContainer: HTMLElement, platform: Platform): HTMLElement {
-		const aSocialMedia = itemContainer.appendChild(document.createElement("a"));
-		aSocialMedia.href = String(platform.webpage);
-		aSocialMedia.target = "_blank";
-		aSocialMedia.rel = "noopener noreferrer";
-		aSocialMedia.role = "button";
-		aSocialMedia.classList.add("flex", "alt-center");
-
-		const spanIcon = aSocialMedia.appendChild(document.createElement("span"));
-		spanIcon.classList.add("icon");
-		spanIcon.style.setProperty("--url", `url("${new URL(platform.icon, new URL("../", baseURI))}")`);
-		if (!platform.isActive) spanIcon.inert = true;
-
-		const spanTitle = aSocialMedia.appendChild(DOMBuilder.newTextbox(platform.name));
-		spanTitle.classList.add("with-inline-padding");
-
-		return aSocialMedia;
+	constructor(itemContainer: HTMLElement) {
+		this.#itemContainer = itemContainer;
 	}
 
 	async render(platforms: readonly Platform[]): Promise<void> {
-		const headerContainer = this.#headerContainer;
+		const itemContainer = this.#itemContainer;
 
-		const divSocialMedia = await headerContainer.getElementAsync(HTMLDivElement, "div#social-media");
+		const buttonConnectionsHubTrigger = await itemContainer.getElementAsync(HTMLButtonElement, "button#connections-hub-trigger");
+		buttonConnectionsHubTrigger.addEventListener("click", (event) => {
+			dialogConnectionsHub.showModal();
+		});
+
+		const dialogConnectionsHub = await itemContainer.getElementAsync(HTMLDialogElement, "dialog#connections-hub");
+		dialogConnectionsHub.addEventListener("click", (event) => {
+			if (event.target !== dialogConnectionsHub) return;
+			dialogConnectionsHub.close();
+		});
 		for (const platform of platforms) {
-			HeaderRenderer.#newActivity(divSocialMedia, platform);
+			const { name, icon, webpage, status, note } = platform;
+
+			const divConnectionRow = dialogConnectionsHub.appendChild(document.createElement("div"));
+			divConnectionRow.dataset["status"] = status ?? "none";
+			divConnectionRow.classList.add("connection-row", "with-padding", "with-inline-gap");
+
+			const spanConnectionIcon = divConnectionRow.appendChild(DOMBuilder.newIcon(new URL(icon, new URL("../", baseURI))));
+			spanConnectionIcon.classList.add("connection-icon");
+
+			const strongConnectionName = divConnectionRow.appendChild(document.createElement("strong"));
+			strongConnectionName.classList.add("connection-name");
+			strongConnectionName.textContent = name;
+
+			if (webpage !== null) {
+				const aConnectionLink = divConnectionRow.appendChild(DOMBuilder.newLink("Open webpage", new URL(webpage)));
+				aConnectionLink.classList.add("connection-link");
+			}
+
+			if (note !== null) {
+				const spanConnectionNote = divConnectionRow.appendChild(DOMBuilder.newDescription(note));
+				spanConnectionNote.classList.add("connection-note");
+			}
 		}
 	}
 }

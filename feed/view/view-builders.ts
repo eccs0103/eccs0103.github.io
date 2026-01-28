@@ -40,6 +40,14 @@ export class DOMBuilder {
 		return aLink;
 	}
 
+	static newIcon(url: Readonly<URL>): HTMLElement {
+		const icon = document.createElement("span");
+		icon.classList.add("icon");
+		icon.style.setProperty("--url", `url("${url}")`);
+
+		return icon;
+	}
+
 	static newImage(url: Readonly<URL>, text: string): HTMLImageElement {
 		const img = document.createElement("img");
 		img.src = String(url);
@@ -103,9 +111,7 @@ export class ActivityBuilder {
 
 		const platform = platforms.get(activity.platform);
 		if (platform !== undefined) {
-			const spanIcon = itemContainer.appendChild(document.createElement("span"));
-			spanIcon.style.setProperty("--url", `url(${new URL(platform.icon, new URL("../", baseURI))})`);
-			spanIcon.classList.add("icon");
+			itemContainer.appendChild(DOMBuilder.newIcon(new URL(platform.icon, new URL("../", baseURI))))
 
 			const h4Title = itemContainer.appendChild(document.createElement("h4"));
 			h4Title.classList.add("platform");
@@ -114,6 +120,7 @@ export class ActivityBuilder {
 
 		const timeElement = itemContainer.appendChild(document.createElement("time"));
 		timeElement.dateTime = activity.timestamp.toISOString();
+		timeElement.title = activity.timestamp.toLocaleString();
 		timeElement.textContent = TextExpert.formatTime(activity.timestamp);
 		timeElement.classList.add("activity-time");
 

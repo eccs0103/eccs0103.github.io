@@ -1,14 +1,15 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model } from "adaptive-extender/core";
+import { ArrayOf, Field, Model, Nullable } from "adaptive-extender/core";
 
 //#region Platform
 export interface PlatformScheme {
 	name: string;
 	icon: string;
-	webpage: string;
-	is_active: boolean;
+	webpage: string | null;
+	note: string | null;
+	status: string | null;
 }
 
 export class Platform extends Model {
@@ -18,11 +19,14 @@ export class Platform extends Model {
 	@Field(String, "icon")
 	icon: string;
 
-	@Field(String, "webpage")
-	webpage: string;
+	@Field(Nullable(String), "webpage")
+	webpage: string | null;
 
-	@Field(Boolean, "is_active")
-	isActive: boolean;
+	@Field(Nullable(String), "note")
+	note: string | null;
+
+	@Field(Nullable(String), "status")
+	status: string | null;
 }
 //#endregion
 //#region Configuration

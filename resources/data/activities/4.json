@@ -309,5 +309,38 @@
 		"description": "Kill an Assassin with the .357 Magnum.",
 		"url": "https://steamcommunity.com/stats/362890/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769548630000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/e40e1eebe784e6fa541e3b6fb7137e1725bdbc15.jpg",
+		"title": "Quantum Capacitance",
+		"description": "Overcharge it anyway.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1769549624000,
+		"title": "On a Rail 1",
+		"artists": [
+			"Joel Nielsen"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2731f59374d36f35046ec461de4",
+		"url": "https://open.spotify.com/track/1iaVMwyd3QYIhweDqA6FgX",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1769549767000,
+		"title": "Blast Pit 3",
+		"artists": [
+			"Joel Nielsen"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2731f59374d36f35046ec461de4",
+		"url": "https://open.spotify.com/track/5KXzs9VJoJW1Yh7sB7q8gH",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

@@ -294,7 +294,6 @@ section.option {
 
 		&.definition {
 			grid-area: definition;
-			font-size: smaller;
 		}
 	}
 
@@ -339,6 +338,10 @@ span {
 	&.in-line {
 		height: 1em;
 	}
+}
+
+.small-font {
+	font-size: 0.9em;
 }
 
 hr {

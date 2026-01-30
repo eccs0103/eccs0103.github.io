@@ -25,10 +25,10 @@ export class SpotifyRenderStrategy implements ActivityRenderStrategy<SpotifyActi
 		strongHeader.textContent = title;
 
 		const spanArtists = divInformation.appendChild(DOMBuilder.newDescription(activity.artists.join(", ")));
-		spanArtists.style.fontSize = "0.9em";
+		// spanArtists.classList.add("small-font");
 
 		const aLink = divInformation.appendChild(DOMBuilder.newLink("Listen on Spotify ↗", new URL(activity.url)));
-		aLink.classList.add("spotify-link", "with-block-padding");
+		aLink.classList.add("with-block-padding", "small-font");
 	}
 
 	#renderSingle(itemContainer: HTMLElement, activity: SpotifyActivity): void {

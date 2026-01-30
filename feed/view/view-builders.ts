@@ -75,14 +75,14 @@ export class DOMBuilder {
 export class ActivityBuilder {
 	static newIntro(itemContainer: HTMLElement, message: string): HTMLElement {
 		const itemIntro = itemContainer.appendChild(DOMBuilder.newDescription(message));
-		itemIntro.classList.add("intro");
+		itemIntro.classList.add("intro", "small-font");
 
 		return itemIntro;
 	}
 
 	static newWarning(itemContainer: HTMLElement): void {
 		const span = itemContainer.appendChild(document.createElement("span"));
-		span.classList.add("warn", "experimetnal-core");
+		span.classList.add("experimetnal-core", "warn", "small-font");
 
 		span.appendChild(DOMBuilder.newText("This page operates on an "));
 		span.appendChild(DOMBuilder.newLink("experimental core", new URL("https://github.com/eccs0103/adaptive-extender/commits/main/")));
@@ -99,7 +99,7 @@ export class ActivityBuilder {
 	static newOutro(itemContainer: HTMLElement, itemChild: HTMLElement, message: string): HTMLElement {
 		const itemOutro = DOMBuilder.newDescription(message);
 		itemContainer.replaceChild(itemOutro, itemChild);
-		itemOutro.classList.add("outro");
+		itemOutro.classList.add("outro", "small-font");
 
 		return itemOutro;
 	}
@@ -111,7 +111,7 @@ export class ActivityBuilder {
 
 		const platform = platforms.get(activity.platform);
 		if (platform !== undefined) {
-			itemContainer.appendChild(DOMBuilder.newIcon(new URL(platform.icon, new URL("../", baseURI))))
+			itemContainer.appendChild(DOMBuilder.newIcon(new URL(platform.icon, new URL("../", baseURI))));
 
 			const h4Title = itemContainer.appendChild(document.createElement("h4"));
 			h4Title.classList.add("platform");
@@ -122,7 +122,7 @@ export class ActivityBuilder {
 		timeElement.dateTime = activity.timestamp.toISOString();
 		timeElement.title = activity.timestamp.toLocaleString();
 		timeElement.textContent = TextExpert.formatTime(activity.timestamp);
-		timeElement.classList.add("activity-time");
+		timeElement.classList.add("activity-time", "small-font");
 
 		const divContent = itemContainer.appendChild(document.createElement("div"));
 		divContent.classList.add("content");

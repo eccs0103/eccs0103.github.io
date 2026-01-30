@@ -24,15 +24,9 @@ body {
 	}
 
 	& main {
-		& span.experimetnal-core {
-			align-self: center;
-			font-size: 0.9em;
-		}
-
 		& span.intro {
 			align-self: center;
 			text-align: center;
-			font-size: 0.9em;
 		}
 
 		& div.activity {
@@ -59,7 +53,6 @@ body {
 
 			& > time.activity-time {
 				grid-area: activity-timepan;
-				font-size: 0.9em;
 				justify-self: end;
 			}
 
@@ -94,10 +87,6 @@ body {
 					width: calc(3 * var(--size-standart));
 				}
 
-				& a.spotify-link {
-					font-size: 0.9em;
-				}
-
 				& img.steam-icon {
 					width: calc(var(--size-standart) * 2);
 					height: calc(var(--size-standart) * 2);
@@ -106,7 +95,6 @@ body {
 
 				& div.steam-group {
 					& div.group-header {
-						font-size: 0.95em;
 						margin-left: var(--size-separator);
 						margin-bottom: var(--size-small-gap);
 					}
@@ -280,7 +268,7 @@ body {
 								line-height: 1;
 							}
 
-							& div.view-count {
+							& span.view-count {
 								margin-top: var(--size-small-gap);
 								padding-top: var(--size-small-gap);
 								border-top: var(--size-separator) solid var(--color-heavy-main);
@@ -294,7 +282,7 @@ body {
 								border-color: var(--color-highlight);
 								background-color: rgb(from var(--color-highlight) r g b / 10%);
 
-								& div.view-count {
+								& span.view-count {
 									border-top-color: var(--color-highlight);
 								}
 							}
@@ -391,7 +379,6 @@ body {
 		& span.outro {
 			align-self: center;
 			text-align: center;
-			font-size: 0.9em;
 		}
 	}
 
@@ -436,6 +423,10 @@ body {
 				height: var(--size-standart);
 			}
 
+			&:not(:has(.connection-note)) span.connection-icon.icon {
+				align-self: center;
+			}
+
 			& .connection-name {
 				grid-area: connection-name;
 				align-self: center;
@@ -445,6 +436,7 @@ body {
 				grid-area: connection-link;
 				justify-self: flex-end;
 				align-self: center;
+				font-size: 0.9em;
 			}
 
 			& .connection-note {

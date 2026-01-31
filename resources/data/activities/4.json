@@ -479,5 +479,16 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769878426000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/18a32b6ddc44d43b3003ae0d8bedf8f81ea80a47.jpg",
+		"title": "Adapting to Circumstance",
+		"description": "Achieve Weapon Proficiency level 30",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

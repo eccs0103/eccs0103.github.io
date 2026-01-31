@@ -468,5 +468,16 @@
 		"repository": "eccs0103.github.io",
 		"sha": "0f76fb6e3795e711e139de10d2fe8044db99672c",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769809791000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/97315bb57b8791532db31602adfd5af069457276.jpg",
+		"title": "Silence the Song",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

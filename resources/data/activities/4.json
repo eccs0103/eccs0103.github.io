@@ -490,5 +490,16 @@
 		"description": "Achieve Weapon Proficiency level 30",
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769893370000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/36da3aadd744e123cc5c54f2d05a903efe1648ba.jpg",
+		"title": "Kinetic Repulsion",
+		"description": "Kill a Marine with their own Grenade.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

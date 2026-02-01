@@ -501,5 +501,126 @@
 		"description": "Kill a Marine with their own Grenade.",
 		"url": "https://steamcommunity.com/stats/362890/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769894546000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/fcc35b447faef0d4e9c6c7eda5958e20e440cac9.jpg",
+		"title": "Nuclear Fishin'",
+		"description": "Kill an Ichthyosaur with either the Tau or Gluon.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769895355000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/24b41f930664d1c0ce4ae4ec0b23063be50b8ad3.jpg",
+		"title": "Calculated Trajectory",
+		"description": "Kill 10 airborne Headcrabs using the Shotgun.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769898467000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/6aa5bae9c440e414e777d133cf51cd3580d90a6b.jpg",
+		"title": "Centripetal Attraction",
+		"description": "Kill 20 Enemies with the Hivehand.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769900113000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/e926acc9c3bbed9b595cbe59a8eed935fdda7592.jpg",
+		"title": "Futile Resistance",
+		"description": "Kill 10 Enemies with Snarks.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769900320000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/26535378700c04656bbeb2abc89219e379bcdf29.jpg",
+		"title": "Mega Hertz",
+		"description": "Kill 5 Enemies with one Grenade.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769900336000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/52640a47d56e89105ce758586e1414986a6e41b3.jpg",
+		"title": "Well-Done",
+		"description": "Cook a Grenade for too long.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769900681000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/ab94b48bf309248610d237b437d6c8960c8e9d0e.jpg",
+		"title": "Stealth Technology",
+		"description": "Escape the Hangar in Surface Tension without alerting the Soldiers.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769903699000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/f27ce788e446fedce31c21eb925b1f20efba1ad6.jpg",
+		"title": "Premature Expulsion",
+		"description": "Use an entire clip of Gluon ammo in one continuous shot.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769903852000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/b7e503233ac8f602146f6613b1111653e0df0427.jpg",
+		"title": "Hyper Saturation Conundrum",
+		"description": "Drown in Lambda Core's coolant.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769906664000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/2132b282c41feb6a258e2c021a0267a27729d568.jpg",
+		"title": "xen when",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1769906897000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/932e95397decca6df3020fbfb2eda15c45ed2825.jpg",
+		"title": "Orbital Trajectory",
+		"description": "Skip the opening Xen island with a secret jump.​",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

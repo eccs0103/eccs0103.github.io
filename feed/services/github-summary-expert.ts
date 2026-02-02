@@ -117,43 +117,43 @@ export interface TemplateRenderer {
 export class GitHubSummaryExpert {
 	static #templates: Map<ReportVibes, TemplateRenderer[]> = new Map([
 		[ReportVibes.creation, [
-			(print, { primary }) => print`Cooked up a brand new experiment called ${primary}.`,
-			(print, { primary }) => print`Initiated ${primary}. The start of something interesting.`,
-			(print, { primary }) => print`Kicked off ${primary}. Let's see where this goes.`,
-			(print, { primary }) => print`Dropped the first files for ${primary}.`
+			(print, { primary }) => print`Initialization sequence complete. New repository ${primary} allocated.`,
+			(print, { primary }) => print`New directive established: ${primary}. Core structure generated.`,
+			(print, { primary }) => print`Protocol ${primary} initiated. Version control tracking active.`,
+			(print, { primary }) => print`Project scaffold instantiated for ${primary}. Awaiting input.`
 		]],
 		[ReportVibes.milestone, [
-			(print, { primary, label, modifier }) => print`Shipped a new ${modifier} ${label} for ${primary}.`,
-			(print, { primary, label }) => print`Reached a major checkpoint in ${primary}: ${label}.`,
-			(print, { primary, label }) => print`Stamped ${label} on ${primary} history.`,
-			(print, { primary, modifier }) => print`Deployed fresh ${modifier} to ${primary}.`
+			(print, { primary, label, modifier }) => print`Production cycle complete. ${modifier} ${label} deployed to ${primary}.`,
+			(print, { primary, label }) => print`Milestone reached. ${primary} state advanced to ${label}.`,
+			(print, { primary, label }) => print`Version immutable. Identifier ${label} stamped on ${primary} history.`,
+			(print, { primary, modifier }) => print`Deployment successful. Fresh ${modifier} integrated into ${primary}.`
 		]],
 		[ReportVibes.cleanup, [
-			(print, { primary }) => print`Did some housekeeping in ${primary}.`,
-			(print, { primary, modifier }) => print`Cleaned up ${modifier} in ${primary}.`,
-			(print, { primary, magnitude }) => print`Swept the floor in ${primary}, removing ${magnitude} old references.`,
-			(print, { primary }) => print`Tidied up the workspace in ${primary}.`
+			(print, { primary }) => print`Maintenance routine executed. Structure optimized in ${primary}.`,
+			(print, { primary, modifier }) => print`Repo hygiene protocol engaged. ${modifier} eliminated from ${primary}.`,
+			(print, { primary, magnitude }) => print`Garbage collection active. Purged ${magnitude} obsolete references in ${primary}.`,
+			(print, { primary }) => print`Workspace sanitization complete for ${primary}. Redundancy reduced.`
 		]],
 		[ReportVibes.focus, [
-			(print, { primary, magnitude }) => print`Locked in on ${primary}. A massive stack of ${magnitude} updates.`,
-			(print, { primary, magnitude }) => print`Went deep into ${primary}. Pushed ${magnitude} commits in a row.`,
-			(print, { primary }) => print`Heavy coding session on ${primary}. Things are moving fast.`,
-			(print, { primary }) => print`In the zone with ${primary}. Serious progress made.`,
-			(print, { primary }) => print`Crushing tickets and pushing code to ${primary}.`
+			(print, { primary, magnitude }) => print`High-velocity development cycle detected in ${primary}. ${magnitude} iterations recorded.`,
+			(print, { primary, magnitude }) => print`Focus modules locked on ${primary}. Throughput increased by ${magnitude} units.`,
+			(print, { primary }) => print`Heavy processing loop engaged for ${primary}. Rapid status updates logged.`,
+			(print, { primary }) => print`Development intensity: Maximum. Significant progress mapped in ${primary}.`,
+			(print, { primary }) => print`Burst transmission received. Tickets resolved and code committed to ${primary}.`
 		]],
 		[ReportVibes.scattered, [
-			(print, { primary, secondary }) => print`Full-stack mode: switching context between ${primary} and ${secondary}.`,
-			(print, { primary, secondary }) => print`Juggling updates across ${primary}, ${secondary} and more.`,
-			(print, { primary }) => print`Bouncing between ${primary} and the rest of the ecosystem.`,
-			(print, { primary, modifier }) => print`Keeping the momentum going across ${primary} and ${modifier}.`,
-			(print, { primary }) => print`Syncing updates between ${primary} and other projects.`
+			(print, { primary, secondary }) => print`Multithreaded operation detected. Synchronizing contexts between ${primary} and ${secondary}.`,
+			(print, { primary, secondary }) => print`Distributed workflow active. Updates propagated to ${primary}, ${secondary}, and peripheral nodes.`,
+			(print, { primary }) => print`Context switching engaged. Oscillating between ${primary} and ecosystem dependencies.`,
+			(print, { primary, modifier }) => print`Parallel execution: Sustaining momentum across ${primary} and ${modifier}.`,
+			(print, { primary }) => print`Asynchronous sync engaged. Aligning ${primary} with external project states.`
 		]],
 		[ReportVibes.chill, [
-			(print, { primary }) => print`Polishing some code in ${primary}.`,
-			(print, { primary }) => print`Tinkering with ${primary}. Just keeping things tidy.`,
-			(print, { primary }) => print`Dropped a couple of quick fixes to ${primary}.`,
-			(print, { primary }) => print`Making minor adjustments to ${primary}.`,
-			(print, { primary }) => print`Briefly visited ${primary} to push some updates.`
+			(print, { primary }) => print`Codebase integrity verification active for ${primary}.`,
+			(print, { primary }) => print`Routine maintenance log. Incremental adjustments applied to ${primary}.`,
+			(print, { primary }) => print`Low-latency patch committed to ${primary}. System nominal.`,
+			(print, { primary }) => print`Minor variance corrected in ${primary}. Optimization minimal.`,
+			(print, { primary }) => print`Background process: Brief update sequence executed for ${primary}.`
 		]]
 	]);
 

@@ -721,5 +721,16 @@
 		"repository": "quartz",
 		"sha": "9c9e60f066015b328854de973db949178cc3e240",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1770152453000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/c9d690aad564e14a00ba27a8d18872bf53ef6c1f.jpg",
+		"title": "Demysteriouslierified",
+		"description": "Solve all murder mysteries for Ava's podcast.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

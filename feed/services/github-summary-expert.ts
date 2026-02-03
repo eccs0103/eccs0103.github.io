@@ -1,7 +1,7 @@
 "use strict";
 
 import { Random } from "adaptive-extender/web";
-import { GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, type GitHubActivity } from "../models/activity.js";
+import { GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, type GitHubActivity } from "../models/activity.js";
 import { TextExpert } from "./text-expert.js";
 
 const random = Random.global;

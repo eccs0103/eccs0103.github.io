@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Optional, Timestamp } from "adaptive-extender/core";
+import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Timestamp } from "adaptive-extender/core";
 
 //#region Activity
 export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator {

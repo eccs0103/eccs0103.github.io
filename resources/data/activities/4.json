@@ -732,5 +732,61 @@
 		"description": "Solve all murder mysteries for Ava's podcast.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1770154370000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/35da8205c54e52ea915d1eff9666c47d4b5a61f7.jpg",
+		"title": "In the Eye of a Murdercane",
+		"description": "Win a round of Arms Race.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770158654000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "745b9931c2171f6019836062aa505985871cbcff",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770158871000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1d40bdd6cd1292a0df5ed0e3631c537bec40d32c",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770160521000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9136a1f739f8544cd482bd8dbb1f19df8cd4dc23",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770160587000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9136a1f739f8544cd482bd8dbb1f19df8cd4dc23",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770160601000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "ai-kernel-for-death-detection-system",
+		"$type": "GitHubDeleteBranchActivity"
 	}
 ]

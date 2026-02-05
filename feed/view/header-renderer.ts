@@ -79,8 +79,12 @@ export class HeaderRenderer {
 			strongConnectionName.textContent = name;
 
 			if (webpage !== null) {
-				const aConnectionLink = divConnectionRow.appendChild(DOMBuilder.newLink("Open webpage", new URL(webpage)));
+				const aConnectionLink = divConnectionRow.appendChild(DOMBuilder.newLink(String.empty, new URL(webpage)));
 				aConnectionLink.classList.add("connection-link");
+
+				const spanOpenWebpage = DOMBuilder.newIcon(new URL("./icons/external.svg", new URL("../", baseURI)));
+				spanOpenWebpage.classList.add("in-line");
+				aConnectionLink.appendChild(spanOpenWebpage);
 			}
 
 			if (note !== null) {

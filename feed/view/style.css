@@ -392,9 +392,9 @@ body {
 		& div.connection-row {
 			display: grid;
 			grid-template:
-				'connection-icon	connection-name	connection-link	' 1fr
-				'connection-icon	connection-note	connection-note	' auto
-				/ auto 1fr 1fr
+				'connection-icon	connection-name	platform-toggle	connection-link	' 1fr
+				'connection-icon	connection-note	connection-note	connection-note	' auto
+				/ auto auto 1fr 1fr
 			;
 			border-bottom: var(--size-separator) solid var(--color-heavy-main);
 
@@ -430,6 +430,12 @@ body {
 			& .connection-name {
 				grid-area: connection-name;
 				align-self: center;
+			}
+
+			& label.platform-toggle {
+				grid-area: platform-toggle;
+				align-self: center;
+				height: 1em; /* span.in-line */
 			}
 
 			& a.connection-link {

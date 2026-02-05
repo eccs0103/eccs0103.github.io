@@ -107,6 +107,7 @@ export class ActivityBuilder {
 	static newContainer(itemParent: HTMLElement, platforms: Map<string, Platform>, activity: Activity, observer: IntersectionObserver): HTMLElement {
 		const itemContainer = itemParent.insertBefore(document.createElement("div"), itemParent.lastElementChild);
 		itemContainer.classList.add("activity", "layer", "rounded", "with-padding", "with-gap", "awaiting-reveal");
+		itemContainer.dataset["platform"] = activity.platform;
 		observer.observe(itemContainer);
 
 		const platform = platforms.get(activity.platform);

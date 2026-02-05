@@ -11,6 +11,7 @@ import { MetadataInjector } from "../../environment/services/metadata-injector.j
 import { HeaderRenderer } from "../view/header-renderer.js";
 import { Configuration } from "../models/configuration.js";
 import { type Bridge } from "../services/bridge.js";
+import { SettingsService } from "../services/settings-service.js";
 
 const { baseURI, body } = document;
 
@@ -32,8 +33,10 @@ class WebpageController extends Controller {
 		const bridge = this.#bridge;
 		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
 
-		const rendererHeader = new HeaderRenderer(body);
-		await rendererHeader.render(configuration.platforms);
+		const { platforms } = configuration;
+		const settings = new SettingsService(platforms.filter(platform => platform.status === "connected").map(platform => platform.name));
+		const rendererHeader = new HeaderRenderer(body, settings);
+		await rendererHeader.render(platforms);
 
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main);

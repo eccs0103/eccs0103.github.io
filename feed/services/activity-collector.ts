@@ -36,14 +36,15 @@ export class ActivityCollector {
 
 	findGroup(cursor: ArrayCursor<Activity>, root: TypeOf<Activity>): Activity[] {
 		const buffer: Activity[] = [];
-		const current = cursor.current;
 		if (root === null) return buffer;
+		let current = cursor.current;
 		buffer.push(current);
 		cursor.index++;
 		while (cursor.inRange) {
 			const next = cursor.current;
 			if (!this.#isSameGroup(current, next, root)) break;
 			buffer.push(next);
+			current = next;
 			cursor.index++;
 		}
 		return buffer;

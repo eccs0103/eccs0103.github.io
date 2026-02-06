@@ -210,7 +210,7 @@ export interface SteamPublishedFileScheme {
 	// hcontent_file?: string; // Хэш контента файла (внутренний механизм Steam)
 	preview_url?: string; // Ссылка на превью/миниатюру (обычно есть всегда)
 	// hcontent_preview?: string; // Хэш превью
-	title: string; // Заголовок/описание, которое дал пользователь
+	short_description: string; // Заголовок/описание, которое дал пользователь
 	time_created: number; // Время публикации (Unix Timestamp)
 	// time_updated: number; // Время последнего обновления (Unix Timestamp)
 	visibility: number; // Уровень приватности (0 = Public, 1 = FriendsOnly, 2 = Private)
@@ -233,8 +233,8 @@ export class SteamPublishedFile extends Model {
 	@Field(Optional(String), "preview_url")
 	previewUrl: string | undefined;
 
-	@Field(String, "title")
-	title: string;
+	@Field(String, "short_description")
+	shortDescription: string;
 
 	@Field(UnixSeconds, "time_created")
 	timeCreated: Date;

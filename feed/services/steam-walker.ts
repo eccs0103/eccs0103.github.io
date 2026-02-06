@@ -136,7 +136,7 @@ export class SteamWalker extends ActivityWalker {
 			const game = games.get(consumerAppId);
 			if (game === undefined) continue;
 			const webpage = `https://store.steampowered.com/app/${consumerAppId}`;
-			const title = file.title.insteadWhitespace(null);
+			const title = file.shortDescription.insteadWhitespace(null);
 			yield new SteamScreenshotActivity(platform, timestamp, game, webpage, url, title);
 		}
 	}

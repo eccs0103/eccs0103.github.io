@@ -869,5 +869,16 @@
 		"repository": "eccs0103.github.io",
 		"sha": "66ae70c36712b95ce4da7096e7a4fe4ad174832c",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1770372054000,
+		"title": "Дорога дальняя",
+		"artists": [
+			"Jakone"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2735f706b57219abe4d0e75643d",
+		"url": "https://open.spotify.com/track/5YNKCRZA5rU0TK3gAzwTo5",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

@@ -15,12 +15,12 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 		}
 
 		const spanValue = divPanel.appendChild(DOMBuilder.newTextbox(score.toString()));
-		spanValue.classList.add("value");
+		spanValue.classList.add("value", "font-larger-4");
 
 		if (!Number.isNaN(views)) {
 			const formattedViews = new Intl.NumberFormat("en-US", { notation: "compact", compactDisplay: "short" }).format(views).toLowerCase();
 			const spanViews = divPanel.appendChild(DOMBuilder.newDescription(`${formattedViews} views`));
-			spanViews.classList.add("view-count");
+			spanViews.classList.add("view-count", "font-smaller-3");
 		}
 	}
 
@@ -33,7 +33,7 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 		for (const tag of tags) {
 			const url = new URL(`https://ru.stackoverflow.com/tags/${tag}`);
 			const aTag = divTags.appendChild(DOMBuilder.newLink(tag, url));
-			aTag.classList.add("tag", "depth", "rounded", "with-padding");
+			aTag.classList.add("tag", "depth", "rounded", "with-padding", "font-smaller-2");
 		}
 	}
 
@@ -52,15 +52,18 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 		aTitle.classList.add("entry-title");
 
 		const spanHint = divHeader.appendChild(DOMBuilder.newDescription("Click to expand"));
-		spanHint.classList.add("expand-hint");
+		spanHint.classList.add("expand-hint", "font-smaller-3");
 
 		this.#renderTags(divHeader, tags);
 	}
 
 	#renderBody(itemContainer: HTMLElement, htmlContent: string): void {
 		const divBody = itemContainer.appendChild(document.createElement("div"));
-		divBody.classList.add("entry-body", "markup");
+		divBody.classList.add("entry-body", "markup", "font-smaller-1");
 		divBody.innerHTML = htmlContent;
+		divBody.getElements(HTMLElement, "pre code").forEach((code) => {
+			code.classList.add("font-smaller-2");
+		});
 	}
 
 	#renderQuestion(itemContainer: HTMLElement, activity: StackOverflowQuestionActivity): void {

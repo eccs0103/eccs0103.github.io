@@ -75,14 +75,14 @@ export class DOMBuilder {
 export class ActivityBuilder {
 	static newIntro(itemContainer: HTMLElement, message: string): HTMLElement {
 		const itemIntro = itemContainer.appendChild(DOMBuilder.newDescription(message));
-		itemIntro.classList.add("intro", "small-font");
+		itemIntro.classList.add("intro", "font-smaller-2");
 
 		return itemIntro;
 	}
 
 	static newWarning(itemContainer: HTMLElement): void {
 		const span = itemContainer.appendChild(document.createElement("span"));
-		span.classList.add("experimetnal-core", "warn", "small-font");
+		span.classList.add("experimetnal-core", "warn", "font-smaller-2");
 
 		span.appendChild(DOMBuilder.newText("This page operates on an "));
 		span.appendChild(DOMBuilder.newLink("experimental core", new URL("https://github.com/eccs0103/adaptive-extender/commits/main/")));
@@ -99,7 +99,7 @@ export class ActivityBuilder {
 	static newOutro(itemContainer: HTMLElement, itemChild: HTMLElement, message: string): HTMLElement {
 		const itemOutro = DOMBuilder.newDescription(message);
 		itemContainer.replaceChild(itemOutro, itemChild);
-		itemOutro.classList.add("outro", "small-font");
+		itemOutro.classList.add("outro", "font-smaller-2");
 
 		return itemOutro;
 	}
@@ -123,7 +123,7 @@ export class ActivityBuilder {
 		timeElement.dateTime = activity.timestamp.toISOString();
 		timeElement.title = activity.timestamp.toLocaleString();
 		timeElement.textContent = TextExpert.formatTime(activity.timestamp);
-		timeElement.classList.add("activity-time", "small-font");
+		timeElement.classList.add("activity-time", "font-smaller-2");
 
 		const divContent = itemContainer.appendChild(document.createElement("div"));
 		divContent.classList.add("content");

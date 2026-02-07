@@ -207,7 +207,6 @@ body {
 								padding-top: calc(var(--size-gap) * 3);
 								background: linear-gradient(to top, rgb(from var(--color-main) r g b / 80%) 0%, transparent 100%);
 								color: var(--color-negative);
-								font-size: 0.8em;
 								font-weight: bold;
 								opacity: 0;
 								transition: opacity var(--time-duration);
@@ -263,7 +262,6 @@ body {
 							height: fit-content;
 
 							& span.value {
-								font-size: 1.4em;
 								font-weight: bold;
 								line-height: 1;
 							}
@@ -272,7 +270,6 @@ body {
 								margin-top: var(--size-small-gap);
 								padding-top: var(--size-small-gap);
 								border-top: var(--size-separator) solid var(--color-heavy-main);
-								font-size: 0.7em;
 								width: 100%;
 								text-align: center;
 								white-space: nowrap;
@@ -299,7 +296,6 @@ body {
 
 							& span.expand-hint {
 								display: block;
-								font-size: 0.8em;
 								color: var(--color-light-negative);
 							}
 
@@ -308,8 +304,6 @@ body {
 								margin-top: var(--size-small-gap);
 
 								& a.tag {
-									font-size: 0.9em;
-
 									&.rounded {
 										border-radius: var(--size-small-gap);
 									}
@@ -324,7 +318,6 @@ body {
 
 					& > div.entry-body {
 						margin-top: var(--size-gap);
-						font-size: 0.95em;
 						line-height: 1.6;
 
 						& p {
@@ -350,7 +343,6 @@ body {
 						& pre code {
 							background-color: transparent;
 							padding: 0;
-							font-size: 0.9em;
 						}
 
 						& blockquote {
@@ -438,16 +430,14 @@ body {
 				height: 1em; /* span.in-line */
 			}
 
-			& a.connection-link {
+				& a.connection-link {
 				grid-area: connection-link;
 				justify-self: flex-end;
 				align-self: center;
-				font-size: 0.9em;
 			}
 
-			& .connection-note {
+				& .connection-note {
 				grid-area: connection-note;
-				font-size: 0.9em;
 			}
 		}
 	}

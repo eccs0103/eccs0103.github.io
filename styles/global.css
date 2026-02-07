@@ -340,8 +340,44 @@ span {
 	}
 }
 
-.small-font {
+.font-smaller-4 {
+	font-size: 0.45em;
+}
+
+.font-smaller-4 {
+	font-size: 0.65em;
+}
+
+.font-smaller-3 {
+	font-size: 0.8em;
+}
+
+.font-smaller-2 {
 	font-size: 0.9em;
+}
+
+.font-smaller-1 {
+	font-size: 0.95em;
+}
+
+.font-larger-1 {
+	font-size: 1.05em;
+}
+
+.font-larger-2 {
+	font-size: 1.1em;
+}
+
+.font-larger-3 {
+	font-size: 1.2em;
+}
+
+.font-larger-4 {
+	font-size: 1.35em;
+}
+
+.font-larger-5 {
+	font-size: 1.55em;
 }
 
 hr {

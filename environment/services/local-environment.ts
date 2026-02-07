@@ -8,6 +8,7 @@ class LocalEnvironment {
 	static #instance: LocalEnvironment | null = null;
 
 	#host: string;
+	#geminiApiKey: string;
 
 	#specialDictionary: Map<string, string>;
 
@@ -34,9 +35,10 @@ class LocalEnvironment {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
 		const name = typename(env);
-		
+
 		this.#host = env.hasValue("HOST") ? String.import(env.readValue("HOST"), `${name}.HOST`) : "localhost";
-		
+		this.#geminiApiKey = String.import(env.readValue("GEMINI_API_KEY"), `${name}.GEMINI_API_KEY`);
+
 		const specificKeys = Array.import(env.readValue("SPECIFIC_KEYS"), `${name}.SPECIFIC_KEYS`).map((item, index) => {
 			return String.import(item, `${name}.SPECIFIC_KEYS[${index}]`);
 		});
@@ -76,6 +78,10 @@ class LocalEnvironment {
 
 	get host(): string {
 		return this.#host;
+	}
+
+	get geminiApiKey(): string {
+		return this.#geminiApiKey;
 	}
 
 	get specialDictionary(): Map<string, string> {
@@ -129,7 +135,7 @@ class LocalEnvironment {
 	get stackOverflowId(): string {
 		return this.#stackOverflowId;
 	}
-	
+
 	get stackOverflowApiKey(): string {
 		return this.#stackOverflowApiKey;
 	}

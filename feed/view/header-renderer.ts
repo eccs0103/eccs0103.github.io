@@ -80,7 +80,7 @@ export class HeaderRenderer {
 
 			if (webpage !== null) {
 				const aConnectionLink = divConnectionRow.appendChild(DOMBuilder.newLink(String.empty, new URL(webpage)));
-				aConnectionLink.classList.add("connection-link");
+				aConnectionLink.classList.add("connection-link", "font-smaller-2");
 
 				const spanOpenWebpage = DOMBuilder.newIcon(new URL("./icons/external.svg", new URL("../", baseURI)));
 				spanOpenWebpage.classList.add("in-line");
@@ -89,7 +89,7 @@ export class HeaderRenderer {
 
 			if (note !== null) {
 				const spanConnectionNote = divConnectionRow.appendChild(DOMBuilder.newDescription(note));
-				spanConnectionNote.classList.add("connection-note");
+				spanConnectionNote.classList.add("connection-note", "font-smaller-2");
 			}
 		}
 	}

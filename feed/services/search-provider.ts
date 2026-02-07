@@ -18,8 +18,8 @@ export class SearchProvider {
 		const response = await fetch(url);
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
 		const object = await response.json();
-		const search = SearchResponse.import(object, "search_response");
-		const snippets = search.items.map(item => `Title: ${item.title}\nSnippet: ${item.snippet}`);
+		const { items } = SearchResponse.import(object, "search_response");
+		const snippets = items.map(item => `Title: ${item.title}\nSnippet: ${item.snippet}`);
 		return snippets.join("\n---\n");
 	}
 }

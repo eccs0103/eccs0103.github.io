@@ -19,8 +19,8 @@ export class AIAgent {
 
 	async askBoolean(question: string, context: string): Promise<boolean> {
 		const request = `Context: ${context}\nQuestion: ${question}\nRule: Respond with a JSON object containing a single key "result" (boolean).\nIf the information confirms the event strictly, set "result" to true.\nIf ambiguous or no information, set "result" to false.`;
-		const result = await this.#model.generateContent(request);
-		const object = JSON.parse(result.response.text());
+		const { response } = await this.#model.generateContent(request);
+		const object = JSON.parse(response.text());
 		return BooleanResponse.import(object, "ai_agent").result;
 	}
 }

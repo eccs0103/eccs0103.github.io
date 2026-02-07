@@ -9,5 +9,14 @@
 		"description": "Clear all the Eridian Proving Grounds.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770497477000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1c83d749c5d2c57d69c2cd45efed237abdb1a948",
+		"$type": "GitHubPushActivity"
 	}
 ]

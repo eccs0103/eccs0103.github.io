@@ -157,7 +157,7 @@ body {
 							grid-template-columns: repeat(3, 1fr);
 
 							& a.screenshot-card {
-								aspect-ratio: 16 / 9;
+								aspect-ratio: 1 / 1;
 							}
 						}
 
@@ -223,7 +223,6 @@ body {
 						}
 
 						&[data-layout="3"] {
-							aspect-ratio: 1 / 1;
 							grid-template-columns: 1fr;
 							grid-template-rows: 2fr 1fr 1fr;
 

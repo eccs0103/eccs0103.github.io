@@ -1,6 +1,6 @@
 "use strict";
 
-import "adaptive-extender/core";
+import "adaptive-extender/node";
 import { GoogleGenerativeAI, GenerativeModel, type GenerationConfig } from "@google/generative-ai";
 import { BooleanResponse } from "../models/ai-responses";
 

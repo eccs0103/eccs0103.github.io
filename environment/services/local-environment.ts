@@ -8,7 +8,8 @@ class LocalEnvironment {
 	static #instance: LocalEnvironment | null = null;
 
 	#host: string;
-	#geminiApiKey: string;
+	#googleSearchId: string;
+	#googleApiKey: string;
 
 	#specialDictionary: Map<string, string>;
 
@@ -37,7 +38,8 @@ class LocalEnvironment {
 		const name = typename(env);
 
 		this.#host = env.hasValue("HOST") ? String.import(env.readValue("HOST"), `${name}.HOST`) : "localhost";
-		this.#geminiApiKey = String.import(env.readValue("GEMINI_API_KEY"), `${name}.GEMINI_API_KEY`);
+		this.#googleSearchId = String.import(env.readValue("GOOGLE_SEARCH_ID"), `${name}.GOOGLE_SEARCH_ID`);
+		this.#googleApiKey = String.import(env.readValue("GOOGLE_API_KEY"), `${name}.GOOGLE_API_KEY`);
 
 		const specificKeys = Array.import(env.readValue("SPECIFIC_KEYS"), `${name}.SPECIFIC_KEYS`).map((item, index) => {
 			return String.import(item, `${name}.SPECIFIC_KEYS[${index}]`);
@@ -80,8 +82,12 @@ class LocalEnvironment {
 		return this.#host;
 	}
 
-	get geminiApiKey(): string {
-		return this.#geminiApiKey;
+	get googleSearchId(): string {
+		return this.#googleSearchId;
+	}
+
+	get googleApiKey(): string {
+		return this.#googleApiKey;
 	}
 
 	get specialDictionary(): Map<string, string> {

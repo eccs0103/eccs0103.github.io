@@ -29,7 +29,8 @@ jobs:
 
           - name: Run collector script
             env:
-                GEMINI_API_KEY: ${{ secrets.API_KEY_GEMINI }}
+                GOOGLE_SEARCH_ID: ${{ vars.SEARCH_ID_GOOGLE }}
+                GOOGLE_API_KEY: ${{ secrets.API_KEY_GOOGLE }}
 
                 SPECIFIC_KEYS: ${{ secrets.SPECIFIC_KEYS }}
                 SPECIFIC_VALUES: ${{ secrets.SPECIFIC_VALUES }}

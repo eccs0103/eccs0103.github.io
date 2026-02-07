@@ -950,5 +950,16 @@
 		"repository": "eccs0103.github.io",
 		"sha": "a3f217c864a183d19c31310243fb849e10fc77d9",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1770477343000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/cd713e3b908fb3e227035b2433f17359423e9d2a.jpg",
+		"title": "Blood Sucking Freak",
+		"description": "Defeat Hemovorous the Invincible.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

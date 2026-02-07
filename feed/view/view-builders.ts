@@ -104,6 +104,14 @@ export class ActivityBuilder {
 		return itemOutro;
 	}
 
+	static newExternalIcon(itemContainer: HTMLElement): HTMLElement {
+		const spanExternal = itemContainer.appendChild(DOMBuilder.newIcon(new URL("./icons/external.svg", new URL("../", baseURI))));
+		spanExternal.classList.add("in-line");
+		spanExternal.style.width = "fit-content";
+
+		return spanExternal;
+	}
+
 	static newContainer(itemParent: HTMLElement, platforms: Map<string, Platform>, activity: Activity, observer: IntersectionObserver): HTMLElement {
 		const itemContainer = itemParent.insertBefore(document.createElement("div"), itemParent.lastElementChild);
 		itemContainer.classList.add("activity", "layer", "rounded", "with-padding", "with-gap", "awaiting-reveal");

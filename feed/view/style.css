@@ -9,7 +9,7 @@ body {
 	}
 
 	& header {
-		& img[alt="eccs0103 logo"] {
+		& img.logo {
 			width: calc(6 * var(--size-standart));
 		}
 
@@ -426,16 +426,15 @@ body {
 			& label.platform-toggle {
 				grid-area: platform-toggle;
 				align-self: center;
-				height: 1em; /* span.in-line */
 			}
 
-				& a.connection-link {
+			& a.connection-link {
 				grid-area: connection-link;
 				justify-self: flex-end;
 				align-self: center;
 			}
 
-				& .connection-note {
+			& .connection-note {
 				grid-area: connection-note;
 			}
 		}

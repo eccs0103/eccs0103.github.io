@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { type Platform } from "../models/configuration";
-import { DOMBuilder } from "./view-builders.js";
+import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
 import { SettingsService } from "../services/settings-service.js";
 
 const { baseURI } = document;
@@ -80,11 +80,9 @@ export class HeaderRenderer {
 
 			if (webpage !== null) {
 				const aConnectionLink = divConnectionRow.appendChild(DOMBuilder.newLink(String.empty, new URL(webpage)));
-				aConnectionLink.classList.add("connection-link", "font-smaller-2");
+				aConnectionLink.classList.add("connection-link", "with-inline-padding", "font-smaller-2");
 
-				const spanOpenWebpage = DOMBuilder.newIcon(new URL("./icons/external.svg", new URL("../", baseURI)));
-				spanOpenWebpage.classList.add("in-line");
-				aConnectionLink.appendChild(spanOpenWebpage);
+				ActivityBuilder.newExternalIcon(aConnectionLink);
 			}
 
 			if (note !== null) {

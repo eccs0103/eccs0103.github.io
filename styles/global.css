@@ -334,10 +334,10 @@ span {
 			height: var(--size-large-standart);
 		}
 	}
+}
 
-	&.in-line {
-		height: 1em;
-	}
+.in-line {
+	height: 1em !important;
 }
 
 .font-smaller-4 {

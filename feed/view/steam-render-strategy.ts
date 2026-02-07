@@ -44,7 +44,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 
 		if (title !== null) {
 			const divOverlay = aLink.appendChild(document.createElement("div"));
-				divOverlay.classList.add("caption-overlay", "font-smaller-3");
+			divOverlay.classList.add("caption-overlay", "font-smaller-3");
 
 			divOverlay.appendChild(DOMBuilder.newTextbox(title));
 		}

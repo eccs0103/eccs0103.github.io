@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
 import { SpotifyActivity, SpotifyLikeActivity } from "../models/activity.js";
-import { DOMBuilder } from "./view-builders.js";
+import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
 
 //#region Spotify render strategy
 export class SpotifyRenderStrategy implements ActivityRenderStrategy<SpotifyActivity> {
@@ -25,10 +25,11 @@ export class SpotifyRenderStrategy implements ActivityRenderStrategy<SpotifyActi
 		strongHeader.textContent = title;
 
 		const spanArtists = divInformation.appendChild(DOMBuilder.newDescription(activity.artists.join(", ")));
-		// spanArtists.classList.add("font-smaller-2");
 
-		const aLink = divInformation.appendChild(DOMBuilder.newLink("Listen on Spotify ↗", new URL(activity.url)));
-		aLink.classList.add("with-block-padding", "font-smaller-2");
+		const aLink = divInformation.appendChild(DOMBuilder.newLink("Listen on Spotify ", new URL(activity.url)));
+		aLink.classList.add("with-block-padding", "font-smaller-3");
+
+		ActivityBuilder.newExternalIcon(aLink);
 	}
 
 	#renderSingle(itemContainer: HTMLElement, activity: SpotifyActivity): void {

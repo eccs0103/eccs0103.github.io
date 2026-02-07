@@ -29,6 +29,8 @@ jobs:
 
           - name: Run collector script
             env:
+                GEMINI_API_KEY: ${{ secrets.API_KEY_GEMINI }}
+
                 SPECIFIC_KEYS: ${{ secrets.SPECIFIC_KEYS }}
                 SPECIFIC_VALUES: ${{ secrets.SPECIFIC_VALUES }}
 

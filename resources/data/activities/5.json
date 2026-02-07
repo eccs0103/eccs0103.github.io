@@ -1,0 +1,13 @@
+[
+	{
+		"platform": "Steam",
+		"timestamp": 1770477941000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/c82996b5526341200286a8954647c4e8df8d0613.jpg",
+		"title": "100-Proof",
+		"description": "Clear all the Eridian Proving Grounds.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	}
+]

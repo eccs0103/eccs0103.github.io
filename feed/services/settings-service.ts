@@ -9,8 +9,8 @@ export class SettingsService {
 	#repository: ArchiveRepository<typeof Settings>;
 
 	constructor();
-	constructor(preferences: string[]);
-	constructor(preferences?: string[]) {
+	constructor(preferences: Set<string>);
+	constructor(preferences?: Set<string>) {
 		if (preferences === undefined) {
 			this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Settings", Settings, new Settings());
 			return;
@@ -19,7 +19,7 @@ export class SettingsService {
 		this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Settings", Settings, new Settings(preferences));
 	}
 
-	readPreferences(): string[] {
+	readPreferences(): Set<string> {
 		return this.#repository.content.preferences;
 	}
 

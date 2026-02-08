@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model } from "adaptive-extender/core";
+import { ArrayOf, Field, Model, SetOf } from "adaptive-extender/core";
 
 //#region Settings
 export interface SettingsScheme {
@@ -9,12 +9,12 @@ export interface SettingsScheme {
 }
 
 export class Settings extends Model {
-	@Field(ArrayOf(String), "preferences")
-	preferences: string[];
+	@Field(SetOf(String), "preferences")
+	preferences: Set<string>;
 
 	constructor();
-	constructor(preferences: string[]);
-	constructor(preferences?: string[]) {
+	constructor(preferences: Set<string>);
+	constructor(preferences?: Set<string>) {
 		if (preferences === undefined) {
 			super();
 			return;

@@ -34,7 +34,7 @@ class WebpageController extends Controller {
 		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
 
 		const { platforms } = configuration;
-		const settings = new SettingsService(platforms.filter(platform => platform.status === "connected").map(platform => platform.name));
+		const settings = new SettingsService(new Set(platforms.filter(platform => platform.status === "connected").map(platform => platform.name)));
 		const rendererHeader = new HeaderRenderer(body, settings);
 		await rendererHeader.render(platforms);
 

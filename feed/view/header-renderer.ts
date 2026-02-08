@@ -46,17 +46,16 @@ export class HeaderRenderer {
 			if (status === "connected") {
 				const inputPlatformToggle = divConnectionRow.appendChild(document.createElement("input"));
 				inputPlatformToggle.type = "checkbox";
-				inputPlatformToggle.checked = preferences.includes(name);
+				inputPlatformToggle.checked = preferences.has(name);
 				inputPlatformToggle.id = `platform-toggle-${name.replace(/\s+/g, "-").toLowerCase()}`;
 				inputPlatformToggle.dataset["platform"] = name;
 				inputPlatformToggle.hidden = true;
 				style.textContent += `body:has(dialog#connections-hub input#${inputPlatformToggle.id}:not(:checked)) main div.activity[data-platform="${name}"] { display: none; }`;
 				inputPlatformToggle.addEventListener("change", (event) => {
 					if (inputPlatformToggle.checked) {
-						if (!preferences.includes(name)) preferences.push(name);
+						if (!preferences.has(name)) preferences.add(name);
 					} else {
-						const index = preferences.indexOf(name);
-						if (index >= 0) preferences.splice(index, 1);
+						if (preferences.has(name)) preferences.delete(name);
 					}
 					settings.save(200);
 				});

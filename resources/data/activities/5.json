@@ -63,5 +63,43 @@
 		"repository": "eccs0103.github.io",
 		"name": "death-detection-system",
 		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770505008000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a778f711214bcb0938a07f6a673b88d1a6155d1a",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770509453000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "f83fa817bb9374769067614ce87652313f77cf87",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770509593000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"title": "0.9.6",
+		"tag_name": "0.9.6",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1770510113000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6060db4e454e8942991bdf840167211f22b524ed",
+		"$type": "GitHubPushActivity"
 	}
 ]

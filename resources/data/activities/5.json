@@ -164,5 +164,18 @@
 		"repository": "quartz",
 		"name": "OOP-finalization",
 		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1770750233000,
+		"title": "VOCE NA MIRA JUMPSTYLE - Slowed",
+		"artists": [
+			"Sxilwix",
+			"Hwungii",
+			"DJ VGK1"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2730c9d108da00923402d9348e7",
+		"url": "https://open.spotify.com/track/7fck0ghWTy2omlEmlH91Tb",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

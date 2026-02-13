@@ -357,5 +357,65 @@
 		"repository": "quartz",
 		"sha": "fcf7af9ef39593741038a62720a31aa17e1bd096",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771010140000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "bee73c525365224df191f8e22a6557f73997bd29",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771010184000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "bee73c525365224df191f8e22a6557f73997bd29",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771010198000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"name": "OOP-finalization",
+		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771012942000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"title": "0.5.0",
+		"tag_name": "0.5.0",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771016400000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/29e713557abd037d1d06559ccbd7c3ce7e32106b.jpg",
+		"title": "Hantu Discovered",
+		"description": "Successfully identify your first Hantu and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771018135000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/1c2dc558c9d2b07651283a5e88f41814c3cf7a79.jpg",
+		"title": "Bare Essentials",
+		"description": "Unlock all tier one equipment",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

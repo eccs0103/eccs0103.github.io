@@ -513,5 +513,16 @@
 		"description": "Send an item to a friend.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1771188601000,
+		"title": "The Flame",
+		"artists": [
+			"Mehdibh"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2736641a21c5432e7285acc01a7",
+		"url": "https://open.spotify.com/track/6l5b4bmwI4TX1AKHuMEnbW",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

@@ -480,5 +480,38 @@
 		"repository": "quartz",
 		"sha": "aa7959f3e17c1f95e6920043aafc883390378250",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771106399000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/701189a9685d596cc4989baa12a2370d0665a851.jpg",
+		"title": "Stick It To 'Em",
+		"description": "Kill two or more enemies with a single sticky grenade.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771106827000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/6a6600d5a0e4dfa411d1a0dd627203beb857c822.jpg",
+		"title": "Party's Still On!",
+		"description": "Find the party.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771112225000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b8de674ad4ccb2885ff173596c8b1768cac7458e.jpg",
+		"title": "Gun Pals!",
+		"description": "Send an item to a friend.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

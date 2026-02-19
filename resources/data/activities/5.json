@@ -695,5 +695,99 @@
 		"repository": "quartz",
 		"sha": "574fd8830062f62ed4d0bac9a47a2f169a7c2704",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771530855000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "4d356a6dac8f43ef11e9c2b6ab3d71fb81c4bfa0",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771530880000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "dfe2a3af6d13964e267aed888c8a738b577c26c6",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771530885000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "47ca41e73f841220c7ffd0cdb9f65cfcd1cf4c04",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771530890000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "ebeadca189e25bb31d347b5bdc61ce27014b8ce8",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771530895000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "50b1d2e26a69959e55ae1627101db1a71797a67d",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771531230000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "b148265c33aa671652eff8b51826fe1843da6218",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771531265000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "b148265c33aa671652eff8b51826fe1843da6218",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771531287000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"name": "basic-features-implementation",
+		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1771532172000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"title": "0.6.0",
+		"tag_name": "0.6.0",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771534617000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a3afcaed76b47a3127ea78ef5362c1d14bd43765.jpg",
+		"title": "Older Than The Trees",
+		"description": "Kill the Wendigo.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

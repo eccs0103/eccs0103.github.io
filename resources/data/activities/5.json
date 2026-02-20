@@ -789,5 +789,16 @@
 		"description": "Kill the Wendigo.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771622039000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/f71d6b5fbc77a9cd18eacccf817141821a185e02.jpg",
+		"title": "Wraith Discovered",
+		"description": "Successfully identify your first Wraith and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

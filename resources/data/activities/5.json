@@ -800,5 +800,38 @@
 		"description": "Successfully identify your first Wraith and survive",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771700292000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/d7bf840d381edf858e9259502cda46746d0c7307.jpg",
+		"title": "Fat Stack",
+		"description": "Spend $10,000",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771701857000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/111b6e04164e79b12ce3c08aed0970eb44f1dbe6.jpg",
+		"title": "Jinn Discovered",
+		"description": "Successfully identify your first Jinn and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771702949000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/97ba2ccc3cc84404981394ada6d8c1d6f12a8bb5.jpg",
+		"title": "Moroi Discovered",
+		"description": "Successfully identify your first Moroi and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

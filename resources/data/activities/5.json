@@ -833,5 +833,16 @@
 		"description": "Successfully identify your first Moroi and survive",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771723759000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/42d3929fcb2454e6785ed27a6fe9af8f8a966eaa.jpg",
+		"title": "Love Is The Fifth Dimension",
+		"description": "Marry your friends.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -900,5 +900,16 @@
 		"repository": "quartz",
 		"name": "functional-structures-implementation",
 		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771796899000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/076f153b98f6eb10e736e20c8240c6c9f659949f.jpg",
+		"title": "Industrious In The Face Of Cosmic Terror",
+		"description": "Complete all Crew Challenges and Side Missions on Xylourgos.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

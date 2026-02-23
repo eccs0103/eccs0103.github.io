@@ -913,8 +913,19 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
+		"platform": "Steam",
+		"timestamp": 1771868916000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5c4fb6f12a8051c6c28a2e822cc5b0bf3341967a.jpg",
+		"title": "Meat and Greet",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
 		"platform": "Spotify",
-		"timestamp": 1771845788000,
+		"timestamp": 1771878126000,
 		"title": "Rise",
 		"artists": [
 			"Skan",
@@ -925,16 +936,5 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b273f49080d58b93e0ca4a39cf8d",
 		"url": "https://open.spotify.com/track/4N4JLrrJqo3vUMpbYO2nYo",
 		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1771868916000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5c4fb6f12a8051c6c28a2e822cc5b0bf3341967a.jpg",
-		"title": "Meat and Greet",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
 	}
 ]

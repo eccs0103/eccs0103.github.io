@@ -924,8 +924,19 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
+		"platform": "Steam",
+		"timestamp": 1771966752000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/666b44cae089729a64d45b01ea48532d6aec5776.jpg",
+		"title": "The Blast and the Furious",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
 		"platform": "Spotify",
-		"timestamp": 1771878126000,
+		"timestamp": 1771966835000,
 		"title": "Rise",
 		"artists": [
 			"Skan",

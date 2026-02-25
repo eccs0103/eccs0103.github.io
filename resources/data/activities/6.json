@@ -9,5 +9,34 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2739fc90f2440cf74f3a6308e6c",
 		"url": "https://open.spotify.com/track/6F6PE5SBPPSnEw1DHtl04t",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1772042248000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "633b053dfbb77e23e02960770052cb2cc0a5c813",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1772044265000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "e5582ec410f830f159b55374d9dea0e1679c4757",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1772044413000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"title": "0.4.0",
+		"tag_name": "0.4.0",
+		"is_prerelease": true,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

@@ -47,5 +47,27 @@
 		"repository": "quartz",
 		"sha": "89204e7f0f733957d391614f9e87106876af3e9b",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1772223282000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/080a3fa2509ce041b437c0638b73af787c7fa760.jpg",
+		"title": "Extra Mile",
+		"description": "Complete 50 optional objectives",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1772226761000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/1954408b1556093d54fb752f2bae220b06af9753.jpg",
+		"title": "The Mimic Discovered",
+		"description": "Successfully identify The Mimic for the first time",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

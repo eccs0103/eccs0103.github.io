@@ -80,5 +80,16 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1772289776000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/cc7445cc1b67e3092a3177fedfc277e689aa3f61.jpg",
+		"title": "The Watcher",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

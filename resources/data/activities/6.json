@@ -102,5 +102,16 @@
 		"description": "Find and kill all four rare spawns.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1772305635000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5e2d9f1ed48a42479886370a867e1b8df0726e47.jpg",
+		"title": "Good Against Remotes Is One Thing",
+		"description": "Get a perfect score at the Firing Range on any difficulty.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -275,5 +275,27 @@
 		"repository": "quartz",
 		"sha": "2cefb177cf68dfae233584ad866aca0e4a32a96f",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1772653974000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/cabd4cc09cabf3c13b527f686d3d506615e458d2.jpg",
+		"title": "Demon Discovered",
+		"description": "Successfully identify your first Demon  and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1772654911000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/716d3b1b084135c62756dc1a08a4f93bba4ec7d4.jpg",
+		"title": "Yurei Discovered",
+		"description": "Successfully identify your first Yurei and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

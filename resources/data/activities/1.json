@@ -316,7 +316,7 @@
 			"typescript",
 			"google-analytics"
 		],
-		"views": 83,
+		"views": 84,
 		"is_answered": true,
 		"$type": "StackOverflowQuestionActivity"
 	},

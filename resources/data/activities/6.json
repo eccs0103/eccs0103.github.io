@@ -484,5 +484,17 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2737948902eed7b5ee4a16393e9",
 		"url": "https://open.spotify.com/track/2yJFfSIQqJl5CY9ymSzIHs",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1772975707000,
+		"title": "Aria Math - slowed + reverb",
+		"artists": [
+			"bxkq",
+			"HARDX"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273bd0ff8605e91c3d6faf752d0",
+		"url": "https://open.spotify.com/track/1oxfQ4uHRj4w6L2ZmkocZo",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

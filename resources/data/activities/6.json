@@ -443,5 +443,46 @@
 		"repository": "quartz",
 		"sha": "c86f8c11cb0551faabdf3ce9a29e682bfac214ae",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1772919370000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "0ffcb6e52f553935993f832a4d65dc79d37c643f",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1772920240000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "dc6452ae5cb07926c859be0125a4a67467f53740",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1772933513000,
+		"title": "divine - slowed",
+		"artists": [
+			"D4R.IO"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737fbb593e0ff6073f81229c87",
+		"url": "https://open.spotify.com/track/3x9VLRLN99M1nlnfoD5Fzk",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1772933524000,
+		"title": "Aria Math - String Cover",
+		"artists": [
+			"Majestic Violin",
+			"Landon Bassier"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737948902eed7b5ee4a16393e9",
+		"url": "https://open.spotify.com/track/2yJFfSIQqJl5CY9ymSzIHs",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

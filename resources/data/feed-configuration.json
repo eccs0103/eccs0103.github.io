@@ -74,7 +74,7 @@
 			"name": "SoundCloud",
 			"icon": "./icons/soundcloud.svg",
 			"webpage": "https://soundcloud.com/eccs0103",
-			"note": "Connection pending. The communication bridge for this platform is currently under construction and calibration.",
+			"note": "Pure animal cruelty.\n\nTracklist requires an Access Token. Access Token requires a Refresh Token. Refresh Token requires a cursed maze of Client ID, Secret, and base64 garbage. Token expired? Server lagged? URI mismatch? Start over.\n\nGot everything strict and clean? 403 Forbidden. Reason: IDK bro, figure it yourself. Ah yes, you’re making too many requests trying to debug this broken architecture. Try again in 2 hours.\n\nI'm fucking done with this platform. Maybe I'll finish it someday, but not today.",
 			"status": "delayed"
 		},
 		{

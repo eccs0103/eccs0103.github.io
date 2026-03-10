@@ -15,7 +15,7 @@ export class DOMBuilder {
 
 	static newTextbox(text: string): HTMLElement {
 		const spanDescription = document.createElement("span");
-		spanDescription.textContent = text;
+		spanDescription.innerText = text;
 
 		return spanDescription;
 	}
@@ -23,7 +23,7 @@ export class DOMBuilder {
 	static newDescription(text: string): HTMLElement {
 		const spanDescription = document.createElement("span");
 		spanDescription.classList.add("description");
-		spanDescription.textContent = text;
+		spanDescription.innerText = text;
 
 		return spanDescription;
 	}
@@ -33,7 +33,7 @@ export class DOMBuilder {
 	static newLink(text: string, url: Readonly<URL>, disabled: boolean = false): HTMLAnchorElement {
 		const aLink = document.createElement("a");
 		aLink.href = String(url);
-		aLink.textContent = text;
+		aLink.innerText = text;
 		aLink.target = "_blank";
 		aLink.rel = "noopener noreferrer";
 		aLink.inert = disabled;
@@ -124,13 +124,13 @@ export class ActivityBuilder {
 
 			const h4Title = itemContainer.appendChild(document.createElement("h4"));
 			h4Title.classList.add("platform");
-			h4Title.textContent = platform.name;
+			h4Title.innerText = platform.name;
 		}
 
 		const timeElement = itemContainer.appendChild(document.createElement("time"));
 		timeElement.dateTime = activity.timestamp.toISOString();
 		timeElement.title = activity.timestamp.toLocaleString();
-		timeElement.textContent = TextExpert.formatTime(activity.timestamp);
+		timeElement.innerText = TextExpert.formatTime(activity.timestamp);
 		timeElement.classList.add("activity-time", "font-smaller-2");
 
 		const divContent = itemContainer.appendChild(document.createElement("div"));

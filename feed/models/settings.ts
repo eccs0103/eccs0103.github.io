@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model, SetOf } from "adaptive-extender/core";
+import { Field, Model, SetOf } from "adaptive-extender/core";
 
 //#region Settings
 export interface SettingsScheme {

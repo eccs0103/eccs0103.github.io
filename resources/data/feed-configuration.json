@@ -101,5 +101,5 @@
 	],
 	"intro": "Content is generated automatically. In case of complaints, please contact the developer.",
 	"outro": "History is silent about what happened next.",
-	"media_proxy_url": null
+	"media_proxy_url": "https://telegram-media-proxy.eccs0103.workers.dev"
 }

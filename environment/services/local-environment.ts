@@ -32,6 +32,9 @@ class LocalEnvironment {
 	#stackOverflowId: string;
 	#stackOverflowApiKey: string;
 
+	#telegramBotToken: string;
+	#telegramChannelId: string;
+
 	constructor() {
 		if (LocalEnvironment.#lock) throw new TypeError("Illegal constructor");
 		const { env } = Environment;
@@ -67,6 +70,9 @@ class LocalEnvironment {
 
 		this.#stackOverflowId = String.import(env.readValue("STACK_OVERFLOW_ID"), `${name}.STACK_OVERFLOW_ID`);
 		this.#stackOverflowApiKey = String.import(env.readValue("STACK_OVERFLOW_API_KEY"), `${name}.STACK_OVERFLOW_API_KEY`);
+
+		this.#telegramBotToken = String.import(env.readValue("TELEGRAM_BOT_TOKEN"), `${name}.TELEGRAM_BOT_TOKEN`);
+		this.#telegramChannelId = String.import(env.readValue("TELEGRAM_CHANNEL_ID"), `${name}.TELEGRAM_CHANNEL_ID`);
 	}
 
 	static get env(): LocalEnvironment {
@@ -144,6 +150,14 @@ class LocalEnvironment {
 
 	get stackOverflowApiKey(): string {
 		return this.#stackOverflowApiKey;
+	}
+
+	get telegramBotToken(): string {
+		return this.#telegramBotToken;
+	}
+
+	get telegramChannelId(): string {
+		return this.#telegramChannelId;
 	}
 }
 

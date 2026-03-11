@@ -32,8 +32,8 @@
 			"name": "Telegram",
 			"icon": "./icons/telegram.svg",
 			"webpage": "https://t.me/eccs0103",
-			"note": "Synchronization paused. The data stream is moving too fast for the observer robot to process without errors.",
-			"status": "delayed"
+			"note": "Personal channel synchronized. Text posts, photos, audio, and documents are mirrored here via a stateless stream proxy.",
+			"status": "connected"
 		},
 		{
 			"name": "Pinterest",
@@ -100,5 +100,6 @@
 		}
 	],
 	"intro": "Content is generated automatically. In case of complaints, please contact the developer.",
-	"outro": "History is silent about what happened next."
+	"outro": "History is silent about what happened next.",
+	"media_proxy_url": null
 }

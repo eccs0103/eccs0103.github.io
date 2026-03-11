@@ -4,7 +4,7 @@ import "adaptive-extender/core";
 import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Timestamp } from "adaptive-extender/core";
 
 //#region Activity
-export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator {
+export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator, TelegramActivityDiscriminator {
 }
 
 export interface ActivityScheme {
@@ -28,6 +28,8 @@ export interface ActivityScheme {
 @Descendant(Deferred(_ => SteamScreenshotActivity))
 @Descendant(Deferred(_ => StackOverflowQuestionActivity))
 @Descendant(Deferred(_ => StackOverflowAnswerActivity))
+@Descendant(Deferred(_ => TelegramTextPostActivity))
+@Descendant(Deferred(_ => TelegramMediaPostActivity))
 export abstract class Activity extends Model {
 	@Field(String, "platform")
 	platform: string;
@@ -770,6 +772,105 @@ export class StackOverflowAnswerActivity extends StackOverflowActivity {
 		
 		super(platform, timestamp, title, body, score, url);
 		this.isAccepted = isAccepted;
+	}
+}
+//#endregion
+
+//#region Telegram activity
+export interface TelegramActivityDiscriminator extends TelegramTextPostActivityDiscriminator, TelegramMediaPostActivityDiscriminator {
+}
+
+export interface TelegramActivityScheme extends ActivityScheme {
+	$type: keyof TelegramActivityDiscriminator;
+	message_id: number;
+	channel_id: string;
+}
+
+@Descendant(Deferred(_ => TelegramTextPostActivity))
+@Descendant(Deferred(_ => TelegramMediaPostActivity))
+export abstract class TelegramActivity extends Activity {
+	@Field(Number, "message_id")
+	messageId: number;
+
+	@Field(String, "channel_id")
+	channelId: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, messageId: number, channelId: string);
+	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string) {
+		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp);
+		if (new.target === TelegramActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.messageId = messageId;
+		this.channelId = channelId;
+	}
+}
+//#endregion
+//#region Telegram text post activity
+export interface TelegramTextPostActivityDiscriminator {
+	"TelegramTextPostActivity": TelegramTextPostActivity;
+}
+
+export interface TelegramTextPostActivityScheme extends TelegramActivityScheme {
+	$type: keyof TelegramTextPostActivityDiscriminator;
+	text: string;
+}
+
+export class TelegramTextPostActivity extends TelegramActivity {
+	@Field(String, "text")
+	text: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, messageId: number, channelId: string, text: string);
+	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string, text?: string) {
+		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined || text === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, messageId, channelId);
+		this.text = text;
+	}
+}
+//#endregion
+//#region Telegram media post activity
+export interface TelegramMediaPostActivityDiscriminator {
+	"TelegramMediaPostActivity": TelegramMediaPostActivity;
+}
+
+export interface TelegramMediaPostActivityScheme extends TelegramActivityScheme {
+	$type: keyof TelegramMediaPostActivityDiscriminator;
+	media_type: string;
+	file_id: string;
+	content: string | null;
+}
+
+export class TelegramMediaPostActivity extends TelegramActivity {
+	@Field(String, "media_type")
+	mediaType: string;
+
+	@Field(String, "file_id")
+	fileId: string;
+
+	@Field(Nullable(String), "content")
+	content: string | null;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, messageId: number, channelId: string, mediaType: string, fileId: string, content: string | null);
+	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string, mediaType?: string, fileId?: string, content?: string | null) {
+		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined || mediaType === undefined || fileId === undefined || content === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, messageId, channelId);
+		this.mediaType = mediaType;
+		this.fileId = fileId;
+		this.content = content;
 	}
 }
 //#endregion

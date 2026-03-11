@@ -34,6 +34,7 @@ export interface ConfigurationScheme {
 	platforms: PlatformScheme[];
 	intro: string;
 	outro: string;
+	media_proxy_url: string | null;
 }
 
 export class Configuration extends Model {
@@ -45,5 +46,8 @@ export class Configuration extends Model {
 
 	@Field(String, "outro")
 	outro: string;
+
+	@Field(Nullable(String), "media_proxy_url")
+	mediaProxyUrl: string | null;
 }
 //#endregion

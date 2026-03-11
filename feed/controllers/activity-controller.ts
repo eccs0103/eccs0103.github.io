@@ -12,6 +12,7 @@ import { SpotifyWalker } from "../services/spotify-walker.js";
 import { PinterestWalker } from "../services/pinterest-walker.js";
 import { SteamWalker } from "../services/steam-walker.js";
 import { StackOverflowWalker } from "../services/stack-overflow-walker.js";
+import { TelegramWalker } from "../services/telegram-walker.js";
 import { Configuration } from "../models/configuration.js";
 import { type Bridge } from "../services/bridge.js";
 
@@ -25,6 +26,7 @@ const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 const { pinterestClientId, pinterestClientSecret, pinterestToken } = env;
 const { steamId, steamApiKey } = env;
 const { stackOverflowId, stackOverflowApiKey } = env;
+const { telegramBotToken, telegramChannelId } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -75,6 +77,7 @@ class ActivityController extends Controller {
 		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
 		dispatcher.connect(new SteamWalker(steamId, steamApiKey));
 		dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
+		dispatcher.connect(new TelegramWalker(telegramBotToken, telegramChannelId));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute(configuration.platforms);

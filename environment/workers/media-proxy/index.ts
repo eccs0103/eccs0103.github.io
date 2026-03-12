@@ -1,15 +1,37 @@
 "use strict";
 
 import "adaptive-extender/node";
-import { env } from "../../environment/services/local-environment.js";
+import { Field, Model, Optional } from "adaptive-extender/core";
+import { env } from "../../services/local-environment.js";
 
 //#region Telegram API response
-interface TelegramGetFileResponse {
+export interface TelegramFileScheme {
+	file_id: string;
+	file_path?: string;
+}
+
+export class TelegramFile extends Model {
+	@Field(String, "file_id")
+	fileId: string;
+
+	@Field(Optional(String), "file_path")
+	filePath?: string;
+}
+
+export interface TelegramGetFileResponseScheme {
 	ok: boolean;
-	result?: {
-		file_id: string;
-		file_path?: string;
-	};
+	result?: TelegramFileScheme;
+	description?: string;
+}
+
+export class TelegramGetFileResponse extends Model {
+	@Field(Boolean, "ok")
+	ok: boolean;
+
+	@Field(Optional(TelegramFile), "result")
+	result?: TelegramFile;
+
+	@Field(Optional(String), "description")
 	description?: string;
 }
 //#endregion
@@ -37,12 +59,13 @@ class MediaProxy {
 		url.searchParams.set("file_id", identifier);
 		const response = await fetch(url);
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const data: TelegramGetFileResponse = await response.json();
+		const object = await response.json();
+		const data = TelegramGetFileResponse.import(object, "Telegram getFile response");
 		if (!data.ok || data.result === undefined) throw new Error(data.description ?? "Telegram API error");
-		const { file_path } = data.result;
-		if (file_path === undefined) throw new Error("Telegram returned no file_path");
-		if (file_path.includes("..") || file_path.startsWith("/")) throw new Error("Invalid file_path from Telegram");
-		return file_path;
+		const { filePath } = data.result;
+		if (filePath === undefined) throw new Error("Telegram returned no file_path");
+		if (filePath.includes("..") || filePath.startsWith("/")) throw new Error("Invalid file_path from Telegram");
+		return filePath;
 	}
 
 	static async #pipe(token: string, filePath: string): Promise<Response> {

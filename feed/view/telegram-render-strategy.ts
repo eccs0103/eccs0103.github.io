@@ -31,9 +31,8 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	#renderText(itemContainer: HTMLElement, activity: TelegramTextPostActivity): void {
 		const { text, channelId, messageId } = activity;
 
-		const spanText = itemContainer.appendChild(document.createElement("span"));
+		const spanText = itemContainer.appendChild(DOMBuilder.newTextbox(text));
 		spanText.classList.add("telegram-text");
-		spanText.textContent = text;
 
 		this.#renderMessageLink(itemContainer, channelId, messageId);
 	}

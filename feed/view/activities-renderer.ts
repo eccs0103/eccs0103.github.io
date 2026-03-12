@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { Timespan } from "adaptive-extender/web";
-import { Activity, GitHubActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity, TelegramActivity } from "../models/activity.js";
+import { Activity, GitHubActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity, TelegramActivity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { Configuration, type Platform } from "../models/configuration.js";
 import { ActivityBuilder } from "./view-builders.js";
@@ -50,7 +50,8 @@ export class ActivitiesRenderer {
 		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy);
 		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy);
 		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy);
-		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(urlProxy));
+		this.registerStrategy(TelegramTextPostActivity, new TelegramRenderStrategy(urlProxy));
+		this.registerStrategy(TelegramMediaPostActivity, new TelegramRenderStrategy(urlProxy));
 	}
 
 	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void {

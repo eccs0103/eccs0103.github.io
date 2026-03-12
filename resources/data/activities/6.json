@@ -630,21 +630,21 @@
 		"$type": "GitHubCreateBranchActivity"
 	},
 	{
-		"platform": "Telegram",
-		"timestamp": 1773269146000,
-		"message_id": 9,
-		"channel_id": "-1003471238866",
-		"text": "ыфвфывфв",
-		"$type": "TelegramTextPostActivity"
+		"platform": "GitHub",
+		"timestamp": 1773272672000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "788dabad2f4766cdd5f37c53e6d5b8a41e051fd3",
+		"$type": "GitHubPushActivity"
 	},
 	{
-		"platform": "Telegram",
-		"timestamp": 1773269797000,
-		"message_id": 10,
-		"channel_id": "-1003471238866",
-		"media_type": "photo",
-		"file_id": "AgACAgIAAyEFAATO5ubSAAMKabHzJdHo2YtN_g0pi4t7JfmYsnAAAkIZaxt5dXFJEmTZBJrMJksBAAMCAAN5AAM6BA",
-		"content": "Վնեզապնը գրադարանս հասել ա իրա պիկին, երբ ես դադարել եմ որևէ բան լավացնել մեջը",
-		"$type": "TelegramMediaPostActivity"
+		"platform": "GitHub",
+		"timestamp": 1773350571000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "4686dd357041c77b9ba00cb203907ce201593448",
+		"$type": "GitHubPushActivity"
 	}
 ]

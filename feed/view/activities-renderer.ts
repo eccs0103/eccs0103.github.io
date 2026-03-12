@@ -43,14 +43,14 @@ export class ActivitiesRenderer {
 	#page: number = 0;
 	#isLoading: boolean = false;
 
-	constructor(itemContainer: HTMLElement, mediaProxyUrl: string | null = null) {
+	constructor(itemContainer: HTMLElement, urlProxy: URL) {
 		this.#itemContainer = itemContainer;
 		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy);
 		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy);
 		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy);
 		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy);
 		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy);
-		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(mediaProxyUrl));
+		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(urlProxy));
 	}
 
 	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void {

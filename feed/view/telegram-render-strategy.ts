@@ -7,15 +7,14 @@ import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
 
 //#region Telegram render strategy
 export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramActivity> {
-	#proxyUrl: string | null;
+	#urlProxy: URL;
 
-	constructor(proxyUrl: string | null) {
-		this.#proxyUrl = proxyUrl;
+	constructor(urlProxy: URL) {
+		this.#urlProxy = urlProxy;
 	}
 
-	#buildMediaUrl(fileId: string): URL | null {
-		if (this.#proxyUrl === null) return null;
-		const url = new URL(this.#proxyUrl);
+	#buildMediaUrl(fileId: string): URL {
+		const url = new URL(this.#urlProxy);
 		url.searchParams.set("identifier", fileId);
 		return url;
 	}
@@ -44,30 +43,22 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		const mediaUrl = this.#buildMediaUrl(fileId);
 
 		if (mediaType === "photo") {
-			if (mediaUrl !== null) {
-				const imgPhoto = itemContainer.appendChild(DOMBuilder.newImage(mediaUrl, content ?? "Telegram photo"));
-				imgPhoto.classList.add("telegram-photo");
-			}
+			const imgPhoto = itemContainer.appendChild(DOMBuilder.newImage(mediaUrl, content ?? "Telegram photo"));
+			imgPhoto.classList.add("telegram-photo");
 		} else if (mediaType === "audio") {
-			if (mediaUrl !== null) {
-				const audioEl = itemContainer.appendChild(document.createElement("audio"));
-				audioEl.src = String(mediaUrl);
-				audioEl.controls = true;
-				audioEl.classList.add("telegram-audio");
-			}
+			const audioEl = itemContainer.appendChild(document.createElement("audio"));
+			audioEl.src = String(mediaUrl);
+			audioEl.controls = true;
+			audioEl.classList.add("telegram-audio");
 		} else if (mediaType === "video") {
-			if (mediaUrl !== null) {
-				const videoEl = itemContainer.appendChild(document.createElement("video"));
-				videoEl.src = String(mediaUrl);
-				videoEl.controls = true;
-				videoEl.classList.add("telegram-video");
-			}
+			const videoEl = itemContainer.appendChild(document.createElement("video"));
+			videoEl.src = String(mediaUrl);
+			videoEl.controls = true;
+			videoEl.classList.add("telegram-video");
 		} else if (mediaType === "document") {
-			if (mediaUrl !== null) {
-				const aDoc = itemContainer.appendChild(DOMBuilder.newLink("Download file ", mediaUrl));
-				aDoc.classList.add("with-block-padding", "font-smaller-3");
-				ActivityBuilder.newExternalIcon(aDoc);
-			}
+			const aDoc = itemContainer.appendChild(DOMBuilder.newLink("Download file ", mediaUrl));
+			aDoc.classList.add("with-block-padding", "font-smaller-3");
+			ActivityBuilder.newExternalIcon(aDoc);
 		}
 
 		if (content !== null) {

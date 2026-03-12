@@ -49,12 +49,12 @@ export class GroupMember extends Model {
 	}
 
 	toWish(addressee: GroupMember, content: string): void {
-		addressee.#wishes.set(this, content);
+		addressee.#wishes.add(this, content);
 	}
 
 	setImportanceFrom(member: GroupMember, importance: number): void {
 		if (!this.#wishes.has(member)) throw new ReferenceError("Unable to set importance for the non-existing wish");
-		this.#importance.set(member, importance);
+		this.#importance.add(member, importance);
 	}
 }
 
@@ -83,7 +83,7 @@ export class Group extends Model {
 		const group = super.import(source, name) as Group;
 
 		const identifiers = new Map<number, GroupMember>();
-		for (const member of group.members) identifiers.set(member.identifier, member);
+		for (const member of group.members) identifiers.add(member.identifier, member);
 
 		for (const wish of group.wishes) {
 			const member = ReferenceError.suppress(identifiers.get(wish.member), `Member with identifier '${wish.member}' not registered in this group`);

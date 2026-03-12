@@ -177,7 +177,7 @@ export class GitHubSummaryExpert {
 		let hasTagDeletions = false;
 
 		for (const activity of activities) {
-			if (!urls.has(activity.repository)) urls.set(activity.repository, new URL(activity.url));
+			urls.add(activity.repository, new URL(activity.url));
 			const count = usage.get(activity.repository) ?? 0;
 			usage.set(activity.repository, count + 1);
 

@@ -105,7 +105,7 @@ export class SteamWalker extends ActivityWalker {
 		const platform = this.name;
 		for await (const game of this.#fetchOwnedGames()) {
 			const { appId, name } = game;
-			games.set(appId, name);
+			games.add(appId, name);
 			if (game.playtimeForever < 120) continue;
 			if (game.rtimeLastPlayed < since) continue;
 			const { imgIconUrl, hasCommunityVisibleStats } = game;

@@ -54,7 +54,7 @@ export class ActivitiesRenderer {
 	}
 
 	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void {
-		this.#strategies.set(root, strategy);
+		this.#strategies.add(root, strategy);
 	}
 
 	#renderChunk(cursor: ArrayCursor<Activity>, collector: ActivityCollector, platforms: Map<string, Platform>, batch: number, observerAnimatedReveal: IntersectionObserver, isFinal: boolean): boolean {

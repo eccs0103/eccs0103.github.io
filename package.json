@@ -21,6 +21,6 @@
 	},
 	"dependencies": {
 		"@google/generative-ai": "^0.24.1",
-		"adaptive-extender": "^0.9.8"
+		"adaptive-extender": "^0.9.9"
 	}
 }

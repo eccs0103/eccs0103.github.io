@@ -847,6 +847,7 @@ export interface TelegramMediaPostActivityScheme extends TelegramActivityScheme 
 	media_type: string;
 	file_id: string;
 	content: string | null;
+	file_name: string;
 }
 
 export class TelegramMediaPostActivity extends TelegramActivity {
@@ -859,10 +860,13 @@ export class TelegramMediaPostActivity extends TelegramActivity {
 	@Field(Nullable(String), "content")
 	content: string | null;
 
+	@Field(String, "file_name")
+	fileName: string;
+
 	constructor();
-	constructor(platform: string, timestamp: Date, messageId: number, channelId: string, mediaType: string, fileId: string, content: string | null);
-	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string, mediaType?: string, fileId?: string, content?: string | null) {
-		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined || mediaType === undefined || fileId === undefined || content === undefined) {
+	constructor(platform: string, timestamp: Date, messageId: number, channelId: string, mediaType: string, fileId: string, content: string | null, fileName: string);
+	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string, mediaType?: string, fileId?: string, content?: string | null, fileName?: string) {
+		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined || mediaType === undefined || fileId === undefined || content === undefined || fileName === undefined) {
 			super();
 			return;
 		}
@@ -871,6 +875,7 @@ export class TelegramMediaPostActivity extends TelegramActivity {
 		this.mediaType = mediaType;
 		this.fileId = fileId;
 		this.content = content;
+		this.fileName = fileName;
 	}
 }
 //#endregion

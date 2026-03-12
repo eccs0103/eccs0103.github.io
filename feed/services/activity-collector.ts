@@ -8,26 +8,30 @@ import { ArrayCursor } from "../services/array-cursor.js";
 //#region Activity collector
 export type TypeOf<T> = abstract new (...args: any[]) => T;
 
+export interface GroupingOptions {
+	gap: Timespan;
+}
+
 export class ActivityCollector {
-	#roots: Set<TypeOf<Activity>> = new Set();
-	#gap: Readonly<Timespan>;
+	#roots: Map<TypeOf<Activity>, GroupingOptions> = new Map();
 
-	constructor(gap: Readonly<Timespan>) {
-		this.#gap = gap;
-	}
-
-	register<T extends Activity>(root: TypeOf<T>): void {
-		this.#roots.add(root);
+	register<T extends Activity>(root: TypeOf<T>): void;
+	register<T extends Activity>(root: TypeOf<T>, options: Partial<GroupingOptions>): void;
+	register<T extends Activity>(root: TypeOf<T>, options: Partial<GroupingOptions> = {}): void {
+		const gap = options.gap ?? Timespan.fromComponents(36, 0, 0);
+		this.#roots.set(root, { gap });
 	}
 
 	#isSameGroup(current: Activity, next: Activity, root: TypeOf<Activity>): boolean {
 		if (!(next instanceof root)) return false;
+		const options = this.#roots.get(root);
+		if (options === undefined) return false;
 		const difference = Timespan.fromValue(current.timestamp.valueOf() - next.timestamp.valueOf());
-		return difference.valueOf() <= this.#gap.valueOf();
+		return difference.valueOf() <= options.gap.valueOf();
 	}
 
 	findRoot<T extends Activity>(target: T): TypeOf<T> | null {
-		for (const root of this.#roots) {
+		for (const [root] of this.#roots) {
 			if (!(target instanceof root)) continue;
 			return root as TypeOf<T>;
 		}

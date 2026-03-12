@@ -29,6 +29,12 @@ export class TelegramAudio extends Model {
 
 	@Field(Number, "duration")
 	duration: number;
+
+	@Field(Optional(String), "file_name")
+	fileName: string | undefined;
+
+	@Field(Optional(String), "mime_type")
+	mimeType: string | undefined;
 }
 //#endregion
 
@@ -42,6 +48,12 @@ export class TelegramVideo extends Model {
 
 	@Field(Optional(TelegramPhotoSize), "thumbnail")
 	thumbnail: TelegramPhotoSize | undefined;
+
+	@Field(Optional(String), "file_name")
+	fileName: string | undefined;
+
+	@Field(Optional(String), "mime_type")
+	mimeType: string | undefined;
 }
 //#endregion
 

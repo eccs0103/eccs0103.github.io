@@ -31,31 +31,35 @@ interface RenderContext {
 	activities: DataTable<typeof Activity>;
 }
 
-export interface ActivitiesRendererOptions {
+export interface StrategyOptions {
 	gap: Timespan;
+}
+
+export interface ActivitiesRendererOptions {
 	batch: number;
 }
 
 export class ActivitiesRenderer {
 	#itemContainer: HTMLElement;
-	#strategies: Map<TypeOf<Activity>, ActivityRenderStrategy<Activity>> = new Map();
+	#strategies: Map<TypeOf<Activity>, [ActivityRenderStrategy<Activity>, Partial<StrategyOptions>]> = new Map();
 	#isSentinelIntersecting: boolean = true;
 	#page: number = 0;
 	#isLoading: boolean = false;
 
 	constructor(itemContainer: HTMLElement, urlProxy: URL) {
 		this.#itemContainer = itemContainer;
-		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy);
-		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy);
-		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy);
-		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy);
-		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy);
-		this.registerStrategy(TelegramTextPostActivity, new TelegramRenderStrategy(urlProxy));
-		this.registerStrategy(TelegramMediaPostActivity, new TelegramRenderStrategy(urlProxy));
+		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy());
+		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy());
+		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy());
+		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy());
+		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy());
+		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(urlProxy), { gap: Timespan.newZero });
 	}
 
-	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void {
-		this.#strategies.add(root, strategy);
+	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void;
+	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>, options: Partial<StrategyOptions>): void;
+	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>, options: Partial<StrategyOptions> = {}): void {
+		this.#strategies.set(root, [strategy, options]);
 	}
 
 	#renderChunk(cursor: ArrayCursor<Activity>, collector: ActivityCollector, platforms: Map<string, Platform>, batch: number, observerAnimatedReveal: IntersectionObserver, isFinal: boolean): boolean {
@@ -76,8 +80,9 @@ export class ActivitiesRenderer {
 				cursor.index = index;
 				return false;
 			}
-			const strategy = this.#strategies.get(root);
-			if (strategy === undefined) continue;
+			const entry = this.#strategies.get(root);
+			if (entry === undefined) continue;
+			const [strategy] = entry;
 			const itemContainer = ActivityBuilder.newContainer(this.#itemContainer, platforms, buffer[0], observerAnimatedReveal);
 			strategy.render(itemContainer, buffer);
 			rendered++;
@@ -106,15 +111,14 @@ export class ActivitiesRenderer {
 	async render(activities: DataTable<typeof Activity>, configuration: Configuration, options: Partial<ActivitiesRendererOptions>): Promise<void>;
 	async render(activities: DataTable<typeof Activity>, configuration: Configuration, options: Partial<ActivitiesRendererOptions> = {}): Promise<void> {
 		const itemContainer = this.#itemContainer;
-		const gap = options.gap ?? Timespan.newDay;
 		const outro = configuration.outro;
 		const batch = options.batch ?? 10;
 		const platforms = new Map(configuration.platforms.map(platform => [platform.name, platform]));
 		const cursor = new ArrayCursor(activities);
 
-		const collector = new ActivityCollector(gap);
-		for (const [root] of this.#strategies) {
-			collector.register(root);
+		const collector = new ActivityCollector();
+		for (const [root, [, { gap }]] of this.#strategies) {
+			collector.register(root, { gap });
 		}
 
 		const observerAnimatedReveal = new IntersectionObserver((entries) => {

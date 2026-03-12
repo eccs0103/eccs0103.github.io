@@ -40,7 +40,7 @@ class WebpageController extends Controller {
 
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const rendererActivies = new ActivitiesRenderer(main, new URL(configuration.urlProxy));
-		await rendererActivies.render(activities, configuration, { gap: Timespan.fromComponents(36, 0, 0) });
+		await rendererActivies.render(activities, configuration);
 
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);

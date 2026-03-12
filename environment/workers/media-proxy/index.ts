@@ -68,7 +68,7 @@ class MediaProxy {
 		return filePath;
 	}
 
-	static async #pipe(token: string, filePath: string): Promise<Response> {
+	static async #pipe(token: string, filePath: string, fileName: string | null): Promise<Response> {
 		const url = new URL(`https://api.telegram.org/file/bot${token}/${filePath}`);
 		const upstream = await fetch(url);
 		if (!upstream.ok) throw new Error(`${upstream.status}: ${upstream.statusText}`);
@@ -77,6 +77,11 @@ class MediaProxy {
 		if (contentType !== null) headers.set("Content-Type", contentType);
 		const contentLength = upstream.headers.get("Content-Length");
 		if (contentLength !== null) headers.set("Content-Length", contentLength);
+		if (fileName === null) {
+			const segments = filePath.split('/');
+			fileName = segments.at(-1) ?? null;
+		}
+		if (fileName !== null) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
 		return new Response(upstream.body, { status: 200, headers });
 	}
 
@@ -86,13 +91,14 @@ class MediaProxy {
 
 		const { searchParams } = new URL(request.url);
 		const identifier = searchParams.get("identifier");
+		const fileName = searchParams.get("filename");
 		if (identifier === null) return MediaProxy.#errorResponse(400, "Missing required query parameter: identifier");
 		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return MediaProxy.#errorResponse(400, "Invalid identifier format");
 
 		try {
 			const token = env.telegramBotToken;
 			const filePath = await MediaProxy.#resolveFilePath(token, identifier);
-			return await MediaProxy.#pipe(token, filePath);
+			return await MediaProxy.#pipe(token, filePath, fileName);
 		} catch (reason) {
 			return MediaProxy.#errorResponse(502, `Upstream error: ${Error.from(reason).message}`);
 		}

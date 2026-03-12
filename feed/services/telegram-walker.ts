@@ -49,19 +49,19 @@ export class TelegramWalker extends ActivityWalker {
 
 			if (photo !== undefined && photo.length > 0) {
 				const largest = photo.reduce((max, p) => p.width * p.height > max.width * max.height ? p : max);
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "photo", largest.fileId, caption ?? null);
+				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "photo", largest.fileId, caption ?? null, "photo.jpg");
 				continue;
 			}
 			if (audio !== undefined) {
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "audio", audio.fileId, caption ?? null);
+				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "audio", audio.fileId, caption ?? null, audio.fileName ?? `${audio.title ?? "audio"}.mp3`);
 				continue;
 			}
 			if (video !== undefined) {
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "video", video.fileId, caption ?? null);
+				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "video", video.fileId, caption ?? null, video.fileName ?? "video.mp4");
 				continue;
 			}
 			if (document !== undefined) {
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "document", document.fileId, caption ?? null);
+				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "document", document.fileId, caption ?? null, document.fileName ?? "document");
 				continue;
 			}
 			if (text !== undefined) {

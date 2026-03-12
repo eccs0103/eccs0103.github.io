@@ -13,9 +13,10 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		this.#urlProxy = urlProxy;
 	}
 
-	#buildMediaUrl(fileId: string): URL {
+	#buildMediaUrl(fileId: string, fileName?: string | null): URL {
 		const url = new URL(this.#urlProxy);
 		url.searchParams.set("identifier", fileId);
+		if (fileName) url.searchParams.set("filename", fileName);
 		return url;
 	}
 
@@ -38,8 +39,8 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	}
 
 	#renderMedia(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
-		const { fileId, mediaType, content, channelId, messageId } = activity;
-		const mediaUrl = this.#buildMediaUrl(fileId);
+		const { fileId, mediaType, content, channelId, messageId, fileName } = activity;
+		const mediaUrl = this.#buildMediaUrl(fileId, fileName);
 
 		if (mediaType === "photo") {
 			const imgPhoto = itemContainer.appendChild(DOMBuilder.newImage(mediaUrl, content ?? "Telegram photo"));
@@ -55,7 +56,8 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 			videoEl.controls = true;
 			videoEl.classList.add("telegram-video");
 		} else if (mediaType === "document") {
-			const aDoc = itemContainer.appendChild(DOMBuilder.newLink("Download file ", mediaUrl));
+			const aDoc = itemContainer.appendChild(DOMBuilder.newLink(fileName ?? "Download file", mediaUrl));
+			aDoc.download = fileName ?? "download";
 			aDoc.classList.add("with-block-padding", "font-smaller-3");
 			ActivityBuilder.newExternalIcon(aDoc);
 		}

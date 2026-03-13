@@ -29,5 +29,5 @@
 		/* Miscellaneous */
 		"forceConsistentCasingInFileNames": true,
 	},
-	"include": [ "index.ts" ]
+	"include": [ "**/*.ts" ]
 }

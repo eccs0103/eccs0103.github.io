@@ -16,27 +16,41 @@ export class TelegramWalker extends ActivityWalker {
 		this.#channelId = channelId;
 	}
 
-	async *#fetchPosts(since: Date): AsyncIterable<TelegramChannelPost> {
+	async *#fetchPaginated(offset: number): AsyncIterable<unknown> {
 		const url = new URL(`https://api.telegram.org/bot${this.#token}/getUpdates`);
 		url.searchParams.set("limit", "100");
 		url.searchParams.set("allowed_updates", `["channel_post"]`);
+		if (offset > 0) url.searchParams.set("offset", String(offset));
 		const response = await fetch(url);
 		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
 		const raw: { ok: boolean; result?: unknown[] } = await response.json();
 		if (!raw.ok || raw.result === undefined) throw new Error("Telegram API returned ok=false");
-		let index = 0;
-		for (const item of raw.result) {
-			try {
-				const update = TelegramUpdate.import(item, `telegram_updates[${index++}]`);
-				const { channelPost } = update;
-				if (channelPost === undefined) continue;
-				const chatId = String(channelPost.chat.id);
-				const chatUsername = channelPost.chat.username !== undefined ? `@${channelPost.chat.username}` : null;
-				if (chatId !== this.#channelId && chatUsername !== this.#channelId) continue;
-				if (channelPost.date < since) continue;
-				yield channelPost;
-			} catch (reason) {
-				console.error(reason);
+		yield* raw.result;
+	}
+
+	async *#fetchPosts(since: Date): AsyncIterable<TelegramChannelPost> {
+		const chunk = 100;
+		let offset = 0;
+		while (true) {
+			let index = 0;
+			for await (const item of this.#fetchPaginated(offset)) {
+				try {
+					const update = TelegramUpdate.import(item, `telegram_updates[${index++}]`);
+					offset = update.updateId + 1;
+					const { channelPost } = update;
+					if (channelPost === undefined) continue;
+					const chatId = String(channelPost.chat.id);
+					const chatUsername = channelPost.chat.username !== undefined ? `@${channelPost.chat.username}` : null;
+					if (chatId !== this.#channelId && chatUsername !== this.#channelId) continue;
+					if (channelPost.date < since) continue;
+					yield channelPost;
+				} catch (reason) {
+					console.error(reason);
+				}
+			}
+			if (index < chunk) {
+				for await (const _ of this.#fetchPaginated(offset)) void _;
+				return;
 			}
 		}
 	}

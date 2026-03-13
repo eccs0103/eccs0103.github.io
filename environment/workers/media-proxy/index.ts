@@ -1,6 +1,6 @@
 "use strict";
 
-import "adaptive-extender/node";
+import "adaptive-extender/core";
 import { Field, Model, Optional } from "adaptive-extender/core";
 
 //#region Telegram API response
@@ -67,21 +67,24 @@ class MediaProxy {
 		return filePath;
 	}
 
-	static async #pipe(token: string, filePath: string, fileName: string | null): Promise<Response> {
+	static async #pipe(request: Request, token: string, filePath: string, fileName: string | null): Promise<Response> {
 		const url = new URL(`https://api.telegram.org/file/bot${token}/${filePath}`);
-		const upstream = await fetch(url);
-		if (!upstream.ok) throw new Error(`${upstream.status}: ${upstream.statusText}`);
+		const upstreamHeaders: Record<string, string> = { "Accept-Encoding": "identity" };
+		const range = request.headers.get("Range");
+		if (range !== null) upstreamHeaders["Range"] = range;
+		const upstream = await fetch(url, { headers: upstreamHeaders });
+		if (!upstream.ok && upstream.status !== 206) throw new Error(`${upstream.status}: ${upstream.statusText}`);
 		const headers = MediaProxy.#corsHeaders();
 		const contentType = upstream.headers.get("Content-Type");
 		if (contentType !== null) headers.set("Content-Type", contentType);
 		const contentLength = upstream.headers.get("Content-Length");
 		if (contentLength !== null) headers.set("Content-Length", contentLength);
-		if (fileName === null) {
-			const segments = filePath.split('/');
-			fileName = segments.at(-1) ?? null;
-		}
+		const contentRange = upstream.headers.get("Content-Range");
+		if (contentRange !== null) headers.set("Content-Range", contentRange);
+		headers.set("Accept-Ranges", upstream.headers.get("Accept-Ranges") ?? "bytes");
+		if (fileName === null) fileName = filePath.split('/').at(-1) ?? null;
 		if (fileName !== null) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
-		return new Response(upstream.body, { status: 200, headers });
+		return new Response(upstream.body, { status: upstream.status, headers });
 	}
 
 	static async handle(request: Request, token: string): Promise<Response> {
@@ -96,7 +99,7 @@ class MediaProxy {
 
 		try {
 			const filePath = await MediaProxy.#resolveFilePath(token, identifier);
-			return await MediaProxy.#pipe(token, filePath, fileName);
+			return await MediaProxy.#pipe(request, token, filePath, fileName);
 		} catch (reason) {
 			return MediaProxy.errorResponse(502, `Upstream error: ${Error.from(reason).message}`);
 		}
@@ -109,11 +112,11 @@ export interface WorkerEnvironment {
 	["TELEGRAM_BOT_TOKEN"]?: string;
 }
 
-export default class WorkerHandler {
+export default {
 	async fetch(request: Request, environment: WorkerEnvironment): Promise<Response> {
 		const token = environment["TELEGRAM_BOT_TOKEN"];
 		if (token === undefined) return MediaProxy.errorResponse(500, "Missing required environment variable: TELEGRAM_BOT_TOKEN");
 		return await MediaProxy.handle(request, token);
-	}
-}
+	},
+} satisfies ExportedHandler<WorkerEnvironment>;
 //#endregion

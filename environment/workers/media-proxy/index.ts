@@ -2,7 +2,6 @@
 
 import "adaptive-extender/node";
 import { Field, Model, Optional } from "adaptive-extender/core";
-import { env } from "../../services/local-environment.js";
 
 //#region Telegram API response
 export interface TelegramFileScheme {
@@ -38,9 +37,9 @@ export class TelegramGetFileResponse extends Model {
 
 //#region Media proxy
 class MediaProxy {
-	static readonly #IDENTIFIER_PATTERN: RegExp = /^[A-Za-z0-9_\-]{1,512}$/;
+	static #IDENTIFIER_PATTERN: RegExp = /^[A-Za-z0-9_\-]{1,512}$/;
 
-	static readonly #CORS: Record<string, string> = {
+	static #CORS: Record<string, string> = {
 		["Access-Control-Allow-Origin"]: "*",
 		["Access-Control-Allow-Methods"]: "GET, OPTIONS",
 		["Access-Control-Allow-Headers"]: "*",
@@ -50,7 +49,7 @@ class MediaProxy {
 		return new Headers(MediaProxy.#CORS);
 	}
 
-	static #errorResponse(status: number, message: string): Response {
+	static errorResponse(status: number, message: string): Response {
 		return new Response(message, { status, headers: MediaProxy.#corsHeaders() });
 	}
 
@@ -85,31 +84,36 @@ class MediaProxy {
 		return new Response(upstream.body, { status: 200, headers });
 	}
 
-	static async handle(request: Request): Promise<Response> {
+	static async handle(request: Request, token: string): Promise<Response> {
 		if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: MediaProxy.#corsHeaders() });
-		if (request.method !== "GET") return MediaProxy.#errorResponse(405, "Method Not Allowed");
+		if (request.method !== "GET") return MediaProxy.errorResponse(405, "Method Not Allowed");
 
 		const { searchParams } = new URL(request.url);
 		const identifier = searchParams.get("identifier");
 		const fileName = searchParams.get("filename");
-		if (identifier === null) return MediaProxy.#errorResponse(400, "Missing required query parameter: identifier");
-		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return MediaProxy.#errorResponse(400, "Invalid identifier format");
+		if (identifier === null) return MediaProxy.errorResponse(400, "Missing required query parameter: identifier");
+		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return MediaProxy.errorResponse(400, "Invalid identifier format");
 
 		try {
-			const token = env.telegramBotToken;
 			const filePath = await MediaProxy.#resolveFilePath(token, identifier);
 			return await MediaProxy.#pipe(token, filePath, fileName);
 		} catch (reason) {
-			return MediaProxy.#errorResponse(502, `Upstream error: ${Error.from(reason).message}`);
+			return MediaProxy.errorResponse(502, `Upstream error: ${Error.from(reason).message}`);
 		}
 	}
 }
 //#endregion
 
 //#region Worker handler
+export interface WorkerEnvironment {
+	["TELEGRAM_BOT_TOKEN"]?: string;
+}
+
 export default class WorkerHandler {
-	fetch(request: Request): Promise<Response> {
-		return MediaProxy.handle(request);
+	async fetch(request: Request, environment: WorkerEnvironment): Promise<Response> {
+		const token = environment["TELEGRAM_BOT_TOKEN"];
+		if (token === undefined) return MediaProxy.errorResponse(500, "Missing required environment variable: TELEGRAM_BOT_TOKEN");
+		return await MediaProxy.handle(request, token);
 	}
 }
 //#endregion

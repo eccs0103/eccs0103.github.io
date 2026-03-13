@@ -5,19 +5,29 @@
 		"module": "ESNext",
 		"useDefineForClassFields": true,
 
-		/* Module Resolution */
+		/* Module Resolution / Bundler */
 		"moduleResolution": "bundler",
 		"moduleDetection": "force",
+		"verbatimModuleSyntax": true,
 
-		/* Type Checking */
+		/* Interop & Compatibility */
+		"esModuleInterop": true,
+		"allowJs": true,
+		"skipLibCheck": false,
+
+		/* Emit & Declarations */
+		"declaration": true,
+		"sourceMap": true,
+		"types": [ "@cloudflare/workers-types" ],
+
+		/* Type Checking & Linting */
 		"strict": true,
 		"strictPropertyInitialization": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
 
 		/* Miscellaneous */
 		"forceConsistentCasingInFileNames": true,
-
-		/* Types - only Cloudflare Workers, explicitly exclude @types/node to avoid conflicts */
-		"types": ["@cloudflare/workers-types"],
 	},
-	"include": ["index.ts"]
+	"include": [ "index.ts" ]
 }

@@ -9,7 +9,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"walk": "tsx feed/controllers/activity-controller.ts",
-		"deploy:worker": "wrangler deploy --config workers/media-proxy/wrangler.toml"
+		"deploy:worker": "wrangler deploy --config environment/workers/media-proxy/wrangler.toml"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.0.0",

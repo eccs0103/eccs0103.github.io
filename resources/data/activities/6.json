@@ -792,17 +792,6 @@
 		"$type": "GitHubPushActivity"
 	},
 	{
-		"platform": "Telegram",
-		"timestamp": 1773497828000,
-		"message_id": 24,
-		"channel_id": "-1003471238866",
-		"media_type": "gif",
-		"file_id": "24",
-		"content": "If you are reading this, I actually pulled it off.\nHands down one of the hardest integrations of my life. Telegram just operates completely differently from any other platform out there. Had to wire up 4 different technologies just to stabilize the speed and delivery. \nI'm not even entirely sure it's completely stable. So if you notice something acting up: ¯\\_(ツ)_/¯ I did what I could.",
-		"file_name": "24.mp4",
-		"$type": "TelegramMediaPostActivity"
-	},
-	{
 		"platform": "GitHub",
 		"timestamp": 1773498912000,
 		"username": "eccs0103",
@@ -882,5 +871,16 @@
 		"repository": "eccs0103.github.io",
 		"sha": "38955dfc037e18119d596fc82e7ca9c2bccc72bb",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Telegram",
+		"timestamp": 1773505652000,
+		"message_id": 25,
+		"channel_id": "-1003471238866",
+		"media_type": "gif",
+		"file_id": "25",
+		"content": "If you are reading this, I actually pulled it off.\nHands down one of the hardest integrations of my life. Telegram just operates completely differently from any other platform out there. Had to wire up 4 different technologies just to stabilize the speed and delivery. \nI'm not even entirely sure it's completely stable. So if you notice something acting up: ¯\\_(ツ)_/¯ I did what I could.",
+		"file_name": "25.mp4",
+		"$type": "TelegramMediaPostActivity"
 	}
 ]

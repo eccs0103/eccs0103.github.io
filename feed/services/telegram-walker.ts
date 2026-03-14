@@ -1,86 +1,72 @@
 "use strict";
 
 import "adaptive-extender/node";
+import { TelegramClient, Api } from "telegram";
+import { StringSession } from "telegram/sessions/index.js";
 import { ActivityWalker } from "./activity-walker.js";
-import { TelegramChannelPost, TelegramUpdate } from "../models/telegram-event.js";
 import { Activity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
 
 //#region Telegram walker
 export class TelegramWalker extends ActivityWalker {
-	#token: string;
+	#apiId: number;
+	#apiHash: string;
+	#session: string;
 	#channelId: string;
 
-	constructor(token: string, channelId: string) {
+	constructor(apiId: number, apiHash: string, session: string, channelId: string) {
 		super("Telegram");
-		this.#token = token;
+		this.#apiId = apiId;
+		this.#apiHash = apiHash;
+		this.#session = session;
 		this.#channelId = channelId;
-	}
-
-	async *#fetchPaginated(offset: number): AsyncIterable<unknown> {
-		const url = new URL(`https://api.telegram.org/bot${this.#token}/getUpdates`);
-		url.searchParams.set("limit", "100");
-		url.searchParams.set("allowed_updates", `["channel_post"]`);
-		if (offset > 0) url.searchParams.set("offset", String(offset));
-		const response = await fetch(url);
-		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const raw: { ok: boolean; result?: unknown[] } = await response.json();
-		if (!raw.ok || raw.result === undefined) throw new Error("Telegram API returned ok=false");
-		yield* raw.result;
-	}
-
-	async *#fetchPosts(since: Date): AsyncIterable<TelegramChannelPost> {
-		const chunk = 100;
-		let offset = 0;
-		while (true) {
-			let index = 0;
-			for await (const item of this.#fetchPaginated(offset)) {
-				try {
-					const update = TelegramUpdate.import(item, `telegram_updates[${index++}]`);
-					offset = update.updateId + 1;
-					const { channelPost } = update;
-					if (channelPost === undefined) continue;
-					const chatId = String(channelPost.chat.id);
-					const chatUsername = channelPost.chat.username !== undefined ? `@${channelPost.chat.username}` : null;
-					if (chatId !== this.#channelId && chatUsername !== this.#channelId) continue;
-					if (channelPost.date < since) continue;
-					yield channelPost;
-				} catch (reason) {
-					console.error(reason);
-				}
-			}
-			if (index < chunk) {
-				for await (const _ of this.#fetchPaginated(offset)) void _;
-				return;
-			}
-		}
 	}
 
 	async *crawl(since: Date): AsyncIterable<Activity> {
 		const platform = this.name;
-		for await (const post of this.#fetchPosts(since)) {
-			const { messageId, date: timestamp, text, caption, photo, audio, video, document } = post;
-			const channelId = this.#channelId;
+		const channelId = this.#channelId;
+		const session = new StringSession(this.#session);
+		const client = new TelegramClient(session, this.#apiId, this.#apiHash, { connectionRetries: 3 });
+		await client.connect();
+		try {
+			for await (const message of client.iterMessages(channelId, { limit: 300, waitTime: 0 })) {
+				if (!(message instanceof Api.Message)) continue;
+				const timestamp = new Date(message.date * 1000);
+				if (timestamp < since) break;
+				const messageId = message.id;
+				const { message: text, media } = message;
+				const fileId = String(messageId);
 
-			if (photo !== undefined && photo.length > 0) {
-				const largest = photo.reduce((max, p) => p.width * p.height > max.width * max.height ? p : max);
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "photo", largest.fileId, caption ?? null, "photo.jpg");
-				continue;
+				if (media instanceof Api.MessageMediaPhoto) {
+					yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "photo", fileId, text || null, "photo.jpg");
+					continue;
+				}
+				if (media instanceof Api.MessageMediaDocument) {
+					const { document } = media;
+					if (!(document instanceof Api.Document)) continue;
+					const audioAttr = document.attributes.find((a): a is Api.DocumentAttributeAudio => a instanceof Api.DocumentAttributeAudio);
+					const videoAttr = document.attributes.find((a): a is Api.DocumentAttributeVideo => a instanceof Api.DocumentAttributeVideo);
+					const fileAttr = document.attributes.find((a): a is Api.DocumentAttributeFilename => a instanceof Api.DocumentAttributeFilename);
+					const caption = text || null;
+					if (audioAttr !== undefined) {
+						const fileName = fileAttr?.fileName ?? `${messageId}.mp3`;
+						yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "audio", fileId, caption, fileName);
+						continue;
+					}
+					if (videoAttr !== undefined) {
+						const fileName = fileAttr?.fileName ?? `${messageId}.mp4`;
+						yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "video", fileId, caption, fileName);
+						continue;
+					}
+					const fileName = fileAttr?.fileName ?? `${messageId}`;
+					yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "document", fileId, caption, fileName);
+					continue;
+				}
+				if (text !== undefined && text.length > 0) {
+					yield new TelegramTextPostActivity(platform, timestamp, messageId, channelId, text);
+				}
 			}
-			if (audio !== undefined) {
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "audio", audio.fileId, caption ?? null, audio.fileName ?? `${audio.title ?? "audio"}.mp3`);
-				continue;
-			}
-			if (video !== undefined) {
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "video", video.fileId, caption ?? null, video.fileName ?? "video.mp4");
-				continue;
-			}
-			if (document !== undefined) {
-				yield new TelegramMediaPostActivity(platform, timestamp, messageId, channelId, "document", document.fileId, caption ?? null, document.fileName ?? "document");
-				continue;
-			}
-			if (text !== undefined) {
-				yield new TelegramTextPostActivity(platform, timestamp, messageId, channelId, text);
-			}
+		} finally {
+			await client.disconnect();
 		}
 	}
 }

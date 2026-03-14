@@ -32,7 +32,9 @@ class LocalEnvironment {
 	#stackOverflowId: string;
 	#stackOverflowApiKey: string;
 
-	#telegramBotToken: string;
+	#telegramApiId: number;
+	#telegramApiHash: string;
+	#telegramSession: string;
 	#telegramChannelId: string;
 
 	constructor() {
@@ -71,7 +73,9 @@ class LocalEnvironment {
 		this.#stackOverflowId = String.import(env.readValue("STACK_OVERFLOW_ID"), `${name}.STACK_OVERFLOW_ID`);
 		this.#stackOverflowApiKey = String.import(env.readValue("STACK_OVERFLOW_API_KEY"), `${name}.STACK_OVERFLOW_API_KEY`);
 
-		this.#telegramBotToken = String.import(env.readValue("TELEGRAM_BOT_TOKEN"), `${name}.TELEGRAM_BOT_TOKEN`);
+		this.#telegramApiId = Number.import(env.readValue("TELEGRAM_API_ID"), `${name}.TELEGRAM_API_ID`);
+		this.#telegramApiHash = String.import(env.readValue("TELEGRAM_API_HASH"), `${name}.TELEGRAM_API_HASH`);
+		this.#telegramSession = String.import(env.readValue("TELEGRAM_SESSION"), `${name}.TELEGRAM_SESSION`);
 		this.#telegramChannelId = String.import(env.readValue("TELEGRAM_CHANNEL_ID"), `${name}.TELEGRAM_CHANNEL_ID`);
 	}
 
@@ -152,8 +156,16 @@ class LocalEnvironment {
 		return this.#stackOverflowApiKey;
 	}
 
-	get telegramBotToken(): string {
-		return this.#telegramBotToken;
+	get telegramApiId(): number {
+		return this.#telegramApiId;
+	}
+
+	get telegramApiHash(): string {
+		return this.#telegramApiHash;
+	}
+
+	get telegramSession(): string {
+		return this.#telegramSession;
 	}
 
 	get telegramChannelId(): string {

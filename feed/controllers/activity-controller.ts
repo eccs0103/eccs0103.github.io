@@ -26,7 +26,7 @@ const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
 const { pinterestClientId, pinterestClientSecret, pinterestToken } = env;
 const { steamId, steamApiKey } = env;
 const { stackOverflowId, stackOverflowApiKey } = env;
-const { telegramBotToken, telegramChannelId } = env;
+const { telegramChannelId, telegramApiId, telegramApiHash, telegramSession } = env;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -77,7 +77,7 @@ class ActivityController extends Controller {
 		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
 		dispatcher.connect(new SteamWalker(steamId, steamApiKey));
 		dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
-		dispatcher.connect(new TelegramWalker(telegramBotToken, telegramChannelId));
+		dispatcher.connect(new TelegramWalker(telegramApiId, telegramApiHash, telegramSession, telegramChannelId));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute(configuration.platforms);

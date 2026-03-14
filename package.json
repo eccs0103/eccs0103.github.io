@@ -24,5 +24,8 @@
 		"@mtcute/node": "^0.28.2",
 		"@mtcute/web": "^0.28.2",
 		"adaptive-extender": "^0.9.9"
+	},
+	"overrides": {
+		"undici": ">=7.24.0"
 	}
 }

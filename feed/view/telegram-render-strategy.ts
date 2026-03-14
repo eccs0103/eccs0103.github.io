@@ -13,10 +13,10 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		this.#urlProxy = urlProxy;
 	}
 
-	#buildMediaUrl(fileId: string, fileName?: string | null): URL {
+	#buildMediaUrl(fileId: string, fileName: string): URL {
 		const url = new URL(this.#urlProxy);
 		url.searchParams.set("identifier", fileId);
-		if (fileName) url.searchParams.set("filename", fileName);
+		url.searchParams.set("filename", fileName);
 		return url;
 	}
 
@@ -43,29 +43,26 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		const mediaUrl = this.#buildMediaUrl(fileId, fileName);
 
 		if (mediaType === "photo") {
-			const imgPhoto = itemContainer.appendChild(DOMBuilder.newImage(mediaUrl, content ?? "Telegram photo"));
-			imgPhoto.classList.add("telegram-photo");
+			const img = itemContainer.appendChild(DOMBuilder.newImage(mediaUrl, content ?? "Telegram photo"));
+			img.classList.add("telegram-photo");
 		} else if (mediaType === "audio") {
-			const audioEl = itemContainer.appendChild(document.createElement("audio"));
-			audioEl.src = String(mediaUrl);
-			audioEl.controls = true;
-			audioEl.classList.add("telegram-audio");
+			const audio = itemContainer.appendChild(document.createElement("audio"));
+			audio.src = String(mediaUrl);
+			audio.controls = true;
+			audio.classList.add("telegram-audio");
 		} else if (mediaType === "video") {
-			const videoEl = itemContainer.appendChild(document.createElement("video"));
-			videoEl.src = String(mediaUrl);
-			videoEl.controls = true;
-			videoEl.classList.add("telegram-video");
+			const video = itemContainer.appendChild(document.createElement("video"));
+			video.src = String(mediaUrl);
+			video.controls = true;
+			video.classList.add("telegram-video");
 		} else if (mediaType === "document") {
-			const aDoc = itemContainer.appendChild(DOMBuilder.newLink(fileName ?? "Download file", mediaUrl));
-			aDoc.download = fileName ?? "download";
-			aDoc.classList.add("with-block-padding", "font-smaller-3");
-			ActivityBuilder.newExternalIcon(aDoc);
+			const aLink = itemContainer.appendChild(DOMBuilder.newLink(fileName ?? "Download file", mediaUrl));
+			aLink.download = fileName ?? "download";
+			aLink.classList.add("with-block-padding", "font-smaller-3");
+			ActivityBuilder.newExternalIcon(aLink);
 		}
 
-		if (content !== null) {
-			itemContainer.appendChild(DOMBuilder.newDescription(content));
-		}
-
+		if (content !== null) itemContainer.appendChild(DOMBuilder.newDescription(content));
 		this.#renderMessageLink(itemContainer, channelId, messageId);
 	}
 

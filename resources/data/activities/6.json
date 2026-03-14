@@ -893,5 +893,27 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b273dd60ce67e6d79940287b5067",
 		"url": "https://open.spotify.com/track/45Cst14CzVzy9CKJ4o8mlg",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1773516645000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/7a5213b9988e9630c68f46d0b88c8d6850e400ff.jpg",
+		"title": "Deogen Discovered",
+		"description": "Successfully identify your first Deogen and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1773516683000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/29b991089b39f5bbce4f1bae45bf8dfc09578915.jpg",
+		"title": "Professional",
+		"description": "Complete 50 contracts",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

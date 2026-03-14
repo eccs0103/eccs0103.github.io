@@ -5,14 +5,20 @@ import { MediaProxy } from "./services/media-proxy.js";
 
 //#region Worker handler
 export interface WorkerEnvironment {
-	["TELEGRAM_BOT_TOKEN"]?: string;
+	["TELEGRAM_API_ID"]: string;
+	["TELEGRAM_API_HASH"]: string;
+	["TELEGRAM_SESSION"]: string;
+	["TELEGRAM_CHANNEL_ID"]: string;
 }
 
 export default {
 	async fetch(request: Request, environment: WorkerEnvironment): Promise<Response> {
-		const token = environment["TELEGRAM_BOT_TOKEN"];
-		if (token === undefined) return MediaProxy.errorResponse(500, "Missing required environment variable: TELEGRAM_BOT_TOKEN");
-		return await MediaProxy.handle(request, token);
+		const apiId = environment["TELEGRAM_API_ID"];
+		const apiHash = environment["TELEGRAM_API_HASH"];
+		const session = environment["TELEGRAM_SESSION"];
+		const channelId = environment["TELEGRAM_CHANNEL_ID"];
+		if (!apiId || !apiHash || !session || !channelId) return MediaProxy.errorResponse(500, "Missing required environment variables");
+		return await MediaProxy.handle(request, parseInt(apiId), apiHash, session, channelId);
 	},
 } satisfies ExportedHandler<WorkerEnvironment>;
 //#endregion

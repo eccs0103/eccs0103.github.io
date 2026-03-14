@@ -1,17 +1,17 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { TelegramGetFileResponse } from "../models/telegram-api.js";
+import { TelegramClient, MemoryStorage, FileLocation, Photo, RawDocument } from "@mtcute/web";
 
 //#region Media proxy
 export class MediaProxy {
-	static #IDENTIFIER_PATTERN: RegExp = /^[A-Za-z0-9_\-]{1,512}$/;
+	static #IDENTIFIER_PATTERN: RegExp = /^\d{1,15}$/;
 
 	static #CORS: Record<string, string> = {
 		["Access-Control-Allow-Origin"]: "*",
 		["Access-Control-Allow-Methods"]: "GET, HEAD, OPTIONS",
 		["Access-Control-Allow-Headers"]: "*",
-		["Access-Control-Expose-Headers"]: "Content-Disposition, Content-Length, Content-Range, Accept-Ranges, ETag",
+		["Access-Control-Expose-Headers"]: "Content-Disposition, Content-Length, ETag",
 	};
 
 	static #corsHeaders(): Headers {
@@ -22,58 +22,13 @@ export class MediaProxy {
 		return new Response(message, { status, headers: MediaProxy.#corsHeaders() });
 	}
 
-	static async #resolveFilePath(token: string, identifier: string): Promise<string> {
-		const url = new URL(`https://api.telegram.org/bot${token}/getFile`);
-		url.searchParams.set("file_id", identifier);
-		const response = await fetch(url);
-		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		const object = await response.json();
-		const data = TelegramGetFileResponse.import(object, "Telegram getFile response");
-		if (!data.ok || data.result === undefined) throw new Error(data.description ?? "Telegram API error");
-		const { filePath } = data.result;
-		if (filePath === undefined) throw new Error("Telegram returned no file_path");
-		if (filePath.includes("..") || filePath.startsWith("/")) throw new Error("Invalid file_path from Telegram");
-		return filePath;
-	}
-
-	static async #pipe(request: Request, token: string, filePath: string, fileName: string | null, etag: string): Promise<Response> {
-		const quotedEtag = `"${etag}"`;
-		const ifNoneMatch = request.headers.get("If-None-Match");
-		if (ifNoneMatch === quotedEtag || ifNoneMatch === etag) {
-			const headers = MediaProxy.#corsHeaders();
-			headers.set("ETag", quotedEtag);
-			headers.set("Cache-Control", "public, max-age=31536000, immutable");
-			return new Response(null, { status: 304, headers });
-		}
-
-		const url = new URL(`https://api.telegram.org/file/bot${token}/${filePath}`);
-		const upstreamHeaders: Record<string, string> = { "Accept-Encoding": "identity" };
-		const range = request.headers.get("Range");
-		if (range !== null) upstreamHeaders["Range"] = range;
-		const upstream = await fetch(url, { headers: upstreamHeaders });
-		if (!upstream.ok && upstream.status !== 206) throw new Error(`${upstream.status}: ${upstream.statusText}`);
-
-		const headers = MediaProxy.#corsHeaders();
-		const contentType = upstream.headers.get("Content-Type");
-		if (contentType !== null) headers.set("Content-Type", contentType);
-		const contentLength = upstream.headers.get("Content-Length");
-		if (contentLength !== null) headers.set("Content-Length", contentLength);
-		const contentRange = upstream.headers.get("Content-Range");
-		if (contentRange !== null) headers.set("Content-Range", contentRange);
-		headers.set("Accept-Ranges", upstream.headers.get("Accept-Ranges") ?? "bytes");
-		headers.set("ETag", quotedEtag);
-		headers.set("Cache-Control", "public, max-age=31536000, immutable");
-		const lastModified = upstream.headers.get("Last-Modified");
-		if (lastModified !== null) headers.set("Last-Modified", lastModified);
-		if (fileName === null) fileName = filePath.split("/").at(-1) ?? null;
-		if (fileName !== null) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
-		headers.set("X-Content-Type-Options", "nosniff");
-
-		const isHead = request.method === "HEAD";
-		return new Response(isHead ? null : upstream.body, { status: upstream.status, headers });
-	}
-
-	static async handle(request: Request, token: string): Promise<Response> {
+	static async handle(
+		request: Request,
+		apiId: number,
+		apiHash: string,
+		session: string,
+		channelId: string,
+	): Promise<Response> {
 		if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: MediaProxy.#corsHeaders() });
 		if (request.method !== "GET" && request.method !== "HEAD") return MediaProxy.errorResponse(405, "Method Not Allowed");
 
@@ -83,10 +38,54 @@ export class MediaProxy {
 		if (identifier === null) return MediaProxy.errorResponse(400, "Missing required query parameter: identifier");
 		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return MediaProxy.errorResponse(400, "Invalid identifier format");
 
+		const messageId = parseInt(identifier, 10);
+		const quotedEtag = `"${identifier}"`;
+		const ifNoneMatch = request.headers.get("If-None-Match");
+		if (ifNoneMatch === quotedEtag || ifNoneMatch === identifier) {
+			const headers = MediaProxy.#corsHeaders();
+			headers.set("ETag", quotedEtag);
+			headers.set("Cache-Control", "public, max-age=31536000, immutable");
+			return new Response(null, { status: 304, headers });
+		}
+
+		const tg = new TelegramClient({
+			apiId,
+			apiHash,
+			storage: new MemoryStorage(),
+			disableUpdates: true,
+		});
+		await tg.importSession(session);
+		await tg.connect();
 		try {
-			const filePath = await MediaProxy.#resolveFilePath(token, identifier);
-			return await MediaProxy.#pipe(request, token, filePath, fileName, identifier);
+			const messages = await tg.getMessages(Number(channelId), [messageId]);
+			const message = messages[0];
+			if (message === null) return MediaProxy.errorResponse(404, "Message not found");
+			const media = message.media;
+			if (media === null) return MediaProxy.errorResponse(404, "Message has no media");
+			if (!(media instanceof FileLocation)) return MediaProxy.errorResponse(404, "Message media is not downloadable");
+			const mimeType = media instanceof Photo ? "image/jpeg" : media instanceof RawDocument ? media.mimeType : "application/octet-stream";
+			const fileSize = media.fileSize;
+
+			const headers = MediaProxy.#corsHeaders();
+			headers.set("Content-Type", mimeType);
+			headers.set("ETag", quotedEtag);
+			headers.set("Cache-Control", "public, max-age=31536000, immutable");
+			if (fileSize !== undefined) headers.set("Content-Length", String(fileSize));
+			if (fileName !== null) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
+			headers.set("X-Content-Type-Options", "nosniff");
+
+			if (request.method === "HEAD") {
+				await tg.disconnect();
+				return new Response(null, { status: 200, headers });
+			}
+
+			const upstream = tg.downloadAsStream(media);
+			const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
+			const cleanup = (): void => { void tg.disconnect(); };
+			void upstream.pipeTo(writable).then(cleanup, cleanup);
+			return new Response(readable, { status: 200, headers });
 		} catch (reason) {
+			await tg.disconnect();
 			return MediaProxy.errorResponse(502, `Upstream error: ${Error.from(reason).message}`);
 		}
 	}

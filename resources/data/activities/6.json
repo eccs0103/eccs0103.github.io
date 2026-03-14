@@ -1,5 +1,41 @@
 [
 	{
+		"platform": "Steam",
+		"timestamp": 1771868916000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5c4fb6f12a8051c6c28a2e822cc5b0bf3341967a.jpg",
+		"title": "Meat and Greet",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1771966752000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/666b44cae089729a64d45b01ea48532d6aec5776.jpg",
+		"title": "The Blast and the Furious",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1771966835000,
+		"title": "Rise",
+		"artists": [
+			"Skan",
+			"Krale",
+			"Veronica Bravo",
+			"Drama B"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273f49080d58b93e0ca4a39cf8d",
+		"url": "https://open.spotify.com/track/4N4JLrrJqo3vUMpbYO2nYo",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
 		"platform": "Spotify",
 		"timestamp": 1772032934000,
 		"title": "Bobby",
@@ -709,5 +745,79 @@
 		"repository": "eccs0103.github.io",
 		"sha": "0db9efdcabc995458e59a79fb332cf6461daa13b",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773457936000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9514b2950ad96ba95d55c480d4bebdb226d764d1",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773457940000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9f5b27819dacc662eb67e26a26993f59fa5cb1d2",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773457943000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "b12cb71b4aa2165b5ba64c707f50e087f6348e99",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773457947000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "7a9a5f4cdadc73746f2abefc9b6e93ca9050847c",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773457950000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "84d4deacb1c2613e042ef2e5be0ca9f4042e9aa5",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Telegram",
+		"timestamp": 1773497828000,
+		"message_id": 24,
+		"channel_id": "-1003471238866",
+		"media_type": "gif",
+		"file_id": "24",
+		"content": "If you are reading this, I actually pulled it off.\nHands down one of the hardest integrations of my life. Telegram just operates completely differently from any other platform out there. Had to wire up 4 different technologies just to stabilize the speed and delivery. \nI'm not even entirely sure it's completely stable. So if you notice something acting up: ¯\\_(ツ)_/¯ I did what I could.",
+		"file_name": "24.mp4",
+		"$type": "TelegramMediaPostActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773498912000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "0db391bec932950ee131d9a66b95d99ed838ba64",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773500484000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/phantom-terminals",
+		"repository": "phantom-terminals",
+		"name": "main",
+		"$type": "GitHubCreateBranchActivity"
 	}
 ]

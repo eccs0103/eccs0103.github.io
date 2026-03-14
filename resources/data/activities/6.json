@@ -882,5 +882,16 @@
 		"content": "If you are reading this, I actually pulled it off.\nHands down one of the hardest integrations of my life. Telegram just operates completely differently from any other platform out there. Had to wire up 4 different technologies just to stabilize the speed and delivery. \nI'm not even entirely sure it's completely stable. So if you notice something acting up: ¯\\_(ツ)_/¯ I did what I could.",
 		"file_name": "25.mp4",
 		"$type": "TelegramMediaPostActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1773507565000,
+		"title": "КРОВ",
+		"artists": [
+			"Tenebrax"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273dd60ce67e6d79940287b5067",
+		"url": "https://open.spotify.com/track/45Cst14CzVzy9CKJ4o8mlg",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

@@ -9,7 +9,6 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"walk": "tsx feed/controllers/activity-controller.ts",
-		"auth": "tsx feed/controllers/create-session.ts",
 		"deploy:worker": "wrangler deploy --config environment/workers/media-proxy/wrangler.toml"
 	},
 	"devDependencies": {

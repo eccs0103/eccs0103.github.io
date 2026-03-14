@@ -28,6 +28,7 @@
 
 		/* Miscellaneous */
 		"forceConsistentCasingInFileNames": true,
+		"allowArbitraryExtensions": true,
 	},
 	"include": [ "**/*.ts" ]
 }

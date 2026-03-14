@@ -1,7 +1,8 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { TelegramClient, MemoryStorage, FileLocation, Photo, RawDocument } from "@mtcute/web";
+import { TelegramClient, MemoryStorage, FileLocation, Photo, RawDocument, WebCryptoProvider } from "@mtcute/web";
+import mtcuteWasm from "@mtcute/wasm/mtcute-simd.wasm";
 
 //#region Media proxy
 export class MediaProxy {
@@ -53,6 +54,7 @@ export class MediaProxy {
 			apiHash,
 			storage: new MemoryStorage(),
 			disableUpdates: true,
+			crypto: new WebCryptoProvider({ wasmInput: mtcuteWasm }),
 		});
 		await tg.importSession(session);
 		await tg.connect();

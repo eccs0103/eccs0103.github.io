@@ -51,7 +51,8 @@ export class TelegramWalker extends ActivityWalker {
 				}
 				if (media instanceof Video) {
 					const fileName = media.fileName ?? `${messageId}.mp4`;
-					yield new TelegramMediaPostActivity(platform, message.date, messageId, this.#channelId, "video", fileId, text || null, fileName);
+					const mediaType = media.isAnimation || media.isLegacyGif ? "gif" : "video";
+					yield new TelegramMediaPostActivity(platform, message.date, messageId, this.#channelId, mediaType, fileId, text || null, fileName);
 					continue;
 				}
 				if (media instanceof RawDocument) {

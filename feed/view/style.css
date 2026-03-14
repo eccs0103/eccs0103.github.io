@@ -358,6 +358,35 @@ body {
 						}
 					}
 				}
+
+				& figure.telegram-media {
+					border-radius: var(--size-gap);
+					overflow: hidden;
+
+					& img.telegram-photo,
+					& video.telegram-gif,
+					& video.telegram-video {
+						width: 100%;
+						max-height: 50vmin;
+						object-fit: contain;
+						display: block;
+						background-color: var(--color-heavy-main);
+					}
+
+					& span.telegram-caption {
+						display: block;
+						padding: var(--size-gap);
+					}
+				}
+
+				& audio.telegram-audio {
+					width: 100%;
+				}
+
+				& a.telegram-document {
+					align-self: flex-start;
+					background-color: var(--color-heavy-main);
+				}
 			}
 		}
 

@@ -57,6 +57,25 @@ export class DOMBuilder {
 		return img;
 	}
 
+	static newVideo(url: Readonly<URL>, options: Partial<{ loop: boolean; muted: boolean; controls: boolean; autoplay: boolean; playsInline: boolean }> = {}): HTMLVideoElement {
+		const { loop = false, muted = false, controls = false, autoplay = false, playsInline = false } = options;
+		const video = document.createElement("video");
+		video.src = String(url);
+		video.loop = loop;
+		video.muted = muted;
+		video.controls = controls;
+		video.autoplay = autoplay;
+		video.playsInline = playsInline;
+		return video;
+	}
+
+	static newAudio(url: Readonly<URL>): HTMLAudioElement {
+		const audio = document.createElement("audio");
+		audio.src = String(url);
+		audio.controls = true;
+		return audio;
+	}
+
 	static print(itemContainer: HTMLElement, strings: TemplateStringsArray, ...values: any[]): void {
 		strings.forEach((string, index) => {
 			itemContainer.appendChild(DOMBuilder.newText(string));

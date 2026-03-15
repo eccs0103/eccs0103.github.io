@@ -915,5 +915,16 @@
 		"description": "Complete 50 contracts",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1773600396000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/46ff874110e49cf282cccceaf1d19d009ab4307a.jpg",
+		"title": "Dedicated",
+		"description": "Complete 30 daily tasks",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { Model, type PortableConstructor } from "adaptive-extender/core";
+import { type PortableConstructor } from "adaptive-extender/core";
 import { EnvironmentProvider, type Environment } from "./environment.js";
 
 //#region Cloudflare worker

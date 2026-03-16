@@ -9,7 +9,7 @@ Three distinct runtime layers:
 | ------------------------- | ----------------------------------------- | ------------------- |
 | Browser app / feed viewer | `feed/`, `applications/`                  | Browser             |
 | Data walker / scraper     | `feed/controllers/activity-controller.ts` | Node.js (via `tsx`) |
-| CDN proxy                 | `workers/media-proxy/`                    | Cloudflare Workers  |
+| CDN proxy                 | `workers/telegram-media-proxy/`           | Cloudflare Workers  |
 
 The entire project depends on the **`adaptive-extender`** library for:
 - `Model` base class with `@Field` / `@Descendant` / `@Deferred` decorators (serialization + polymorphism)

@@ -1,8 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { TelegramClient, MemoryStorage, FileLocation, Photo, RawDocument, WebCryptoProvider } from "@mtcute/web";
-import wasmInput from "@mtcute/wasm/mtcute-simd.wasm";
+import { TelegramChannel } from "./telegram-channel.js";
 
 //#region Media proxy
 export class MediaProxy {
@@ -17,6 +16,13 @@ export class MediaProxy {
 
 	static #corsHeaders(): Headers {
 		return new Headers(MediaProxy.#CORS);
+	}
+
+	static #cacheHeaders(etag: string): Headers {
+		const headers = MediaProxy.#corsHeaders();
+		headers.set("ETag", etag);
+		headers.set("Cache-Control", "public, max-age=31536000, immutable");
+		return headers;
 	}
 
 	static errorResponse(status: number, message: string): Response {
@@ -34,51 +40,29 @@ export class MediaProxy {
 		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return MediaProxy.errorResponse(400, "Invalid identifier format");
 
 		const messageId = Number.parseInt(identifier, 10);
-		const quotedEtag = `"${identifier}"`;
+		const etag = `"${identifier}"`;
 		const ifNoneMatch = request.headers.get("If-None-Match");
-		if (ifNoneMatch === quotedEtag || ifNoneMatch === identifier) {
-			const headers = MediaProxy.#corsHeaders();
-			headers.set("ETag", quotedEtag);
-			headers.set("Cache-Control", "public, max-age=31536000, immutable");
-			return new Response(null, { status: 304, headers });
-		}
+		if (ifNoneMatch === etag || ifNoneMatch === identifier) return new Response(null, { status: 304, headers: MediaProxy.#cacheHeaders(etag) });
 
-		const storage = new MemoryStorage();
-		const disableUpdates = true;
-		const crypto = new WebCryptoProvider({ wasmInput });
-		const telegram = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
-		await telegram.importSession(session);
-		await telegram.connect();
+		const channel = await TelegramChannel.connect(apiId, apiHash, session, channelId);
 		try {
-			const messages = await telegram.getMessages(channelId, [messageId]);
-			const [message] = messages;
-			if (message === null) return MediaProxy.errorResponse(404, "Message not found");
-			const { media } = message;
-			if (media === null) return MediaProxy.errorResponse(404, "Message has no media");
-			if (!(media instanceof FileLocation)) return MediaProxy.errorResponse(404, "Message media is not downloadable");
-			const mimeType = media instanceof Photo ? "image/jpeg" : media instanceof RawDocument ? media.mimeType : "application/octet-stream";
-			const { fileSize } = media;
-
-			const headers = MediaProxy.#corsHeaders();
+			const { mimeType, fileSize, download } = await channel.fetchMedia(messageId);
+			const headers = MediaProxy.#cacheHeaders(etag);
 			headers.set("Content-Type", mimeType);
-			headers.set("ETag", quotedEtag);
-			headers.set("Cache-Control", "public, max-age=31536000, immutable");
 			if (fileSize !== undefined) headers.set("Content-Length", String(fileSize));
 			if (fileName !== null) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
 			headers.set("X-Content-Type-Options", "nosniff");
 
 			if (request.method === "HEAD") {
-				await telegram.disconnect();
+				await channel.disconnect();
 				return new Response(null, { status: 200, headers });
 			}
 
-			const upstream = telegram.downloadAsStream(media);
-			const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
-			const cleanup = (): void => { void telegram.disconnect(); };
-			void upstream.pipeTo(writable).then(cleanup, cleanup);
-			return new Response(readable, { status: 200, headers });
+			return new Response(download(), { status: 200, headers });
 		} catch (reason) {
-			await telegram.disconnect();
+			await channel.disconnect();
+			if (reason instanceof ReferenceError) return MediaProxy.errorResponse(404, reason.message);
+			if (reason instanceof TypeError) return MediaProxy.errorResponse(404, reason.message);
 			return MediaProxy.errorResponse(502, `Upstream error: ${Error.from(reason).message}`);
 		}
 	}

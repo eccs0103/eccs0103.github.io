@@ -14,10 +14,13 @@ export interface TelegramMediaInfo {
 
 //#region Telegram channel
 export class TelegramChannel {
+	static #lock: boolean = true;
+
 	#client: TelegramClient;
 	#channelId: number;
 
-	private constructor(client: TelegramClient, channelId: number) {
+	constructor(client: TelegramClient, channelId: number) {
+		if (TelegramChannel.#lock) throw new TypeError("Illegal constructor");
 		this.#client = client;
 		this.#channelId = channelId;
 	}
@@ -27,7 +30,10 @@ export class TelegramChannel {
 		const client = new TelegramClient({ apiId, apiHash, storage: new MemoryStorage(), disableUpdates: true, crypto });
 		await client.importSession(session);
 		await client.connect();
-		return new TelegramChannel(client, channelId);
+		TelegramChannel.#lock = false;
+		const channel = new TelegramChannel(client, channelId);
+		TelegramChannel.#lock = true;
+		return channel;
 	}
 
 	async fetchMedia(messageId: number): Promise<TelegramMediaInfo> {

@@ -9,5 +9,16 @@
 		"description": "Spend $50,000",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1773688606000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/61ac93deec410268a0c56d028d2a514ad9df659d.jpg",
+		"title": "Obake Discovered",
+		"description": "Successfully identify your first Obake and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

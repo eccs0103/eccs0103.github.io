@@ -1,0 +1,13 @@
+[
+	{
+		"platform": "Steam",
+		"timestamp": 1773686510000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/18723e066c3829fb9d98d5bfbbccd3b081dd14e3.jpg",
+		"title": "Cash Cow",
+		"description": "Spend $50,000",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	}
+]

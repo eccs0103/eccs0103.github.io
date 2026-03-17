@@ -1,8 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { type PortableConstructor } from "adaptive-extender/core";
-import { EnvironmentProvider, type Environment } from "./environment.js";
+import { EnvironmentProvider, type Environment, type PortableConstructor } from "adaptive-extender/core";
 
 //#region Cloudflare worker
 export abstract class CloudflareWorker<M extends PortableConstructor<InstanceType<M>>> implements ExportedHandler<Environment> {

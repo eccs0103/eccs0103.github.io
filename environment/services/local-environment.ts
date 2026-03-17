@@ -1,6 +1,6 @@
 "use strict";
 
-import { Environment } from "adaptive-extender/node";
+import { type Environment, Field, Model } from "adaptive-extender/node";
 
 //#region Local environment
 class LocalEnvironment {
@@ -173,5 +173,38 @@ class LocalEnvironment {
 	}
 }
 
-export const env = LocalEnvironment.env;
+class FeedEnviroment extends Model {
+	@Field(String, "HOST")
+	#host: string;
+	#googleSearchId: string;
+	#googleApiKey: string;
+
+	#specialDictionary: Map<string, string>;
+
+	#origin: Date;
+
+	#githubToken: string;
+	#githubUsername: string;
+
+	#spotifyClientId: string;
+	#spotifyClientSecret: string;
+	#spotifyToken: string;
+
+	#pinterestClientId: string;
+	#pinterestClientSecret: string;
+	#pinterestToken: string;
+
+	#steamId: string;
+	#steamApiKey: string;
+
+	#stackOverflowId: string;
+	#stackOverflowApiKey: string;
+
+	#telegramApiId: number;
+	#telegramApiHash: string;
+	#telegramSession: string;
+	#telegramChannelId: string;
+}
+
+export const env = EnvironmentProvider.resolve(process.env, FeedEnviroment);
 //#endregion

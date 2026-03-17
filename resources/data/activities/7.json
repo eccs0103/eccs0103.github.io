@@ -92,5 +92,43 @@
 		"repository": "eccs0103.github.io",
 		"sha": "22214bd5518f2e9b2bf4d081f82ef05371ecd4e0",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773768684000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"name": "v0.9.10",
+		"$type": "GitHubDeleteTagActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773769249000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "3d145b0b48fb3bf7264f8603e5fa80945282d01b",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773769251000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"name": "0.9.10",
+		"$type": "GitHubDeleteTagActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773769516000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"title": "0.9.10",
+		"tag_name": "0.9.10",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

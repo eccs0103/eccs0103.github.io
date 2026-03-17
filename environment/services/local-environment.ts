@@ -66,6 +66,9 @@ class LocalEnviroment extends Model {
 	@Field(String, "SOUND_CLOUD_TOKEN")
 	soundCloudToken: string;
 
+	@Field(Number, "TELEGRAM_CHANNEL_ID")
+	telegramChannelId: number;
+
 	@Field(Number, "TELEGRAM_API_ID")
 	telegramApiId: number;
 
@@ -74,9 +77,6 @@ class LocalEnviroment extends Model {
 
 	@Field(String, "TELEGRAM_SESSION")
 	telegramSession: string;
-
-	@Field(String, "TELEGRAM_CHANNEL_ID")
-	telegramChannelId: string;
 }
 
 export const env = EnvironmentProvider.resolve(process.env, LocalEnviroment);

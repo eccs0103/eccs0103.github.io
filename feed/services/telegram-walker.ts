@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/node";
-import { TelegramClient, MemoryStorage, Photo, Video, Audio, Voice, RawDocument } from "@mtcute/node";
+import { TelegramClient, MemoryStorage, Photo, Video, Audio, Voice, RawDocument, Message } from "@mtcute/node";
 import { ActivityWalker } from "./activity-walker.js";
 import { Activity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
 
@@ -10,9 +10,9 @@ export class TelegramWalker extends ActivityWalker {
 	#apiId: number;
 	#apiHash: string;
 	#session: string;
-	#channelId: string;
+	#channelId: number;
 
-	constructor(apiId: number, apiHash: string, session: string, channelId: string) {
+	constructor(apiId: number, apiHash: string, session: string, channelId: number) {
 		super("Telegram");
 		this.#apiId = apiId;
 		this.#apiHash = apiHash;
@@ -20,52 +20,64 @@ export class TelegramWalker extends ActivityWalker {
 		this.#channelId = channelId;
 	}
 
-	async *crawl(since: Date): AsyncIterable<Activity> {
-		const platform = this.name;
-		const tg = new TelegramClient({
-			apiId: this.#apiId,
-			apiHash: this.#apiHash,
-			storage: new MemoryStorage(),
-			disableUpdates: true,
-		});
-		await tg.importSession(this.#session);
-		await tg.connect();
+	async *#fetchEvents(since: Date): AsyncIterable<Message> {
+		const apiId = this.#apiId;
+		const apiHash = this.#apiHash;
+		const storage = new MemoryStorage();
+		const disableUpdates = true;
+		const telegram = new TelegramClient({ apiId, apiHash, storage, disableUpdates });
+		await telegram.importSession(this.#session);
+		await telegram.connect();
 		try {
-			for await (const message of tg.iterHistory(Number(this.#channelId), {})) {
+			for await (const message of telegram.iterHistory(this.#channelId)) {
 				if (message.date < since) break;
-				const { id: messageId, text, media } = message;
-				const fileId = String(messageId);
-
-				if (media instanceof Photo) {
-					yield new TelegramMediaPostActivity(platform, message.date, messageId, this.#channelId, "photo", fileId, text || null, "photo.jpg");
-					continue;
-				}
-				if (media instanceof Audio) {
-					const fileName = media.fileName ?? `${messageId}.mp3`;
-					yield new TelegramMediaPostActivity(platform, message.date, messageId, this.#channelId, "audio", fileId, text || null, fileName);
-					continue;
-				}
-				if (media instanceof Voice) {
-					yield new TelegramMediaPostActivity(platform, message.date, messageId, this.#channelId, "audio", fileId, text || null, `${messageId}.ogg`);
-					continue;
-				}
-				if (media instanceof Video) {
-					const fileName = media.fileName ?? `${messageId}.mp4`;
-					const mediaType = media.isAnimation || media.isLegacyGif ? "gif" : "video";
-					yield new TelegramMediaPostActivity(platform, message.date, messageId, this.#channelId, mediaType, fileId, text || null, fileName);
-					continue;
-				}
-				if (media instanceof RawDocument) {
-					const fileName = media.fileName ?? `${messageId}`;
-					yield new TelegramMediaPostActivity(platform, message.date, messageId, this.#channelId, "document", fileId, text || null, fileName);
-					continue;
-				}
-				if (text && text.length > 0) {
-					yield new TelegramTextPostActivity(platform, message.date, messageId, this.#channelId, text);
-				}
+				yield message;
 			}
 		} finally {
-			await tg.disconnect();
+			await telegram.disconnect();
+		}
+	}
+
+	async *crawl(since: Date): AsyncIterable<Activity> {
+		const platform = this.name;
+		const channelId = this.#channelId;
+		for await (const message of this.#fetchEvents(since)) {
+			const { id: messageId, text, media } = message;
+			if (media === null) {
+				yield new TelegramTextPostActivity(platform, message.date, channelId, messageId, text);
+				continue;
+			}
+			if (media instanceof Photo) {
+				const fileName = `${messageId}.jpg`;
+				const description = text.insteadWhitespace(null);
+				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, "photo", description);
+				continue;
+			}
+			if (media instanceof Audio) {
+				const description = text.insteadWhitespace(null);
+				const fileName = media.fileName ?? `${messageId}.mp3`;
+				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, "audio", description);
+				continue;
+			}
+			if (media instanceof Voice) {
+				const fileName = media.fileName ?? `${messageId}.ogg`;
+				const description = text.insteadWhitespace(null);
+				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, "audio", description);
+				continue;
+			}
+			if (media instanceof Video) {
+				const fileName = media.fileName ?? `${messageId}.mp4`;
+				const mediaType = media.isAnimation || media.isLegacyGif ? "animation" : "video";
+				const description = text.insteadWhitespace(null);
+				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, mediaType, description);
+				continue;
+			}
+			if (media instanceof RawDocument) {
+				const fileName = media.fileName ?? `${messageId}`;
+				const description = text.insteadWhitespace(null);
+				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, "document", description);
+				continue;
+			}
 		}
 	}
 }

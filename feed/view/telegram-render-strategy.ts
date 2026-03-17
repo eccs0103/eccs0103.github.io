@@ -13,70 +13,118 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		this.#urlProxy = urlProxy;
 	}
 
-	#buildMediaUrl(fileId: string, fileName: string): URL {
+	#buildMediaUrl(fileId: number, fileName: string): URL {
 		const url = new URL(this.#urlProxy);
-		url.searchParams.set("identifier", fileId);
+		url.searchParams.set("identifier", String(fileId));
 		url.searchParams.set("filename", fileName);
 		return url;
 	}
 
-	#renderMessageLink(itemContainer: HTMLElement, channelId: string, messageId: number): void {
-		if (!channelId.startsWith("@")) return;
-		const username = channelId.slice(1);
-		const url = new URL(`https://t.me/${username}/${messageId}`);
-		const aLink = itemContainer.appendChild(DOMBuilder.newLink("View on Telegram ", url));
-		aLink.classList.add("with-block-padding", "font-smaller-3");
-		ActivityBuilder.newExternalIcon(aLink);
+	#renderText(itemContainer: HTMLElement, activity: TelegramTextPostActivity): void {
+		const { text } = activity;
+
+		const textbox = itemContainer.appendChild(DOMBuilder.newTextbox(text));
+		textbox.classList.add("telegram-text");
 	}
 
-	#renderText(itemContainer: HTMLElement, activity: TelegramTextPostActivity): void {
-		const { text, channelId, messageId } = activity;
-		itemContainer.appendChild(DOMBuilder.newTextbox(text)).classList.add("telegram-text");
-		this.#renderMessageLink(itemContainer, channelId, messageId);
+	#renderPhoto(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
+		const { messageId, fileName, description } = activity;
+
+		const figure = itemContainer.appendChild(document.createElement("figure"));
+		figure.classList.add("telegram-media");
+
+		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const image = figure.appendChild(DOMBuilder.newImage(mediaUrl, description ?? "Telegram photo"));
+		image.classList.add("telegram-photo");
+
+		if (description !== null) {
+			const itemDescription = figure.appendChild(DOMBuilder.newDescription(description))
+			itemDescription.classList.add("telegram-caption");
+		}
+	}
+
+	#renderAnimation(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
+		const { messageId, fileName, description } = activity;
+
+		const figure = itemContainer.appendChild(document.createElement("figure"));
+		figure.classList.add("telegram-media");
+
+		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const loop = true;
+		const muted = true;
+		const controls = false;
+		const autoplay = true;
+		const playsInline = true;
+		const video = figure.appendChild(DOMBuilder.newVideo(mediaUrl, { loop, muted, controls, autoplay, playsInline }));
+		video.classList.add("telegram-gif");
+
+		if (description !== null) {
+			const itemDescription = figure.appendChild(DOMBuilder.newDescription(description));
+			itemDescription.classList.add("telegram-caption");
+		}
+	}
+
+	#renderVideo(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
+		const { messageId, fileName, description } = activity;
+
+		const figure = itemContainer.appendChild(document.createElement("figure"));
+		figure.classList.add("telegram-media");
+
+		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const controls = true;
+		const video = figure.appendChild(DOMBuilder.newVideo(mediaUrl, { controls }));
+		video.classList.add("telegram-video");
+
+		if (description !== null) {
+			const itemDescription = figure.appendChild(DOMBuilder.newDescription(description));
+			itemDescription.classList.add("telegram-caption");
+		}
+	}
+
+	#renderAudio(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
+		const { messageId, fileName, description } = activity;
+
+		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const controls = true;
+		const audio = itemContainer.appendChild(DOMBuilder.newAudio(mediaUrl, { controls }));
+		audio.classList.add("telegram-audio");
+
+		if (description !== null) itemContainer.appendChild(DOMBuilder.newDescription(description));
+	}
+
+	#renderDocument(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
+		const { messageId, fileName, description } = activity;
+
+		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const aLink = itemContainer.appendChild(DOMBuilder.newLink(fileName, mediaUrl));
+		aLink.download = fileName;
+		aLink.classList.add("telegram-document", "with-padding", "rounded");
+
+		ActivityBuilder.newExternalIcon(aLink);
+
+		if (description !== null) itemContainer.appendChild(DOMBuilder.newDescription(description));
 	}
 
 	#renderMedia(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
-		const { fileId, mediaType, content, channelId, messageId, fileName } = activity;
-		const mediaUrl = this.#buildMediaUrl(fileId, fileName);
+		const { mediaType } = activity;
 
-		if (mediaType === "photo") {
-			const figure = itemContainer.appendChild(document.createElement("figure"));
-			figure.classList.add("telegram-media");
-			figure.appendChild(DOMBuilder.newImage(mediaUrl, content ?? "Telegram photo")).classList.add("telegram-photo");
-			if (content !== null) figure.appendChild(DOMBuilder.newDescription(content)).classList.add("telegram-caption");
-		} else if (mediaType === "gif") {
-			const figure = itemContainer.appendChild(document.createElement("figure"));
-			figure.classList.add("telegram-media");
-			figure.appendChild(DOMBuilder.newVideo(mediaUrl, { autoplay: true, loop: true, muted: true, playsInline: true })).classList.add("telegram-gif");
-			if (content !== null) figure.appendChild(DOMBuilder.newDescription(content)).classList.add("telegram-caption");
-		} else if (mediaType === "video") {
-			const figure = itemContainer.appendChild(document.createElement("figure"));
-			figure.classList.add("telegram-media");
-			figure.appendChild(DOMBuilder.newVideo(mediaUrl, { controls: true })).classList.add("telegram-video");
-			if (content !== null) figure.appendChild(DOMBuilder.newDescription(content)).classList.add("telegram-caption");
-		} else if (mediaType === "audio") {
-			itemContainer.appendChild(DOMBuilder.newAudio(mediaUrl)).classList.add("telegram-audio");
-			if (content !== null) itemContainer.appendChild(DOMBuilder.newDescription(content));
-		} else if (mediaType === "document") {
-			const aLink = itemContainer.appendChild(DOMBuilder.newLink(fileName ?? "Download file", mediaUrl));
-			aLink.download = fileName ?? "download";
-			aLink.classList.add("telegram-document", "with-padding", "rounded");
-			ActivityBuilder.newExternalIcon(aLink);
-			if (content !== null) itemContainer.appendChild(DOMBuilder.newDescription(content));
-		}
+		if (mediaType === "photo") return this.#renderPhoto(itemContainer, activity);
+		if (mediaType === "animation") return this.#renderAnimation(itemContainer, activity);
+		if (mediaType === "video") return this.#renderVideo(itemContainer, activity);
+		if (mediaType === "audio") return this.#renderAudio(itemContainer, activity);
+		if (mediaType === "document") return this.#renderDocument(itemContainer, activity);
+	}
 
-		this.#renderMessageLink(itemContainer, channelId, messageId);
+	#renderSingle(itemContainer: HTMLElement, activity: TelegramActivity): void {
+		if (activity instanceof TelegramTextPostActivity) return this.#renderText(itemContainer, activity);
+		if (activity instanceof TelegramMediaPostActivity) return this.#renderMedia(itemContainer, activity);
 	}
 
 	render(itemContainer: HTMLElement, buffer: readonly TelegramActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
 
 		for (const activity of buffer) {
-			if (activity instanceof TelegramTextPostActivity) {
-				this.#renderText(itemContainer, activity);
-			} else if (activity instanceof TelegramMediaPostActivity) {
-				this.#renderMedia(itemContainer, activity);
-			}
+			this.#renderSingle(itemContainer, activity);
 		}
 	}
 }

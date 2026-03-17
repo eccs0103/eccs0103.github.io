@@ -769,7 +769,7 @@ export class StackOverflowAnswerActivity extends StackOverflowActivity {
 			super();
 			return;
 		}
-		
+
 		super(platform, timestamp, title, body, score, url);
 		this.isAccepted = isAccepted;
 	}
@@ -782,31 +782,31 @@ export interface TelegramActivityDiscriminator extends TelegramTextPostActivityD
 
 export interface TelegramActivityScheme extends ActivityScheme {
 	$type: keyof TelegramActivityDiscriminator;
+	channel_id: number;
 	message_id: number;
-	channel_id: string;
 }
 
 @Descendant(Deferred(_ => TelegramTextPostActivity))
 @Descendant(Deferred(_ => TelegramMediaPostActivity))
 export abstract class TelegramActivity extends Activity {
+	@Field(Number, "channel_id")
+	channelId: number;
+
 	@Field(Number, "message_id")
 	messageId: number;
 
-	@Field(String, "channel_id")
-	channelId: string;
-
 	constructor();
-	constructor(platform: string, timestamp: Date, messageId: number, channelId: string);
-	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string) {
-		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined) {
+	constructor(platform: string, timestamp: Date, channelId: number, messageId: number);
+	constructor(platform?: string, timestamp?: Date, channelId?: number, messageId?: number) {
+		if (platform === undefined || timestamp === undefined || channelId === undefined || messageId === undefined) {
 			super();
 			return;
 		}
 
 		super(platform, timestamp);
 		if (new.target === TelegramActivity) throw new TypeError("Unable to create an instance of an abstract class");
-		this.messageId = messageId;
 		this.channelId = channelId;
+		this.messageId = messageId;
 	}
 }
 //#endregion
@@ -825,14 +825,14 @@ export class TelegramTextPostActivity extends TelegramActivity {
 	text: string;
 
 	constructor();
-	constructor(platform: string, timestamp: Date, messageId: number, channelId: string, text: string);
-	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string, text?: string) {
-		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined || text === undefined) {
+	constructor(platform: string, timestamp: Date, channelId: number, messageId: number, text: string);
+	constructor(platform?: string, timestamp?: Date, channelId?: number, messageId?: number, text?: string) {
+		if (platform === undefined || timestamp === undefined || channelId === undefined || messageId === undefined || text === undefined) {
 			super();
 			return;
 		}
 
-		super(platform, timestamp, messageId, channelId);
+		super(platform, timestamp, channelId, messageId);
 		this.text = text;
 	}
 }
@@ -844,38 +844,33 @@ export interface TelegramMediaPostActivityDiscriminator {
 
 export interface TelegramMediaPostActivityScheme extends TelegramActivityScheme {
 	$type: keyof TelegramMediaPostActivityDiscriminator;
-	media_type: string;
-	file_id: string;
-	content: string | null;
 	file_name: string;
+	media_type: string;
+	description: string | null;
 }
 
 export class TelegramMediaPostActivity extends TelegramActivity {
-	@Field(String, "media_type")
-	mediaType: string;
-
-	@Field(String, "file_id")
-	fileId: string;
-
-	@Field(Nullable(String), "content")
-	content: string | null;
-
 	@Field(String, "file_name")
 	fileName: string;
 
+	@Field(String, "media_type")
+	mediaType: string;
+
+	@Field(Nullable(String), "content")
+	description: string | null;
+
 	constructor();
-	constructor(platform: string, timestamp: Date, messageId: number, channelId: string, mediaType: string, fileId: string, content: string | null, fileName: string);
-	constructor(platform?: string, timestamp?: Date, messageId?: number, channelId?: string, mediaType?: string, fileId?: string, content?: string | null, fileName?: string) {
-		if (platform === undefined || timestamp === undefined || messageId === undefined || channelId === undefined || mediaType === undefined || fileId === undefined || content === undefined || fileName === undefined) {
+	constructor(platform: string, timestamp: Date, channelId: number, messageId: number, fileName: string, mediaType: string, description: string | null);
+	constructor(platform?: string, timestamp?: Date, channelId?: number, messageId?: number, fileName?: string, mediaType?: string, description?: string | null) {
+		if (platform === undefined || timestamp === undefined || channelId === undefined || messageId === undefined || fileName === undefined || mediaType === undefined || description === undefined) {
 			super();
 			return;
 		}
 
-		super(platform, timestamp, messageId, channelId);
-		this.mediaType = mediaType;
-		this.fileId = fileId;
-		this.content = content;
+		super(platform, timestamp, channelId, messageId);
 		this.fileName = fileName;
+		this.mediaType = mediaType;
+		this.description = description;
 	}
 }
 //#endregion

@@ -8,6 +8,20 @@ import { TextExpert } from "../services/text-expert.js";
 const { baseURI } = document;
 
 //#region DOM builder
+export interface MediaCreationOptions {
+	loop: boolean;
+	muted: boolean;
+	controls: boolean;
+	autoplay: boolean;
+}
+
+export interface AudioCreationOptions extends MediaCreationOptions {
+}
+
+export interface VideoCreationOptions extends MediaCreationOptions {
+	playsInline: boolean;
+}
+
 export class DOMBuilder {
 	static newText(text: string): Text {
 		return document.createTextNode(text);
@@ -57,22 +71,30 @@ export class DOMBuilder {
 		return img;
 	}
 
-	static newVideo(url: Readonly<URL>, options: Partial<{ loop: boolean; muted: boolean; controls: boolean; autoplay: boolean; playsInline: boolean }> = {}): HTMLVideoElement {
-		const { loop = false, muted = false, controls = false, autoplay = false, playsInline = false } = options;
+	static newVideo(url: Readonly<URL>): HTMLVideoElement;
+	static newVideo(url: Readonly<URL>, options: Partial<VideoCreationOptions>): HTMLVideoElement;
+	static newVideo(url: Readonly<URL>, options: Partial<VideoCreationOptions> = {}): HTMLVideoElement {
+		const { loop, muted, controls, autoplay, playsInline } = options;
 		const video = document.createElement("video");
 		video.src = String(url);
-		video.loop = loop;
-		video.muted = muted;
-		video.controls = controls;
-		video.autoplay = autoplay;
-		video.playsInline = playsInline;
+		if (loop !== undefined) video.loop = loop;
+		if (muted !== undefined) video.muted = muted;
+		if (controls !== undefined) video.controls = controls;
+		if (autoplay !== undefined) video.autoplay = autoplay;
+		if (playsInline !== undefined) video.playsInline = playsInline;
 		return video;
 	}
 
-	static newAudio(url: Readonly<URL>): HTMLAudioElement {
+	static newAudio(url: Readonly<URL>): HTMLAudioElement;
+	static newAudio(url: Readonly<URL>, options: Partial<AudioCreationOptions>): HTMLAudioElement;
+	static newAudio(url: Readonly<URL>, options: Partial<AudioCreationOptions> = {}): HTMLAudioElement {
+		const { loop, muted, controls, autoplay } = options;
 		const audio = document.createElement("audio");
 		audio.src = String(url);
-		audio.controls = true;
+		if (loop !== undefined) audio.loop = loop;
+		if (muted !== undefined) audio.muted = muted;
+		if (controls !== undefined) audio.controls = controls;
+		if (autoplay !== undefined) audio.autoplay = autoplay;
 		return audio;
 	}
 

@@ -24,7 +24,8 @@
 		"@google/generative-ai": "^0.24.1",
 		"@mtcute/node": "^0.28.2",
 		"@mtcute/web": "^0.28.2",
-		"adaptive-extender": "^0.9.10"
+		"adaptive-extender": "^0.9.10",
+		"dotenv": "^17.3.1"
 	},
 	"overrides": {
 		"undici": ">=7.24.0"

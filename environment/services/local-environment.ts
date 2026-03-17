@@ -15,7 +15,7 @@ class LocalEnviroment extends Model {
 	@Field(String, "GOOGLE_API_KEY")
 	googleApiKey: string;
 
-	@Field(RecordOf(String), "SPECIFIC_DICTIONARY") // Fix in env
+	@Field(RecordOf(String), "SPECIFIC_DICTIONARY")
 	specialDictionary: Map<string, string>;
 
 	@Field(Date, "ORIGIN")
@@ -57,13 +57,13 @@ class LocalEnviroment extends Model {
 	@Field(String, "STACK_OVERFLOW_API_KEY")
 	stackOverflowApiKey: string;
 
-	@Field(String, "SOUND_CLOUD_CLIENT_ID") // Fix in env
+	@Field(String, "SOUND_CLOUD_CLIENT_ID")
 	soundCloudClientId: string;
 
-	@Field(String, "SOUND_CLOUD_CLIENT_SECRET") // Fix in env
+	@Field(String, "SOUND_CLOUD_CLIENT_SECRET")
 	soundCloudClientSecret: string;
 
-	@Field(String, "SOUND_CLOUD_TOKEN") // Fix in env
+	@Field(String, "SOUND_CLOUD_TOKEN")
 	soundCloudToken: string;
 
 	@Field(Number, "TELEGRAM_API_ID")

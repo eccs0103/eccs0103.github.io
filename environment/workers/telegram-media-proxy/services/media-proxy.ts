@@ -29,7 +29,7 @@ export class MediaProxy {
 		return new Response(message, { status, headers: MediaProxy.#corsHeaders() });
 	}
 
-	static async handle(request: Request, apiId: number, apiHash: string, session: string, channelId: number): Promise<Response> {
+	static async handle(request: Request, channelId: number, apiId: number, apiHash: string, session: string): Promise<Response> {
 		if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: MediaProxy.#corsHeaders() });
 		if (request.method !== "GET" && request.method !== "HEAD") return MediaProxy.errorResponse(405, "Method Not Allowed");
 
@@ -44,7 +44,7 @@ export class MediaProxy {
 		const ifNoneMatch = request.headers.get("If-None-Match");
 		if (ifNoneMatch === etag || ifNoneMatch === identifier) return new Response(null, { status: 304, headers: MediaProxy.#cacheHeaders(etag) });
 
-		const channel = await TelegramChannel.connect(apiId, apiHash, session, channelId);
+		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
 		try {
 			const { mimeType, fileSize, download } = await channel.fetchMedia(messageId);
 			const headers = MediaProxy.#cacheHeaders(etag);

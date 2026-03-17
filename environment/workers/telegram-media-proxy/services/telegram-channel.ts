@@ -25,9 +25,11 @@ export class TelegramChannel {
 		this.#channelId = channelId;
 	}
 
-	static async connect(apiId: number, apiHash: string, session: string, channelId: number): Promise<TelegramChannel> {
+	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {
+		const storage = new MemoryStorage();
+		const disableUpdates = true;
 		const crypto = new WebCryptoProvider({ wasmInput });
-		const client = new TelegramClient({ apiId, apiHash, storage: new MemoryStorage(), disableUpdates: true, crypto });
+		const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
 		await client.importSession(session);
 		await client.connect();
 		TelegramChannel.#lock = false;

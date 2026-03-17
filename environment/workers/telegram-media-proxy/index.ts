@@ -6,6 +6,9 @@ import { CloudflareWorker } from "./services/cloudflare-worker.js";
 import { Field, Model } from "adaptive-extender/core";
 
 class Environment extends Model {
+	@Field(Number, "TELEGRAM_CHANNEL_ID")
+	channelId: number;
+
 	@Field(Number, "TELEGRAM_API_ID")
 	apiId: number;
 
@@ -14,14 +17,11 @@ class Environment extends Model {
 
 	@Field(String, "TELEGRAM_SESSION")
 	session: string;
-
-	@Field(Number, "TELEGRAM_CHANNEL_ID")
-	channelId: number;
 }
 
 class TelegramMediaProxyWorker extends CloudflareWorker<typeof Environment> {
 	async run(request: Request, env: Readonly<Environment>): Promise<Response> {
-		return await MediaProxy.handle(request, env.apiId, env.apiHash, env.session, env.channelId);
+		return await MediaProxy.handle(request, env.channelId, env.apiId, env.apiHash, env.session);
 	}
 
 	async catch(error: Error): Promise<Response> {

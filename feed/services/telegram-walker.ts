@@ -52,8 +52,7 @@ export class TelegramWalker extends ActivityWalker {
 		const apiId = this.#apiId;
 		const apiHash = this.#apiHash;
 		const storage = new MemoryStorage();
-		const disableUpdates = true;
-		const telegram = new TelegramClient({ apiId, apiHash, storage, disableUpdates });
+		const telegram = new TelegramClient({ apiId, apiHash, storage });
 		await telegram.importSession(this.#session);
 		await telegram.connect();
 		await telegram.sendOnline(false);

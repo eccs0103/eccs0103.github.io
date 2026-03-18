@@ -77,7 +77,7 @@ class ActivityController extends Controller {
 		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
 		dispatcher.connect(new SteamWalker(steamId, steamApiKey));
 		dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
-		dispatcher.connect(new TelegramWalker(telegramApiId, telegramApiHash, telegramSession, telegramChannelId));
+		dispatcher.connect(new TelegramWalker(telegramChannelId, telegramApiId, telegramApiHash, telegramSession));
 
 		console.log("Starting feed update...");
 		await dispatcher.execute(configuration.platforms);

@@ -1,35 +1,9 @@
 {
+	"extends": "../../../tsconfig.json",
 	"compilerOptions": {
-		/* Language & Environment */
-		"target": "ES2022",
-		"module": "ESNext",
-		"useDefineForClassFields": true,
 		"lib": [ "ES2022" ],
-
-		/* Module Resolution / Bundler */
-		"moduleResolution": "bundler",
-		"moduleDetection": "force",
-		"verbatimModuleSyntax": true,
-
-		/* Interop & Compatibility */
-		"esModuleInterop": true,
-		"allowJs": true,
-		"skipLibCheck": false,
-
-		/* Emit & Declarations */
-		"declaration": true,
-		"sourceMap": true,
 		"types": [ "@cloudflare/workers-types" ],
-
-		/* Type Checking & Linting */
-		"strict": true,
-		"strictPropertyInitialization": false,
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-
-		/* Miscellaneous */
-		"forceConsistentCasingInFileNames": true,
-		"allowArbitraryExtensions": true,
+		"allowArbitraryExtensions": true
 	},
 	"include": [ "**/*.ts" ]
 }

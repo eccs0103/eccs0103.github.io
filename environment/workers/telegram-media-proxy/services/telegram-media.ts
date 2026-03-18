@@ -4,6 +4,11 @@ import "adaptive-extender/core";
 import { TelegramClient, FileLocation } from "@mtcute/web";
 
 //#region Telegram media
+export interface TelegramMediaDownloadOptions {
+	offset: number;
+	limit: number;
+}
+
 export class TelegramMedia {
 	#mimeType: string;
 	#fileSize: number | undefined;
@@ -25,11 +30,13 @@ export class TelegramMedia {
 		return this.#fileSize;
 	}
 
-	download(): ReadableStream<Uint8Array> {
-		const upstream = this.#client.downloadAsStream(this.#media);
+	download(): ReadableStream<Uint8Array>;
+	download(options: Partial<TelegramMediaDownloadOptions>): ReadableStream<Uint8Array>;
+	download(options: Partial<TelegramMediaDownloadOptions> = {}): ReadableStream<Uint8Array> {
+		const { offset, limit } = options;
+		const upstream = this.#client.downloadAsStream(this.#media, { offset, limit });
 		const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
-		const cleanup = (): void => { void this.#client.disconnect(); };
-		void upstream.pipeTo(writable).then(cleanup, cleanup);
+		void upstream.pipeTo(writable);
 		return readable;
 	}
 }

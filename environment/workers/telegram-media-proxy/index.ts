@@ -3,7 +3,7 @@
 import "adaptive-extender/core";
 import { EnvironmentProvider, Field, Model, type Environment } from "adaptive-extender/core";
 import { MediaProxy } from "./services/media-proxy.js";
-import { CloudflareWorker } from "./services/cloudflare-worker.js";
+import { CloudflareWorker } from "../cloudflare-worker.js";
 import { TelegramChannel } from "./services/telegram-channel.js";
 import { ResponseFactory } from "./services/response-factory.js";
 

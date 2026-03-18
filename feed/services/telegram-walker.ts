@@ -27,7 +27,12 @@ export class TelegramWalker extends ActivityWalker {
 	]);
 
 	static #extensionFor(mimeType: string): string | null {
-		return TelegramWalker.#MIME_EXTENSIONS.get(mimeType) ?? null;
+		let extension = TelegramWalker.#MIME_EXTENSIONS.get(mimeType);
+		if (extension !== undefined) return extension;
+		extension = mimeType.split("/").at(-1);
+		if (extension === undefined) return null;
+		console.warn(`Unknown MIME type '${mimeType}' successfully resolved. Verify consistency before proceeding.`);
+		return extension;
 	}
 
 	#channelId: number;

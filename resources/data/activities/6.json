@@ -1,41 +1,5 @@
 [
 	{
-		"platform": "Steam",
-		"timestamp": 1771868916000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5c4fb6f12a8051c6c28a2e822cc5b0bf3341967a.jpg",
-		"title": "Meat and Greet",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1771966752000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/666b44cae089729a64d45b01ea48532d6aec5776.jpg",
-		"title": "The Blast and the Furious",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Spotify",
-		"timestamp": 1771966835000,
-		"title": "Rise",
-		"artists": [
-			"Skan",
-			"Krale",
-			"Veronica Bravo",
-			"Drama B"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273f49080d58b93e0ca4a39cf8d",
-		"url": "https://open.spotify.com/track/4N4JLrrJqo3vUMpbYO2nYo",
-		"$type": "SpotifyLikeActivity"
-	},
-	{
 		"platform": "Spotify",
 		"timestamp": 1772032934000,
 		"title": "Bobby",
@@ -873,17 +837,6 @@
 		"$type": "GitHubPushActivity"
 	},
 	{
-		"platform": "Telegram",
-		"timestamp": 1773505652000,
-		"message_id": 25,
-		"channel_id": "-1003471238866",
-		"media_type": "gif",
-		"file_id": "25",
-		"content": "If you are reading this, I actually pulled it off.\nHands down one of the hardest integrations of my life. Telegram just operates completely differently from any other platform out there. Had to wire up 4 different technologies just to stabilize the speed and delivery. \nI'm not even entirely sure it's completely stable. So if you notice something acting up: ¯\\_(ツ)_/¯ I did what I could.",
-		"file_name": "25.mp4",
-		"$type": "TelegramMediaPostActivity"
-	},
-	{
 		"platform": "Spotify",
 		"timestamp": 1773507565000,
 		"title": "КРОВ",
@@ -926,5 +879,71 @@
 		"description": "Complete 30 daily tasks",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Telegram",
+		"timestamp": 1773658768000,
+		"channel_id": -1003772930485,
+		"message_id": 1,
+		"text": "",
+		"$type": "TelegramTextPostActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773671742000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"name": "telegram-stability-enhance",
+		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773684931000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "1bb6d9d115ff32b48fb3b5733a5cd46cc77069d1",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773685106000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6fb443265ed4144b058fc987164b4bd92b953855",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1773686510000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/18723e066c3829fb9d98d5bfbbccd3b081dd14e3.jpg",
+		"title": "Cash Cow",
+		"description": "Spend $50,000",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1773688606000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/61ac93deec410268a0c56d028d2a514ad9df659d.jpg",
+		"title": "Obake Discovered",
+		"description": "Successfully identify your first Obake and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773750453000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "ac0ea1b5b200a529ebe14a0b65f0cf99dd060281",
+		"$type": "GitHubPushActivity"
 	}
 ]

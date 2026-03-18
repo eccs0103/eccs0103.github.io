@@ -96,11 +96,13 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		const { messageId, fileName, description } = activity;
 
 		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
-		const aLink = itemContainer.appendChild(DOMBuilder.newLink(fileName, mediaUrl));
+		const aLink = itemContainer.appendChild(DOMBuilder.newLink(String.empty, mediaUrl));
 		aLink.download = fileName;
-		aLink.classList.add("telegram-document", "with-padding", "rounded");
+		aLink.classList.add("telegram-document", "rounded", "with-padding", "flex", "with-gap", "alt-center");
 
-		ActivityBuilder.newExternalIcon(aLink);
+		aLink.appendChild(DOMBuilder.newIcon(new URL("./icons/file.svg", new URL("../", document.baseURI))));
+
+		aLink.appendChild(DOMBuilder.newTextbox(fileName));
 
 		if (description !== null) itemContainer.appendChild(DOMBuilder.newDescription(description));
 	}

@@ -20,8 +20,8 @@ class Environment extends Model {
 }
 
 class TelegramMediaProxyWorker extends CloudflareWorker<typeof Environment> {
-	async run(request: Request, env: Readonly<Environment>): Promise<Response> {
-		return await MediaProxy.handle(request, env.channelId, env.apiId, env.apiHash, env.session);
+	async run(request: Request, env: Readonly<Environment>, context: ExecutionContext): Promise<Response> {
+		return await MediaProxy.handle(request, env.channelId, env.apiId, env.apiHash, env.session, context);
 	}
 
 	async catch(error: Error): Promise<Response> {

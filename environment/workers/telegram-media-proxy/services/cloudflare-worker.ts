@@ -12,8 +12,8 @@ export abstract class CloudflareWorker<M extends PortableConstructor<InstanceTyp
 		this.#model = model;
 	}
 
-	async run(request: Request, env: Readonly<InstanceType<M>>): Promise<Response> {
-		void request, env;
+	async run(request: Request, env: Readonly<InstanceType<M>>, context: ExecutionContext): Promise<Response> {
+		void request, env, context;
 		return new Response(null, { status: 501 });
 	}
 
@@ -22,10 +22,10 @@ export abstract class CloudflareWorker<M extends PortableConstructor<InstanceTyp
 		return new Response(null, { status: 501 });
 	}
 
-	async fetch(request: Request, environment: Environment): Promise<Response> {
+	async fetch(request: Request, environment: Environment, context: ExecutionContext): Promise<Response> {
 		const env = EnvironmentProvider.resolve(environment, this.#model);
 		try {
-			return await this.run(request, env);
+			return await this.run(request, env, context);
 		} catch (reason) {
 			return await this.catch(Error.from(reason));
 		}

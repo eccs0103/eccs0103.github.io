@@ -7,7 +7,7 @@ import { Activity, TelegramMediaPostActivity, TelegramTextPostActivity } from ".
 
 //#region Telegram walker
 export class TelegramWalker extends ActivityWalker {
-	static readonly #MIME_EXTENSIONS: ReadonlyMap<string, string> = new Map([
+	static #MIME_EXTENSIONS: ReadonlyMap<string, string> = new Map([
 		["audio/mpeg", "mp3"],
 		["audio/ogg", "ogg"],
 		["audio/mp4", "m4a"],
@@ -26,21 +26,21 @@ export class TelegramWalker extends ActivityWalker {
 		["application/zip", "zip"],
 	]);
 
-	static #extensionFor(mimeType: string): string {
-		return TelegramWalker.#MIME_EXTENSIONS.get(mimeType) ?? mimeType.split("/").at(-1) ?? "bin";
+	static #extensionFor(mimeType: string): string | null {
+		return TelegramWalker.#MIME_EXTENSIONS.get(mimeType) ?? null;
 	}
 
+	#channelId: number;
 	#apiId: number;
 	#apiHash: string;
 	#session: string;
-	#channelId: number;
 
-	constructor(apiId: number, apiHash: string, session: string, channelId: number) {
+	constructor(channelId: number, apiId: number, apiHash: string, session: string) {
 		super("Telegram");
+		this.#channelId = channelId;
 		this.#apiId = apiId;
 		this.#apiHash = apiHash;
 		this.#session = session;
-		this.#channelId = channelId;
 	}
 
 	async *#fetchEvents(since: Date): AsyncIterable<Message> {
@@ -78,26 +78,34 @@ export class TelegramWalker extends ActivityWalker {
 				continue;
 			}
 			if (media instanceof Audio) {
-				const fileName = media.fileName ?? `${messageId}.${TelegramWalker.#extensionFor(media.mimeType)}`;
+				const extension = TelegramWalker.#extensionFor(media.mimeType);
+				if (extension === null) continue;
+				const fileName = media.fileName ?? `${messageId}.${extension}`;
 				const description = text.insteadWhitespace(null);
 				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, "audio", description);
 				continue;
 			}
 			if (media instanceof Voice) {
-				const fileName = media.fileName ?? `${messageId}.${TelegramWalker.#extensionFor(media.mimeType)}`;
+				const extension = TelegramWalker.#extensionFor(media.mimeType);
+				if (extension === null) continue;
+				const fileName = media.fileName ?? `${messageId}.${extension}`;
 				const description = text.insteadWhitespace(null);
 				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, "audio", description);
 				continue;
 			}
 			if (media instanceof Video) {
-				const fileName = media.fileName ?? `${messageId}.${TelegramWalker.#extensionFor(media.mimeType)}`;
+				const extension = TelegramWalker.#extensionFor(media.mimeType);
+				if (extension === null) continue;
+				const fileName = media.fileName ?? `${messageId}.${extension}`;
 				const mediaType = media.isAnimation || media.isLegacyGif ? "animation" : "video";
 				const description = text.insteadWhitespace(null);
 				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, mediaType, description);
 				continue;
 			}
 			if (media instanceof RawDocument) {
-				const fileName = media.fileName ?? `${messageId}.${TelegramWalker.#extensionFor(media.mimeType)}`;
+				const extension = TelegramWalker.#extensionFor(media.mimeType);
+				if (extension === null) continue;
+				const fileName = media.fileName ?? `${messageId}.${extension}`;
 				const description = text.insteadWhitespace(null);
 				yield new TelegramMediaPostActivity(platform, message.date, channelId, messageId, fileName, "document", description);
 				continue;

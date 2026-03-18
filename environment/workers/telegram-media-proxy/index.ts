@@ -3,9 +3,10 @@
 import "adaptive-extender/core";
 import { MediaProxy } from "./services/media-proxy.js";
 import { CloudflareWorker } from "./services/cloudflare-worker.js";
-import { Field, Model } from "adaptive-extender/core";
+import { EnvironmentProvider, Field, Model, type Environment } from "adaptive-extender/core";
+import { TelegramChannel } from "./services/telegram-channel.js";
 
-class Environment extends Model {
+class MediaProxyEnvironment extends Model {
 	@Field(Number, "TELEGRAM_CHANNEL_ID")
 	channelId: number;
 
@@ -19,9 +20,16 @@ class Environment extends Model {
 	session: string;
 }
 
-class TelegramMediaProxyWorker extends CloudflareWorker<typeof Environment> {
-	async run(request: Request, env: Readonly<Environment>, context: ExecutionContext): Promise<Response> {
-		return await MediaProxy.handle(request, env.channelId, env.apiId, env.apiHash, env.session, context);
+class TelegramMediaProxyWorker extends CloudflareWorker {
+	async run(request: Request, environment: Environment, context: ExecutionContext): Promise<Response> {
+		const { channelId, apiId, apiHash, session } = EnvironmentProvider.resolve(environment, MediaProxyEnvironment);
+		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
+		const proxy = new MediaProxy(channel);
+		try {
+			return await proxy.handle(request, context);
+		} finally {
+			await channel.disconnect();
+		}
 	}
 
 	async catch(error: Error): Promise<Response> {
@@ -29,5 +37,5 @@ class TelegramMediaProxyWorker extends CloudflareWorker<typeof Environment> {
 	}
 }
 
-const worker = new TelegramMediaProxyWorker(Environment);
+const worker = new TelegramMediaProxyWorker();
 export default worker;

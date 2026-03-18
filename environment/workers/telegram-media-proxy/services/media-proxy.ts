@@ -15,6 +15,12 @@ export class MediaProxy {
 		["Access-Control-Expose-Headers"]: "Content-Disposition, Content-Length, ETag",
 	};
 
+	#channel: TelegramChannel;
+
+	constructor(channel: TelegramChannel) {
+		this.#channel = channel;
+	}
+
 	static #corsHeaders(): Headers {
 		return new Headers(MediaProxy.#CORS);
 	}
@@ -48,7 +54,7 @@ export class MediaProxy {
 		return new Response(message, { status, headers: MediaProxy.#corsHeaders() });
 	}
 
-	static async handle(request: Request, channelId: number, apiId: number, apiHash: string, session: string, context: ExecutionContext): Promise<Response> {
+	async handle(request: Request, context: ExecutionContext): Promise<Response> {
 		if (request.method === "OPTIONS") return MediaProxy.#preflight();
 		if (request.method !== "GET" && request.method !== "HEAD") return MediaProxy.errorResponse(405, "Method Not Allowed");
 
@@ -68,20 +74,15 @@ export class MediaProxy {
 			if (cached !== undefined) return cached;
 		}
 
-		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
 		try {
-			const media = await channel.fetchMedia(messageId);
+			const media = await this.#channel.fetchMedia(messageId);
 
-			if (request.method === "HEAD") {
-				await channel.disconnect();
-				return MediaProxy.#ok(etag, media, fileName);
-			}
+			if (request.method === "HEAD") return MediaProxy.#ok(etag, media, fileName);
 
 			const response = MediaProxy.#ok(etag, media, fileName, media.download());
 			context.waitUntil(caches.default.put(new Request(request.url), response.clone()));
 			return response;
 		} catch (reason) {
-			await channel.disconnect();
 			if (reason instanceof ReferenceError) return MediaProxy.errorResponse(404, reason.message);
 			if (reason instanceof TypeError) return MediaProxy.errorResponse(404, reason.message);
 			return MediaProxy.errorResponse(502, `Upstream error: ${Error.from(reason).message}`);

@@ -258,5 +258,14 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2732510b50766a554c0dcca8377",
 		"url": "https://open.spotify.com/track/2HAH5Iv39RTtLI9MGFLlzP",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773874901000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a14af47e2e8bef9e70bd9237f504ca38cb2cd4ff",
+		"$type": "GitHubPushActivity"
 	}
 ]

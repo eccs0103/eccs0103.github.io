@@ -24,7 +24,6 @@ export class TelegramChannel {
 		const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
 		await client.importSession(session);
 		await client.connect();
-		await client.sendOnline(true);
 		TelegramChannel.#lock = false;
 		const channel = new TelegramChannel(client, channelId);
 		TelegramChannel.#lock = true;

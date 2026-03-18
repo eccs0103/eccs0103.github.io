@@ -4,6 +4,7 @@
 		"target": "ES2022",
 		"module": "ESNext",
 		"useDefineForClassFields": true,
+		"lib": [ "ES2022" ],
 
 		/* Module Resolution / Bundler */
 		"moduleResolution": "bundler",

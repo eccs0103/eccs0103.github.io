@@ -9,26 +9,21 @@ export class ResponseFactory {
 		["Access-Control-Allow-Origin"]: "*",
 		["Access-Control-Allow-Methods"]: "GET, HEAD, OPTIONS",
 		["Access-Control-Allow-Headers"]: "*",
-		["Access-Control-Expose-Headers"]: "Content-Disposition, Content-Length, ETag",
+		["Access-Control-Expose-Headers"]: "Content-Disposition, Content-Length, Content-Range",
 	};
 
 	#corsHeaders(): Headers {
 		return new Headers(ResponseFactory.#CORS);
 	}
 
-	#cacheHeaders(etag: string): Headers {
+	#mediaHeaders(media: TelegramMedia, fileName: string | null, contentLength?: number): Headers {
 		const headers = this.#corsHeaders();
-		headers.set("ETag", etag);
-		headers.set("Cache-Control", "public, max-age=31536000, immutable");
-		return headers;
-	}
-
-	#mediaHeaders(etag: string, media: TelegramMedia, fileName: string | null): Headers {
-		const headers = this.#cacheHeaders(etag);
 		headers.set("Content-Type", media.mimeType);
 		headers.set("Accept-Ranges", "bytes");
+		headers.set("Cache-Control", "no-store");
 		headers.set("X-Content-Type-Options", "nosniff");
-		if (media.fileSize !== undefined) headers.set("Content-Length", String(media.fileSize));
+		const length = contentLength ?? media.fileSize;
+		if (length !== undefined) headers.set("Content-Length", String(length));
 		if (fileName !== null) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
 		return headers;
 	}
@@ -37,12 +32,20 @@ export class ResponseFactory {
 		return new Response(null, { status: 204, headers: this.#corsHeaders() });
 	}
 
-	notModified(etag: string): Response {
-		return new Response(null, { status: 304, headers: this.#cacheHeaders(etag) });
+	ok(media: TelegramMedia, fileName: string | null, body: BodyInit | null = null): Response {
+		return new Response(body, { status: 200, headers: this.#mediaHeaders(media, fileName) });
 	}
 
-	ok(etag: string, media: TelegramMedia, fileName: string | null, body: BodyInit | null = null): Response {
-		return new Response(body, { status: 200, headers: this.#mediaHeaders(etag, media, fileName) });
+	partial(media: TelegramMedia, fileName: string | null, start: number, end: number, total: number, body: BodyInit | null = null): Response {
+		const headers = this.#mediaHeaders(media, fileName, end - start + 1);
+		headers.set("Content-Range", `bytes ${start}-${end}/${total}`);
+		return new Response(body, { status: 206, headers });
+	}
+
+	unsatisfiable(total: number): Response {
+		const headers = this.#corsHeaders();
+		headers.set("Content-Range", `bytes */${total}`);
+		return new Response(null, { status: 416, headers });
 	}
 
 	error(status: number, message: string): Response {

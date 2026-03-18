@@ -25,14 +25,11 @@ class TelegramMediaProxyWorker extends CloudflareWorker {
 	#factory: ResponseFactory = new ResponseFactory();
 
 	async run(request: Request, environment: Environment, context: ExecutionContext): Promise<Response> {
+		void context;
 		const { channelId, apiId, apiHash, session } = EnvironmentProvider.resolve(environment, MediaProxyEnvironment);
 		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
 		const proxy = new MediaProxy(channel, this.#factory);
-		try {
-			return await proxy.handle(request, context);
-		} finally {
-			await channel.disconnect();
-		}
+		return proxy.handle(request);
 	}
 
 	async catch(error: Error): Promise<Response> {

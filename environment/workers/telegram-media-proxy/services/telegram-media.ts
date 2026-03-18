@@ -1,3 +1,5 @@
+"use strict";
+
 import "adaptive-extender/core";
 import { TelegramClient, FileLocation } from "@mtcute/web";
 

@@ -1,10 +1,11 @@
 "use strict";
 
 import "adaptive-extender/core";
+import { EnvironmentProvider, Field, Model, type Environment } from "adaptive-extender/core";
 import { MediaProxy } from "./services/media-proxy.js";
 import { CloudflareWorker } from "./services/cloudflare-worker.js";
-import { EnvironmentProvider, Field, Model, type Environment } from "adaptive-extender/core";
 import { TelegramChannel } from "./services/telegram-channel.js";
+import { ResponseFactory } from "./services/response-factory.js";
 
 class MediaProxyEnvironment extends Model {
 	@Field(Number, "TELEGRAM_CHANNEL_ID")
@@ -21,10 +22,12 @@ class MediaProxyEnvironment extends Model {
 }
 
 class TelegramMediaProxyWorker extends CloudflareWorker {
+	#factory: ResponseFactory = new ResponseFactory();
+
 	async run(request: Request, environment: Environment, context: ExecutionContext): Promise<Response> {
 		const { channelId, apiId, apiHash, session } = EnvironmentProvider.resolve(environment, MediaProxyEnvironment);
 		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
-		const proxy = new MediaProxy(channel);
+		const proxy = new MediaProxy(channel, this.#factory);
 		try {
 			return await proxy.handle(request, context);
 		} finally {
@@ -33,7 +36,7 @@ class TelegramMediaProxyWorker extends CloudflareWorker {
 	}
 
 	async catch(error: Error): Promise<Response> {
-		return MediaProxy.errorResponse(500, error.message);
+		return this.#factory.error(500, error.message);
 	}
 }
 

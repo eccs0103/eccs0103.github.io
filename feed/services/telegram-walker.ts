@@ -56,7 +56,7 @@ export class TelegramWalker extends ActivityWalker {
 		const telegram = new TelegramClient({ apiId, apiHash, storage, disableUpdates });
 		await telegram.importSession(this.#session);
 		await telegram.connect();
-		await telegram.sendOnline(true);
+		await telegram.sendOnline(false);
 		try {
 			for await (const message of telegram.iterHistory(this.#channelId)) {
 				if (message.date < since) break;

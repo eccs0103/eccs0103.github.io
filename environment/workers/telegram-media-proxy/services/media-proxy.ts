@@ -30,14 +30,11 @@ export class MediaProxy {
 	}
 
 	#scheduleDisconnect(context: ExecutionContext, done: Promise<void> = Promise.resolve()): void {
-		context.waitUntil(done.finally(() => void this.#channel.disconnect().catch(() => {})));
+		// Disconnect the per-request channel after the download stream completes.
+		context.waitUntil(done.finally(() => void this.#channel.disconnect().catch(() => { })));
 	}
 
-	#streamResponse(
-		context: ExecutionContext,
-		result: TelegramMediaDownloadResult,
-		builder: (stream: ReadableStream<Uint8Array>) => Response,
-	): Response {
+	#streamResponse(context: ExecutionContext, result: TelegramMediaDownloadResult, builder: (stream: ReadableStream<Uint8Array>) => Response): Response {
 		this.#scheduleDisconnect(context, result.done);
 		return builder(result.stream);
 	}

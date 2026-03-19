@@ -17,8 +17,10 @@ export class TelegramChannel {
 		this.#channelId = channelId;
 	}
 
-	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {
-		const storage = new MemoryStorage();
+	// Creates a fresh per-request connection. Singleton is intentionally avoided:
+	// CF Workers binds I/O objects (WebSocket) to the originating request context
+	// and forbids reuse across different request contexts.
+	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {		const storage = new MemoryStorage();
 		const disableUpdates = true;
 		const crypto = new WebCryptoProvider({ wasmInput });
 		const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });

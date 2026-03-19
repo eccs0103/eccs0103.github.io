@@ -38,18 +38,12 @@ export class ResponseFactory {
 
 	partial(media: TelegramMedia, fileName: string | null, range: MediaRange, body: BodyInit | null = null): Response {
 		const { start, end, total } = range;
-		const headers = this.#corsHeaders();
-		headers.set("Content-Type", media.mimeType);
-		headers.set("Accept-Ranges", "bytes");
-		headers.set("X-Content-Type-Options", "nosniff");
-		if (fileName !== null) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
+		const headers = this.#mediaHeaders(media, fileName);
 		if (end !== undefined) {
-			const totalStr = total !== undefined ? String(total) : "*";
-			headers.set("Content-Range", `bytes ${start}-${end}/${totalStr}`);
+			headers.set("Content-Range", `bytes ${start}-${end}/${total !== undefined ? String(total) : "*"}`);
 			headers.set("Content-Length", String(end - start + 1));
 			return new Response(body, { status: 206, headers });
 		}
-		// Open-ended range with unknown total: stream from offset, report as full response
 		if (total !== undefined) headers.set("Content-Length", String(total - start));
 		return new Response(body, { status: 200, headers });
 	}

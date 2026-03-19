@@ -41,74 +41,70 @@ export class TelegramMedia {
 		return this.#fileSize;
 	}
 
+	// Telegram requires offset to be aligned to the file's internal chunk size.
+	// Files < 1 MB use 4 096-byte chunks; files >= 1 MB use 131 072-byte (128 KB) chunks.
+	#alignment(): number {
+		return (this.#fileSize !== undefined && this.#fileSize >= 1_048_576) ? 131_072 : 4_096;
+	}
+
+	#trim(upstream: ReadableStream<Uint8Array>, skip: number, limit: number | undefined): ReadableStream<Uint8Array> {
+		let skipped = 0;
+		let forwarded = 0;
+		let exhausted = false;
+		return upstream.pipeThrough(new TransformStream<Uint8Array, Uint8Array>({
+			transform(raw, controller): void {
+				if (exhausted) return;
+				let chunk = raw;
+				if (skipped < skip) {
+					const toSkip = Math.min(skip - skipped, chunk.length);
+					skipped += toSkip;
+					chunk = chunk.subarray(toSkip);
+					if (chunk.length === 0) return;
+				}
+				if (limit !== undefined) {
+					const remaining = limit - forwarded;
+					if (remaining <= 0) { exhausted = true; controller.terminate(); return; }
+					if (chunk.length > remaining) chunk = chunk.subarray(0, remaining);
+				}
+				controller.enqueue(chunk);
+				forwarded += chunk.length;
+				if (limit !== undefined && forwarded >= limit) { exhausted = true; controller.terminate(); }
+			},
+		}));
+	}
+
+	async #pipe(source: ReadableStream<Uint8Array>, writable: WritableStream<Uint8Array>, alignedOffset: number): Promise<void> {
+		const reader = source.getReader();
+		const writer = writable.getWriter();
+		try {
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) break;
+				await writer.write(value);
+			}
+			await writer.close();
+		} catch (reason) {
+			console.error(`Telegram download error (offset=${alignedOffset}): ${Error.from(reason).message}`);
+			try { await reader.cancel(); } catch { /* ignore */ }
+			try { await writer.close(); } catch { /* ignore */ }
+		} finally {
+			reader.releaseLock();
+			writer.releaseLock();
+		}
+	}
+
 	download(options: Partial<TelegramMediaDownloadOptions> = {}): TelegramMediaDownloadResult {
 		const { offset = 0, limit } = options;
-		// Telegram requires offset to be aligned to the file's internal chunk size.
-		// Files < 1 MB use 4 096-byte chunks; files >= 1 MB use 131 072-byte (128 KB) chunks.
-		const alignment = (this.#fileSize !== undefined && this.#fileSize >= 1_048_576) ? 131_072 : 4_096;
+		const alignment = this.#alignment();
 		const alignedOffset = Math.floor(offset / alignment) * alignment;
 		const skip = offset - alignedOffset;
 
 		const upstream = this.#client.downloadAsStream(this.#media, { offset: alignedOffset });
+		const source = (skip > 0 || limit !== undefined) ? this.#trim(upstream, skip, limit) : upstream;
 
-		let source: ReadableStream<Uint8Array>;
-		if (skip > 0 || limit !== undefined) {
-			let skipped = 0;
-			let forwarded = 0;
-			let terminated = false;
-			source = upstream.pipeThrough(new TransformStream<Uint8Array, Uint8Array>({
-				transform(raw, controller) {
-					if (terminated) return;
-					let chunk = raw;
-					if (skipped < skip) {
-						const toSkip = Math.min(skip - skipped, chunk.length);
-						skipped += toSkip;
-						chunk = chunk.subarray(toSkip);
-						if (chunk.length === 0) return;
-					}
-					if (limit !== undefined) {
-						const remaining = limit - forwarded;
-						if (remaining <= 0) { terminated = true; controller.terminate(); return; }
-						if (chunk.length > remaining) chunk = chunk.subarray(0, remaining);
-					}
-					controller.enqueue(chunk);
-					forwarded += chunk.length;
-					if (limit !== undefined && forwarded >= limit) { terminated = true; controller.terminate(); }
-				},
-			}));
-		} else {
-			source = upstream;
-		}
-
-		// Manual pipe with graceful error handling: if the upstream errors (e.g. a Telegram API
-		// error mid-stream), close the writable side normally so the CF runtime does not mark
-		// the response body as errored (which would show as "Exception Thrown" in wrangler tail).
-		const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
-		const done = new Promise<void>(resolve => {
-			const reader = source.getReader();
-			const writer = writable.getWriter();
-			(async () => {
-				try {
-					while (true) {
-						const { done: isDone, value } = await reader.read();
-						if (isDone) break;
-						if (value !== undefined) await writer.write(value);
-					}
-					await writer.close();
-				} catch (reason) {
-					console.error(`Telegram download error (offset=${alignedOffset}): ${Error.from(reason).message}`);
-					// Cancel the source so mtcute workers receive an abort signal and stop
-					// cleanly before the channel is disconnected, preventing a stack overflow.
-					await reader.cancel().catch(() => {});
-					await writer.close().catch(() => {});
-				} finally {
-					reader.releaseLock();
-					writer.releaseLock();
-					resolve();
-				}
-			})();
-		});
-		return { stream: readable, done };
+		const relay = new TransformStream<Uint8Array, Uint8Array>();
+		const done = this.#pipe(source, relay.writable, alignedOffset);
+		return { stream: relay.readable, done };
 	}
 }
 //#endregion

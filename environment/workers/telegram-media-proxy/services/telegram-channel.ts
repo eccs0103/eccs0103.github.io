@@ -20,7 +20,8 @@ export class TelegramChannel {
 	// Creates a fresh per-request connection. Singleton is intentionally avoided:
 	// CF Workers binds I/O objects (WebSocket) to the originating request context
 	// and forbids reuse across different request contexts.
-	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {		const storage = new MemoryStorage();
+	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {
+		const storage = new MemoryStorage();
 		const disableUpdates = true;
 		const crypto = new WebCryptoProvider({ wasmInput });
 		const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
@@ -40,8 +41,7 @@ export class TelegramChannel {
 		if (media === null) throw new ReferenceError("Message has no media");
 		if (!(media instanceof FileLocation)) throw new TypeError("Message media is not downloadable");
 		const mimeType = media instanceof RawDocument ? media.mimeType : "image/jpeg";
-		const { fileSize } = media;
-		return new TelegramMedia(mimeType, fileSize, this.#client, media);
+		return new TelegramMedia(mimeType, media.fileSize, this.#client, media);
 	}
 
 	async disconnect(): Promise<void> {

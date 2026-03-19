@@ -15,31 +15,10 @@ export class MediaProxy {
 		this.#factory = factory;
 	}
 
-	#parseRange(rangeHeader: string, fileSize: number): { start: number; end: number } | null | "unsatisfiable" {
-		const match = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader);
-		if (match === null) return null;
-		const startStr = match[1];
-		const endStr = match[2];
-		let start: number;
-		let end: number;
-		if (startStr === "" && endStr === "") return null;
-		if (startStr === "") {
-			// suffix range: bytes=-N (last N bytes)
-			const suffix = Number.parseInt(endStr, 10);
-			start = Math.max(0, fileSize - suffix);
-			end = fileSize - 1;
-		} else {
-			start = Number.parseInt(startStr, 10);
-			end = endStr === "" ? fileSize - 1 : Number.parseInt(endStr, 10);
-		}
-		if (start > end || start >= fileSize) return "unsatisfiable";
-		end = Math.min(end, fileSize - 1);
-		return { start, end };
-	}
-
-	async handle(request: Request): Promise<Response> {
+	async handle(request: Request, context: ExecutionContext): Promise<Response> {
+		void context;
 		const factory = this.#factory;
-		const { method, url, headers } = request;
+		const { method, url } = request;
 
 		if (method === "OPTIONS") return factory.preflight();
 		if (method !== "GET" && method !== "HEAD") return factory.error(405, "Method Not Allowed");
@@ -52,26 +31,8 @@ export class MediaProxy {
 
 		const messageId = Number.parseInt(identifier, 10);
 		const media = await this.#channel.fetchMedia(messageId);
-		const isGet = method === "GET";
-
-		const rangeHeader = headers.get("Range");
-		if (rangeHeader !== null && media.fileSize !== undefined) {
-			const range = this.#parseRange(rangeHeader, media.fileSize);
-			if (range === "unsatisfiable") {
-				media.dispose();
-				return factory.unsatisfiable(media.fileSize);
-			}
-			if (range !== null) {
-				const { start, end } = range;
-				const body = isGet ? media.download(start, end - start + 1) : null;
-				if (!isGet) media.dispose();
-				return factory.partial(media, fileName, start, end, media.fileSize, body);
-			}
-		}
-
-		const body = isGet ? media.download() : null;
-		if (!isGet) media.dispose();
-		return factory.ok(media, fileName, body);
+		if (method === "HEAD") return factory.ok(media, fileName);
+		return factory.ok(media, fileName, media.download());
 	}
 }
 //#endregion

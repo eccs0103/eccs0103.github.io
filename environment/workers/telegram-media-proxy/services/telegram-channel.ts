@@ -8,7 +8,6 @@ import { TelegramMedia } from "./telegram-media.js";
 //#region Telegram channel
 export class TelegramChannel {
 	static #lock: boolean = true;
-	static #instance: TelegramChannel | null = null;
 	#client: TelegramClient;
 	#channelId: number;
 
@@ -19,18 +18,16 @@ export class TelegramChannel {
 	}
 
 	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {
-		if (TelegramChannel.#instance === null) {
-			const storage = new MemoryStorage();
-			const disableUpdates = true;
-			const crypto = new WebCryptoProvider({ wasmInput });
-			const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
-			await client.importSession(session);
-			await client.connect();
-			TelegramChannel.#lock = false;
-			TelegramChannel.#instance = new TelegramChannel(client, channelId);
-			TelegramChannel.#lock = true;
-		}
-		return TelegramChannel.#instance;
+		const storage = new MemoryStorage();
+		const disableUpdates = true;
+		const crypto = new WebCryptoProvider({ wasmInput });
+		const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
+		await client.importSession(session);
+		await client.connect();
+		TelegramChannel.#lock = false;
+		const channel = new TelegramChannel(client, channelId);
+		TelegramChannel.#lock = true;
+		return channel;
 	}
 
 	async fetchMedia(messageId: number): Promise<TelegramMedia> {
@@ -47,7 +44,6 @@ export class TelegramChannel {
 
 	async disconnect(): Promise<void> {
 		await this.#client.disconnect();
-		TelegramChannel.#instance = null;
 	}
 }
 //#endregion

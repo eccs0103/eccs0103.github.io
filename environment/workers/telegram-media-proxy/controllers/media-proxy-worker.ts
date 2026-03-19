@@ -13,15 +13,19 @@ class TelegramMediaProxyWorker extends CloudflareWorker {
 	#factory: ResponseFactory = new ResponseFactory();
 
 	async run(request: Request, environment: Environment, context: ExecutionContext): Promise<Response> {
-		void context;
+		const { method, url } = request;
+
+		// Fast-path: respond without connecting to Telegram
+		if (method === "OPTIONS") return this.#factory.preflight();
+		if (method !== "GET" && method !== "HEAD") return this.#factory.error(405, "Method Not Allowed");
+		const identifier = new URL(url).searchParams.get("identifier");
+		if (identifier === null) return this.#factory.error(400, "Missing required query parameter: identifier");
+		if (!/^\d{1,15}$/.test(identifier)) return this.#factory.error(400, "Invalid identifier format");
+
 		const { channelId, apiId, apiHash, session } = EnvironmentProvider.resolve(environment, MediaProxyEnvironment);
 		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
 		const proxy = new MediaProxy(channel, this.#factory);
-		try {
-			return await proxy.handle(request, context);
-		} finally {
-			await channel.disconnect();
-		}
+		return proxy.handle(request, context);
 	}
 
 	async catch(error: Error): Promise<Response> {

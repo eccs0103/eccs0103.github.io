@@ -50,14 +50,15 @@ export class TelegramMedia {
 		const skip = offset - alignedOffset;
 
 		const upstream = this.#client.downloadAsStream(this.#media, { offset: alignedOffset });
-		const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
 
 		let source: ReadableStream<Uint8Array>;
 		if (skip > 0 || limit !== undefined) {
 			let skipped = 0;
 			let forwarded = 0;
+			let terminated = false;
 			source = upstream.pipeThrough(new TransformStream<Uint8Array, Uint8Array>({
 				transform(raw, controller) {
+					if (terminated) return;
 					let chunk = raw;
 					if (skipped < skip) {
 						const toSkip = Math.min(skip - skipped, chunk.length);
@@ -67,19 +68,46 @@ export class TelegramMedia {
 					}
 					if (limit !== undefined) {
 						const remaining = limit - forwarded;
-						if (remaining <= 0) { controller.terminate(); return; }
+						if (remaining <= 0) { terminated = true; controller.terminate(); return; }
 						if (chunk.length > remaining) chunk = chunk.subarray(0, remaining);
 					}
 					controller.enqueue(chunk);
 					forwarded += chunk.length;
-					if (limit !== undefined && forwarded >= limit) controller.terminate();
+					if (limit !== undefined && forwarded >= limit) { terminated = true; controller.terminate(); }
 				},
 			}));
 		} else {
 			source = upstream;
 		}
 
-		const done: Promise<void> = source.pipeTo(writable).then(() => { }, () => { });
+		// Manual pipe with graceful error handling: if the upstream errors (e.g. a Telegram API
+		// error mid-stream), close the writable side normally so the CF runtime does not mark
+		// the response body as errored (which would show as "Exception Thrown" in wrangler tail).
+		const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
+		const done = new Promise<void>(resolve => {
+			const reader = source.getReader();
+			const writer = writable.getWriter();
+			(async () => {
+				try {
+					while (true) {
+						const { done: isDone, value } = await reader.read();
+						if (isDone) break;
+						if (value !== undefined) await writer.write(value);
+					}
+					await writer.close();
+				} catch (reason) {
+					console.error(`Telegram download error (offset=${alignedOffset}): ${Error.from(reason).message}`);
+					// Cancel the source so mtcute workers receive an abort signal and stop
+					// cleanly before the channel is disconnected, preventing a stack overflow.
+					await reader.cancel().catch(() => {});
+					await writer.close().catch(() => {});
+				} finally {
+					reader.releaseLock();
+					writer.releaseLock();
+					resolve();
+				}
+			})();
+		});
 		return { stream: readable, done };
 	}
 }

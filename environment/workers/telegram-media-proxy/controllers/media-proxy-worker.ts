@@ -1,29 +1,14 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { EnvironmentProvider, Field, Model, type Environment } from "adaptive-extender/core";
-import { MediaProxy } from "./services/media-proxy.js";
-import { CloudflareWorker } from "../cloudflare-worker.js";
-import { TelegramChannel } from "./services/telegram-channel.js";
-import { ResponseFactory } from "./services/response-factory.js";
+import { EnvironmentProvider, type Environment } from "adaptive-extender/core";
+import { MediaProxy } from "../services/media-proxy.js";
+import { CloudflareWorker } from "../../cloudflare-worker.js";
+import { TelegramChannel } from "../services/telegram-channel.js";
+import { ResponseFactory } from "../services/response-factory.js";
+import { MediaProxyEnvironment } from "../models/media-proxy-environment.js";
 
-//#region Environment
-class MediaProxyEnvironment extends Model {
-	@Field(Number, "TELEGRAM_CHANNEL_ID")
-	channelId: number;
-
-	@Field(Number, "TELEGRAM_API_ID")
-	apiId: number;
-
-	@Field(String, "TELEGRAM_API_HASH")
-	apiHash: string;
-
-	@Field(String, "TELEGRAM_SESSION")
-	session: string;
-}
-//#endregion
-
-//#region Worker
+//#region Telegram media proxy worker
 class TelegramMediaProxyWorker extends CloudflareWorker {
 	#factory: ResponseFactory = new ResponseFactory();
 

@@ -1,5 +1,5 @@
 name = "telegram-media-proxy"
-main = "index.ts"
+main = "controllers/media-proxy-worker.ts"
 compatibility_date = "2026-03-11"
 
 # Secrets (deploy via `wrangler secret put`):

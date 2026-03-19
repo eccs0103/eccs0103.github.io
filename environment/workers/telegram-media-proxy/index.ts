@@ -7,6 +7,7 @@ import { CloudflareWorker } from "../cloudflare-worker.js";
 import { TelegramChannel } from "./services/telegram-channel.js";
 import { ResponseFactory } from "./services/response-factory.js";
 
+//#region Environment
 class MediaProxyEnvironment extends Model {
 	@Field(Number, "TELEGRAM_CHANNEL_ID")
 	channelId: number;
@@ -20,7 +21,9 @@ class MediaProxyEnvironment extends Model {
 	@Field(String, "TELEGRAM_SESSION")
 	session: string;
 }
+//#endregion
 
+//#region Worker
 class TelegramMediaProxyWorker extends CloudflareWorker {
 	#factory: ResponseFactory = new ResponseFactory();
 
@@ -29,7 +32,7 @@ class TelegramMediaProxyWorker extends CloudflareWorker {
 		const { channelId, apiId, apiHash, session } = EnvironmentProvider.resolve(environment, MediaProxyEnvironment);
 		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
 		const proxy = new MediaProxy(channel, this.#factory);
-		return proxy.handle(request);
+		return await proxy.handle(request);
 	}
 
 	async catch(error: Error): Promise<Response> {
@@ -39,3 +42,4 @@ class TelegramMediaProxyWorker extends CloudflareWorker {
 
 const worker = new TelegramMediaProxyWorker();
 export default worker;
+//#endregion

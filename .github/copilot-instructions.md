@@ -49,3 +49,17 @@ Each is registered by activity root class on the `ActivitiesRenderer`.
 ## Language
 
 Always TypeScript. Never plain `.js` files (except generated output). No JSX.
+
+## Agent Rules
+
+Behavioral rules are defined in `.github/instructions/workflow.instructions.md` (`applyTo: "**"`).  
+Key constraints (always enforced):
+- **No git.** Never run any `git` or `gh` command.
+- **Mandatory build verification.** After every change, `npm run build` must exit `0` with zero TypeScript errors.
+- **Project scripts only.** Use only the npm scripts in `package.json` — never invoke `vite`, `tsc`, `tsx`, or `wrangler` directly.
+
+## Skills
+
+| Skill               | File                                            | Use when                                 |
+| ------------------- | ----------------------------------------------- | ---------------------------------------- |
+| Add activity source | `.github/prompts/add-activity-source.prompt.md` | Integrating a new platform into the feed |

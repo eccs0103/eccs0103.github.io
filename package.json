@@ -9,8 +9,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"walk": "tsx feed/controllers/activity-controller.ts",
-		"deploy:worker:telegram": "wrangler deploy --config environment/workers/telegram-media-proxy/wrangler.toml",
-		"deploy:worker:telegram:dev": "wrangler deploy --config environment/workers/telegram-media-proxy/wrangler.toml --env development"
+		"deploy:media-proxy": "wrangler deploy --config environment/workers/telegram-media-proxy/wrangler.toml",
+		"deploy:media-proxy:dev": "wrangler deploy --config environment/workers/telegram-media-proxy/wrangler.toml --env development"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.0.0",

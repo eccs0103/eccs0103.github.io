@@ -33,10 +33,10 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		}
 	}
 
-	#renderScreenshotNode(itemContainer: HTMLElement, activity: SteamScreenshotActivity): void {
+	#buildScreenshotSlide(activity: SteamScreenshotActivity): HTMLElement {
 		const { title, url, game } = activity;
 
-		const aLink = itemContainer.appendChild(DOMBuilder.newLink(String.empty, new URL(url)));
+		const aLink = DOMBuilder.newLink(String.empty, new URL(url));
 		aLink.classList.add("screenshot-card");
 
 		const imgScreenshot = aLink.appendChild(DOMBuilder.newImage(new URL(url), title ?? `Screenshot from ${game}`));
@@ -45,9 +45,10 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		if (title !== null) {
 			const divOverlay = aLink.appendChild(document.createElement("div"));
 			divOverlay.classList.add("caption-overlay", "font-smaller-3");
-
 			divOverlay.appendChild(DOMBuilder.newTextbox(title));
 		}
+
+		return aLink;
 	}
 
 	#renderGallery(itemContainer: HTMLElement, screenshots: readonly SteamScreenshotActivity[]): void {
@@ -65,13 +66,8 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		divHeader.appendChild(DOMBuilder.newText(" from "));
 		divHeader.appendChild(DOMBuilder.newLink(game, new URL(webpage)));
 
-		const divGallery = divGroup.appendChild(document.createElement("div"));
-		divGallery.classList.add("steam-gallery");
-		divGallery.setAttribute("data-layout", count <= 4 ? String(count) : "many");
-
-		for (const screenshot of screenshots) {
-			this.#renderScreenshotNode(divGallery, screenshot);
-		}
+		const slides = screenshots.map(screenshot => this.#buildScreenshotSlide(screenshot));
+		divGroup.appendChild(DOMBuilder.newCarousel(slides));
 	}
 
 	#renderSingle(itemContainer: HTMLElement, activity: SteamActivity): void {

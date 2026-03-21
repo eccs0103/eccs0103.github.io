@@ -98,147 +98,138 @@ body {
 						margin-left: var(--size-separator);
 						margin-bottom: var(--size-small-gap);
 					}
+				}
 
-					& div.steam-gallery {
-						display: grid;
-						gap: var(--size-separator);
-						width: 100%;
-						border-radius: var(--size-gap);
-						border: var(--size-separator) solid var(--color-heavy-main);
-						overflow: hidden;
-						background-color: var(--color-heavy-main);
+				& div.media-carousel {
+					position: relative;
+					border-radius: var(--size-gap);
+					overflow: hidden;
 
-						&[data-layout="1"] {
-							grid-template-columns: 1fr;
+					& div.media-carousel-track {
+						display: flex;
+						overflow-x: scroll;
+						scroll-snap-type: x mandatory;
+						scrollbar-width: none;
 
-							& a.screenshot-card {
-								aspect-ratio: 21 / 9;
-							}
+						&::-webkit-scrollbar {
+							display: none;
 						}
 
-						&[data-layout="2"] {
-							grid-template-columns: 1fr 1fr;
-							aspect-ratio: 21 / 9;
-
-							& a.screenshot-card {
-								height: 100%;
-							}
-						}
-
-						&[data-layout="3"] {
-							grid-template-columns: 2fr 1fr;
-							grid-template-rows: 1fr 1fr;
-							aspect-ratio: 2 / 1;
-
-							& a.screenshot-card:nth-child(1) {
-								grid-row: 1 / -1;
-								grid-column: 1 / 2;
-								height: 100%;
-							}
-
-							& a.screenshot-card:nth-child(2) {
-								grid-column: 2 / 3;
-								grid-row: 1 / 2;
-							}
-
-							& a.screenshot-card:nth-child(3) {
-								grid-column: 2 / 3;
-								grid-row: 2 / 3;
-							}
-						}
-
-						&[data-layout="4"] {
-							grid-template-columns: 1fr 1fr;
-							grid-template-rows: 1fr 1fr;
+						& div.media-carousel-slide {
+							flex: 0 0 100%;
+							scroll-snap-align: start;
 							aspect-ratio: 16 / 9;
-						}
+							background-color: var(--color-heavy-main);
 
-						&[data-layout="many"] {
-							grid-template-columns: repeat(3, 1fr);
-
-							& a.screenshot-card {
-								aspect-ratio: 1 / 1;
-							}
-						}
-
-						& a.screenshot-card {
-							display: block;
-							position: relative;
-							overflow: hidden;
-
-							&::after {
-								content: "";
-								position: absolute;
-								inset: 0;
-								opacity: 0;
-								transition: opacity var(--time-duration);
-								pointer-events: none;
+							& > img,
+							& > video {
+								width: 100%;
+								height: 100%;
+								object-fit: contain;
+								display: block;
 							}
 
-							&:hover {
-								&::after {
-									opacity: 1;
+							& > a.screenshot-card {
+								display: block;
+								position: relative;
+								width: 100%;
+								height: 100%;
+								overflow: hidden;
+
+								&:hover {
+									& img.steam-screenshot {
+										filter: contrast(0.9);
+										transform: scale(1.05);
+									}
+
+									& div.caption-overlay {
+										opacity: 1;
+									}
 								}
 
 								& img.steam-screenshot {
-									filter: contrast(0.9);
-									transform: scale(1.05);
+									width: 100%;
+									height: 100%;
+									object-fit: cover;
+									display: block;
+									transition: transform var(--time-duration);
 								}
 
 								& div.caption-overlay {
-									opacity: 1;
+									position: absolute;
+									bottom: 0;
+									left: 0;
+									width: 100%;
+									padding: var(--size-gap);
+									padding-top: calc(var(--size-gap) * 3);
+									background: linear-gradient(to top, rgb(from var(--color-main) r g b / 80%) 0%, transparent 100%);
+									color: var(--color-negative);
+									font-weight: bold;
+									opacity: 0;
+									transition: opacity var(--time-duration);
+									pointer-events: none;
 								}
-							}
-
-							& img.steam-screenshot {
-								width: 100%;
-								height: 100%;
-								object-fit: cover;
-								display: block;
-								transition: transform var(--time-duration);
-							}
-
-							& div.caption-overlay {
-								position: absolute;
-								bottom: 0;
-								left: 0;
-								width: 100%;
-								padding: var(--size-gap);
-								padding-top: calc(var(--size-gap) * 3);
-								background: linear-gradient(to top, rgb(from var(--color-main) r g b / 80%) 0%, transparent 100%);
-								color: var(--color-negative);
-								font-weight: bold;
-								opacity: 0;
-								transition: opacity var(--time-duration);
-								pointer-events: none;
 							}
 						}
 					}
-				}
 
-				@media (max-width: 600px) {
-					& div.steam-group div.steam-gallery {
-						&[data-layout="many"] {
-							grid-template-columns: repeat(2, 1fr);
+					& button.carousel-nav {
+						position: absolute;
+						top: 50%;
+						transform: translateY(-50%);
+						background-color: rgb(from var(--color-main) r g b / 70%);
+						border-radius: 50%;
+						width: calc(var(--size-standart) * 1.5);
+						height: calc(var(--size-standart) * 1.5);
+						cursor: pointer;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-size: var(--size-standart);
+						color: var(--color-negative);
+						z-index: 1;
+						transition: background-color var(--time-duration);
+
+						&:hover {
+							background-color: rgb(from var(--color-main) r g b / 90%);
 						}
 
-						&[data-layout="3"] {
-							grid-template-columns: 1fr;
-							grid-template-rows: 2fr 1fr 1fr;
+						&.carousel-prev {
+							left: var(--size-gap);
 
-							& a.screenshot-card:nth-child(1) {
-								grid-column: 1 / -1;
-								grid-row: 1 / 2;
+							&::after {
+								content: "‹";
 							}
+						}
 
-							& a.screenshot-card:nth-child(2) {
-								grid-column: 1 / -1;
-								grid-row: 2 / 3;
+						&.carousel-next {
+							right: var(--size-gap);
+
+							&::after {
+								content: "›";
 							}
+						}
+					}
 
-							& a.screenshot-card:nth-child(3) {
-								grid-column: 1 / -1;
-								grid-row: 3 / 4;
+					& div.carousel-dots {
+						position: absolute;
+						bottom: var(--size-gap);
+						left: 50%;
+						transform: translateX(-50%);
+						display: flex;
+						gap: var(--size-small-gap);
+						z-index: 1;
+
+						& span.carousel-dot {
+							width: var(--size-gap);
+							height: var(--size-gap);
+							border-radius: 50%;
+							background-color: rgb(from var(--color-negative) r g b / 50%);
+							cursor: pointer;
+							transition: background-color var(--time-duration);
+
+							&.active {
+								background-color: var(--color-negative);
 							}
 						}
 					}
@@ -363,7 +354,6 @@ body {
 					border-radius: var(--size-gap);
 					overflow: hidden;
 
-					& img.telegram-photo,
 					& video.telegram-gif,
 					& video.telegram-video {
 						width: 100%;

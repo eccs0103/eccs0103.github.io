@@ -27,19 +27,21 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		textbox.classList.add("telegram-text");
 	}
 
-	#renderPhoto(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
-		const { messageId, fileName, description } = activity;
+	#renderPhotoGroup(itemContainer: HTMLElement, photos: TelegramMediaPostActivity[]): void {
+		const slides = photos.map(photo => {
+			const { messageId, fileName, description } = photo;
+			const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+			const img = DOMBuilder.newImage(mediaUrl, description ?? "Telegram photo");
+			img.classList.add("telegram-photo");
+			return img;
+		});
 
-		const figure = itemContainer.appendChild(document.createElement("figure"));
-		figure.classList.add("telegram-media");
+		const carousel = itemContainer.appendChild(DOMBuilder.newCarousel(slides));
+		carousel.classList.add("telegram-carousel");
 
-		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
-		const image = figure.appendChild(DOMBuilder.newImage(mediaUrl, description ?? "Telegram photo"));
-		image.classList.add("telegram-photo");
-
-		if (description !== null) {
-			const itemDescription = figure.appendChild(DOMBuilder.newDescription(description))
-			itemDescription.classList.add("telegram-caption");
+		const caption = photos.find(photo => photo.description !== null)?.description ?? null;
+		if (caption !== null) {
+			itemContainer.appendChild(DOMBuilder.newDescription(caption));
 		}
 	}
 
@@ -110,7 +112,6 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	#renderMedia(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
 		const { mediaType } = activity;
 
-		if (mediaType === "photo") return this.#renderPhoto(itemContainer, activity);
 		if (mediaType === "animation") return this.#renderAnimation(itemContainer, activity);
 		if (mediaType === "video") return this.#renderVideo(itemContainer, activity);
 		if (mediaType === "audio") return this.#renderAudio(itemContainer, activity);
@@ -125,8 +126,24 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	render(itemContainer: HTMLElement, buffer: readonly TelegramActivity[]): void {
 		itemContainer.classList.add("flex", "column", "with-gap");
 
-		for (const activity of buffer) {
-			this.#renderSingle(itemContainer, activity);
+		let index = 0;
+		while (index < buffer.length) {
+			const activity = buffer[index];
+
+			if (activity instanceof TelegramMediaPostActivity && activity.mediaType === "photo") {
+				const photos: TelegramMediaPostActivity[] = [activity];
+				while (index + 1 < buffer.length) {
+					const next = buffer[index + 1];
+					if (!(next instanceof TelegramMediaPostActivity) || next.mediaType !== "photo") break;
+					photos.push(next);
+					index++;
+				}
+				this.#renderPhotoGroup(itemContainer, photos);
+			} else {
+				this.#renderSingle(itemContainer, activity);
+			}
+
+			index++;
 		}
 	}
 }

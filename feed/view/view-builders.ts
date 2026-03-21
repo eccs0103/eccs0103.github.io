@@ -98,6 +98,59 @@ export class DOMBuilder {
 		return audio;
 	}
 
+	static newCarousel(slides: readonly HTMLElement[]): HTMLElement {
+		const divCarousel = document.createElement("div");
+		divCarousel.classList.add("media-carousel");
+
+		const divTrack = divCarousel.appendChild(document.createElement("div"));
+		divTrack.classList.add("media-carousel-track");
+
+		for (const slide of slides) {
+			const divSlide = divTrack.appendChild(document.createElement("div"));
+			divSlide.classList.add("media-carousel-slide");
+			divSlide.appendChild(slide);
+		}
+
+		if (slides.length > 1) {
+			const buttonPrev = divCarousel.appendChild(document.createElement("button"));
+			buttonPrev.type = "button";
+			buttonPrev.classList.add("carousel-nav", "carousel-prev");
+			buttonPrev.addEventListener("click", () => {
+				divTrack.scrollBy({ left: -divTrack.clientWidth, behavior: "smooth" });
+			});
+
+			const buttonNext = divCarousel.appendChild(document.createElement("button"));
+			buttonNext.type = "button";
+			buttonNext.classList.add("carousel-nav", "carousel-next");
+			buttonNext.addEventListener("click", () => {
+				divTrack.scrollBy({ left: divTrack.clientWidth, behavior: "smooth" });
+			});
+
+			const divDots = divCarousel.appendChild(document.createElement("div"));
+			divDots.classList.add("carousel-dots");
+
+			const dotElements: HTMLElement[] = [];
+			for (let index = 0; index < slides.length; index++) {
+				const spanDot = divDots.appendChild(document.createElement("span"));
+				spanDot.classList.add("carousel-dot");
+				if (index === 0) spanDot.classList.add("active");
+				spanDot.addEventListener("click", () => {
+					divTrack.scrollTo({ left: index * divTrack.clientWidth, behavior: "smooth" });
+				});
+				dotElements.push(spanDot);
+			}
+
+			divTrack.addEventListener("scroll", () => {
+				const index = Math.round(divTrack.scrollLeft / divTrack.clientWidth);
+				for (let i = 0; i < dotElements.length; i++) {
+					dotElements[i].classList.toggle("active", i === index);
+				}
+			});
+		}
+
+		return divCarousel;
+	}
+
 	static print(itemContainer: HTMLElement, strings: TemplateStringsArray, ...values: any[]): void {
 		strings.forEach((string, index) => {
 			itemContainer.appendChild(DOMBuilder.newText(string));

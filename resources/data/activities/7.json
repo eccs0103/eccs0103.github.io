@@ -1,5 +1,14 @@
 [
 	{
+		"platform": "GitHub",
+		"timestamp": 1773685106000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6fb443265ed4144b058fc987164b4bd92b953855",
+		"$type": "GitHubPushActivity"
+	},
+	{
 		"platform": "Steam",
 		"timestamp": 1773686510000,
 		"game": "Phasmophobia",
@@ -365,6 +374,24 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "7989cf651780fd83da3b336826f84dea6d6807f6",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774103504000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "501a827a844f86b5d6e7e800c71ce6a9790e64f6",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774103566000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "cc2a7b2dcc799f5e58f3290d09b3fe23503d7232",
 		"$type": "GitHubPushActivity"
 	}
 ]

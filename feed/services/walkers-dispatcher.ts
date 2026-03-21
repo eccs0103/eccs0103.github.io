@@ -32,10 +32,7 @@ export class ActivityDispatcher {
 			buffer.push(target);
 		}
 
-		if (buffer.length > 0) {
-			const oldest = buffer.reduce((min, current) => current.timestamp < min ? current.timestamp : min, new Date(8640_000_000_000_000));
-			if (oldest > since) since = oldest;
-		}
+		since = walker.floor(since, buffer);
 		let index = activities.length;
 		while (index--) {
 			const activity = activities[index];

@@ -71,6 +71,7 @@ export class TelegramWalker extends ActivityWalker {
 		const channelId = this.#channelId;
 		for await (const message of this.#fetchEvents(since)) {
 			const { id: messageId, text, media } = message;
+			if (!message.isChannelPost) continue;
 			if (media === null) {
 				yield new TelegramTextPostActivity(platform, message.date, channelId, messageId, text);
 				continue;

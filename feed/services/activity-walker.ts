@@ -16,6 +16,11 @@ export class ActivityWalker {
 		return this.#name;
 	}
 
+	floor(since: Date, buffer: readonly Activity[]): Date {
+		void buffer;
+		return since;
+	}
+
 	async *crawl(since: Date): AsyncIterable<Activity> {
 		void since;
 	}

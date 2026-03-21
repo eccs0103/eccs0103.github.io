@@ -90,5 +90,13 @@ export class GitHubWalker extends ActivityWalker {
 			}
 		}
 	}
+
+	floor(since: Date, buffer: readonly Activity[]): Date {
+		if (buffer.length > 0) {
+			const oldest = buffer.reduce((min, current) => current.timestamp < min ? current.timestamp : min, new Date(8640_000_000_000_000));
+			if (oldest > since) return oldest;
+		}
+		return since;
+	}
 }
 //#endregion

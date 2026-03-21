@@ -70,6 +70,14 @@
 	},
 	{
 		"platform": "Telegram",
+		"timestamp": 1767001350000,
+		"channel_id": -1003471238866,
+		"message_id": 1,
+		"text": "",
+		"$type": "TelegramTextPostActivity"
+	},
+	{
+		"platform": "Telegram",
 		"timestamp": 1767001650000,
 		"channel_id": -1003471238866,
 		"message_id": 2,

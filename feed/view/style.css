@@ -90,7 +90,6 @@ body {
 				& img.steam-icon {
 					width: calc(var(--size-standart) * 2);
 					height: calc(var(--size-standart) * 2);
-					border-radius: var(--size-gap);
 				}
 
 				& div.steam-group {
@@ -119,7 +118,6 @@ body {
 							flex: 0 0 100%;
 							scroll-snap-align: start;
 							aspect-ratio: 16 / 9;
-							background-color: var(--color-heavy-main);
 
 							& > img,
 							& > video {
@@ -135,24 +133,13 @@ body {
 								width: 100%;
 								height: 100%;
 								overflow: hidden;
-
-								&:hover {
-									& img.steam-screenshot {
-										filter: contrast(0.9);
-										transform: scale(1.05);
-									}
-
-									& div.caption-overlay {
-										opacity: 1;
-									}
-								}
+								cursor: pointer;
 
 								& img.steam-screenshot {
 									width: 100%;
 									height: 100%;
 									object-fit: cover;
 									display: block;
-									transition: transform var(--time-duration);
 								}
 
 								& div.caption-overlay {
@@ -165,8 +152,6 @@ body {
 									background: linear-gradient(to top, rgb(from var(--color-main) r g b / 80%) 0%, transparent 100%);
 									color: var(--color-negative);
 									font-weight: bold;
-									opacity: 0;
-									transition: opacity var(--time-duration);
 									pointer-events: none;
 								}
 							}
@@ -181,10 +166,6 @@ body {
 						border-radius: 50%;
 						width: calc(var(--size-standart) * 1.5);
 						height: calc(var(--size-standart) * 1.5);
-						cursor: pointer;
-						display: flex;
-						align-items: center;
-						justify-content: center;
 						font-size: var(--size-standart);
 						color: var(--color-negative);
 						z-index: 1;
@@ -216,8 +197,6 @@ body {
 						bottom: var(--size-gap);
 						left: 50%;
 						transform: translateX(-50%);
-						display: flex;
-						gap: var(--size-small-gap);
 						z-index: 1;
 
 						& span.carousel-dot {
@@ -375,7 +354,6 @@ body {
 
 				& a.telegram-document {
 					align-self: flex-start;
-					background-color: var(--color-heavy-main);
 				}
 			}
 		}

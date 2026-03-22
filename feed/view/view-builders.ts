@@ -107,27 +107,27 @@ export class DOMBuilder {
 
 		for (const slide of slides) {
 			const divSlide = divTrack.appendChild(document.createElement("div"));
-			divSlide.classList.add("media-carousel-slide");
+			divSlide.classList.add("media-carousel-slide", "depth");
 			divSlide.appendChild(slide);
 		}
 
 		if (slides.length > 1) {
 			const buttonPrev = divCarousel.appendChild(document.createElement("button"));
 			buttonPrev.type = "button";
-			buttonPrev.classList.add("carousel-nav", "carousel-prev");
+			buttonPrev.classList.add("carousel-nav", "carousel-prev", "flex", "center");
 			buttonPrev.addEventListener("click", () => {
 				divTrack.scrollBy({ left: -divTrack.clientWidth, behavior: "smooth" });
 			});
 
 			const buttonNext = divCarousel.appendChild(document.createElement("button"));
 			buttonNext.type = "button";
-			buttonNext.classList.add("carousel-nav", "carousel-next");
+			buttonNext.classList.add("carousel-nav", "carousel-next", "flex", "center");
 			buttonNext.addEventListener("click", () => {
 				divTrack.scrollBy({ left: divTrack.clientWidth, behavior: "smooth" });
 			});
 
 			const divDots = divCarousel.appendChild(document.createElement("div"));
-			divDots.classList.add("carousel-dots");
+			divDots.classList.add("carousel-dots", "flex", "with-gap", "small-gap");
 
 			const dotElements: HTMLElement[] = [];
 			for (let index = 0; index < slides.length; index++) {

@@ -78,7 +78,7 @@ export class HeaderRenderer {
 			strongConnectionName.textContent = name;
 
 			if (webpage !== null) {
-				const aConnectionLink = divConnectionRow.appendChild(DOMBuilder.newLink(String.empty, new URL(webpage)));
+				const aConnectionLink = divConnectionRow.appendChild(DOMBuilder.newLink(new URL(webpage)));
 				aConnectionLink.classList.add("connection-link", "with-inline-padding", "font-smaller-2");
 
 				ActivityBuilder.newExternalIcon(aConnectionLink);

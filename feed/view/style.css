@@ -175,7 +175,7 @@ body {
 							background-color: rgb(from var(--color-main) r g b / 90%);
 						}
 
-						&.carousel-prev {
+						&.carousel-previous {
 							left: var(--size-gap);
 
 							&::after {

@@ -24,9 +24,9 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 
 		const spanHeader = divInformation.appendChild(document.createElement("span"));
 		spanHeader.appendChild(DOMBuilder.newText("Earned \""));
-		spanHeader.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		spanHeader.appendChild(DOMBuilder.newLink(new URL(url), { text: title }));
 		spanHeader.appendChild(DOMBuilder.newText("\" in "));
-		spanHeader.appendChild(DOMBuilder.newLink(game, new URL(webpage)));
+		spanHeader.appendChild(DOMBuilder.newLink(new URL(webpage), { text: game }));
 
 		if (description !== null && !String.isWhitespace(description)) {
 			divInformation.appendChild(DOMBuilder.newDescription(description));
@@ -36,7 +36,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 	#buildScreenshotSlide(activity: SteamScreenshotActivity): HTMLElement {
 		const { title, url, game } = activity;
 
-		const aLink = DOMBuilder.newLink(String.empty, new URL(url));
+		const aLink = DOMBuilder.newLink(new URL(url));
 		aLink.classList.add("screenshot-card");
 
 		const imgScreenshot = aLink.appendChild(DOMBuilder.newImage(new URL(url), title ?? `Screenshot from ${game}`));
@@ -64,7 +64,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 		divHeader.appendChild(DOMBuilder.newText("Uploaded "));
 		divHeader.appendChild(DOMBuilder.newTextbox(`${TextExpert.getIndefiniteCardinal(count)} screenshot${TextExpert.getPluralSuffix(count)}`));
 		divHeader.appendChild(DOMBuilder.newText(" from "));
-		divHeader.appendChild(DOMBuilder.newLink(game, new URL(webpage)));
+		divHeader.appendChild(DOMBuilder.newLink(new URL(webpage), { text: game }));
 
 		const slides = screenshots.map(screenshot => this.#buildScreenshotSlide(screenshot));
 		divGroup.appendChild(DOMBuilder.newCarousel(slides));

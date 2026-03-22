@@ -3,6 +3,7 @@
 import { Random } from "adaptive-extender/web";
 import { GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, type GitHubActivity } from "../models/activity.js";
 import { TextExpert } from "./text-expert.js";
+import type { LinkCreationOptions } from "../view/view-builders.js";
 
 const random = Random.global;
 
@@ -107,7 +108,7 @@ export interface PrinterFunction {
 }
 
 export interface LinkerFunction {
-	(text: string, url: URL): Node;
+	(url: URL, options: Partial<LinkCreationOptions>): Node;
 }
 
 export interface TemplateRenderer {
@@ -244,8 +245,8 @@ export class GitHubSummaryExpert {
 
 	build(linker: LinkerFunction): SummaryContext {
 		const { primary, secondary, magnitude, label, modifier, urls } = this.#report;
-		const nodePrimary = Reflect.mapUndefined(primary, primary => linker(primary, ReferenceError.suppress(urls.get(primary))));
-		const nodeSecondary = Reflect.mapUndefined(secondary, secondary => linker(secondary, ReferenceError.suppress(urls.get(secondary))));
+		const nodePrimary = Reflect.mapUndefined(primary, primary => linker(ReferenceError.suppress(urls.get(primary)), { text: primary }));
+		const nodeSecondary = Reflect.mapUndefined(secondary, secondary => linker(ReferenceError.suppress(urls.get(secondary)), { text: secondary }));
 		return new SummaryContext(nodePrimary, nodeSecondary, magnitude, label, modifier);
 	}
 

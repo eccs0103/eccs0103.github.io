@@ -8,6 +8,11 @@ import { TextExpert } from "../services/text-expert.js";
 const { baseURI } = document;
 
 //#region DOM builder
+export interface LinkCreationOptions {
+	text: string;
+	disabled: boolean;
+}
+
 export interface MediaCreationOptions {
 	loop: boolean;
 	muted: boolean;
@@ -42,15 +47,16 @@ export class DOMBuilder {
 		return spanDescription;
 	}
 
-	static newLink(text: string, url: Readonly<URL>): HTMLAnchorElement;
-	static newLink(text: string, url: Readonly<URL>, disabled: boolean): HTMLAnchorElement;
-	static newLink(text: string, url: Readonly<URL>, disabled: boolean = false): HTMLAnchorElement {
+	static newLink(url: Readonly<URL>): HTMLAnchorElement;
+	static newLink(url: Readonly<URL>, options: Partial<LinkCreationOptions>): HTMLAnchorElement;
+	static newLink(url: Readonly<URL>, options: Partial<LinkCreationOptions> = {}): HTMLAnchorElement {
+		const { text } = options;
 		const aLink = document.createElement("a");
 		aLink.href = String(url);
-		aLink.innerText = text;
+		if (text !== undefined) aLink.innerText = text;
 		aLink.target = "_blank";
 		aLink.rel = "noopener noreferrer";
-		aLink.inert = disabled;
+		aLink.inert = options.disabled ?? false;
 		return aLink;
 	}
 
@@ -112,10 +118,10 @@ export class DOMBuilder {
 		}
 
 		if (slides.length > 1) {
-			const buttonPrev = divCarousel.appendChild(document.createElement("button"));
-			buttonPrev.type = "button";
-			buttonPrev.classList.add("carousel-nav", "carousel-prev", "flex", "center");
-			buttonPrev.addEventListener("click", () => {
+			const buttonPrevious = divCarousel.appendChild(document.createElement("button"));
+			buttonPrevious.type = "button";
+			buttonPrevious.classList.add("carousel-nav", "carousel-previous", "flex", "center");
+			buttonPrevious.addEventListener("click", () => {
 				divTrack.scrollBy({ left: -divTrack.clientWidth, behavior: "smooth" });
 			});
 
@@ -142,8 +148,8 @@ export class DOMBuilder {
 
 			divTrack.addEventListener("scroll", () => {
 				const index = Math.round(divTrack.scrollLeft / divTrack.clientWidth);
-				for (let i = 0; i < dotElements.length; i++) {
-					dotElements[i].classList.toggle("active", i === index);
+				for (let index = 0; index < dotElements.length; index++) {
+					dotElements[index].classList.toggle("active", index === index);
 				}
 			});
 		}
@@ -179,7 +185,7 @@ export class ActivityBuilder {
 		span.classList.add("experimetnal-core", "warn", "font-smaller-2");
 
 		span.appendChild(DOMBuilder.newText("This page operates on an "));
-		span.appendChild(DOMBuilder.newLink("experimental core", new URL("https://github.com/eccs0103/adaptive-extender/commits/main/")));
+		span.appendChild(DOMBuilder.newLink(new URL("https://github.com/eccs0103/adaptive-extender/commits/main/"), { text: "experimental core" }));
 		span.appendChild(DOMBuilder.newText(". Generated content may exhibit instability. Technical stabilization is in progress."));
 	}
 

@@ -32,7 +32,7 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 
 		for (const tag of tags) {
 			const url = new URL(`https://ru.stackoverflow.com/tags/${tag}`);
-			const aTag = divTags.appendChild(DOMBuilder.newLink(tag, url));
+			const aTag = divTags.appendChild(DOMBuilder.newLink(url, { text: tag }));
 			aTag.classList.add("tag", "depth", "rounded", "with-padding", "font-smaller-2");
 		}
 	}
@@ -48,7 +48,7 @@ export class StackOverflowRenderStrategy implements ActivityRenderStrategy<Stack
 
 		divHeader.appendChild(DOMBuilder.newText(context));
 
-		const aTitle = divHeader.appendChild(DOMBuilder.newLink(title, new URL(url)));
+		const aTitle = divHeader.appendChild(DOMBuilder.newLink(new URL(url), { text: title }));
 		aTitle.classList.add("entry-title");
 
 		const spanHint = divHeader.appendChild(DOMBuilder.newDescription("Click to expand"));

@@ -126,8 +126,8 @@ export class GitHubRenderStrategy implements ActivityRenderStrategy<GitHubActivi
 	}
 
 	render(itemContainer: HTMLElement, buffer: readonly GitHubActivity[]): void {
-		if (buffer.length > 1) return this.#renderCollection(itemContainer, buffer);
-		return this.#renderSingle(itemContainer, buffer[0]);
+		/* if (buffer.length > 1) */ return this.#renderCollection(itemContainer, buffer);
+		// return this.#renderSingle(itemContainer, buffer[0]);
 	}
 }
 //#endregion

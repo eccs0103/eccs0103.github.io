@@ -106,18 +106,26 @@ body {
 
 					& div.media-carousel-track {
 						display: flex;
-						overflow-x: scroll;
+						overflow-x: hidden;
 						scroll-snap-type: x mandatory;
-						scrollbar-width: none;
-
-						&::-webkit-scrollbar {
-							display: none;
-						}
 
 						& div.media-carousel-slide {
 							flex: 0 0 100%;
 							scroll-snap-align: start;
 							aspect-ratio: 16 / 9;
+
+							& div.caption-overlay {
+								position: absolute;
+								bottom: 0;
+								left: 0;
+								width: 100%;
+								padding: var(--size-gap);
+								padding-top: calc(var(--size-gap) * 3);
+								background: linear-gradient(to top, rgb(from var(--color-main) r g b / 80%) 0%, transparent 100%);
+								color: var(--color-negative);
+								font-weight: bold;
+								pointer-events: none;
+							}
 
 							& > img,
 							& > video {
@@ -125,6 +133,19 @@ body {
 								height: 100%;
 								object-fit: contain;
 								display: block;
+							}
+
+							& > div.telegram-photo-card {
+								position: relative;
+								width: 100%;
+								height: 100%;
+
+								& img.telegram-photo {
+									width: 100%;
+									height: 100%;
+									object-fit: contain;
+									display: block;
+								}
 							}
 
 							& > a.screenshot-card {
@@ -141,19 +162,6 @@ body {
 									object-fit: cover;
 									display: block;
 								}
-
-								& div.caption-overlay {
-									position: absolute;
-									bottom: 0;
-									left: 0;
-									width: 100%;
-									padding: var(--size-gap);
-									padding-top: calc(var(--size-gap) * 3);
-									background: linear-gradient(to top, rgb(from var(--color-main) r g b / 80%) 0%, transparent 100%);
-									color: var(--color-negative);
-									font-weight: bold;
-									pointer-events: none;
-								}
 							}
 						}
 					}
@@ -166,29 +174,24 @@ body {
 						border-radius: 50%;
 						width: calc(var(--size-standart) * 1.5);
 						height: calc(var(--size-standart) * 1.5);
-						font-size: var(--size-standart);
 						color: var(--color-negative);
 						z-index: 1;
-						transition: background-color var(--time-duration);
+						transition: background-color var(--time-duration), opacity var(--time-duration);
 
 						&:hover {
 							background-color: rgb(from var(--color-main) r g b / 90%);
 						}
 
+						&:disabled {
+							opacity: 0.3;
+						}
+
 						&.carousel-previous {
 							left: var(--size-gap);
-
-							&::after {
-								content: "‹";
-							}
 						}
 
 						&.carousel-next {
 							right: var(--size-gap);
-
-							&::after {
-								content: "›";
-							}
 						}
 					}
 

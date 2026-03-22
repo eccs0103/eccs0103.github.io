@@ -120,15 +120,18 @@ export class DOMBuilder {
 		if (slides.length > 1) {
 			const buttonPrevious = divCarousel.appendChild(document.createElement("button"));
 			buttonPrevious.type = "button";
+			buttonPrevious.inert = true;
 			buttonPrevious.classList.add("carousel-nav", "carousel-previous", "flex", "center");
-			buttonPrevious.addEventListener("click", () => {
+			buttonPrevious.appendChild(DOMBuilder.newIcon(new URL("../icons/left.svg", baseURI)));
+			buttonPrevious.addEventListener("click", (event) => {
 				divTrack.scrollBy({ left: -divTrack.clientWidth, behavior: "smooth" });
 			});
 
 			const buttonNext = divCarousel.appendChild(document.createElement("button"));
 			buttonNext.type = "button";
 			buttonNext.classList.add("carousel-nav", "carousel-next", "flex", "center");
-			buttonNext.addEventListener("click", () => {
+			buttonNext.appendChild(DOMBuilder.newIcon(new URL("../icons/right.svg", baseURI)));
+			buttonNext.addEventListener("click", (event) => {
 				divTrack.scrollBy({ left: divTrack.clientWidth, behavior: "smooth" });
 			});
 
@@ -140,18 +143,20 @@ export class DOMBuilder {
 				const spanDot = divDots.appendChild(document.createElement("span"));
 				spanDot.classList.add("carousel-dot");
 				if (index === 0) spanDot.classList.add("active");
-				spanDot.addEventListener("click", () => {
+				spanDot.addEventListener("click", (event) => {
 					divTrack.scrollTo({ left: index * divTrack.clientWidth, behavior: "smooth" });
 				});
 				dotElements.push(spanDot);
 			}
 
-			divTrack.addEventListener("scroll", () => {
-				const index = Math.round(divTrack.scrollLeft / divTrack.clientWidth);
+			divTrack.addEventListener("scroll", ((event) => {
+				const current = Math.round(divTrack.scrollLeft / divTrack.clientWidth);
+				buttonPrevious.inert = current === 0;
+				buttonNext.inert = current === slides.length - 1;
 				for (let index = 0; index < dotElements.length; index++) {
-					dotElements[index].classList.toggle("active", index === index);
+					dotElements[index].classList.toggle("active", index === current);
 				}
-			});
+			}));
 		}
 
 		return divCarousel;

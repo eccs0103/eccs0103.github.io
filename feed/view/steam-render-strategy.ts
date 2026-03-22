@@ -94,7 +94,7 @@ export class SteamRenderStrategy implements ActivityRenderStrategy<SteamActivity
 					if (!(next instanceof SteamScreenshotActivity)) break;
 					if (next.game !== activity.game) break;
 
-					group.push(next);
+					group.unshift(next);
 					index++;
 				}
 				this.#renderGallery(itemContainer, group);

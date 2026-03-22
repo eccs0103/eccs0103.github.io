@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
 import { TelegramActivity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
-import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
+import { DOMBuilder } from "./view-builders.js";
 
 //#region Telegram render strategy
 export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramActivity> {
@@ -27,22 +27,28 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		textbox.classList.add("telegram-text");
 	}
 
-	#renderPhotoGroup(itemContainer: HTMLElement, photos: TelegramMediaPostActivity[]): void {
-		const slides = photos.map(photo => {
-			const { messageId, fileName, description } = photo;
-			const mediaUrl = this.#buildMediaUrl(messageId, fileName);
-			const img = DOMBuilder.newImage(mediaUrl, description ?? "Telegram photo");
-			img.classList.add("telegram-photo");
-			return img;
-		});
+	#renderPhotoSlide(itemContainer: HTMLElement, photo: TelegramMediaPostActivity): HTMLElement {
+		const { messageId, fileName, description } = photo;
+		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
 
-		const carousel = itemContainer.appendChild(DOMBuilder.newCarousel(slides));
-		carousel.classList.add("telegram-carousel");
+		const div = itemContainer.appendChild(document.createElement("div"));
+		div.classList.add("telegram-photo-card");
 
-		const caption = photos.find(photo => photo.description !== null)?.description ?? null;
-		if (caption !== null) {
-			itemContainer.appendChild(DOMBuilder.newDescription(caption));
+		const img = div.appendChild(DOMBuilder.newImage(mediaUrl, description ?? "Telegram photo"));
+		img.classList.add("telegram-photo");
+
+		if (description !== null) {
+			const divOverlay = div.appendChild(document.createElement("div"));
+			divOverlay.classList.add("caption-overlay", "font-smaller-3");
+			divOverlay.appendChild(DOMBuilder.newTextbox(description));
 		}
+
+		return div;
+	}
+
+	#renderPhotoGroup(itemContainer: HTMLElement, photos: TelegramMediaPostActivity[]): void {
+		const slides = photos.map(photo => this.#renderPhotoSlide(itemContainer, photo));
+		itemContainer.appendChild(DOMBuilder.newCarousel(slides));
 	}
 
 	#renderAnimation(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
@@ -120,31 +126,45 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 
 	#renderSingle(itemContainer: HTMLElement, activity: TelegramActivity): void {
 		if (activity instanceof TelegramTextPostActivity) return this.#renderText(itemContainer, activity);
-		if (activity instanceof TelegramMediaPostActivity) return this.#renderMedia(itemContainer, activity);
+		if (activity instanceof TelegramMediaPostActivity) {
+			if (activity.mediaType === "photo") return this.#renderPhotoGroup(itemContainer, [activity]);
+			return this.#renderMedia(itemContainer, activity);
+		}
+	}
+
+	#renderCollection(itemContainer: HTMLElement, activities: readonly TelegramActivity[]): void {
+		itemContainer.classList.add("flex", "column", "with-gap");
+
+		for (let index = 0; index < activities.length; index++) {
+			const activity = activities[index];
+
+			if (activity instanceof TelegramTextPostActivity) {
+				this.#renderSingle(itemContainer, activity);
+				continue;
+			}
+
+			if (!(activity instanceof TelegramMediaPostActivity) || activity.mediaType !== "photo") {
+				this.#renderSingle(itemContainer, activity);
+				continue;
+			}
+
+			if (activity instanceof TelegramMediaPostActivity) {
+				const group: TelegramMediaPostActivity[] = [activity];
+
+				while (index + 1 < activities.length) {
+					const next = activities[index + 1];
+					if (!(next instanceof TelegramMediaPostActivity) || next.mediaType !== "photo") break;
+					group.unshift(next);
+					index++;
+				}
+				this.#renderPhotoGroup(itemContainer, group);
+			}
+		}
 	}
 
 	render(itemContainer: HTMLElement, buffer: readonly TelegramActivity[]): void {
-		itemContainer.classList.add("flex", "column", "with-gap");
-
-		let index = 0;
-		while (index < buffer.length) {
-			const activity = buffer[index];
-
-			if (activity instanceof TelegramMediaPostActivity && activity.mediaType === "photo") {
-				const photos: TelegramMediaPostActivity[] = [activity];
-				while (index + 1 < buffer.length) {
-					const next = buffer[index + 1];
-					if (!(next instanceof TelegramMediaPostActivity) || next.mediaType !== "photo") break;
-					photos.push(next);
-					index++;
-				}
-				this.#renderPhotoGroup(itemContainer, photos);
-			} else {
-				this.#renderSingle(itemContainer, activity);
-			}
-
-			index++;
-		}
+		if (buffer.length > 1) return this.#renderCollection(itemContainer, buffer);
+		return this.#renderSingle(itemContainer, buffer[0]);
 	}
 }
 //#endregion

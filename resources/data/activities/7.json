@@ -1,14 +1,5 @@
 [
 	{
-		"platform": "GitHub",
-		"timestamp": 1773685106000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "6fb443265ed4144b058fc987164b4bd92b953855",
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"platform": "Steam",
 		"timestamp": 1773686510000,
 		"game": "Phasmophobia",
@@ -653,5 +644,77 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/1605250/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217639000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "390b51116b8a98b46724c40dbe9d7d106dd63f10",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217645000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "fa7db68fdaf7f3a8f67144d872409588ea2d0e0c",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217651000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "42a1db67020531dc08b328638782f1c6511eb74f",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217656000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "9006268a9fc55b16fd122f552f0b6b851700ac7e",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217663000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ed67623cece64433ecbb854a15b90bf694ad54a0",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217668000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "ebd0a9b2b7f8bf018f5b06b92d4c52dc747c6592",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217770000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a5b9069e4fe18017682a393ad7b1d8bf4fa216e8",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1774217796000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "a5b9069e4fe18017682a393ad7b1d8bf4fa216e8",
+		"$type": "GitHubPushActivity"
 	}
 ]

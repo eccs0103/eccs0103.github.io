@@ -1,14 +1,5 @@
 [
 	{
-		"platform": "GitHub",
-		"timestamp": 1767827877000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "system-improvements",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
 		"platform": "Spotify",
 		"timestamp": 1767888652000,
 		"title": "Fragments",
@@ -969,6 +960,15 @@
 		"url": "https://github.com/eccs0103/adaptive-extender",
 		"repository": "adaptive-extender",
 		"sha": "6c80f8319f7df25532d13d6f591bd92b6f1a18cf",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1769199181000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "5db4500ccc5ee97ed66338fed06937eca1e381de",
 		"$type": "GitHubPushActivity"
 	}
 ]

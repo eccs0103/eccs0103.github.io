@@ -1,17 +1,6 @@
 [
 	{
 		"platform": "Steam",
-		"timestamp": 1771796899000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/076f153b98f6eb10e736e20c8240c6c9f659949f.jpg",
-		"title": "Industrious In The Face Of Cosmic Terror",
-		"description": "Complete all Crew Challenges and Side Missions on Xylourgos.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
 		"timestamp": 1771868916000,
 		"game": "Borderlands 3",
 		"webpage": "https://store.steampowered.com/app/397540",
@@ -953,6 +942,15 @@
 		"url": "https://github.com/eccs0103/eccs0103.github.io",
 		"repository": "eccs0103.github.io",
 		"sha": "1bb6d9d115ff32b48fb3b5733a5cd46cc77069d1",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1773685106000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "6fb443265ed4144b058fc987164b4bd92b953855",
 		"$type": "GitHubPushActivity"
 	}
 ]

@@ -108,13 +108,13 @@ export class BirthdaysRenderer extends EventTarget {
 
 	#initializeListeners(): void {
 		const divScrollPicker = this.#divScrollPicker!;
-		divScrollPicker.addEventListener("scroll", () => {
+		divScrollPicker.addEventListener("scroll", (event) => {
 			const pair = this.#findPickerClosest();
 			if (pair?.[1] === this.#buttonPickerSelection) return;
 			this.#setPickerSelection(pair);
 		}, { passive: true });
 
-		divScrollPicker.addEventListener("click", event => {
+		divScrollPicker.addEventListener("click", (event) => {
 			const { target } = event;
 			if (!(target instanceof Element)) return;
 			const button = target.closest("button");

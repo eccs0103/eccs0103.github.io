@@ -1,0 +1,15 @@
+[
+	{
+		"date": "2026-03-20",
+		"changes": [
+			"Changelog system introduced — version updates will now appear here on every new visit after an update."
+		]
+	},
+	{
+		"date": "2026-03-14",
+		"changes": [
+			"Any another update",
+			"Very another update"
+		]
+	}
+]

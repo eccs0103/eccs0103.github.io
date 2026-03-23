@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller, Timespan } from "adaptive-extender/web";
+import { ArrayOf, Controller, Timespan } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ClientBridge } from "../services/client-bridge.js";
 import { DataTable } from "../services/data-table.js";
@@ -10,8 +10,11 @@ import { FooterRenderer } from "../view/footer-renderer.js";
 import { MetadataInjector } from "../../environment/services/metadata-injector.js";
 import { HeaderRenderer } from "../view/header-renderer.js";
 import { Configuration } from "../models/configuration.js";
+import { ChangelogEntry, type ChangelogEntryScheme } from "../models/changelog.js";
 import { type Bridge } from "../services/bridge.js";
 import { SettingsService } from "../services/settings-service.js";
+import { ChangelogService } from "../services/changelog-service.js";
+import { ChangelogRenderer } from "../view/changelog-renderer.js";
 
 const { baseURI, body } = document;
 
@@ -27,15 +30,26 @@ class WebpageController extends Controller {
 		return Configuration.import(object, "configuration");
 	}
 
+	async #readChangelog(url: Readonly<URL>): Promise<ChangelogEntry[]> {
+		const bridge = this.#bridge;
+		const content = await bridge.read(url);
+		if (content === null) throw new ReferenceError();
+		const object = JSON.parse(content);
+		return ArrayOf<ChangelogEntry, ChangelogEntryScheme>(ChangelogEntry).import(object, "changelog");
+	}
+
 	async run(): Promise<void> {
-		const configuration = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
+		const [configuration, changelog] = await Promise.all([
+			this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI)),
+			this.#readChangelog(new URL("../data/feed-changelog.json", baseURI)),
+		]);
 
 		const bridge = this.#bridge;
 		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
 
 		const { platforms } = configuration;
-		const settings = new SettingsService(new Set(platforms.filter(platform => platform.status === "connected").map(platform => platform.name)));
-		const rendererHeader = new HeaderRenderer(body, settings);
+		const serviceSettings = new SettingsService(new Set(platforms.filter(platform => platform.status === "connected").map(platform => platform.name)));
+		const rendererHeader = new HeaderRenderer(body, serviceSettings);
 		await rendererHeader.render(platforms);
 
 		const main = await body.getElementAsync(HTMLElement, "main");
@@ -45,6 +59,10 @@ class WebpageController extends Controller {
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const rendererFooter = new FooterRenderer(footer);
 		await rendererFooter.render();
+
+		const serviceChangelog = new ChangelogService(changelog);
+		const rendererChangelog = new ChangelogRenderer(body);
+		await rendererChangelog.render(serviceChangelog);
 
 		MetadataInjector.inject({
 			type: "Person",

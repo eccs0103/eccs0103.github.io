@@ -805,5 +805,16 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1774471254000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/2e44be217a3c6830efa48efc2a729ee1f08ec748.jpg",
+		"title": "Last Drive",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -38,7 +38,7 @@ export class TelegramChannel {
 		if (media === undefined) throw new ReferenceError("Message has no media");
 		if (!(media instanceof FileLocation)) throw new TypeError("Message media is not downloadable");
 		const mimeType = media instanceof RawDocument ? media.mimeType : "image/jpeg";
-		const mediaSize = media.fileSize !== undefined ? media.fileSize : Number.POSITIVE_INFINITY;
+		const mediaSize = media.fileSize ?? Number.POSITIVE_INFINITY;
 		return new TelegramMedia(mimeType, mediaSize, this.#client, media);
 	}
 

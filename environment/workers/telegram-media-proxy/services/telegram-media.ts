@@ -15,6 +15,70 @@ export interface TelegramMediaDownloadResult {
 	completion: Promise<void>;
 }
 
+class DownloadSession {
+	readonly completion: Promise<void>;
+	#reader: ReadableStreamDefaultReader<Uint8Array>;
+	#skip: number;
+	#limit: number;
+	#skipped: number = 0;
+	#forwarded: number = 0;
+	#cancelled: boolean = false;
+	#resolveCompletion!: () => void;
+
+	constructor(reader: ReadableStreamDefaultReader<Uint8Array>, skip: number, limit: number) {
+		this.#reader = reader;
+		this.#skip = skip;
+		this.#limit = limit;
+		this.completion = new Promise<void>(resolve => { this.#resolveCompletion = resolve; });
+	}
+
+	#finish(controller: ReadableStreamDefaultController<Uint8Array>): void {
+		controller.close();
+		this.#resolveCompletion();
+	}
+
+	async pull(controller: ReadableStreamDefaultController<Uint8Array>): Promise<void> {
+		if (this.#cancelled) return;
+		try {
+			while (true) {
+				const { done, value } = await this.#reader.read();
+				if (this.#cancelled) return;
+				if (done) return this.#finish(controller);
+
+				let chunk = value;
+
+				if (this.#skipped < this.#skip) {
+					const toSkip = Math.min(this.#skip - this.#skipped, chunk.length);
+					this.#skipped += toSkip;
+					chunk = chunk.subarray(toSkip);
+					if (chunk.length === 0) continue;
+				}
+
+				if (this.#limit !== Number.POSITIVE_INFINITY) {
+					const remaining = this.#limit - this.#forwarded;
+					if (remaining <= 0) return this.#finish(controller);
+					if (chunk.length > remaining) chunk = chunk.subarray(0, remaining);
+				}
+
+				controller.enqueue(chunk);
+				this.#forwarded += chunk.length;
+				if (this.#limit !== Number.POSITIVE_INFINITY && this.#forwarded >= this.#limit) this.#finish(controller);
+				return;
+			}
+		} catch (reason) {
+			if (!this.#cancelled) controller.error(reason);
+			this.#resolveCompletion();
+		}
+	}
+
+	async cancel(cause?: unknown): Promise<void> {
+		this.#cancelled = true;
+		try { await this.#reader.cancel(cause); }
+		catch (reason) { console.error(`Reader cancellation failed:\n${Error.from(reason)}`); }
+		this.#resolveCompletion();
+	}
+}
+
 export class TelegramMedia {
 	#mimeType: string;
 	#fileSize: number;
@@ -43,73 +107,9 @@ export class TelegramMedia {
 	download(offset: number = 0, limit: number = Number.POSITIVE_INFINITY): TelegramMediaDownloadResult {
 		const alignment = this.#alignment();
 		const alignedOffset = Math.floor(offset / alignment) * alignment;
-		const skip = offset - alignedOffset;
-
-		let resolveCompletion!: () => void;
-		const completion = new Promise<void>(resolve => { resolveCompletion = resolve; });
-
 		const upstream = this.#client.downloadAsStream(this.#media, { offset: alignedOffset });
-		const upstreamReader = upstream.getReader();
-
-		let skipped = 0;
-		let forwarded = 0;
-		let cancelled = false;
-
-		const stream = new ReadableStream<Uint8Array>({
-			async pull(controller): Promise<void> {
-				if (cancelled) return;
-				try {
-					while (true) {
-						const { done, value } = await upstreamReader.read();
-						if (cancelled) return;
-						if (done) {
-							controller.close();
-							resolveCompletion();
-							return;
-						}
-
-						let chunk: Uint8Array = value;
-
-						if (skipped < skip) {
-							const toSkip = Math.min(skip - skipped, chunk.length);
-							skipped += toSkip;
-							chunk = chunk.subarray(toSkip);
-							if (chunk.length === 0) continue;
-						}
-
-						if (limit !== Number.POSITIVE_INFINITY) {
-							const remaining = limit - forwarded;
-							if (remaining <= 0) {
-								controller.close();
-								resolveCompletion();
-								return;
-							}
-							if (chunk.length > remaining) chunk = chunk.subarray(0, remaining);
-						}
-
-						controller.enqueue(chunk);
-						forwarded += chunk.length;
-
-						if (limit !== Number.POSITIVE_INFINITY && forwarded >= limit) {
-							controller.close();
-							resolveCompletion();
-						}
-						return;
-					}
-				} catch (reason) {
-					if (!cancelled) controller.error(reason);
-					resolveCompletion();
-				}
-			},
-			async cancel(reason): Promise<void> {
-				cancelled = true;
-				try { await upstreamReader.cancel(reason); }
-				catch (cancelError) { console.error("Reader cancellation failed:", cancelError); }
-				resolveCompletion();
-			}
-		});
-
-		return { stream, completion };
+		const session = new DownloadSession(upstream.getReader(), offset - alignedOffset, limit);
+		return { stream: new ReadableStream<Uint8Array>(session), completion: session.completion };
 	}
 }
 //#endregion

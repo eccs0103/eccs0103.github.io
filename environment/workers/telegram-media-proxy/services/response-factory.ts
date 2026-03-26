@@ -1,8 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { type TelegramMedia } from "./telegram-media.js";
-import { type MediaRange } from "./telegram-media.js";
+import { type TelegramMedia, type MediaRange } from "./telegram-media.js";
 
 //#region Response factory
 export class ResponseFactory {

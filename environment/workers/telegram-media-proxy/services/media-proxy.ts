@@ -31,9 +31,9 @@ export class MediaProxy {
 
 	async #awaitAndDisconnect(completion: Promise<void>): Promise<void> {
 		try { await completion; }
-		catch (downloadError) { console.error("Download stream interrupted:", downloadError); }
+		catch (reason) { console.error(`Download stream interrupted:\n${Error.from(reason)}`); }
 		try { await this.#channel.disconnect(); }
-		catch (disconnectError) { console.error("Channel disconnect failed:", disconnectError); }
+		catch (reason) { console.error(`Channel disconnect failed:\n${Error.from(reason)}`); }
 	}
 
 	#scheduleDisconnect(context: ExecutionContext, completion: Promise<void> = Promise.resolve()): void {
@@ -49,12 +49,41 @@ export class MediaProxy {
 		}
 	}
 
+	#handleFull(media: TelegramMedia, fileName: string, method: string, context: ExecutionContext): Response {
+		if (method === "HEAD") {
+			this.#scheduleDisconnect(context);
+			return this.#factory.ok(media, fileName);
+		}
+		const result = media.download();
+		this.#scheduleDisconnect(context, result.completion);
+		return this.#factory.ok(media, fileName, result.stream);
+	}
+
+	#handleRange(rangeHeader: string, media: TelegramMedia, fileName: string, method: string, context: ExecutionContext): Response {
+		try {
+			const range = MediaProxy.#parseRange(rangeHeader, media.fileSize);
+			const { start, end } = range;
+			const limit = end !== Number.POSITIVE_INFINITY ? end - start + 1 : Number.POSITIVE_INFINITY;
+			if (method === "HEAD") {
+				this.#scheduleDisconnect(context);
+				return this.#factory.partial(media, fileName, range, null);
+			}
+			const result = media.download(start, limit);
+			this.#scheduleDisconnect(context, result.completion);
+			return this.#factory.partial(media, fileName, range, result.stream);
+		} catch (error) {
+			this.#scheduleDisconnect(context);
+			if (error instanceof RangeError) return this.#factory.rangeNotSatisfiable(media);
+			if (error instanceof SyntaxError) return this.#factory.error(400, "Malformed Range header");
+			throw error;
+		}
+	}
+
 	async handle(request: Request, context: ExecutionContext): Promise<Response> {
 		const { method, url, headers } = request;
 		const { searchParams } = new URL(url);
 		const identifier = searchParams.get("identifier");
-		const rawFileName = searchParams.get("filename");
-		const fileName = rawFileName !== null ? rawFileName : "";
+		const fileName = searchParams.get("filename") ?? "";
 
 		if (method === "OPTIONS") return this.#factory.preflight();
 		if (method !== "GET" && method !== "HEAD") return this.#factory.error(405, "Method Not Allowed");
@@ -63,35 +92,9 @@ export class MediaProxy {
 
 		const messageIdentifier = Number.parseInt(identifier, 10);
 		const media = await this.#fetchMedia(messageIdentifier, context);
-
 		const rangeHeader = headers.get("range");
-		if (rangeHeader !== null) {
-			try {
-				const range = MediaProxy.#parseRange(rangeHeader, media.fileSize);
-				const { start, end } = range;
-				const limit = end !== Number.POSITIVE_INFINITY ? end - start + 1 : Number.POSITIVE_INFINITY;
-				if (method === "HEAD") {
-					this.#scheduleDisconnect(context);
-					return this.#factory.partial(media, fileName, range, null);
-				}
-				const result = media.download(start, limit);
-				this.#scheduleDisconnect(context, result.completion);
-				return this.#factory.partial(media, fileName, range, result.stream);
-			} catch (error) {
-				this.#scheduleDisconnect(context);
-				if (error instanceof RangeError) return this.#factory.rangeNotSatisfiable(media);
-				if (error instanceof SyntaxError) return this.#factory.error(400, "Malformed Range header");
-				throw error;
-			}
-		}
-
-		if (method === "HEAD") {
-			this.#scheduleDisconnect(context);
-			return this.#factory.ok(media, fileName);
-		}
-		const result = media.download();
-		this.#scheduleDisconnect(context, result.completion);
-		return this.#factory.ok(media, fileName, result.stream);
+		if (rangeHeader !== null) return this.#handleRange(rangeHeader, media, fileName, method, context);
+		return this.#handleFull(media, fileName, method, context);
 	}
 }
 //#endregion

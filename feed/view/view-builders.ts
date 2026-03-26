@@ -120,7 +120,7 @@ export class DOMBuilder {
 		if (slides.length > 1) {
 			const buttonPrevious = divCarousel.appendChild(document.createElement("button"));
 			buttonPrevious.type = "button";
-			buttonPrevious.inert = true;
+			buttonPrevious.hidden = true;
 			buttonPrevious.classList.add("carousel-nav", "carousel-previous", "flex", "center");
 			buttonPrevious.appendChild(DOMBuilder.newIcon(new URL("../icons/left.svg", baseURI)));
 			buttonPrevious.addEventListener("click", (event) => {
@@ -151,8 +151,8 @@ export class DOMBuilder {
 
 			divTrack.addEventListener("scroll", ((event) => {
 				const current = Math.round(divTrack.scrollLeft / divTrack.clientWidth);
-				buttonPrevious.inert = current === 0;
-				buttonNext.inert = current === slides.length - 1;
+				buttonPrevious.hidden = current === 0;
+				buttonNext.hidden = current === slides.length - 1;
 				for (let index = 0; index < dotElements.length; index++) {
 					dotElements[index].classList.toggle("active", index === current);
 				}

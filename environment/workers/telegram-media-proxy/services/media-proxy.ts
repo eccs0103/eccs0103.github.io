@@ -16,31 +16,33 @@ export class MediaProxy {
 		this.#factory = factory;
 	}
 
-	static #parseRange(header: string, totalSize: number | undefined): MediaRange | 416 | null {
+	static #parseRange(header: string, totalSize: number): MediaRange {
 		const match = /^bytes=(\d+)-(\d*)$/.exec(header);
-		if (match === null) return null; // multi-range or unparseable → ignore, serve full
+		if (match === null) throw new SyntaxError("Unparseable range header");
 		const start = Number.parseInt(match[1], 10);
-		const endRaw = match[2];
-		if (totalSize !== undefined && start >= totalSize) return 416;
-		if (endRaw === "") return { start, end: totalSize !== undefined ? totalSize - 1 : undefined, total: totalSize };
-		const end = Number.parseInt(endRaw, 10);
-		if (end < start) return 416;
-		const actualEnd = totalSize !== undefined ? Math.min(end, totalSize - 1) : end;
+		const rawEnd = match[2];
+		if (start >= totalSize) throw new RangeError("Start exceeds total size");
+		if (rawEnd === "") return { start, end: totalSize - 1, total: totalSize };
+		const end = Number.parseInt(rawEnd, 10);
+		if (end < start) throw new RangeError("End precedes start");
+		const actualEnd = Math.min(end, totalSize - 1);
 		return { start, end: actualEnd, total: totalSize };
 	}
 
-	async #awaitAndDisconnect(done: Promise<void>): Promise<void> {
-		try { await done; } catch { /* download error already logged in TelegramMedia */ }
-		try { await this.#channel.disconnect(); } catch { /* ignore */ }
+	async #awaitAndDisconnect(completion: Promise<void>): Promise<void> {
+		try { await completion; }
+		catch (downloadError) { console.error("Download stream interrupted:", downloadError); }
+		try { await this.#channel.disconnect(); }
+		catch (disconnectError) { console.error("Channel disconnect failed:", disconnectError); }
 	}
 
-	#scheduleDisconnect(context: ExecutionContext, done: Promise<void> = Promise.resolve()): void {
-		context.waitUntil(this.#awaitAndDisconnect(done));
+	#scheduleDisconnect(context: ExecutionContext, completion: Promise<void> = Promise.resolve()): void {
+		context.waitUntil(this.#awaitAndDisconnect(completion));
 	}
 
-	async #fetchMedia(messageId: number, context: ExecutionContext): Promise<TelegramMedia> {
+	async #fetchMedia(messageIdentifier: number, context: ExecutionContext): Promise<TelegramMedia> {
 		try {
-			return await this.#channel.fetchMedia(messageId);
+			return await this.#channel.fetchMedia(messageIdentifier);
 		} catch (reason) {
 			this.#scheduleDisconnect(context);
 			throw reason;
@@ -51,33 +53,35 @@ export class MediaProxy {
 		const { method, url, headers } = request;
 		const { searchParams } = new URL(url);
 		const identifier = searchParams.get("identifier");
-		const fileName = searchParams.get("filename");
+		const rawFileName = searchParams.get("filename");
+		const fileName = rawFileName !== null ? rawFileName : "";
 
 		if (method === "OPTIONS") return this.#factory.preflight();
 		if (method !== "GET" && method !== "HEAD") return this.#factory.error(405, "Method Not Allowed");
 		if (identifier === null) return this.#factory.error(400, "Missing required query parameter: identifier");
 		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return this.#factory.error(400, "Invalid identifier format");
 
-		const messageId = Number.parseInt(identifier, 10);
-		const media = await this.#fetchMedia(messageId, context);
+		const messageIdentifier = Number.parseInt(identifier, 10);
+		const media = await this.#fetchMedia(messageIdentifier, context);
 
 		const rangeHeader = headers.get("range");
 		if (rangeHeader !== null) {
-			const range = MediaProxy.#parseRange(rangeHeader, media.fileSize);
-			if (range === 416) {
-				this.#scheduleDisconnect(context);
-				return this.#factory.rangeNotSatisfiable(media);
-			}
-			if (range !== null) {
+			try {
+				const range = MediaProxy.#parseRange(rangeHeader, media.fileSize);
 				const { start, end } = range;
-				const limit = end !== undefined ? end - start + 1 : undefined;
+				const limit = end !== Number.POSITIVE_INFINITY ? end - start + 1 : Number.POSITIVE_INFINITY;
 				if (method === "HEAD") {
 					this.#scheduleDisconnect(context);
 					return this.#factory.partial(media, fileName, range, null);
 				}
-				const result = media.download({ offset: start, limit });
-				this.#scheduleDisconnect(context, result.done);
+				const result = media.download(start, limit);
+				this.#scheduleDisconnect(context, result.completion);
 				return this.#factory.partial(media, fileName, range, result.stream);
+			} catch (error) {
+				if (error instanceof RangeError) {
+					this.#scheduleDisconnect(context);
+					return this.#factory.rangeNotSatisfiable(media);
+				}
 			}
 		}
 
@@ -86,7 +90,7 @@ export class MediaProxy {
 			return this.#factory.ok(media, fileName);
 		}
 		const result = media.download();
-		this.#scheduleDisconnect(context, result.done);
+		this.#scheduleDisconnect(context, result.completion);
 		return this.#factory.ok(media, fileName, result.stream);
 	}
 }

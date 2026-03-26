@@ -9,39 +9,37 @@ import { TelegramMedia } from "./telegram-media.js";
 export class TelegramChannel {
 	static #lock: boolean = true;
 	#client: TelegramClient;
-	#channelId: number;
+	#channelIdentifier: number;
 
-	constructor(client: TelegramClient, channelId: number) {
+	constructor(client: TelegramClient, channelIdentifier: number) {
 		if (TelegramChannel.#lock) throw new TypeError("Illegal constructor");
 		this.#client = client;
-		this.#channelId = channelId;
+		this.#channelIdentifier = channelIdentifier;
 	}
 
-	// Creates a fresh per-request connection. Singleton is intentionally avoided:
-	// CF Workers binds I/O objects (WebSocket) to the originating request context
-	// and forbids reuse across different request contexts.
-	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {
+	static async connect(channelIdentifier: number, apiIdentifier: number, apiHash: string, session: string): Promise<TelegramChannel> {
 		const storage = new MemoryStorage();
 		const disableUpdates = true;
 		const crypto = new WebCryptoProvider({ wasmInput });
-		const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
+		const client = new TelegramClient({ apiId: apiIdentifier, apiHash, storage, disableUpdates, crypto });
 		await client.importSession(session);
 		await client.connect();
 		TelegramChannel.#lock = false;
-		const channel = new TelegramChannel(client, channelId);
+		const channel = new TelegramChannel(client, channelIdentifier);
 		TelegramChannel.#lock = true;
 		return channel;
 	}
 
-	async fetchMedia(messageId: number): Promise<TelegramMedia> {
-		const messages = await this.#client.getMessages(this.#channelId, [messageId]);
-		const [message] = messages;
-		if (message === null) throw new ReferenceError("Message not found");
+	async fetchMedia(messageIdentifier: number): Promise<TelegramMedia> {
+		const messages = await this.#client.getMessages(this.#channelIdentifier, [messageIdentifier]);
+		const message = messages[0];
+		if (message === undefined || message === null) throw new ReferenceError("Message not found");
 		const { media } = message;
-		if (media === null) throw new ReferenceError("Message has no media");
+		if (media === undefined) throw new ReferenceError("Message has no media");
 		if (!(media instanceof FileLocation)) throw new TypeError("Message media is not downloadable");
 		const mimeType = media instanceof RawDocument ? media.mimeType : "image/jpeg";
-		return new TelegramMedia(mimeType, media.fileSize, this.#client, media);
+		const mediaSize = media.fileSize !== undefined ? media.fileSize : Number.POSITIVE_INFINITY;
+		return new TelegramMedia(mimeType, mediaSize, this.#client, media);
 	}
 
 	async disconnect(): Promise<void> {

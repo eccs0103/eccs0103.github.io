@@ -78,10 +78,10 @@ export class MediaProxy {
 				this.#scheduleDisconnect(context, result.completion);
 				return this.#factory.partial(media, fileName, range, result.stream);
 			} catch (error) {
-				if (error instanceof RangeError) {
-					this.#scheduleDisconnect(context);
-					return this.#factory.rangeNotSatisfiable(media);
-				}
+				this.#scheduleDisconnect(context);
+				if (error instanceof RangeError) return this.#factory.rangeNotSatisfiable(media);
+				if (error instanceof SyntaxError) return this.#factory.error(400, "Malformed Range header");
+				throw error;
 			}
 		}
 

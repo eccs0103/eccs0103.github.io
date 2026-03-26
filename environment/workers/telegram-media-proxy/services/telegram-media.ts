@@ -40,74 +40,76 @@ export class TelegramMedia {
 		return (this.#fileSize !== Number.POSITIVE_INFINITY && this.#fileSize >= 1_048_576) ? 131_072 : 4_096;
 	}
 
-	#trim(upstream: ReadableStream<Uint8Array>, skip: number, limit: number): ReadableStream<Uint8Array> {
-		let skipped = 0;
-		let forwarded = 0;
-		let exhausted = false;
-		return upstream.pipeThrough(new TransformStream<Uint8Array, Uint8Array>({
-			transform(rawChunk, controller): void {
-				if (exhausted) return;
-				let chunk = rawChunk;
-				if (skipped < skip) {
-					const toSkip = Math.min(skip - skipped, chunk.length);
-					skipped += toSkip;
-					chunk = chunk.subarray(toSkip);
-					if (chunk.length === 0) return;
-				}
-				if (limit !== Number.POSITIVE_INFINITY) {
-					const remaining = limit - forwarded;
-					if (remaining <= 0) { exhausted = true; controller.terminate(); return; }
-					if (chunk.length > remaining) chunk = chunk.subarray(0, remaining);
-				}
-				controller.enqueue(chunk);
-				forwarded += chunk.length;
-				if (limit !== Number.POSITIVE_INFINITY && forwarded >= limit) { exhausted = true; controller.terminate(); }
-			},
-		}));
-	}
-
-	async #cancelStream(reader: ReadableStreamDefaultReader): Promise<void> {
-		try { await reader.cancel(); }
-		catch (cancelError) { console.error("Reader cancellation failed:", cancelError); }
-	}
-
-	async #closeStream(writer: WritableStreamDefaultWriter): Promise<void> {
-		try { await writer.close(); }
-		catch (closeError) { console.error("Writer close failed:", closeError); }
-	}
-
-	async #pipe(source: ReadableStream<Uint8Array>, writable: WritableStream<Uint8Array>, alignedOffset: number): Promise<void> {
-		const reader = source.getReader();
-		const writer = writable.getWriter();
-		try {
-			while (true) {
-				const { done, value } = await reader.read();
-				if (done) break;
-				await writer.write(value);
-			}
-			await writer.close();
-		} catch (reason) {
-			const error = reason instanceof Error ? reason : new Error(String(reason));
-			console.error(`Telegram download error (offset=${alignedOffset}): ${error.message}`);
-			await this.#cancelStream(reader);
-			await this.#closeStream(writer);
-		} finally {
-			reader.releaseLock();
-			writer.releaseLock();
-		}
-	}
-
 	download(offset: number = 0, limit: number = Number.POSITIVE_INFINITY): TelegramMediaDownloadResult {
 		const alignment = this.#alignment();
 		const alignedOffset = Math.floor(offset / alignment) * alignment;
 		const skip = offset - alignedOffset;
 
-		const upstream = this.#client.downloadAsStream(this.#media, { offset: alignedOffset });
-		const source = (skip > 0 || limit !== Number.POSITIVE_INFINITY) ? this.#trim(upstream, skip, limit) : upstream;
+		let resolveCompletion!: () => void;
+		const completion = new Promise<void>(resolve => { resolveCompletion = resolve; });
 
-		const relay = new TransformStream<Uint8Array, Uint8Array>();
-		const completion = this.#pipe(source, relay.writable, alignedOffset);
-		return { stream: relay.readable, completion };
+		const upstream = this.#client.downloadAsStream(this.#media, { offset: alignedOffset });
+		const upstreamReader = upstream.getReader();
+
+		let skipped = 0;
+		let forwarded = 0;
+		let cancelled = false;
+
+		const stream = new ReadableStream<Uint8Array>({
+			async pull(controller): Promise<void> {
+				if (cancelled) return;
+				try {
+					while (true) {
+						const { done, value } = await upstreamReader.read();
+						if (cancelled) return;
+						if (done) {
+							controller.close();
+							resolveCompletion();
+							return;
+						}
+
+						let chunk: Uint8Array = value;
+
+						if (skipped < skip) {
+							const toSkip = Math.min(skip - skipped, chunk.length);
+							skipped += toSkip;
+							chunk = chunk.subarray(toSkip);
+							if (chunk.length === 0) continue;
+						}
+
+						if (limit !== Number.POSITIVE_INFINITY) {
+							const remaining = limit - forwarded;
+							if (remaining <= 0) {
+								controller.close();
+								resolveCompletion();
+								return;
+							}
+							if (chunk.length > remaining) chunk = chunk.subarray(0, remaining);
+						}
+
+						controller.enqueue(chunk);
+						forwarded += chunk.length;
+
+						if (limit !== Number.POSITIVE_INFINITY && forwarded >= limit) {
+							controller.close();
+							resolveCompletion();
+						}
+						return;
+					}
+				} catch (reason) {
+					if (!cancelled) controller.error(reason);
+					resolveCompletion();
+				}
+			},
+			async cancel(reason): Promise<void> {
+				cancelled = true;
+				try { await upstreamReader.cancel(reason); }
+				catch (cancelError) { console.error("Reader cancellation failed:", cancelError); }
+				resolveCompletion();
+			}
+		});
+
+		return { stream, completion };
 	}
 }
 //#endregion

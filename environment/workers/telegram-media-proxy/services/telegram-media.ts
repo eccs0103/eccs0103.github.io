@@ -16,25 +16,29 @@ export interface TelegramMediaDownloadResult {
 }
 
 class DownloadSession {
-	readonly completion: Promise<void>;
+	#completion: Promise<void>;
 	#reader: ReadableStreamDefaultReader<Uint8Array>;
 	#skip: number;
 	#limit: number;
 	#skipped: number = 0;
 	#forwarded: number = 0;
 	#cancelled: boolean = false;
-	#resolveCompletion!: () => void;
+	#resolve!: () => void;
 
 	constructor(reader: ReadableStreamDefaultReader<Uint8Array>, skip: number, limit: number) {
 		this.#reader = reader;
 		this.#skip = skip;
 		this.#limit = limit;
-		this.completion = new Promise<void>(resolve => { this.#resolveCompletion = resolve; });
+		this.#completion = new Promise<void>(resolve => { this.#resolve = resolve; });
+	}
+
+	get completion(): Promise<void> {
+		return this.#completion;
 	}
 
 	#finish(controller: ReadableStreamDefaultController<Uint8Array>): void {
 		controller.close();
-		this.#resolveCompletion();
+		this.#resolve();
 	}
 
 	async pull(controller: ReadableStreamDefaultController<Uint8Array>): Promise<void> {
@@ -67,7 +71,7 @@ class DownloadSession {
 			}
 		} catch (reason) {
 			if (!this.#cancelled) controller.error(reason);
-			this.#resolveCompletion();
+			this.#resolve();
 		}
 	}
 
@@ -75,7 +79,7 @@ class DownloadSession {
 		this.#cancelled = true;
 		try { await this.#reader.cancel(cause); }
 		catch (reason) { console.error(`Reader cancellation failed:\n${Error.from(reason)}`); }
-		this.#resolveCompletion();
+		this.#resolve();
 	}
 }
 

@@ -38,12 +38,12 @@ export class ChangelogRenderer {
 
 		if (remaining > 0) {
 			const spanMore = divFooter.appendChild(document.createElement("span"));
-			spanMore.classList.add("font-smaller-2");
+			spanMore.classList.add("font-smaller-2", "changelog-more-info");
 			spanMore.textContent = `and ${remaining} more update${TextExpert.getPluralSuffix(remaining)} before this`;
 
 			const buttonLoadOlder = divFooter.appendChild(document.createElement("button"));
 			buttonLoadOlder.type = "button";
-			buttonLoadOlder.classList.add("with-inline-padding", "with-padding", "small-padding", "rounded", "layer");
+			buttonLoadOlder.classList.add("with-inline-padding", "with-padding", "rounded", "depth");
 			buttonLoadOlder.textContent = "Load older";
 			buttonLoadOlder.addEventListener("click", (event) => {
 				this.#buildEntry(dialog, unseen, index + 1);
@@ -52,7 +52,7 @@ export class ChangelogRenderer {
 
 		const buttonClose = divFooter.appendChild(document.createElement("button"));
 		buttonClose.type = "button";
-		buttonClose.classList.add("with-inline-padding", "with-padding", "small-padding", "rounded", "highlight-background");
+		buttonClose.classList.add("with-inline-padding", "with-padding", "rounded", "highlight-background");
 		buttonClose.textContent = "Got it";
 		buttonClose.addEventListener("click", (event) => {
 			dialog.close();

@@ -460,6 +460,11 @@ body {
 		& div.changelog-footer {
 			justify-content: flex-end;
 			border-top: var(--size-separator) solid var(--color-heavy-main);
+
+			& span.changelog-more-info {
+				flex: 1;
+				color: var(--color-light-negative);
+			}
 		}
 	}
 }

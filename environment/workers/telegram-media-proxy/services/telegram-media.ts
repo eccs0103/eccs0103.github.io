@@ -6,7 +6,7 @@ import { TelegramClient, FileLocation } from "@mtcute/web";
 const { min, trunc } = Math;
 
 //#region Download session
-class DownloadSession {
+class DownloadSession implements UnderlyingSource<Uint8Array<ArrayBufferLike>> {
 	#deferred = Promise.withResolvers<void>();
 	#reader: ReadableStreamDefaultReader<Uint8Array>;
 	#skip: number;

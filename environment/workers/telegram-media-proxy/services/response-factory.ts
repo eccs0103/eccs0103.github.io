@@ -16,14 +16,14 @@ export class ResponseFactory {
 		return new Headers(ResponseFactory.#CORS);
 	}
 
-	#mediaHeaders(media: TelegramMedia, fileName: string): Headers {
+	#mediaHeaders(media: TelegramMedia): Headers {
 		const headers = this.#corsHeaders();
 		headers.set("Content-Type", media.mimeType);
 		headers.set("Accept-Ranges", "bytes");
 		headers.set("X-Content-Type-Options", "nosniff");
-		const fileSize = media.fileSize;
+		const { fileName, fileSize } = media;
 		if (fileSize !== Number.POSITIVE_INFINITY) headers.set("Content-Length", String(fileSize));
-		if (fileName !== "") headers.set("Content-Disposition", `inline; filename="${fileName}"`);
+		if (!String.isEmpty(fileName)) headers.set("Content-Disposition", `inline; filename="${fileName}"`);
 		return headers;
 	}
 
@@ -31,13 +31,13 @@ export class ResponseFactory {
 		return new Response(null, { status: 204, headers: this.#corsHeaders() });
 	}
 
-	ok(media: TelegramMedia, fileName: string, body: BodyInit | null): Response {
-		return new Response(body, { status: 200, headers: this.#mediaHeaders(media, fileName) });
+	ok(media: TelegramMedia, body: BodyInit | null): Response {
+		return new Response(body, { status: 200, headers: this.#mediaHeaders(media) });
 	}
 
-	partial(media: TelegramMedia, fileName: string, range: MediaRange, body: BodyInit | null): Response {
+	partial(media: TelegramMedia, range: MediaRange, body: BodyInit | null): Response {
 		const { begin: start, end, total } = range;
-		const headers = this.#mediaHeaders(media, fileName);
+		const headers = this.#mediaHeaders(media);
 		if (end !== Number.POSITIVE_INFINITY) {
 			const totalString = total !== Number.POSITIVE_INFINITY ? String(total) : "*";
 			headers.set("Content-Range", `bytes ${start}-${end}/${totalString}`);

@@ -38,37 +38,37 @@ export class MediaProxy {
 		context.waitUntil(this.#awaitAndDisconnect(completion));
 	}
 
-	async #fetchMedia(messageIdentifier: number, context: ExecutionContext): Promise<TelegramMedia> {
+	async #fetchMedia(messageIdentifier: number, fileName: string, context: ExecutionContext): Promise<TelegramMedia> {
 		try {
-			return await this.#channel.fetchMedia(messageIdentifier);
+			return await this.#channel.fetchMedia(messageIdentifier, fileName);
 		} catch (reason) {
 			this.#scheduleDisconnect(context);
 			throw reason;
 		}
 	}
 
-	#handleFull(media: TelegramMedia, fileName: string, method: string, context: ExecutionContext): Response {
+	#handleFull(media: TelegramMedia, method: string, context: ExecutionContext): Response {
 		if (method === "HEAD") {
 			this.#scheduleDisconnect(context);
-			return this.#factory.ok(media, fileName, null);
+			return this.#factory.ok(media, null);
 		}
 		const result = media.download();
 		this.#scheduleDisconnect(context, result.completion);
-		return this.#factory.ok(media, fileName, result.stream);
+		return this.#factory.ok(media, result.stream);
 	}
 
-	#handleRange(rangeHeader: string, media: TelegramMedia, fileName: string, method: string, context: ExecutionContext): Response {
+	#handleRange(rangeHeader: string, media: TelegramMedia, method: string, context: ExecutionContext): Response {
 		try {
 			const range = MediaProxy.#parseRange(rangeHeader, media.fileSize);
 			const { begin, end } = range;
-			const limit =  end - begin + 1;
+			const limit = end - begin + 1;
 			if (method === "HEAD") {
 				this.#scheduleDisconnect(context);
-				return this.#factory.partial(media, fileName, range, null);
+				return this.#factory.partial(media, range, null);
 			}
 			const result = media.download(begin, limit);
 			this.#scheduleDisconnect(context, result.completion);
-			return this.#factory.partial(media, fileName, range, result.stream);
+			return this.#factory.partial(media, range, result.stream);
 		} catch (error) {
 			this.#scheduleDisconnect(context);
 			if (error instanceof RangeError) return this.#factory.rangeNotSatisfiable(media);
@@ -89,10 +89,10 @@ export class MediaProxy {
 		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return this.#factory.error(400, "Invalid identifier format");
 
 		const messageIdentifier = Number.parseInt(identifier, 10);
-		const media = await this.#fetchMedia(messageIdentifier, context);
+		const media = await this.#fetchMedia(messageIdentifier, fileName, context);
 		const rangeHeader = headers.get("range");
-		if (rangeHeader !== null) return this.#handleRange(rangeHeader, media, fileName, method, context);
-		return this.#handleFull(media, fileName, method, context);
+		if (rangeHeader !== null) return this.#handleRange(rangeHeader, media, method, context);
+		return this.#handleFull(media, method, context);
 	}
 }
 //#endregion

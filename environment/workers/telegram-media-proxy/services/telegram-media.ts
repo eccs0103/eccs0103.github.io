@@ -88,12 +88,14 @@ export interface TelegramMediaDownloadResult {
 export class TelegramMedia {
 	#mimeType: string;
 	#fileSize: number;
+	#fileName: string;
 	#client: TelegramClient;
 	#media: FileLocation;
 
-	constructor(mimeType: string, fileSize: number, client: TelegramClient, media: FileLocation) {
+	constructor(mimeType: string, fileSize: number, fileName: string, client: TelegramClient, media: FileLocation) {
 		this.#mimeType = mimeType;
 		this.#fileSize = fileSize;
+		this.#fileName = fileName;
 		this.#client = client;
 		this.#media = media;
 	}
@@ -104,6 +106,10 @@ export class TelegramMedia {
 
 	get fileSize(): number {
 		return this.#fileSize;
+	}
+
+	get fileName(): string {
+		return this.#fileName;
 	}
 
 	#alignment(): number {

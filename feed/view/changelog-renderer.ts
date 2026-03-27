@@ -19,7 +19,10 @@ export class ChangelogRenderer {
 		const entry = unseen[index]!;
 		const remaining = unseen.length - index - 1;
 
-		const strongTitle = dialog.appendChild(document.createElement("strong"));
+		const divHeader = dialog.appendChild(document.createElement("div"));
+		divHeader.classList.add("changelog-header", "with-padding", "large-padding");
+
+		const strongTitle = divHeader.appendChild(document.createElement("strong"));
 		strongTitle.classList.add("changelog-title");
 		strongTitle.textContent = `Update · ${entry.date.toLocaleDateString()}`;
 
@@ -31,7 +34,7 @@ export class ChangelogRenderer {
 		}
 
 		const divFooter = dialog.appendChild(document.createElement("div"));
-		divFooter.classList.add("changelog-footer", "flex", "alt-center", "with-gap");
+		divFooter.classList.add("changelog-footer", "flex", "alt-center", "with-gap", "with-padding", "large-padding");
 
 		if (remaining > 0) {
 			const spanMore = divFooter.appendChild(document.createElement("span"));

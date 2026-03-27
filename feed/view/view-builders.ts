@@ -84,6 +84,7 @@ export class DOMBuilder {
 		const { loop, muted, controls, autoplay, playsInline } = options;
 		const video = document.createElement("video");
 		video.src = String(url);
+		video.preload = "auto";
 		if (loop !== undefined) video.loop = loop;
 		if (muted !== undefined) video.muted = muted;
 		if (controls !== undefined) video.controls = controls;
@@ -98,6 +99,7 @@ export class DOMBuilder {
 		const { loop, muted, controls, autoplay } = options;
 		const audio = document.createElement("audio");
 		audio.src = String(url);
+		audio.preload = "auto";
 		if (loop !== undefined) audio.loop = loop;
 		if (muted !== undefined) audio.muted = muted;
 		if (controls !== undefined) audio.controls = controls;

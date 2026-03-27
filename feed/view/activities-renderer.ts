@@ -48,12 +48,24 @@ export class ActivitiesRenderer {
 
 	constructor(itemContainer: HTMLElement, urlProxy: URL) {
 		this.#itemContainer = itemContainer;
+		this.#attachMediaController(itemContainer);
 		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy());
 		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy());
 		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy());
 		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy());
 		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy());
 		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(urlProxy), { gap: Timespan.newZero });
+	}
+
+	#attachMediaController(itemContainer: HTMLElement): void {
+		itemContainer.addEventListener("play", (event) => {
+			const playing = event.target;
+			if (!(playing instanceof HTMLMediaElement)) return;
+			for (const element of itemContainer.getElements(HTMLMediaElement, "video, audio")) {
+				if (element === playing || element.muted || element.paused) continue;
+				element.pause();
+			}
+		}, true);
 	}
 
 	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void;

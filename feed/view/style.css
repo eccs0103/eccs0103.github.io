@@ -131,11 +131,9 @@ body {
 							& > video {
 								width: 100%;
 								height: 100%;
-								object-fit: contain;
-								display: block;
 							}
 
-							& > div.telegram-photo-card {
+							& > a.telegram-photo-card {
 								position: relative;
 								width: 100%;
 								height: 100%;
@@ -143,8 +141,6 @@ body {
 								& img.telegram-photo {
 									width: 100%;
 									height: 100%;
-									object-fit: contain;
-									display: block;
 								}
 							}
 
@@ -340,7 +336,6 @@ body {
 					& video.telegram-video {
 						width: 100%;
 						max-height: 50vmin;
-						object-fit: contain;
 						display: block;
 						background-color: var(--color-heavy-main);
 					}
@@ -356,7 +351,7 @@ body {
 				}
 
 				& a.telegram-document {
-					align-self: flex-start;
+					width: 100%;
 				}
 			}
 		}

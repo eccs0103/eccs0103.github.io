@@ -27,27 +27,27 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		textbox.classList.add("telegram-text");
 	}
 
-	#renderPhotoSlide(itemContainer: HTMLElement, photo: TelegramMediaPostActivity): HTMLElement {
+	#renderPhotoSlide(photo: TelegramMediaPostActivity): HTMLElement {
 		const { messageId, fileName, description } = photo;
-		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const url = this.#buildMediaUrl(messageId, fileName);
 
-		const div = itemContainer.appendChild(document.createElement("div"));
-		div.classList.add("telegram-photo-card");
+		const aLink = DOMBuilder.newLink(new URL(url));
+		aLink.classList.add("telegram-photo-card");
 
-		const img = div.appendChild(DOMBuilder.newImage(mediaUrl, description ?? "Telegram photo"));
-		img.classList.add("telegram-photo");
+		const imgPhoto = aLink.appendChild(DOMBuilder.newImage(url, description ?? "Telegram photo"));
+		imgPhoto.classList.add("telegram-photo");
 
 		if (description !== null) {
-			const divOverlay = div.appendChild(document.createElement("div"));
+			const divOverlay = aLink.appendChild(document.createElement("div"));
 			divOverlay.classList.add("caption-overlay", "font-smaller-3");
 			divOverlay.appendChild(DOMBuilder.newTextbox(description));
 		}
 
-		return div;
+		return aLink;
 	}
 
 	#renderPhotoGroup(itemContainer: HTMLElement, photos: TelegramMediaPostActivity[]): void {
-		const slides = photos.map(photo => this.#renderPhotoSlide(itemContainer, photo));
+		const slides = photos.map(photo => this.#renderPhotoSlide(photo));
 		itemContainer.appendChild(DOMBuilder.newCarousel(slides));
 	}
 

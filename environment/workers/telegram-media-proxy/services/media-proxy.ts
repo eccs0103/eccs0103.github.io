@@ -38,9 +38,9 @@ export class MediaProxy {
 		context.waitUntil(this.#awaitAndDisconnect(completion));
 	}
 
-	async #fetchMedia(messageIdentifier: number, fileName: string, context: ExecutionContext): Promise<TelegramMedia> {
+	async #fetchMedia(messageId: number, fileName: string, context: ExecutionContext): Promise<TelegramMedia> {
 		try {
-			return await this.#channel.fetchMedia(messageIdentifier, fileName);
+			return await this.#channel.fetchMedia(messageId, fileName);
 		} catch (reason) {
 			this.#scheduleDisconnect(context);
 			throw reason;
@@ -88,8 +88,8 @@ export class MediaProxy {
 		if (identifier === null) return this.#factory.error(400, "Missing required query parameter: identifier");
 		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return this.#factory.error(400, "Invalid identifier format");
 
-		const messageIdentifier = Number.parseInt(identifier, 10);
-		const media = await this.#fetchMedia(messageIdentifier, fileName, context);
+		const messageId = Number.parseInt(identifier, 10);
+		const media = await this.#fetchMedia(messageId, fileName, context);
 		const rangeHeader = headers.get("range");
 		if (rangeHeader !== null) return this.#handleRange(rangeHeader, media, method, context);
 		return this.#handleFull(media, method, context);

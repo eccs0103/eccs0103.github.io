@@ -9,29 +9,29 @@ import { TelegramMedia } from "./telegram-media.js";
 export class TelegramChannel {
 	static #lock: boolean = true;
 	#client: TelegramClient;
-	#channelIdentifier: number;
+	#channelId: number;
 
-	constructor(client: TelegramClient, channelIdentifier: number) {
+	constructor(client: TelegramClient, channelId: number) {
 		if (TelegramChannel.#lock) throw new TypeError("Illegal constructor");
 		this.#client = client;
-		this.#channelIdentifier = channelIdentifier;
+		this.#channelId = channelId;
 	}
 
-	static async connect(channelIdentifier: number, apiIdentifier: number, apiHash: string, session: string): Promise<TelegramChannel> {
+	static async connect(channelId: number, apiId: number, apiHash: string, session: string): Promise<TelegramChannel> {
 		const storage = new MemoryStorage();
 		const disableUpdates = true;
 		const crypto = new WebCryptoProvider({ wasmInput });
-		const client = new TelegramClient({ apiId: apiIdentifier, apiHash, storage, disableUpdates, crypto });
+		const client = new TelegramClient({ apiId, apiHash, storage, disableUpdates, crypto });
 		await client.importSession(session);
 		await client.connect();
 		TelegramChannel.#lock = false;
-		const channel = new TelegramChannel(client, channelIdentifier);
+		const channel = new TelegramChannel(client, channelId);
 		TelegramChannel.#lock = true;
 		return channel;
 	}
 
-	async fetchMedia(messageIdentifier: number, fileName: string): Promise<TelegramMedia> {
-		const messages = await this.#client.getMessages(this.#channelIdentifier, [messageIdentifier]);
+	async fetchMedia(messageId: number, fileName: string): Promise<TelegramMedia> {
+		const messages = await this.#client.getMessages(this.#channelId, [messageId]);
 		const message = messages[0];
 		if (message === null) throw new ReferenceError("Message not found");
 		const { media } = message;

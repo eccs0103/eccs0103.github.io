@@ -21,7 +21,7 @@ export class ResponseFactory {
 		headers.set("Content-Type", media.mimeType);
 		headers.set("Accept-Ranges", "bytes");
 		headers.set("X-Content-Type-Options", "nosniff");
-		headers.set("Cache-Control", "public, max-age=604800, immutable");
+		headers.set("Cache-Control", "public, max-age=2592000, immutable");
 		const { fileName, fileSize } = media;
 		if (fileSize !== Number.POSITIVE_INFINITY) headers.set("Content-Length", String(fileSize));
 		if (!String.isEmpty(fileName)) headers.set("Content-Disposition", `inline; filename="${fileName}"`);

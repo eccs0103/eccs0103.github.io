@@ -3,18 +3,9 @@
 import "adaptive-extender/core";
 import { TelegramClient, FileLocation } from "@mtcute/web";
 
-//#region Telegram media
-export interface MediaRange {
-	start: number;
-	end: number;
-	total: number;
-}
+const { min, trunc } = Math;
 
-export interface TelegramMediaDownloadResult {
-	stream: ReadableStream<Uint8Array>;
-	completion: Promise<void>;
-}
-
+//#region Download session
 class DownloadSession {
 	#deferred = Promise.withResolvers<void>();
 	#reader: ReadableStreamDefaultReader<Uint8Array>;
@@ -50,7 +41,7 @@ class DownloadSession {
 				let chunk = value;
 
 				if (this.#skipped < this.#skip) {
-					const toSkip = Math.min(this.#skip - this.#skipped, chunk.length);
+					const toSkip = min(this.#skip - this.#skipped, chunk.length);
 					this.#skipped += toSkip;
 					chunk = chunk.subarray(toSkip);
 					if (chunk.length === 0) continue;
@@ -80,6 +71,19 @@ class DownloadSession {
 		this.#deferred.resolve();
 	}
 }
+//#endregion
+
+//#region Telegram media
+export interface MediaRange {
+	begin: number;
+	end: number;
+	total: number;
+}
+
+export interface TelegramMediaDownloadResult {
+	stream: ReadableStream<Uint8Array>;
+	completion: Promise<void>;
+}
 
 export class TelegramMedia {
 	#mimeType: string;
@@ -108,7 +112,7 @@ export class TelegramMedia {
 
 	download(offset: number = 0, limit: number = Number.POSITIVE_INFINITY): TelegramMediaDownloadResult {
 		const alignment = this.#alignment();
-		const alignedOffset = Math.floor(offset / alignment) * alignment;
+		const alignedOffset = trunc(offset / alignment) * alignment;
 		const upstream = this.#client.downloadAsStream(this.#media, { offset: alignedOffset });
 		const session = new DownloadSession(upstream.getReader(), offset - alignedOffset, limit);
 		return { stream: new ReadableStream<Uint8Array>(session), completion: session.completion };

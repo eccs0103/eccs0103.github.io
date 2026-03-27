@@ -31,12 +31,12 @@ export class ResponseFactory {
 		return new Response(null, { status: 204, headers: this.#corsHeaders() });
 	}
 
-	ok(media: TelegramMedia, fileName: string, body: BodyInit | null = null): Response {
+	ok(media: TelegramMedia, fileName: string, body: BodyInit | null): Response {
 		return new Response(body, { status: 200, headers: this.#mediaHeaders(media, fileName) });
 	}
 
-	partial(media: TelegramMedia, fileName: string, range: MediaRange, body: BodyInit | null = null): Response {
-		const { start, end, total } = range;
+	partial(media: TelegramMedia, fileName: string, range: MediaRange, body: BodyInit | null): Response {
+		const { begin: start, end, total } = range;
 		const headers = this.#mediaHeaders(media, fileName);
 		if (end !== Number.POSITIVE_INFINITY) {
 			const totalString = total !== Number.POSITIVE_INFINITY ? String(total) : "*";

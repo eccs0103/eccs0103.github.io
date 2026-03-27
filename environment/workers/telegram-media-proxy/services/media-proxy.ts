@@ -16,17 +16,15 @@ export class MediaProxy {
 		this.#factory = factory;
 	}
 
-	static #parseRange(header: string, totalSize: number): MediaRange {
+	static #parseRange(header: string, total: number): MediaRange {
 		const match = /^bytes=(\d+)-(\d*)$/.exec(header);
 		if (match === null) throw new SyntaxError("Unparseable range header");
-		const start = Number.parseInt(match[1], 10);
-		const rawEnd = match[2];
-		if (start >= totalSize) throw new RangeError("Start exceeds total size");
-		if (rawEnd === "") return { start, end: totalSize - 1, total: totalSize };
-		const end = Number.parseInt(rawEnd, 10);
-		if (end < start) throw new RangeError("End precedes start");
-		const actualEnd = Math.min(end, totalSize - 1);
-		return { start, end: actualEnd, total: totalSize };
+		let [, begin, end] = match.map(part => Number.parseInt(part, 10));
+		if (begin >= total) throw new RangeError("Begin exceeds total size");
+		if (Number.isNaN(end)) return { begin, end: total - 1, total };
+		if (end < begin) throw new RangeError("End precedes begin");
+		end = end.clamp(0, total - 1);
+		return { begin, end, total };
 	}
 
 	async #awaitAndDisconnect(completion: Promise<void>): Promise<void> {
@@ -52,7 +50,7 @@ export class MediaProxy {
 	#handleFull(media: TelegramMedia, fileName: string, method: string, context: ExecutionContext): Response {
 		if (method === "HEAD") {
 			this.#scheduleDisconnect(context);
-			return this.#factory.ok(media, fileName);
+			return this.#factory.ok(media, fileName, null);
 		}
 		const result = media.download();
 		this.#scheduleDisconnect(context, result.completion);
@@ -62,13 +60,13 @@ export class MediaProxy {
 	#handleRange(rangeHeader: string, media: TelegramMedia, fileName: string, method: string, context: ExecutionContext): Response {
 		try {
 			const range = MediaProxy.#parseRange(rangeHeader, media.fileSize);
-			const { start, end } = range;
-			const limit = end !== Number.POSITIVE_INFINITY ? end - start + 1 : Number.POSITIVE_INFINITY;
+			const { begin, end } = range;
+			const limit =  end - begin + 1;
 			if (method === "HEAD") {
 				this.#scheduleDisconnect(context);
 				return this.#factory.partial(media, fileName, range, null);
 			}
-			const result = media.download(start, limit);
+			const result = media.download(begin, limit);
 			this.#scheduleDisconnect(context, result.completion);
 			return this.#factory.partial(media, fileName, range, result.stream);
 		} catch (error) {
@@ -83,7 +81,7 @@ export class MediaProxy {
 		const { method, url, headers } = request;
 		const { searchParams } = new URL(url);
 		const identifier = searchParams.get("identifier");
-		const fileName = searchParams.get("filename") ?? "";
+		const fileName = searchParams.get("filename") ?? String.empty;
 
 		if (method === "OPTIONS") return this.#factory.preflight();
 		if (method !== "GET" && method !== "HEAD") return this.#factory.error(405, "Method Not Allowed");

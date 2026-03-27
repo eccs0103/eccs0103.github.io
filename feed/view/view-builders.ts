@@ -5,6 +5,7 @@ import { type Platform } from "../models/configuration.js";
 import { type Activity } from "../models/activity.js";
 import { TextExpert } from "../services/text-expert.js";
 
+const { round } = Math;
 const { baseURI } = document;
 
 //#region DOM builder
@@ -150,7 +151,7 @@ export class DOMBuilder {
 			}
 
 			divTrack.addEventListener("scroll", ((event) => {
-				const current = Math.round(divTrack.scrollLeft / divTrack.clientWidth);
+				const current = round(divTrack.scrollLeft / divTrack.clientWidth);
 				buttonPrevious.hidden = current === 0;
 				buttonNext.hidden = current === slides.length - 1;
 				for (let index = 0; index < dotElements.length; index++) {

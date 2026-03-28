@@ -21,6 +21,19 @@ body {
 				--url: url(../../assets/icons/information.svg);
 			}
 		}
+
+		& button#changelog-trigger {
+			position: absolute;
+			inset: var(--size-large-gap) var(--size-large-gap) auto auto;
+			font-weight: normal;
+			font-size: 0.85em;
+			color: var(--color-light-negative);
+			transition: color var(--time-duration);
+
+			&:hover {
+				color: var(--color-negative);
+			}
+		}
 	}
 
 	& main {

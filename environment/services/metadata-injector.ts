@@ -352,6 +352,18 @@ export class MetadataInjector {
 		head.insertBefore(script, child);
 	}
 
+	#embedRelLinks(metadata: Metadata): void {
+		if (!(metadata instanceof PersonMetadata)) return;
+		if (metadata.associations === undefined) return;
+		const { head } = document;
+		for (const association of metadata.associations) {
+			const link = document.createElement("link");
+			link.rel = "me";
+			link.href = String(association);
+			head.appendChild(link);
+		}
+	}
+
 	#setMetadata(name: string, content: string): void {
 		const meta =
 			document.querySelector(`meta[name="${name}"]`) ??
@@ -386,6 +398,7 @@ export class MetadataInjector {
 	#embed(configuration: OrganizationMetadataConfiguration | ApplicationMetadataConfiguration | PersonMetadataConfiguration): void {
 		const metadata = this.#compose(configuration);
 		this.#embedMetadataScript(metadata);
+		this.#embedRelLinks(metadata);
 		this.#embedMetatags(metadata);
 	}
 

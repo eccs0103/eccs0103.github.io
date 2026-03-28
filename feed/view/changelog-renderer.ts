@@ -60,19 +60,25 @@ export class ChangelogRenderer {
 	}
 
 	async render(service: ChangelogService): Promise<void> {
-		// if (service.isFirstVisit) {
-		// 	service.markAsSeen();
-		// 	return;
-		// }
-
-		const { unseen } = service;
-		if (unseen.length === 0) return;
-
 		const dialog = await this.#itemContainer.getElementAsync(HTMLDialogElement, "dialog#changelog");
 		dialog.addEventListener("click", (event) => {
 			if (event.target !== dialog) return;
 			dialog.close();
 		});
+
+		const { entries, unseen } = service;
+
+		const buttonTrigger = await this.#itemContainer.getElementAsync(HTMLButtonElement, "button#changelog-trigger");
+		if (entries.length > 0) {
+			buttonTrigger.addEventListener("click", () => {
+				this.#buildEntry(dialog, entries, 0);
+				dialog.showModal();
+			});
+		} else {
+			buttonTrigger.hidden = true;
+		}
+
+		if (unseen.length === 0) return;
 
 		this.#buildEntry(dialog, unseen, 0);
 		service.markAsSeen();

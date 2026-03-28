@@ -14,6 +14,10 @@ export class ChangelogService {
 		this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Changelog", ChangelogState, new ChangelogState(null));
 	}
 
+	get entries(): readonly ChangelogEntry[] {
+		return this.#entries;
+	}
+
 	get isFirstVisit(): boolean {
 		return this.#repository.content.lastSeen === null;
 	}

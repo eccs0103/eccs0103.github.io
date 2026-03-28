@@ -52,5 +52,16 @@
 		"repository": "eccs0103.github.io",
 		"name": "telegram-stability-enhance",
 		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1774719476000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/7975d6e5d790b88f030195e3b1a38e49a5de1c8d.jpg",
+		"title": "The Fool",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

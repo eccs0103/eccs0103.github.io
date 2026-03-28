@@ -78,11 +78,11 @@ export class ChangelogRenderer {
 			buttonTrigger.hidden = true;
 		}
 
-		if (unseen.length === 0) return;
-
-		this.#buildEntry(dialog, unseen, 0);
-		service.markAsSeen();
-		dialog.showModal();
+		if (unseen.length > 0) {
+			this.#buildEntry(dialog, unseen, 0);
+			service.markAsSeen();
+			dialog.showModal();
+		}
 	}
 }
 //#endregion

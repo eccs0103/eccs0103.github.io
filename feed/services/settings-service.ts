@@ -14,10 +14,15 @@ export class SettingsService {
 		} catch (reason) {
 			if (!(reason instanceof SyntaxError)) throw reason;
 			const { platforms } = new ArchiveRepository("Personal webpage\\Feed\\Settings", OldSettings, new OldSettings([])).content;
-			const preferences = new Map(platforms.map(preference => [preference, true]));
+			const recovered = new Map(platforms.map(preference => [preference, true]));
 			localStorage.removeItem("Personal webpage\\Feed\\Settings");
-			this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Settings", Settings, new Settings(preferences));
+			this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Settings", Settings, new Settings(recovered));
 		}
+
+		const stored = this.#repository.content.preferences;
+		const unsaved = [...preferences.keys()].filter(name => stored.add(name, true));
+		if (unsaved.length === 0) return;
+		this.#repository.save();
 	}
 
 	readPreferences(): Map<string, boolean> {

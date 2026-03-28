@@ -165,6 +165,7 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 					group.unshift(next);
 					index++;
 				}
+				group.sort((photo1, photo2) => photo1.messageId - photo2.messageId);
 				this.#renderPhotoGroup(itemContainer, group);
 			}
 		}

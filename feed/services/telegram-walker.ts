@@ -26,15 +26,6 @@ export class TelegramWalker extends ActivityWalker {
 		["application/zip", "zip"],
 	]);
 
-	static #extensionFor(mimeType: string): string | null {
-		let extension = TelegramWalker.#MIME_EXTENSIONS.get(mimeType);
-		if (extension !== undefined) return extension;
-		extension = mimeType.split("/").at(-1);
-		if (extension === undefined) return null;
-		console.warn(`Unknown MIME type '${mimeType}' successfully resolved. Verify consistency before proceeding.`);
-		return extension;
-	}
-
 	#channelId: number;
 	#apiId: number;
 	#apiHash: string;
@@ -46,6 +37,15 @@ export class TelegramWalker extends ActivityWalker {
 		this.#apiId = apiId;
 		this.#apiHash = apiHash;
 		this.#session = session;
+	}
+
+	static #extensionFor(mimeType: string): string | null {
+		let extension = TelegramWalker.#MIME_EXTENSIONS.get(mimeType);
+		if (extension !== undefined) return extension;
+		extension = mimeType.split("/").at(-1);
+		if (extension === undefined) return null;
+		console.warn(`Unknown MIME type '${mimeType}' successfully resolved. Verify consistency before proceeding.`);
+		return extension;
 	}
 
 	async *#fetchEvents(since: Date): AsyncIterable<Message> {

@@ -4,13 +4,13 @@ import "adaptive-extender/core";
 
 //#region Cache service
 export class CacheService {
-	keyFor(request: Request): string {
+	keyFor(request: Request): URL {
 		const range = request.headers.get("range");
-		if (range === null) return request.url;
-		return `${request.url}&_range=${encodeURIComponent(range)}`;
+		if (range === null) return new URL(request.url);
+		return new URL(`${request.url}&_range=${encodeURIComponent(range)}`);
 	}
 
-	async tryMatch(key: string): Promise<Response | null> {
+	async tryMatch(key: URL): Promise<Response | null> {
 		try {
 			const cached = await caches.default.match(key);
 			if (cached === undefined) return null;
@@ -27,7 +27,7 @@ export class CacheService {
 		}
 	}
 
-	tryStore(key: string, response: Response, context: ExecutionContext): void {
+	tryStore(key: URL, response: Response, context: ExecutionContext): void {
 		if (response.status !== 200 && response.status !== 206) return;
 		if (response.body === null) return;
 		context.waitUntil(caches.default.put(key, response.clone()).catch((reason: unknown) =>

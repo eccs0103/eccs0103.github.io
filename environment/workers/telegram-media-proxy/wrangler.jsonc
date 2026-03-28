@@ -1,0 +1,16 @@
+{
+	"name": "telegram-media-proxy",
+	"main": "controllers/media-proxy-worker.ts",
+	"compatibility_date": "2026-03-11",
+	"vars": {
+		"TELEGRAM_CHANNEL_ID": "-1003471238866"
+	},
+	"env": {
+		"development": {
+			"name": "telegram-media-proxy-dev",
+			"vars": {
+				"TELEGRAM_CHANNEL_ID": "-1003772930485"
+			}
+		}
+	}
+}

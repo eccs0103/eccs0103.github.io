@@ -32,7 +32,7 @@ export class ChangelogService {
 		const latest = this.#entries.at(0);
 		if (latest === undefined) return;
 		repository.content.lastSeen = latest.date;
-		// repository.save();
+		repository.save();
 	}
 }
 //#endregion

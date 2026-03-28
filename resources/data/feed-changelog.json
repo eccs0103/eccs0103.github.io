@@ -2,25 +2,29 @@
 	{
 		"date": "2026-03-28",
 		"changes": [
-			"New platforms added to the site will now automatically appear in your feed turned on — even if you previously customized which sources to show.",
-			"Your saved platform preferences were reset this update due to an internal format change. Head to the Connections hub to set them again — sorry for the inconvenience.",
-			"Added a \"What's new\" button in the top-right corner so you can re-read past updates at any time.",
-			"Update notifications now appear in a cleaner, more structured format.",
-			"Telegram media now loads noticeably faster — responses are cached on the proxy server and served instantly on repeat visits.",
-			"Only one video or audio track can play at a time — starting a new one automatically pauses the previous."
+			"Telegram photos are now clickable — tap or click any photo to open the full-size image directly.",
+			"New platforms added to the site now automatically appear in your feed turned on, even if you previously customized which sources to show.",
+			"Added a \"What's new\" button in the top-right corner so you can re-read past updates at any time."
 		]
 	},
 	{
 		"date": "2026-03-27",
 		"changes": [
-			"Photo carousels in the feed now have previous/next navigation buttons and dot indicators — you can scroll through albums without leaving the page.",
-			"The Telegram media proxy now sends long-term cache headers, so your browser won't re-download media files it has already loaded."
+			"Telegram media is now cached on the proxy server and served instantly on repeat visits.",
+			"Only one video or audio track can play at a time — starting a new one automatically pauses the previous."
+		]
+	},
+	{
+		"date": "2026-03-26",
+		"changes": [
+			"Carousel navigation buttons now hide when you are at the first or last slide instead of remaining visible and unclickable."
 		]
 	},
 	{
 		"date": "2026-03-23",
 		"changes": [
-			"Telegram videos can now be seeked to any point — the media proxy supports HTTP range requests and streams only the portion the player actually needs."
+			"Changelog introduced — version updates will now appear here on every new visit after an update.",
+			"Telegram videos can now be seeked to any position — the media proxy supports partial content requests."
 		]
 	}
 ]

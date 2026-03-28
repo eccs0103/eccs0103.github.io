@@ -4,6 +4,7 @@
 	"version": "2.0.0",
 	"type": "module",
 	"author": "eccs0103",
+	"packageManager": "npm@11.6.2",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
@@ -22,8 +23,8 @@
 	},
 	"dependencies": {
 		"@google/generative-ai": "^0.24.1",
-		"@mtcute/node": "^0.28.2",
-		"@mtcute/web": "^0.28.2",
+		"@mtcute/node": "^0.29.4",
+		"@mtcute/web": "^0.29.4",
 		"adaptive-extender": "^0.9.10",
 		"dotenv": "^17.3.1"
 	},

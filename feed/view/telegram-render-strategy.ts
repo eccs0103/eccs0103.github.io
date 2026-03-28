@@ -3,11 +3,12 @@
 import "adaptive-extender/web";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
 import { TelegramActivity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
-import { DOMBuilder } from "./view-builders.js";
+import { DOMBuilder, type ImageCreationOptions } from "./view-builders.js";
 
 //#region Telegram render strategy
 export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramActivity> {
 	#urlProxy: URL;
+	#isPageFirst: boolean = true;
 
 	constructor(urlProxy: URL) {
 		this.#urlProxy = urlProxy;
@@ -27,14 +28,17 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		textbox.classList.add("telegram-text");
 	}
 
-	#renderPhotoSlide(photo: TelegramMediaPostActivity): HTMLElement {
+	#renderPhotoSlide(photo: TelegramMediaPostActivity, isFirst: boolean): HTMLElement {
 		const { messageId, fileName, description } = photo;
 		const url = this.#buildMediaUrl(messageId, fileName);
 
 		const aLink = DOMBuilder.newLink(new URL(url));
 		aLink.classList.add("telegram-photo-card");
 
-		const imgPhoto = aLink.appendChild(DOMBuilder.newImage(url, description ?? "Telegram photo"));
+		const options: Partial<ImageCreationOptions> = {};
+		if (isFirst) options.fetchPriority = "high";
+		if (isFirst) options.loading = "eager";
+		const imgPhoto = aLink.appendChild(DOMBuilder.newImage(url, description ?? "Telegram photo", options));
 		imgPhoto.classList.add("telegram-photo");
 
 		if (description !== null) {
@@ -47,7 +51,11 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	}
 
 	#renderPhotoGroup(itemContainer: HTMLElement, photos: TelegramMediaPostActivity[]): void {
-		const slides = photos.map(photo => this.#renderPhotoSlide(photo));
+		const slides = photos.map((photo, index) => {
+			const isSlideFirst = this.#isPageFirst && index === 0;
+			if (isSlideFirst) this.#isPageFirst = false;
+			return this.#renderPhotoSlide(photo, isSlideFirst);
+		});
 		itemContainer.appendChild(DOMBuilder.newCarousel(slides));
 	}
 

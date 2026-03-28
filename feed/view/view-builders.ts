@@ -24,6 +24,11 @@ export interface MediaCreationOptions {
 export interface AudioCreationOptions extends MediaCreationOptions {
 }
 
+export interface ImageCreationOptions {
+	fetchPriority: "high" | "low" | "auto";
+	loading: "eager" | "lazy";
+}
+
 export interface VideoCreationOptions extends MediaCreationOptions {
 	playsInline: boolean;
 }
@@ -69,11 +74,14 @@ export class DOMBuilder {
 		return icon;
 	}
 
-	static newImage(url: Readonly<URL>, text: string): HTMLImageElement {
+	static newImage(url: Readonly<URL>, text: string): HTMLImageElement;
+	static newImage(url: Readonly<URL>, text: string, options: Partial<ImageCreationOptions>): HTMLImageElement;
+	static newImage(url: Readonly<URL>, text: string, options: Partial<ImageCreationOptions> = {}): HTMLImageElement {
 		const img = document.createElement("img");
 		img.src = String(url);
 		img.alt = text;
-		img.loading = "lazy";
+		img.loading = options.loading ?? "lazy";
+		if (options.fetchPriority !== undefined) img.fetchPriority = options.fetchPriority;
 
 		return img;
 	}

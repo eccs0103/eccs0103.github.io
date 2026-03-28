@@ -11,6 +11,7 @@ body {
 	& header {
 		& img.logo {
 			width: calc(6 * var(--size-standart));
+			aspect-ratio: 1;
 		}
 
 		& button#connections-hub-trigger {
@@ -102,6 +103,7 @@ body {
 
 				& img.spotify-cover {
 					width: calc(3 * var(--size-standart));
+					aspect-ratio: 1;
 				}
 
 				& img.steam-icon {
@@ -123,7 +125,7 @@ body {
 
 					& div.media-carousel-track {
 						display: flex;
-						overflow-x: hidden;
+						overflow: hidden;
 						scroll-snap-type: x mandatory;
 
 						& div.media-carousel-slide {
@@ -352,7 +354,7 @@ body {
 					& video.telegram-gif,
 					& video.telegram-video {
 						width: 100%;
-						max-height: 50vmin;
+						aspect-ratio: 16 / 9;
 						display: block;
 						background-color: var(--color-heavy-main);
 					}

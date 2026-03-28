@@ -36,6 +36,7 @@ export class HeaderRenderer {
 
 		const preferences = settings.readPreferences();
 		const style = this.#style;
+		const cssParts: string[] = [];
 		for (const platform of platforms) {
 			const { name, icon, webpage, status, note } = platform;
 
@@ -50,7 +51,7 @@ export class HeaderRenderer {
 				inputPlatformToggle.id = `platform-toggle-${name.replace(/\s+/g, "-").toLowerCase()}`;
 				inputPlatformToggle.dataset["platform"] = name;
 				inputPlatformToggle.hidden = true;
-				style.textContent += `body:has(dialog#connections-hub input#${inputPlatformToggle.id}:not(:checked)) main div.activity[data-platform="${name}"] { display: none; }`;
+				cssParts.push(`body:has(dialog#connections-hub input#${inputPlatformToggle.id}:not(:checked)) main div.activity[data-platform="${name}"] { display: none; }`);
 				inputPlatformToggle.addEventListener("change", (event) => {
 					preferences.set(name, inputPlatformToggle.checked);
 					settings.save(200);
@@ -85,6 +86,7 @@ export class HeaderRenderer {
 				spanConnectionNote.classList.add("connection-note", "font-smaller-2");
 			}
 		}
+		style.textContent = cssParts.join("\n");
 	}
 }
 //#endregion

@@ -13,6 +13,7 @@ import { ActivityCollector, type TypeOf } from "../services/activity-collector.j
 import { type DataTable } from "../services/data-table.js";
 import { StackOverflowRenderStrategy } from "./stack-overflow-render-strategy.js";
 import { TelegramRenderStrategy } from "./telegram-render-strategy.js";
+import { analytics } from "../../environment/services/analytics-service.js";
 
 //#region Activities renderer
 export interface ActivityRenderStrategy<T extends Activity> {
@@ -61,6 +62,7 @@ export class ActivitiesRenderer {
 		itemContainer.addEventListener("play", (event) => {
 			const playing = event.target;
 			if (!(playing instanceof HTMLMediaElement)) return;
+			if (!playing.muted) analytics.event("media_play", { media_type: playing.tagName.toLowerCase() });
 			for (const element of itemContainer.getElements(HTMLMediaElement, "video, audio")) {
 				if (element === playing || element.muted || element.paused) continue;
 				element.pause();
@@ -112,8 +114,12 @@ export class ActivitiesRenderer {
 		this.#isLoading = true;
 		const isLoaded = await activities.load(this.#page++);
 		this.#isLoading = false;
-		if (isLoaded) return requestAnimationFrame(this.#render.bind(this, context));
+		if (isLoaded) {
+			analytics.event("feed_batch_loaded", { batches_loaded: this.#page });
+			return requestAnimationFrame(this.#render.bind(this, context));
+		}
 
+		analytics.event("feed_completed", { total_batches: this.#page });
 		this.#renderChunk(cursor, collector, platforms, batch, observerAnimatedReveal, true);
 		observerDynamicLoad.disconnect();
 		ActivityBuilder.newOutro(this.#itemContainer, itemSentinel, outro);

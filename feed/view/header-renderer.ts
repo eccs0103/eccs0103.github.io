@@ -4,6 +4,7 @@ import "adaptive-extender/web";
 import { type Platform } from "../models/configuration";
 import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
 import { SettingsService } from "../services/settings-service.js";
+import { analytics } from "../../environment/services/analytics-service.js";
 
 const { baseURI } = document;
 
@@ -25,6 +26,7 @@ export class HeaderRenderer {
 
 		const buttonConnectionsHubTrigger = await itemContainer.getElementAsync(HTMLButtonElement, "button#connections-hub-trigger");
 		buttonConnectionsHubTrigger.addEventListener("click", (event) => {
+			analytics.event("connections_hub_open");
 			dialogConnectionsHub.showModal();
 		});
 
@@ -54,6 +56,7 @@ export class HeaderRenderer {
 				cssParts.push(`body:has(dialog#connections-hub input#${inputPlatformToggle.id}:not(:checked)) main div.activity[data-platform="${name}"] { display: none; }`);
 				inputPlatformToggle.addEventListener("change", (event) => {
 					preferences.set(name, inputPlatformToggle.checked);
+					analytics.event("platform_toggle", { platform_name: name, enabled: inputPlatformToggle.checked });
 					settings.save(200);
 				});
 

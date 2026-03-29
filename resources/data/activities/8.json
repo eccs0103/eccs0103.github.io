@@ -157,5 +157,16 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/1649240/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1774821377000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/24de1e89305f8cbec336f16db958ff1305fc3391.jpg",
+		"title": "White Shadow",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

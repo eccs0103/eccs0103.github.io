@@ -1,5 +1,7 @@
 "use strict";
 
+import "adaptive-extender/web";
+
 //#region G Tag
 declare global {
 	export interface Window {
@@ -147,7 +149,7 @@ class AnalyticsService {
 
 	#trackSession(): void {
 		const { navigator, screen, devicePixelRatio } = window;
-		const params: Record<string, unknown> = {
+		this.event("device_context", {
 			viewport_width: window.innerWidth,
 			viewport_height: window.innerHeight,
 			pixel_ratio: devicePixelRatio,
@@ -157,9 +159,8 @@ class AnalyticsService {
 			reduced_motion: matchMedia("(prefers-reduced-motion: reduce)").matches,
 			cpu_cores: navigator.hardwareConcurrency,
 			touch_points: navigator.maxTouchPoints,
-		};
-		if (document.referrer !== "") params["referrer"] = document.referrer;
-		this.event("device_context", params);
+			...(document.referrer && { referrer: document.referrer }),
+		});
 	}
 
 	#trackEngagement(): void {
@@ -210,9 +211,9 @@ class AnalyticsService {
 		});
 
 		document.addEventListener("copy", () => {
-			const selection = window.getSelection()?.toString().trim() ?? "";
-			if (selection === "") return;
-			this.event("text_copy", { chars_copied: selection.length });
+			const text = window.getSelection()?.toString().trim();
+			if (text === undefined) return;
+			this.event("text_copy", { copied_text: text });
 		});
 	}
 
@@ -226,8 +227,7 @@ class AnalyticsService {
 		});
 
 		window.addEventListener("unhandledrejection", (event) => {
-			const reason = event.reason instanceof Error ? event.reason.message : String(event.reason);
-			this.event("js_error", { error_message: reason });
+			this.event("js_error", { error_message: Error.from(event.reason).message });
 		});
 	}
 }

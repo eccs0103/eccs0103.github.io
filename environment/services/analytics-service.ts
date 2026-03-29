@@ -39,6 +39,7 @@ class AnalyticsService {
 		this.#trackWebVitals();
 		this.#trackEngagement();
 		this.#trackInteractions();
+		this.#trackErrors();
 	}
 
 	static get instance(): AnalyticsService {
@@ -69,11 +70,17 @@ class AnalyticsService {
 		});
 		fcpObserver.observe({ type: "paint", buffered: true });
 
-		// TTFB — available synchronously from Navigation Timing
+		// TTFB + Navigation type + Page load timings — from the same Navigation entry
 		const navEntry = performance.getEntriesByType("navigation")[0];
 		if (navEntry instanceof PerformanceNavigationTiming) {
 			const ttfb = Math.round(navEntry.responseStart);
 			if (ttfb > 0) this.event("web_vitals", { metric_name: "TTFB", metric_value: ttfb });
+			this.event("page_load", {
+				nav_type: navEntry.type,
+				dom_interactive_ms: Math.round(navEntry.domInteractive),
+				load_event_ms: Math.round(navEntry.loadEventEnd),
+				transfer_size_bytes: navEntry.transferSize,
+			});
 		}
 
 		// LCP — browser may update the candidate multiple times; accumulate the latest
@@ -160,12 +167,19 @@ class AnalyticsService {
 		let totalTimeMs = 0;
 		let maxScrollPct = 0;
 
+		const milestones = new Set([25, 50, 75, 100]);
+
 		window.addEventListener("scroll", () => {
 			const { scrollY, innerHeight } = window;
 			const { scrollHeight } = document.documentElement;
 			if (scrollHeight <= innerHeight) return;
 			const pct = Math.round((scrollY + innerHeight) / scrollHeight * 100);
 			if (pct > maxScrollPct) maxScrollPct = Math.min(pct, 100);
+			for (const milestone of milestones) {
+				if (pct < milestone) continue;
+				milestones.delete(milestone);
+				this.event("scroll_depth", { depth_pct: milestone });
+			}
 		}, { passive: true });
 
 		document.addEventListener("visibilitychange", () => {
@@ -193,6 +207,27 @@ class AnalyticsService {
 				link_url: anchor.href,
 				link_text: anchor.textContent.trim(),
 			});
+		});
+
+		document.addEventListener("copy", () => {
+			const selection = window.getSelection()?.toString().trim() ?? "";
+			if (selection === "") return;
+			this.event("text_copy", { chars_copied: selection.length });
+		});
+	}
+
+	#trackErrors(): void {
+		window.addEventListener("error", (event) => {
+			this.event("js_error", {
+				error_message: event.message,
+				error_source: event.filename,
+				error_line: event.lineno,
+			});
+		});
+
+		window.addEventListener("unhandledrejection", (event) => {
+			const reason = event.reason instanceof Error ? event.reason.message : String(event.reason);
+			this.event("js_error", { error_message: reason });
 		});
 	}
 }

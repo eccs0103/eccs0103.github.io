@@ -35,7 +35,10 @@ class AnalyticsService {
 		script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
 		document.head.appendChild(script);
 
+		this.#trackSession();
 		this.#trackWebVitals();
+		this.#trackEngagement();
+		this.#trackInteractions();
 	}
 
 	static get instance(): AnalyticsService {
@@ -94,14 +97,103 @@ class AnalyticsService {
 		});
 		clsObserver.observe({ type: "layout-shift", buffered: true });
 
-		// Send accumulated LCP and CLS when the user leaves the page
+		// FID — delay before the browser can process the first user interaction
+		const fidObserver = new PerformanceObserver((list) => {
+			for (const entry of list.getEntries()) {
+				if (!(entry instanceof PerformanceEventTiming)) continue;
+				const fid = Math.round(entry.processingStart - entry.startTime);
+				this.event("web_vitals", { metric_name: "FID", metric_value: fid });
+			}
+			fidObserver.disconnect();
+		});
+		fidObserver.observe({ type: "first-input", buffered: true });
+
+		// INP — worst interaction-to-paint delay; accumulate max
+		let inpValue = 0;
+		const inpObserver = new PerformanceObserver((list) => {
+			for (const entry of list.getEntries()) {
+				if (!(entry instanceof PerformanceEventTiming)) continue;
+				if (entry.duration > inpValue) inpValue = Math.round(entry.duration);
+			}
+		});
+		inpObserver.observe({ type: "event", buffered: true });
+
+		// Long Tasks — UI freezes over 50 ms
+		let longTaskCount = 0;
+		try {
+			const ltObserver = new PerformanceObserver((list) => { longTaskCount += list.getEntries().length; });
+			ltObserver.observe({ type: "longtask", buffered: true });
+		} catch { /* not supported in all browsers */ }
+
+		// Send accumulated metrics when the user leaves the page
 		document.addEventListener("visibilitychange", () => {
 			if (document.visibilityState !== "hidden") return;
 			if (lcpValue > 0) this.event("web_vitals", { metric_name: "LCP", metric_value: lcpValue });
 			this.event("web_vitals", { metric_name: "CLS", metric_value: Math.round(clsValue * 1000) });
+			if (inpValue > 0) this.event("web_vitals", { metric_name: "INP", metric_value: inpValue });
+			if (longTaskCount > 0) this.event("web_vitals", { metric_name: "LONG_TASK_COUNT", metric_value: longTaskCount });
 			lcpObserver.disconnect();
 			clsObserver.disconnect();
+			inpObserver.disconnect();
 		}, { once: true });
+	}
+
+	#trackSession(): void {
+		const { navigator, screen, devicePixelRatio } = window;
+		const params: Record<string, unknown> = {
+			viewport_width: window.innerWidth,
+			viewport_height: window.innerHeight,
+			pixel_ratio: devicePixelRatio,
+			color_depth: screen.colorDepth,
+			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+			dark_mode: matchMedia("(prefers-color-scheme: dark)").matches,
+			reduced_motion: matchMedia("(prefers-reduced-motion: reduce)").matches,
+			cpu_cores: navigator.hardwareConcurrency,
+			touch_points: navigator.maxTouchPoints,
+		};
+		if (document.referrer !== "") params["referrer"] = document.referrer;
+		this.event("device_context", params);
+	}
+
+	#trackEngagement(): void {
+		let visibleSince: number | null = document.visibilityState === "visible" ? Date.now() : null;
+		let totalTimeMs = 0;
+		let maxScrollPct = 0;
+
+		window.addEventListener("scroll", () => {
+			const { scrollY, innerHeight } = window;
+			const { scrollHeight } = document.documentElement;
+			if (scrollHeight <= innerHeight) return;
+			const pct = Math.round((scrollY + innerHeight) / scrollHeight * 100);
+			if (pct > maxScrollPct) maxScrollPct = Math.min(pct, 100);
+		}, { passive: true });
+
+		document.addEventListener("visibilitychange", () => {
+			if (document.visibilityState === "hidden") {
+				if (visibleSince !== null) {
+					totalTimeMs += Date.now() - visibleSince;
+					visibleSince = null;
+				}
+				this.event("page_leave", {
+					time_on_page_sec: Math.round(totalTimeMs / 1000),
+					max_scroll_pct: maxScrollPct,
+				});
+				return;
+			}
+			visibleSince = Date.now();
+		});
+	}
+
+	#trackInteractions(): void {
+		document.addEventListener("click", (event) => {
+			const anchor = event.composedPath().find((el): el is HTMLAnchorElement => el instanceof HTMLAnchorElement);
+			if (anchor === undefined) return;
+			if (!anchor.href || anchor.target !== "_blank") return;
+			this.event("outbound_link_click", {
+				link_url: anchor.href,
+				link_text: anchor.textContent.trim(),
+			});
+		});
 	}
 }
 

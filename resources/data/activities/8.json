@@ -215,5 +215,16 @@
 		"tag_name": "0.9.11",
 		"is_prerelease": false,
 		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1774986732000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/8af08786073d0d2ba2374f00eb6bd876c593891e.jpg",
+		"title": "Christmas Tree Attack",
+		"description": "Complete a Breach Protocol with a minimum of 3 daemons uploaded.",
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

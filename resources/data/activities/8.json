@@ -237,5 +237,29 @@
 		"description": "Kill or incapacitate an enemy who threw a grenade at you.",
 		"url": "https://steamcommunity.com/stats/1091500/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1774999147000,
+		"title": "Tundra",
+		"artists": [
+			"Romeo"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27301bc06e09a5a8db48dbb2c8d",
+		"url": "https://open.spotify.com/track/3SCQRv3eiKjmZ4LbhT1aLh",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1774999157000,
+		"title": "Lost In Time - Evilwave Remix",
+		"artists": [
+			"Extra Terra",
+			"Urbanstep",
+			"Evilwave"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2734f8e40becaa626c9309b99ae",
+		"url": "https://open.spotify.com/track/6xhoMnXucj7j1gAb7mUbOe",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

@@ -2,7 +2,8 @@
 
 import "adaptive-extender/web";
 import { BatteryContext } from "../models/battery-context.js";
-import { analytics, Collector } from "./analytics-service.js";
+import { analytics } from "./analytics-service.js";
+import { Controller } from "adaptive-extender/web";
 
 //#region Battery collector
 declare global {
@@ -18,16 +19,8 @@ declare global {
 	}
 }
 
-export class BatteryCollector extends Collector {
-	async collect(): Promise<void> {
-		try {
-			await this.#init();
-		} catch (reason) {
-			console.error(`Battery API failed:\n${Error.from(reason)}`);
-		}
-	}
-
-	async #init(): Promise<void> {
+export class BatteryCollector extends Controller {
+	async run(): Promise<void> {
 		if (!navigator.getBattery) return;
 		const battery = await navigator.getBattery();
 		this.#dispatch(battery);
@@ -40,6 +33,10 @@ export class BatteryCollector extends Collector {
 		const chargingTime = battery.chargingTime.insteadInfinity(undefined);
 		const dischargingTime = battery.dischargingTime.insteadInfinity(undefined);
 		analytics.dispatch("battery_context", new BatteryContext(level, charging, chargingTime, dischargingTime));
+	}
+
+	async catch(error: Error): Promise<void> {
+		console.error(`Battery API failed:\n${error}`);
 	}
 }
 //#endregion

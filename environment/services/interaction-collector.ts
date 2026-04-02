@@ -3,11 +3,12 @@
 import "adaptive-extender/web";
 import { OutboundClick } from "../models/outbound-click.js";
 import { TextCopy } from "../models/text-copy.js";
-import { analytics, Collector } from "./analytics-service.js";
+import { analytics } from "./analytics-service.js";
+import { Controller } from "adaptive-extender/web";
 
 //#region Interaction collector
-export class InteractionCollector extends Collector {
-	async collect(): Promise<void> {
+export class InteractionCollector extends Controller {
+	async run(): Promise<void> {
 		document.addEventListener("click", this.#onClick.bind(this));
 		document.addEventListener("copy", this.#onCopy.bind(this));
 	}
@@ -15,16 +16,20 @@ export class InteractionCollector extends Collector {
 	#onClick(event: MouseEvent): void {
 		const anchor = event.composedPath().find(node => node instanceof HTMLAnchorElement);
 		if (anchor === undefined) return;
-		if (anchor.href || anchor.target !== "_blank") return;
-		const linkUrl = anchor.href;
+		const { href } = anchor;
+		if (String.isWhitespace(href) || anchor.target !== "_blank") return;
 		const linkText = anchor.textContent.trim();
-		analytics.dispatch("outbound_click", new OutboundClick(linkUrl, linkText));
+		analytics.dispatch("outbound_click", new OutboundClick(href, linkText));
 	}
 
 	#onCopy(): void {
-		const text = window.getSelection()?.toString().trim();
-		if (text === undefined) return;
+		const text = window.getSelection()?.toString() ?? String.empty;
+		if (String.isWhitespace(text)) return;
 		analytics.dispatch("text_copy", new TextCopy(text));
+	}
+
+	async catch(error: Error): Promise<void> {
+		console.error(`Interaction collection failed:\n${error}`);
 	}
 }
 //#endregion

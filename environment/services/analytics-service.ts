@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { type Model } from "adaptive-extender/web";
+import { type Model, type PortableConstructor } from "adaptive-extender/web";
 import { BatteryCollector } from "./battery-collector.js";
 import { BrowserCollector } from "./browser-collector.js";
 import { DeviceCollector } from "./device-collector.js";
@@ -13,7 +13,7 @@ import { SessionCollector } from "./session-collector.js";
 import { WebVitalsCollector } from "./web-vitals-collector.js";
 import { SessionIdentity } from "../models/session-identity.js";
 
-//#region GTag
+//#region Analytics service
 declare global {
 	export interface Window {
 		dataLayer: any[];
@@ -26,15 +26,7 @@ window.dataLayer ??= [];
 window.gtag = function (): void {
 	window.dataLayer.push(arguments);
 };
-//#endregion
 
-//#region Collector base
-export abstract class Collector {
-	abstract collect(): Promise<void>;
-}
-//#endregion
-
-//#region Analytics service
 export class AnalyticsService {
 	static #lock: boolean = true;
 	static #instance: AnalyticsService | null = null;
@@ -55,14 +47,14 @@ export class AnalyticsService {
 		script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
 		document.head.appendChild(script);
 
-		void (new DeviceCollector).collect();
-		void (new BrowserCollector).collect();
-		void (new NetworkCollector).collect();
-		void (new BatteryCollector).collect();
-		void (new WebVitalsCollector).collect();
-		void (new EngagementCollector).collect();
-		void (new InteractionCollector).collect();
-		void (new ErrorCollector).collect();
+		void DeviceCollector.launch();
+		void BrowserCollector.launch();
+		void NetworkCollector.launch();
+		void BatteryCollector.launch();
+		void WebVitalsCollector.launch();
+		void EngagementCollector.launch();
+		void InteractionCollector.launch();
+		void ErrorCollector.launch();
 	}
 
 	static get instance(): AnalyticsService {
@@ -81,11 +73,11 @@ export class AnalyticsService {
 	}
 
 	dispatch<M extends Model>(name: string, instance: M): void {
-		this.event(name, (instance.constructor as typeof Model).export(instance));
+		this.event(name, (constructor(instance) as typeof Model).export(instance));
 	}
 
-	setProperties<M extends Model>(instance: M): void {
-		window.gtag("set", "user_properties", (instance.constructor as typeof Model).export(instance));
+	setProperties<M extends PortableConstructor<InstanceType<M>>>(instance: M): void {
+		window.gtag("set", "user_properties", (constructor(instance) as typeof Model).export(instance));
 	}
 }
 

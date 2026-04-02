@@ -2,11 +2,12 @@
 
 import "adaptive-extender/web";
 import { JavaScriptError } from "../models/javascript-error.js";
-import { analytics, Collector } from "./analytics-service.js";
+import { analytics } from "./analytics-service.js";
+import { Controller } from "adaptive-extender/web";
 
-//#region ErrorCollector
-export class ErrorCollector extends Collector {
-	async collect(): Promise<void> {
+//#region Error collector
+export class ErrorCollector extends Controller {
+	async run(): Promise<void> {
 		window.addEventListener("error", this.#onError.bind(this));
 		window.addEventListener("unhandledrejection", this.#onReject.bind(this));
 	}
@@ -21,6 +22,10 @@ export class ErrorCollector extends Collector {
 	#onReject(event: PromiseRejectionEvent): void {
 		const errorMessage = Error.from(event.reason).message;
 		analytics.dispatch("js_error", new JavaScriptError(errorMessage, undefined, undefined));
+	}
+
+	async catch(error: Error): Promise<void> {
+		console.error(`Error collection failed:\n${error}`);
 	}
 }
 //#endregion

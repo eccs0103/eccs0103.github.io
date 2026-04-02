@@ -3,7 +3,8 @@
 import "adaptive-extender/web";
 import { PageLoad } from "../models/page-load.js";
 import { WebVital } from "../models/web-vital.js";
-import { analytics, Collector } from "./analytics-service.js";
+import { analytics } from "./analytics-service.js";
+import { Controller } from "adaptive-extender/web";
 
 const { round } = Math;
 
@@ -19,8 +20,8 @@ declare global {
 	}
 }
 
-export class WebVitalsCollector extends Collector {
-	async collect(): Promise<void> {
+export class WebVitalsCollector extends Controller {
+	async run(): Promise<void> {
 		this.#trackFirstContentfulPaint();
 		this.#trackNavigationTiming();
 		this.#trackLargestContentfulPaint();
@@ -28,10 +29,6 @@ export class WebVitalsCollector extends Collector {
 		this.#trackFirstInputDelay();
 		this.#trackInteractionToNextPaint();
 		this.#trackLongTasks();
-	}
-
-	#emitVital(name: string, value: number): void {
-		analytics.dispatch("web_vital", new WebVital(name, value));
 	}
 
 	#isLayoutShift(entry: PerformanceEntry): entry is LayoutShiftEntry {
@@ -43,7 +40,7 @@ export class WebVitalsCollector extends Collector {
 			for (const entry of list.getEntries()) {
 				if (entry.name !== "first-contentful-paint") continue;
 				const fcp = round(entry.startTime);
-				this.#emitVital("FCP", fcp);
+				analytics.dispatch("web_vital", new WebVital("FCP", fcp));
 			}
 			observer.disconnect();
 		});
@@ -51,15 +48,14 @@ export class WebVitalsCollector extends Collector {
 	}
 
 	#trackNavigationTiming(): void {
-		const navEntry = performance.getEntriesByType("navigation")[0];
+		const [navEntry] = performance.getEntriesByType("navigation");
 		if (!(navEntry instanceof PerformanceNavigationTiming)) return;
-		const ttfb = round(navEntry.responseStart);
-		if (ttfb > 0) this.#emitVital("TTFB", ttfb);
-		const navigationType = navEntry.type;
-		const domInteractiveMilliseconds = round(navEntry.domInteractive);
-		const loadEventMilliseconds = round(navEntry.loadEventEnd);
-		const transferSize = navEntry.transferSize;
-		analytics.dispatch("page_load", new PageLoad(navigationType, domInteractiveMilliseconds, loadEventMilliseconds, transferSize));
+		const { responseStart, type, domInteractive, loadEventEnd, transferSize } = navEntry;
+		const ttfb = round(responseStart);
+		if (ttfb > 0) analytics.dispatch("web_vital", new WebVital("TTFB", ttfb));
+		const domInteractiveMilliseconds = round(domInteractive);
+		const loadEventMilliseconds = round(loadEventEnd);
+		analytics.dispatch("page_load", new PageLoad(type, domInteractiveMilliseconds, loadEventMilliseconds, transferSize));
 	}
 
 	#trackLargestContentfulPaint(): void {
@@ -73,7 +69,7 @@ export class WebVitalsCollector extends Collector {
 		observer.observe({ type: "largest-contentful-paint", buffered: true });
 		document.addEventListener("visibilitychange", () => {
 			if (document.visibilityState !== "hidden") return;
-			if (latest > 0) this.#emitVital("LCP", latest);
+			if (latest > 0) analytics.dispatch("web_vital", new WebVital("LCP", latest));
 			observer.disconnect();
 		}, { once: true });
 	}
@@ -91,7 +87,7 @@ export class WebVitalsCollector extends Collector {
 		document.addEventListener("visibilitychange", () => {
 			if (document.visibilityState !== "hidden") return;
 			const cls = round(total * 1000);
-			this.#emitVital("CLS", cls);
+			analytics.dispatch("web_vital", new WebVital("CLS", cls));
 			observer.disconnect();
 		}, { once: true });
 	}
@@ -101,7 +97,7 @@ export class WebVitalsCollector extends Collector {
 			for (const entry of list.getEntries()) {
 				if (!(entry instanceof PerformanceEventTiming)) continue;
 				const fid = round(entry.processingStart - entry.startTime);
-				this.#emitVital("FID", fid);
+				analytics.dispatch("web_vital", new WebVital("FID", fid));
 			}
 			observer.disconnect();
 		});
@@ -119,22 +115,28 @@ export class WebVitalsCollector extends Collector {
 		observer.observe({ type: "event", buffered: true, durationThreshold: 40 });
 		document.addEventListener("visibilitychange", () => {
 			if (document.visibilityState !== "hidden") return;
-			if (worst > 0) this.#emitVital("INP", worst);
+			if (worst > 0) analytics.dispatch("web_vital", new WebVital("INP", worst));
 			observer.disconnect();
 		}, { once: true });
 	}
 
 	#trackLongTasks(): void {
-		let count = 0;
 		try {
-			const observer = new PerformanceObserver((list) => { count += list.getEntries().length; });
+			let count = 0;
+			const observer = new PerformanceObserver((list) => {
+				count += list.getEntries().length;
+			});
 			observer.observe({ type: "longtask", buffered: true });
 			document.addEventListener("visibilitychange", () => {
 				if (document.visibilityState !== "hidden") return;
-				if (count > 0) this.#emitVital("LONG_TASKS", count);
+				if (count > 0) analytics.dispatch("web_vital", new WebVital("LONG_TASKS", count));
 				observer.disconnect();
 			}, { once: true });
 		} catch { /* longtask not supported in all browsers */ }
+	}
+
+	async catch(error: Error): Promise<void> {
+		console.error(`Web vitals collection failed:\n${error}`);
 	}
 }
 //#endregion

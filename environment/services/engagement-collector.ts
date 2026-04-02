@@ -3,18 +3,19 @@
 import "adaptive-extender/web";
 import { PageLeave } from "../models/page-leave.js";
 import { ScrollDepthHit } from "../models/scroll-depth-hit.js";
-import { analytics, Collector } from "./analytics-service.js";
+import { analytics } from "./analytics-service.js";
+import { Controller } from "adaptive-extender/web";
 
 const { round, min } = Math;
 
 //#region Engagement collector
-export class EngagementCollector extends Collector {
+export class EngagementCollector extends Controller {
 	#maxScrollPercent = 0;
 	#totalVisibleMilliseconds = 0;
 	#visibleSince: number | null = null;
 	#milestones = new Set([25, 50, 75, 100]);
 
-	async collect(): Promise<void> {
+	async run(): Promise<void> {
 		if (document.visibilityState === "visible") this.#visibleSince = Date.now();
 		window.addEventListener("scroll", this.#onScroll.bind(this), { passive: true });
 		document.addEventListener("visibilitychange", this.#onVisibility.bind(this));
@@ -46,6 +47,10 @@ export class EngagementCollector extends Collector {
 		const visibleSeconds = round(this.#totalVisibleMilliseconds / 1000);
 		const maxScrollPercent = this.#maxScrollPercent;
 		analytics.dispatch("page_leave", new PageLeave(visibleSeconds, maxScrollPercent));
+	}
+
+	async catch(error: Error): Promise<void> {
+		console.error(`Engagement collection failed:\n${error}`);
 	}
 }
 //#endregion

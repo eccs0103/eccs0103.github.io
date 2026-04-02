@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { PageLeave } from "../models/page-leave.js";
 import { ScrollDepthHit } from "../models/scroll-depth-hit.js";
-import { analytics } from "./analytics-service.js";
+import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
 const { round, min } = Math;

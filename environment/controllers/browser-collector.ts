@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { BrowserContext } from "../models/browser-context.js";
-import { analytics } from "./analytics-service.js";
+import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
 //#region Browser collector

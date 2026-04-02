@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { DeviceContext } from "../models/device-context.js";
 import { UserProperties } from "../models/user-properties.js";
-import { analytics } from "./analytics-service.js";
+import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
 //#region Device collector

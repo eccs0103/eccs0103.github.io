@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { OutboundClick } from "../models/outbound-click.js";
 import { TextCopy } from "../models/text-copy.js";
-import { analytics } from "./analytics-service.js";
+import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
 //#region Interaction collector

@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { PageLoad } from "../models/page-load.js";
 import { WebVital } from "../models/web-vital.js";
-import { analytics } from "./analytics-service.js";
+import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
 const { round } = Math;

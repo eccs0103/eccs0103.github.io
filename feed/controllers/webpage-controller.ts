@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { ArrayOf, Controller, Timespan } from "adaptive-extender/web";
+import { ArrayOf, Controller } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ClientBridge } from "../services/client-bridge.js";
 import { DataTable } from "../services/data-table.js";
@@ -15,6 +15,14 @@ import { type Bridge } from "../services/bridge.js";
 import { SettingsService } from "../services/settings-service.js";
 import { ChangelogService } from "../services/changelog-service.js";
 import { ChangelogRenderer } from "../view/changelog-renderer.js";
+import { DeviceCollector } from "../../environment/controllers/device-collector.js";
+import { BrowserCollector } from "../../environment/controllers/browser-collector.js";
+import { NetworkCollector } from "../../environment/controllers/network-collector.js";
+import { BatteryCollector } from "../../environment/controllers/battery-collector.js";
+import { WebVitalsCollector } from "../../environment/controllers/web-vitals-collector.js";
+import { EngagementCollector } from "../../environment/controllers/engagement-collector.js";
+import { InteractionCollector } from "../../environment/controllers/interaction-collector.js";
+import { ErrorCollector } from "../../environment/controllers/error-collector.js";
 
 const { baseURI, body } = document;
 
@@ -39,6 +47,15 @@ class WebpageController extends Controller {
 	}
 
 	async run(): Promise<void> {
+		void DeviceCollector.launch();
+		void BrowserCollector.launch();
+		void NetworkCollector.launch();
+		void BatteryCollector.launch();
+		void WebVitalsCollector.launch();
+		void EngagementCollector.launch();
+		void InteractionCollector.launch();
+		void ErrorCollector.launch();
+
 		const [configuration, changelog] = await Promise.all([
 			this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI)),
 			this.#readChangelog(new URL("../data/feed-changelog.json", baseURI)),

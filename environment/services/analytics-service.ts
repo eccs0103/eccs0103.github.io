@@ -2,15 +2,7 @@
 
 import "adaptive-extender/web";
 import { type Model } from "adaptive-extender/web";
-import { BatteryCollector } from "./battery-collector.js";
-import { BrowserCollector } from "./browser-collector.js";
-import { DeviceCollector } from "./device-collector.js";
-import { EngagementCollector } from "./engagement-collector.js";
-import { ErrorCollector } from "./error-collector.js";
-import { InteractionCollector } from "./interaction-collector.js";
-import { NetworkCollector } from "./network-collector.js";
-import { SessionCollector } from "./session-collector.js";
-import { WebVitalsCollector } from "./web-vitals-collector.js";
+import { SessionCollector } from "../controllers/session-collector.js";
 import { SessionIdentity } from "../models/session-identity.js";
 
 //#region Analytics service
@@ -30,14 +22,12 @@ window.gtag = function (): void {
 export class AnalyticsService {
 	static #lock: boolean = true;
 	static #instance: AnalyticsService | null = null;
-
 	#session: SessionCollector = new SessionCollector();
 
 	constructor(id: string) {
 		if (AnalyticsService.#lock) throw new TypeError("Illegal constructor");
 
 		const session = this.#session;
-
 		window.gtag("js", new Date());
 		window.gtag("config", id);
 		window.gtag("set", SessionIdentity.export(new SessionIdentity(session.userFingerprint, session.sessionFingerprint)));
@@ -46,15 +36,6 @@ export class AnalyticsService {
 		script.async = true;
 		script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
 		document.head.appendChild(script);
-
-		void DeviceCollector.launch();
-		void BrowserCollector.launch();
-		void NetworkCollector.launch();
-		void BatteryCollector.launch();
-		void WebVitalsCollector.launch();
-		void EngagementCollector.launch();
-		void InteractionCollector.launch();
-		void ErrorCollector.launch();
 	}
 
 	static get instance(): AnalyticsService {
@@ -76,7 +57,7 @@ export class AnalyticsService {
 	dispatch(name: string, instance: Model): void;
 	dispatch(name: string, instance?: Model): void {
 		if (instance === undefined) return this.#event(name, {});
-		return this.#event(name, (constructor(instance)).export(instance));
+		return this.#event(name, (constructor(instance) as typeof Model).export(instance));
 	}
 
 	setProperties(instance: Model): void {

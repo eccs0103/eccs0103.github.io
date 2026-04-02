@@ -1,18 +1,22 @@
 "use strict";
 
 import "adaptive-extender/web";
+import { DeviceContext } from "../models/device-context.js";
+import { UserProperties } from "../models/user-properties.js";
+import { Collector } from "./analytics-service.js";
 
-import { DeviceContext } from "../models/analytics.js";
-
-export class DeviceCollector {
-	#emit: (name: string, params: object) => void;
-
-	constructor(emit: (name: string, params: object) => void) {
-		this.#emit = emit;
+declare global {
+	interface Navigator {
+		deviceMemory?: number;
 	}
+}
 
+//#region DeviceCollector
+export class DeviceCollector extends Collector {
 	collect(): void {
 		const { navigator, screen, devicePixelRatio } = window;
+		const darkMode = matchMedia("(prefers-color-scheme: dark)").matches;
+		const lowMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 		const pointerType = matchMedia("(pointer: fine)").matches ? "fine" : matchMedia("(pointer: coarse)").matches ? "coarse" : "none";
 
 		const context = new DeviceContext(
@@ -20,8 +24,7 @@ export class DeviceCollector {
 			screen.width, screen.height,
 			devicePixelRatio, screen.colorDepth,
 			Intl.DateTimeFormat().resolvedOptions().timeZone,
-			matchMedia("(prefers-color-scheme: dark)").matches,
-			matchMedia("(prefers-reduced-motion: reduce)").matches,
+			darkMode, lowMotion,
 			matchMedia("(prefers-contrast: more)").matches,
 			pointerType,
 			navigator.hardwareConcurrency, navigator.maxTouchPoints,
@@ -29,14 +32,9 @@ export class DeviceCollector {
 			navigator.onLine, navigator.cookieEnabled,
 			navigator.languages.join(","),
 		);
-		this.#emit("device_context", DeviceContext.export(context));
+		this.emit("device_context", DeviceContext, context);
 
-		window.gtag("set", "user_properties", {
-			cpu_cores: navigator.hardwareConcurrency,
-			dark_mode: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
-			low_motion: matchMedia("(prefers-reduced-motion: reduce)").matches,
-			pointer_type: pointerType,
-			memory_gigabytes: navigator.deviceMemory ?? null,
-		});
+		window.gtag("set", "user_properties", UserProperties.export(new UserProperties(navigator.hardwareConcurrency, darkMode ? "dark" : "light", lowMotion, pointerType, navigator.deviceMemory)));
 	}
 }
+//#endregion

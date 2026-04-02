@@ -1,16 +1,22 @@
 "use strict";
 
 import "adaptive-extender/web";
+import { PageLoad } from "../models/page-load.js";
+import { WebVital } from "../models/web-vital.js";
+import { Collector } from "./analytics-service.js";
 
-import { PageLoad, WebVital } from "../models/analytics.js";
+const { round } = Math;
 
-export class WebVitalsCollector {
-	#emit: (name: string, params: object) => void;
+type LayoutShiftEntry = PerformanceEntry & { value: number; hadRecentInput: boolean; };
 
-	constructor(emit: (name: string, params: object) => void) {
-		this.#emit = emit;
+declare global {
+	interface PerformanceObserverInit {
+		durationThreshold?: number;
 	}
+}
 
+//#region WebVitalsCollector
+export class WebVitalsCollector extends Collector {
 	collect(): void {
 		this.#trackFirstContentfulPaint();
 		this.#trackNavigationTiming();
@@ -22,10 +28,10 @@ export class WebVitalsCollector {
 	}
 
 	#emitVital(name: string, value: number): void {
-		this.#emit("web_vital", WebVital.export(new WebVital(name, value)));
+		this.emit("web_vital", WebVital, new WebVital(name, value));
 	}
 
-	#isLayoutShift(entry: PerformanceEntry): entry is LayoutShift {
+	#isLayoutShift(entry: PerformanceEntry): entry is LayoutShiftEntry {
 		return "value" in entry && "hadRecentInput" in entry;
 	}
 
@@ -33,7 +39,7 @@ export class WebVitalsCollector {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (entry.name !== "first-contentful-paint") continue;
-				this.#emitVital("FCP", Math.round(entry.startTime));
+				this.#emitVital("FCP", round(entry.startTime));
 			}
 			observer.disconnect();
 		});
@@ -43,10 +49,10 @@ export class WebVitalsCollector {
 	#trackNavigationTiming(): void {
 		const navEntry = performance.getEntriesByType("navigation")[0];
 		if (!(navEntry instanceof PerformanceNavigationTiming)) return;
-		const ttfb = Math.round(navEntry.responseStart);
+		const ttfb = round(navEntry.responseStart);
 		if (ttfb > 0) this.#emitVital("TTFB", ttfb);
-		const load = new PageLoad(navEntry.type, Math.round(navEntry.domInteractive), Math.round(navEntry.loadEventEnd), navEntry.transferSize);
-		this.#emit("page_load", PageLoad.export(load));
+		const load = new PageLoad(navEntry.type, round(navEntry.domInteractive), round(navEntry.loadEventEnd), navEntry.transferSize);
+		this.emit("page_load", PageLoad, load);
 	}
 
 	#trackLargestContentfulPaint(): void {
@@ -54,7 +60,7 @@ export class WebVitalsCollector {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (!(entry instanceof LargestContentfulPaint)) continue;
-				latest = Math.round(entry.renderTime || entry.loadTime);
+				latest = round(entry.renderTime || entry.loadTime);
 			}
 		});
 		observer.observe({ type: "largest-contentful-paint", buffered: true });
@@ -77,7 +83,7 @@ export class WebVitalsCollector {
 		observer.observe({ type: "layout-shift", buffered: true });
 		document.addEventListener("visibilitychange", () => {
 			if (document.visibilityState !== "hidden") return;
-			this.#emitVital("CLS", Math.round(total * 1000));
+			this.#emitVital("CLS", round(total * 1000));
 			observer.disconnect();
 		}, { once: true });
 	}
@@ -86,7 +92,7 @@ export class WebVitalsCollector {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (!(entry instanceof PerformanceEventTiming)) continue;
-				this.#emitVital("FID", Math.round(entry.processingStart - entry.startTime));
+				this.#emitVital("FID", round(entry.processingStart - entry.startTime));
 			}
 			observer.disconnect();
 		});
@@ -98,7 +104,7 @@ export class WebVitalsCollector {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (!(entry instanceof PerformanceEventTiming)) continue;
-				if (entry.duration > worst) worst = Math.round(entry.duration);
+				if (entry.duration > worst) worst = round(entry.duration);
 			}
 		});
 		observer.observe({ type: "event", buffered: true, durationThreshold: 40 });
@@ -122,3 +128,4 @@ export class WebVitalsCollector {
 		} catch { /* longtask not supported in all browsers */ }
 	}
 }
+//#endregion

@@ -1,6 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
+import { type Model, type PortableConstructor } from "adaptive-extender/web";
 import { BatteryCollector } from "./battery-collector.js";
 import { BrowserCollector } from "./browser-collector.js";
 import { DeviceCollector } from "./device-collector.js";
@@ -27,8 +28,24 @@ window.gtag = function (): void {
 };
 //#endregion
 
+//#region Collector base
+export abstract class Collector {
+	#analytics: AnalyticsService;
+
+	constructor(analytics: AnalyticsService) {
+		this.#analytics = analytics;
+	}
+
+	abstract collect(): void;
+
+	emit<M extends Model>(eventName: string, exporter: PortableConstructor<M, object>, instance: M): void {
+		this.#analytics.event(eventName, exporter.export(instance));
+	}
+}
+//#endregion
+
 //#region Analytics service
-class AnalyticsService {
+export class AnalyticsService {
 	static #lock: boolean = true;
 	static #instance: AnalyticsService | null = null;
 
@@ -68,7 +85,8 @@ class AnalyticsService {
 	}
 
 	event(name: string, params: object = {}): void {
-		const identity = new SessionIdentity(this.#session.userFingerprint, this.#session.sessionFingerprint);
+		const session = this.#session;
+		const identity = new SessionIdentity(session.userFingerprint, session.sessionFingerprint);
 		window.gtag("event", name, Object.assign(SessionIdentity.export(identity), params));
 	}
 }

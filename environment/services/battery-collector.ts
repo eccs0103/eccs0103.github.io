@@ -1,16 +1,24 @@
 "use strict";
 
 import "adaptive-extender/web";
+import { BatteryContext } from "../models/battery-context.js";
+import { Collector } from "./analytics-service.js";
 
-import { BatteryContext } from "../models/analytics.js";
-
-export class BatteryCollector {
-	#emit: (name: string, params: object) => void;
-
-	constructor(emit: (name: string, params: object) => void) {
-		this.#emit = emit;
+//#region Battery collector
+declare global {
+	export interface BatteryManager extends EventTarget {
+		level: number;
+		charging: boolean;
+		chargingTime: number;
+		dischargingTime: number;
 	}
 
+	export interface Navigator {
+		getBattery?(): Promise<BatteryManager>;
+	}
+}
+
+export class BatteryCollector extends Collector {
 	collect(): void {
 		void this.#init();
 	}
@@ -20,16 +28,15 @@ export class BatteryCollector {
 		try {
 			const battery = await navigator.getBattery();
 			this.#emitBattery(battery);
-			battery.addEventListener("levelchange", () => this.#emitBattery(battery));
-			battery.addEventListener("chargingchange", () => this.#emitBattery(battery));
+			battery.addEventListener("levelchange", event => this.#emitBattery(battery));
+			battery.addEventListener("chargingchange", event => this.#emitBattery(battery));
 		} catch (reason) {
 			console.error(`Battery API failed:\n${Error.from(reason)}`);
 		}
 	}
 
 	#emitBattery(battery: BatteryManager): void {
-		const chargingTime = isFinite(battery.chargingTime) ? battery.chargingTime : undefined;
-		const dischargingTime = isFinite(battery.dischargingTime) ? battery.dischargingTime : undefined;
-		this.#emit("battery_context", BatteryContext.export(new BatteryContext(battery.level, battery.charging, chargingTime, dischargingTime)));
+		this.emit("battery_context", BatteryContext, new BatteryContext(battery.level, battery.charging, battery.chargingTime.insteadInfinity(undefined), battery.dischargingTime.insteadInfinity(undefined)));
 	}
 }
+//#endregion

@@ -6,8 +6,13 @@ import { Collector } from "./analytics-service.js";
 
 //#region Browser collector
 declare global {
+	export interface UaBrand {
+		brand: string;
+		version: string;
+	}
+
 	export interface NavigatorUAData {
-		brands: readonly { brand: string; version: string; }[];
+		brands: readonly UaBrand[];
 		mobile: boolean;
 		platform: string;
 		getHighEntropyValues(hints: string[]): Promise<UADataValues>;
@@ -18,7 +23,7 @@ declare global {
 		model?: string;
 		platformVersion?: string;
 		bitness?: string;
-		fullVersionList?: readonly { brand: string; version: string; }[];
+		fullVersionList?: readonly UaBrand[];
 	}
 
 	export interface Navigator {
@@ -27,29 +32,25 @@ declare global {
 }
 
 export class BrowserCollector extends Collector {
-	collect(): void {
-		void this.#init();
-	}
-
-	async #init(): Promise<void> {
-		const [brands, version, data] = await this.#fetchUaCh();
-		const doNotTrack = navigator.doNotTrack?.insteadEmpty(undefined);
-		const uaMobile = navigator.userAgentData?.mobile;
-		const uaPlatform = navigator.userAgentData?.platform;
-		this.dispatch("browser_context", new BrowserContext(navigator.userAgent, navigator.platform, navigator.vendor, navigator.language, doNotTrack, brands, uaMobile, uaPlatform, version, data?.architecture, data?.model));
-	}
-
-	async #fetchUaCh(): Promise<[brands: string | undefined, version: string | undefined, data: UADataValues | undefined]> {
-		if (!navigator.userAgentData) return [undefined, undefined, undefined];
+	async collect(): Promise<void> {
 		try {
-			const data = await navigator.userAgentData.getHighEntropyValues(["architecture", "model", "platformVersion", "bitness", "fullVersionList"]);
-			const brands = navigator.userAgentData.brands.filter(b => !b.brand.includes("Not")).map(b => `${b.brand} ${b.version}`).join(", ").insteadEmpty(undefined);
-			const version = data.fullVersionList?.filter(b => !b.brand.includes("Not")).map(b => `${b.brand} ${b.version}`).join(", ").insteadEmpty(undefined);
-			return [brands, version, data];
+			await this.#dispatch();
 		} catch (reason) {
-			console.error(`UA-CH collection failed:\n${Error.from(reason)}`);
-			return [undefined, undefined, undefined];
+			console.error(`Browser collection failed:\n${Error.from(reason)}`);
 		}
+	}
+
+	async #dispatch(): Promise<void> {
+		const { userAgent, platform, vendor, language, userAgentData } = navigator;
+		const doNotTrack = navigator.doNotTrack?.insteadEmpty(undefined);
+		const uaBrands = userAgentData?.brands.filter(({ brand }) => !brand.includes("Not")).map(({ brand, version }) => `${brand} ${version}`).join(", ").insteadEmpty(undefined);
+		const uaMobile = userAgentData?.mobile;
+		const uaPlatform = userAgentData?.platform;
+		const uaData = await userAgentData?.getHighEntropyValues(["architecture", "model", "platformVersion", "bitness", "fullVersionList"]);
+		const uaVersion = uaData?.fullVersionList?.filter(uaBrand => !uaBrand.brand.includes("Not")).map(uaBrand => `${uaBrand.brand} ${uaBrand.version}`).join(", ").insteadEmpty(undefined);
+		const uaArchitecture = uaData?.architecture;
+		const uaDeviceModel = uaData?.model;
+		this.dispatch("browser_context", new BrowserContext(userAgent, platform, vendor, language, doNotTrack, uaBrands, uaMobile, uaPlatform, uaVersion, uaArchitecture, uaDeviceModel));
 	}
 }
 //#endregion

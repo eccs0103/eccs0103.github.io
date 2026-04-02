@@ -5,24 +5,25 @@ import { OutboundClick } from "../models/outbound-click.js";
 import { TextCopy } from "../models/text-copy.js";
 import { Collector } from "./analytics-service.js";
 
-//#region InteractionCollector
+//#region Interaction collector
 export class InteractionCollector extends Collector {
-	collect(): void {
+	async collect(): Promise<void> {
 		document.addEventListener("click", this.#onClick.bind(this));
 		document.addEventListener("copy", this.#onCopy.bind(this));
 	}
 
 	#onClick(event: MouseEvent): void {
-		const anchor = event.composedPath().find(el => el instanceof HTMLAnchorElement);
+		const anchor = event.composedPath().find(node => node instanceof HTMLAnchorElement);
 		if (anchor === undefined) return;
-		if (!anchor.href || anchor.target !== "_blank") return;
-		const linkText = anchor.textContent?.trim() ?? String.empty;
-		this.dispatch("outbound_click", new OutboundClick(anchor.href, linkText));
+		if (anchor.href || anchor.target !== "_blank") return;
+		const linkUrl = anchor.href;
+		const linkText = anchor.textContent.trim();
+		this.dispatch("outbound_click", new OutboundClick(linkUrl, linkText));
 	}
 
 	#onCopy(): void {
 		const text = window.getSelection()?.toString().trim();
-		if (!text) return;
+		if (text === undefined) return;
 		this.dispatch("text_copy", new TextCopy(text));
 	}
 }

@@ -4,8 +4,9 @@ import "adaptive-extender/web";
 import { NetworkContext } from "../models/network-context.js";
 import { Collector } from "./analytics-service.js";
 
+//#region Network collector
 declare global {
-	interface NetworkInformation extends EventTarget {
+	export interface NetworkInformation extends EventTarget {
 		type?: string;
 		effectiveType?: string;
 		downlink?: number;
@@ -13,16 +14,24 @@ declare global {
 		saveData?: boolean;
 	}
 
-	interface Navigator {
+	export interface Navigator {
 		connection?: NetworkInformation;
 	}
 }
 
-//#region NetworkCollector
 export class NetworkCollector extends Collector {
-	collect(): void {
-		const { connection } = navigator;
-		this.dispatch("network_context", new NetworkContext(navigator.onLine, connection?.type, connection?.effectiveType, connection?.downlink, connection?.rtt, connection?.saveData));
+	async collect(): Promise<void> {
+		return this.#emit();
+	}
+
+	#emit(): void {
+		const { connection, onLine } = navigator;
+		const connectionType = connection?.type;
+		const effectiveType = connection?.effectiveType;
+		const downlink = connection?.downlink;
+		const rtt = connection?.rtt;
+		const saveData = connection?.saveData;
+		this.dispatch("network_context", new NetworkContext(onLine, connectionType, effectiveType, downlink, rtt, saveData));
 	}
 }
 //#endregion

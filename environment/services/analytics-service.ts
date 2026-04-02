@@ -36,10 +36,14 @@ export abstract class Collector {
 		this.#analytics = analytics;
 	}
 
-	abstract collect(): void;
+	abstract collect(): Promise<void>;
 
-	dispatch<M extends Model>(eventName: string, instance: M): void {
-		this.#analytics.event(eventName, (instance.constructor as typeof Model).export(instance));
+	dispatch<M extends Model>(name: string, instance: M): void {
+		this.#analytics.dispatch(name, instance);
+	}
+
+	setProperties<M extends Model>(instance: M): void {
+		this.#analytics.setProperties(instance);
 	}
 }
 //#endregion
@@ -65,14 +69,14 @@ export class AnalyticsService {
 		script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
 		document.head.appendChild(script);
 
-		new DeviceCollector(this).collect();
-		new BrowserCollector(this).collect();
-		new NetworkCollector(this).collect();
+		void new DeviceCollector(this).collect();
+		void new BrowserCollector(this).collect();
+		void new NetworkCollector(this).collect();
 		void new BatteryCollector(this).collect();
-		new WebVitalsCollector(this).collect();
-		new EngagementCollector(this).collect();
-		new InteractionCollector(this).collect();
-		new ErrorCollector(this).collect();
+		void new WebVitalsCollector(this).collect();
+		void new EngagementCollector(this).collect();
+		void new InteractionCollector(this).collect();
+		void new ErrorCollector(this).collect();
 	}
 
 	static get instance(): AnalyticsService {
@@ -88,6 +92,14 @@ export class AnalyticsService {
 		const session = this.#session;
 		const identity = new SessionIdentity(session.userFingerprint, session.sessionFingerprint);
 		window.gtag("event", name, Object.assign(SessionIdentity.export(identity), params));
+	}
+
+	dispatch<M extends Model>(name: string, instance: M): void {
+		this.event(name, (instance.constructor as typeof Model).export(instance));
+	}
+
+	setProperties<M extends Model>(instance: M): void {
+		window.gtag("set", "user_properties", (instance.constructor as typeof Model).export(instance));
 	}
 }
 

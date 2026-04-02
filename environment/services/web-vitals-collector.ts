@@ -7,7 +7,10 @@ import { Collector } from "./analytics-service.js";
 
 const { round } = Math;
 
-type LayoutShiftEntry = PerformanceEntry & { value: number; hadRecentInput: boolean; };
+interface LayoutShiftEntry extends PerformanceEntry {
+	value: number;
+	hadRecentInput: boolean;
+}
 
 declare global {
 	interface PerformanceObserverInit {
@@ -17,7 +20,7 @@ declare global {
 
 //#region WebVitalsCollector
 export class WebVitalsCollector extends Collector {
-	collect(): void {
+	async collect(): Promise<void> {
 		this.#trackFirstContentfulPaint();
 		this.#trackNavigationTiming();
 		this.#trackLargestContentfulPaint();
@@ -39,7 +42,8 @@ export class WebVitalsCollector extends Collector {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (entry.name !== "first-contentful-paint") continue;
-				this.#emitVital("FCP", round(entry.startTime));
+				const fcp = round(entry.startTime);
+				this.#emitVital("FCP", fcp);
 			}
 			observer.disconnect();
 		});
@@ -51,7 +55,11 @@ export class WebVitalsCollector extends Collector {
 		if (!(navEntry instanceof PerformanceNavigationTiming)) return;
 		const ttfb = round(navEntry.responseStart);
 		if (ttfb > 0) this.#emitVital("TTFB", ttfb);
-		this.dispatch("page_load", new PageLoad(navEntry.type, round(navEntry.domInteractive), round(navEntry.loadEventEnd), navEntry.transferSize));
+		const navigationType = navEntry.type;
+		const domInteractiveMilliseconds = round(navEntry.domInteractive);
+		const loadEventMilliseconds = round(navEntry.loadEventEnd);
+		const transferSize = navEntry.transferSize;
+		this.dispatch("page_load", new PageLoad(navigationType, domInteractiveMilliseconds, loadEventMilliseconds, transferSize));
 	}
 
 	#trackLargestContentfulPaint(): void {
@@ -82,7 +90,8 @@ export class WebVitalsCollector extends Collector {
 		observer.observe({ type: "layout-shift", buffered: true });
 		document.addEventListener("visibilitychange", () => {
 			if (document.visibilityState !== "hidden") return;
-			this.#emitVital("CLS", round(total * 1000));
+			const cls = round(total * 1000);
+			this.#emitVital("CLS", cls);
 			observer.disconnect();
 		}, { once: true });
 	}
@@ -91,7 +100,8 @@ export class WebVitalsCollector extends Collector {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (!(entry instanceof PerformanceEventTiming)) continue;
-				this.#emitVital("FID", round(entry.processingStart - entry.startTime));
+				const fid = round(entry.processingStart - entry.startTime);
+				this.#emitVital("FID", fid);
 			}
 			observer.disconnect();
 		});

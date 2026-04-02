@@ -5,24 +5,42 @@ import { DeviceContext } from "../models/device-context.js";
 import { UserProperties } from "../models/user-properties.js";
 import { Collector } from "./analytics-service.js";
 
+//#region Device collector
 declare global {
-	interface Navigator {
+	export interface Navigator {
 		deviceMemory?: number;
 	}
 }
 
-//#region DeviceCollector
 export class DeviceCollector extends Collector {
-	collect(): void {
-		const { navigator, screen, devicePixelRatio } = window;
+	async collect(): Promise<void> {
+		try {
+			this.#dispatch();
+		} catch (reason) {
+			console.error(`Device collection failed:\n${Error.from(reason)}`);
+		}
+	}
+
+	#dispatch(): void {
+		const { innerWidth, innerHeight } = window;
+		const screenWidth = screen.width;
+		const screenHeight = screen.height;
+		const pixelRatio = devicePixelRatio;
+		const colorDepth = screen.colorDepth;
+		const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		const darkMode = matchMedia("(prefers-color-scheme: dark)").matches;
 		const lowMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 		const highContrast = matchMedia("(prefers-contrast: more)").matches;
 		const pointerType = matchMedia("(pointer: fine)").matches ? "fine" : matchMedia("(pointer: coarse)").matches ? "coarse" : "none";
-		const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+		const cpuCores = navigator.hardwareConcurrency;
+		const maxTouchPoints = navigator.maxTouchPoints;
+		const memoryGigabytes = navigator.deviceMemory;
+		const online = navigator.onLine;
+		const cookiesEnabled = navigator.cookieEnabled;
 		const languages = navigator.languages.join(",");
-		this.dispatch("device_context", new DeviceContext(window.innerWidth, window.innerHeight, screen.width, screen.height, devicePixelRatio, screen.colorDepth, timezone, darkMode, lowMotion, highContrast, pointerType, navigator.hardwareConcurrency, navigator.maxTouchPoints, navigator.deviceMemory, navigator.onLine, navigator.cookieEnabled, languages));
-		window.gtag("set", "user_properties", UserProperties.export(new UserProperties(navigator.hardwareConcurrency, darkMode ? "dark" : "light", lowMotion, pointerType, navigator.deviceMemory)));
+		const colorScheme = darkMode ? "dark" : "light";
+		this.dispatch("device_context", new DeviceContext(innerWidth, innerHeight, screenWidth, screenHeight, pixelRatio, colorDepth, timezone, darkMode, lowMotion, highContrast, pointerType, cpuCores, maxTouchPoints, memoryGigabytes, online, cookiesEnabled, languages));
+		this.setProperties(new UserProperties(cpuCores, colorScheme, lowMotion, pointerType, memoryGigabytes));
 	}
 }
 //#endregion

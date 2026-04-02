@@ -32,27 +32,23 @@ export class BrowserCollector extends Collector {
 	}
 
 	async #init(): Promise<void> {
-		const { brands, version, data } = await this.#fetchUaCh();
-		const { navigator } = window;
-		const context = new BrowserContext(
-			navigator.userAgent, navigator.platform, navigator.vendor, navigator.language,
-			(navigator.doNotTrack ?? String.empty).insteadEmpty(undefined),
-			brands, navigator.userAgentData?.mobile, navigator.userAgentData?.platform,
-			version, data?.architecture, data?.model,
-		);
-		this.dispatch("browser_context", BrowserContext, context);
+		const [brands, version, data] = await this.#fetchUaCh();
+		const doNotTrack = navigator.doNotTrack?.insteadEmpty(undefined);
+		const uaMobile = navigator.userAgentData?.mobile;
+		const uaPlatform = navigator.userAgentData?.platform;
+		this.dispatch("browser_context", new BrowserContext(navigator.userAgent, navigator.platform, navigator.vendor, navigator.language, doNotTrack, brands, uaMobile, uaPlatform, version, data?.architecture, data?.model));
 	}
 
-	async #fetchUaCh(): Promise<{ brands: string | undefined; version: string | undefined; data: UADataValues | undefined; }> {
-		if (!navigator.userAgentData) return { brands: undefined, version: undefined, data: undefined };
+	async #fetchUaCh(): Promise<[brands: string | undefined, version: string | undefined, data: UADataValues | undefined]> {
+		if (!navigator.userAgentData) return [undefined, undefined, undefined];
 		try {
 			const data = await navigator.userAgentData.getHighEntropyValues(["architecture", "model", "platformVersion", "bitness", "fullVersionList"]);
 			const brands = navigator.userAgentData.brands.filter(b => !b.brand.includes("Not")).map(b => `${b.brand} ${b.version}`).join(", ").insteadEmpty(undefined);
 			const version = data.fullVersionList?.filter(b => !b.brand.includes("Not")).map(b => `${b.brand} ${b.version}`).join(", ").insteadEmpty(undefined);
-			return { brands, version, data };
+			return [brands, version, data];
 		} catch (reason) {
 			console.error(`UA-CH collection failed:\n${Error.from(reason)}`);
-			return { brands: undefined, version: undefined, data: undefined };
+			return [undefined, undefined, undefined];
 		}
 	}
 }

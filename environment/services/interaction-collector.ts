@@ -13,16 +13,17 @@ export class InteractionCollector extends Collector {
 	}
 
 	#onClick(event: MouseEvent): void {
-		const anchor = event.composedPath().find((el): el is HTMLAnchorElement => el instanceof HTMLAnchorElement);
+		const anchor = event.composedPath().find(el => el instanceof HTMLAnchorElement);
 		if (anchor === undefined) return;
 		if (!anchor.href || anchor.target !== "_blank") return;
-		this.dispatch("outbound_click", OutboundClick, new OutboundClick(anchor.href, (anchor.textContent ?? String.empty).trim()));
+		const linkText = anchor.textContent?.trim() ?? String.empty;
+		this.dispatch("outbound_click", new OutboundClick(anchor.href, linkText));
 	}
 
 	#onCopy(): void {
 		const text = window.getSelection()?.toString().trim();
 		if (!text) return;
-		this.dispatch("text_copy", TextCopy, new TextCopy(text));
+		this.dispatch("text_copy", new TextCopy(text));
 	}
 }
 //#endregion

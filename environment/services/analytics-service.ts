@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { type Model, type PortableConstructor } from "adaptive-extender/web";
+import { type Model } from "adaptive-extender/web";
 import { BatteryCollector } from "./battery-collector.js";
 import { BrowserCollector } from "./browser-collector.js";
 import { DeviceCollector } from "./device-collector.js";
@@ -38,8 +38,8 @@ export abstract class Collector {
 
 	abstract collect(): void;
 
-	dispatch<M extends Model>(eventName: string, exporter: PortableConstructor<M, object>, instance: M): void {
-		this.#analytics.event(eventName, exporter.export(instance));
+	dispatch<M extends Model>(eventName: string, instance: M): void {
+		this.#analytics.event(eventName, (instance.constructor as typeof Model).export(instance));
 	}
 }
 //#endregion

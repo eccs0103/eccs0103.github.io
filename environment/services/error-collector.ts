@@ -12,11 +12,11 @@ export class ErrorCollector extends Collector {
 	}
 
 	#onError(event: ErrorEvent): void {
-		this.dispatch("js_error", JavaScriptError, new JavaScriptError(event.message, event.filename.insteadEmpty(undefined), event.lineno.insteadZero(undefined)));
+		this.dispatch("js_error", new JavaScriptError(event.message, event.filename.insteadEmpty(undefined), event.lineno.insteadZero(undefined)));
 	}
 
 	#onReject(event: PromiseRejectionEvent): void {
-		this.dispatch("js_error", JavaScriptError, new JavaScriptError(Error.from(event.reason).message, undefined, undefined));
+		this.dispatch("js_error", new JavaScriptError(Error.from(event.reason).message, undefined, undefined));
 	}
 }
 //#endregion

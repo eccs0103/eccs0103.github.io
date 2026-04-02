@@ -28,7 +28,7 @@ export class WebVitalsCollector extends Collector {
 	}
 
 	#emitVital(name: string, value: number): void {
-		this.dispatch("web_vital", WebVital, new WebVital(name, value));
+		this.dispatch("web_vital", new WebVital(name, value));
 	}
 
 	#isLayoutShift(entry: PerformanceEntry): entry is LayoutShiftEntry {
@@ -51,8 +51,7 @@ export class WebVitalsCollector extends Collector {
 		if (!(navEntry instanceof PerformanceNavigationTiming)) return;
 		const ttfb = round(navEntry.responseStart);
 		if (ttfb > 0) this.#emitVital("TTFB", ttfb);
-		const load = new PageLoad(navEntry.type, round(navEntry.domInteractive), round(navEntry.loadEventEnd), navEntry.transferSize);
-		this.dispatch("page_load", PageLoad, load);
+		this.dispatch("page_load", new PageLoad(navEntry.type, round(navEntry.domInteractive), round(navEntry.loadEventEnd), navEntry.transferSize));
 	}
 
 	#trackLargestContentfulPaint(): void {

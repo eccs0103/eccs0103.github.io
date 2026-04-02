@@ -39,7 +39,7 @@ export class BatteryCollector extends Collector {
 		const { level, charging } = battery;
 		const chargingTime = battery.chargingTime.insteadInfinity(undefined);
 		const dischargingTime = battery.dischargingTime.insteadInfinity(undefined);
-		this.dispatch("battery_context", BatteryContext, new BatteryContext(level, charging, chargingTime, dischargingTime));
+		this.dispatch("battery_context", new BatteryContext(level, charging, chargingTime, dischargingTime));
 	}
 }
 //#endregion

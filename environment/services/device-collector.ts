@@ -17,23 +17,11 @@ export class DeviceCollector extends Collector {
 		const { navigator, screen, devicePixelRatio } = window;
 		const darkMode = matchMedia("(prefers-color-scheme: dark)").matches;
 		const lowMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+		const highContrast = matchMedia("(prefers-contrast: more)").matches;
 		const pointerType = matchMedia("(pointer: fine)").matches ? "fine" : matchMedia("(pointer: coarse)").matches ? "coarse" : "none";
-
-		const context = new DeviceContext(
-			window.innerWidth, window.innerHeight,
-			screen.width, screen.height,
-			devicePixelRatio, screen.colorDepth,
-			Intl.DateTimeFormat().resolvedOptions().timeZone,
-			darkMode, lowMotion,
-			matchMedia("(prefers-contrast: more)").matches,
-			pointerType,
-			navigator.hardwareConcurrency, navigator.maxTouchPoints,
-			navigator.deviceMemory,
-			navigator.onLine, navigator.cookieEnabled,
-			navigator.languages.join(","),
-		);
-		this.dispatch("device_context", DeviceContext, context);
-
+		const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+		const languages = navigator.languages.join(",");
+		this.dispatch("device_context", new DeviceContext(window.innerWidth, window.innerHeight, screen.width, screen.height, devicePixelRatio, screen.colorDepth, timezone, darkMode, lowMotion, highContrast, pointerType, navigator.hardwareConcurrency, navigator.maxTouchPoints, navigator.deviceMemory, navigator.onLine, navigator.cookieEnabled, languages));
 		window.gtag("set", "user_properties", UserProperties.export(new UserProperties(navigator.hardwareConcurrency, darkMode ? "dark" : "light", lowMotion, pointerType, navigator.deviceMemory)));
 	}
 }

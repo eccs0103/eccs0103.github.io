@@ -22,8 +22,7 @@ declare global {
 export class NetworkCollector extends Collector {
 	collect(): void {
 		const { connection } = navigator;
-		const context = new NetworkContext(navigator.onLine, connection?.type, connection?.effectiveType, connection?.downlink, connection?.rtt, connection?.saveData);
-		this.dispatch("network_context", NetworkContext, context);
+		this.dispatch("network_context", new NetworkContext(navigator.onLine, connection?.type, connection?.effectiveType, connection?.downlink, connection?.rtt, connection?.saveData));
 	}
 }
 //#endregion

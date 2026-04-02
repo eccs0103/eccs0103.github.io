@@ -33,7 +33,7 @@ export class EngagementCollector extends Collector {
 		for (const milestone of this.#milestones) {
 			if (scrollPercent < milestone) continue;
 			this.#milestones.delete(milestone);
-			this.emit("scroll_depth", ScrollDepthHit, new ScrollDepthHit(milestone));
+			this.dispatch("scroll_depth", ScrollDepthHit, new ScrollDepthHit(milestone));
 		}
 	}
 
@@ -46,7 +46,7 @@ export class EngagementCollector extends Collector {
 			this.#totalVisibleMilliseconds += Date.now() - this.#visibleSince;
 			this.#visibleSince = null;
 		}
-		this.emit("page_leave", PageLeave, new PageLeave(round(this.#totalVisibleMilliseconds / 1000), this.#maxScrollPercent));
+		this.dispatch("page_leave", PageLeave, new PageLeave(round(this.#totalVisibleMilliseconds / 1000), this.#maxScrollPercent));
 	}
 }
 //#endregion

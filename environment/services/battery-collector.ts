@@ -19,24 +19,27 @@ declare global {
 }
 
 export class BatteryCollector extends Collector {
-	collect(): void {
-		void this.#init();
-	}
-
-	async #init(): Promise<void> {
-		if (!navigator.getBattery) return;
+	async collect(): Promise<void> {
 		try {
-			const battery = await navigator.getBattery();
-			this.#emitBattery(battery);
-			battery.addEventListener("levelchange", event => this.#emitBattery(battery));
-			battery.addEventListener("chargingchange", event => this.#emitBattery(battery));
+			await this.#init();
 		} catch (reason) {
 			console.error(`Battery API failed:\n${Error.from(reason)}`);
 		}
 	}
 
+	async #init(): Promise<void> {
+		if (!navigator.getBattery) return;
+		const battery = await navigator.getBattery();
+		this.#emitBattery(battery);
+		battery.addEventListener("levelchange", event => this.#emitBattery(battery));
+		battery.addEventListener("chargingchange", event => this.#emitBattery(battery));
+	}
+
 	#emitBattery(battery: BatteryManager): void {
-		this.emit("battery_context", BatteryContext, new BatteryContext(battery.level, battery.charging, battery.chargingTime.insteadInfinity(undefined), battery.dischargingTime.insteadInfinity(undefined)));
+		const { level, charging } = battery;
+		const chargingTime = battery.chargingTime.insteadInfinity(undefined);
+		const dischargingTime = battery.dischargingTime.insteadInfinity(undefined);
+		this.dispatch("battery_context", BatteryContext, new BatteryContext(level, charging, chargingTime, dischargingTime));
 	}
 }
 //#endregion

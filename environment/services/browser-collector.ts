@@ -40,7 +40,7 @@ export class BrowserCollector extends Collector {
 			brands, navigator.userAgentData?.mobile, navigator.userAgentData?.platform,
 			version, data?.architecture, data?.model,
 		);
-		this.emit("browser_context", BrowserContext, context);
+		this.dispatch("browser_context", BrowserContext, context);
 	}
 
 	async #fetchUaCh(): Promise<{ brands: string | undefined; version: string | undefined; data: UADataValues | undefined; }> {

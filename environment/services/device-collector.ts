@@ -32,7 +32,7 @@ export class DeviceCollector extends Collector {
 			navigator.onLine, navigator.cookieEnabled,
 			navigator.languages.join(","),
 		);
-		this.emit("device_context", DeviceContext, context);
+		this.dispatch("device_context", DeviceContext, context);
 
 		window.gtag("set", "user_properties", UserProperties.export(new UserProperties(navigator.hardwareConcurrency, darkMode ? "dark" : "light", lowMotion, pointerType, navigator.deviceMemory)));
 	}

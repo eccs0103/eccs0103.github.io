@@ -38,7 +38,7 @@ export abstract class Collector {
 
 	abstract collect(): void;
 
-	emit<M extends Model>(eventName: string, exporter: PortableConstructor<M, object>, instance: M): void {
+	dispatch<M extends Model>(eventName: string, exporter: PortableConstructor<M, object>, instance: M): void {
 		this.#analytics.event(eventName, exporter.export(instance));
 	}
 }
@@ -68,7 +68,7 @@ export class AnalyticsService {
 		new DeviceCollector(this).collect();
 		new BrowserCollector(this).collect();
 		new NetworkCollector(this).collect();
-		new BatteryCollector(this).collect();
+		void new BatteryCollector(this).collect();
 		new WebVitalsCollector(this).collect();
 		new EngagementCollector(this).collect();
 		new InteractionCollector(this).collect();

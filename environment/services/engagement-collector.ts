@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { PageLeave } from "../models/page-leave.js";
 import { ScrollDepthHit } from "../models/scroll-depth-hit.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 const { round, min } = Math;
 
@@ -30,7 +30,7 @@ export class EngagementCollector extends Collector {
 		for (const milestone of milestones) {
 			if (scrollPercent < milestone) continue;
 			milestones.delete(milestone);
-			this.dispatch("scroll_depth", new ScrollDepthHit(milestone));
+			analytics.dispatch("scroll_depth", new ScrollDepthHit(milestone));
 		}
 	}
 
@@ -45,7 +45,7 @@ export class EngagementCollector extends Collector {
 		}
 		const visibleSeconds = round(this.#totalVisibleMilliseconds / 1000);
 		const maxScrollPercent = this.#maxScrollPercent;
-		this.dispatch("page_leave", new PageLeave(visibleSeconds, maxScrollPercent));
+		analytics.dispatch("page_leave", new PageLeave(visibleSeconds, maxScrollPercent));
 	}
 }
 //#endregion

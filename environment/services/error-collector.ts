@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { JavaScriptError } from "../models/javascript-error.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 //#region ErrorCollector
 export class ErrorCollector extends Collector {
@@ -15,12 +15,12 @@ export class ErrorCollector extends Collector {
 		const errorMessage = event.message;
 		const errorSource = event.filename.insteadEmpty(undefined);
 		const errorLine = event.lineno.insteadZero(undefined);
-		this.dispatch("js_error", new JavaScriptError(errorMessage, errorSource, errorLine));
+		analytics.dispatch("js_error", new JavaScriptError(errorMessage, errorSource, errorLine));
 	}
 
 	#onReject(event: PromiseRejectionEvent): void {
 		const errorMessage = Error.from(event.reason).message;
-		this.dispatch("js_error", new JavaScriptError(errorMessage, undefined, undefined));
+		analytics.dispatch("js_error", new JavaScriptError(errorMessage, undefined, undefined));
 	}
 }
 //#endregion

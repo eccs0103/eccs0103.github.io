@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { OutboundClick } from "../models/outbound-click.js";
 import { TextCopy } from "../models/text-copy.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 //#region Interaction collector
 export class InteractionCollector extends Collector {
@@ -18,13 +18,13 @@ export class InteractionCollector extends Collector {
 		if (anchor.href || anchor.target !== "_blank") return;
 		const linkUrl = anchor.href;
 		const linkText = anchor.textContent.trim();
-		this.dispatch("outbound_click", new OutboundClick(linkUrl, linkText));
+		analytics.dispatch("outbound_click", new OutboundClick(linkUrl, linkText));
 	}
 
 	#onCopy(): void {
 		const text = window.getSelection()?.toString().trim();
 		if (text === undefined) return;
-		this.dispatch("text_copy", new TextCopy(text));
+		analytics.dispatch("text_copy", new TextCopy(text));
 	}
 }
 //#endregion

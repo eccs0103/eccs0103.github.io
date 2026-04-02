@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { BrowserContext } from "../models/browser-context.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 //#region Browser collector
 declare global {
@@ -50,7 +50,7 @@ export class BrowserCollector extends Collector {
 		const uaVersion = uaData?.fullVersionList?.filter(uaBrand => !uaBrand.brand.includes("Not")).map(uaBrand => `${uaBrand.brand} ${uaBrand.version}`).join(", ").insteadEmpty(undefined);
 		const uaArchitecture = uaData?.architecture;
 		const uaDeviceModel = uaData?.model;
-		this.dispatch("browser_context", new BrowserContext(userAgent, platform, vendor, language, doNotTrack, uaBrands, uaMobile, uaPlatform, uaVersion, uaArchitecture, uaDeviceModel));
+		analytics.dispatch("browser_context", new BrowserContext(userAgent, platform, vendor, language, doNotTrack, uaBrands, uaMobile, uaPlatform, uaVersion, uaArchitecture, uaDeviceModel));
 	}
 }
 //#endregion

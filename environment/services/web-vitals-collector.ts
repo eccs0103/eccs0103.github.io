@@ -3,22 +3,22 @@
 import "adaptive-extender/web";
 import { PageLoad } from "../models/page-load.js";
 import { WebVital } from "../models/web-vital.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 const { round } = Math;
 
-interface LayoutShiftEntry extends PerformanceEntry {
-	value: number;
-	hadRecentInput: boolean;
-}
-
+//#region Web vitals collector
 declare global {
-	interface PerformanceObserverInit {
+	export interface LayoutShiftEntry extends PerformanceEntry {
+		value: number;
+		hadRecentInput: boolean;
+	}
+
+	export interface PerformanceObserverInit {
 		durationThreshold?: number;
 	}
 }
 
-//#region WebVitalsCollector
 export class WebVitalsCollector extends Collector {
 	async collect(): Promise<void> {
 		this.#trackFirstContentfulPaint();
@@ -31,7 +31,7 @@ export class WebVitalsCollector extends Collector {
 	}
 
 	#emitVital(name: string, value: number): void {
-		this.dispatch("web_vital", new WebVital(name, value));
+		analytics.dispatch("web_vital", new WebVital(name, value));
 	}
 
 	#isLayoutShift(entry: PerformanceEntry): entry is LayoutShiftEntry {
@@ -59,7 +59,7 @@ export class WebVitalsCollector extends Collector {
 		const domInteractiveMilliseconds = round(navEntry.domInteractive);
 		const loadEventMilliseconds = round(navEntry.loadEventEnd);
 		const transferSize = navEntry.transferSize;
-		this.dispatch("page_load", new PageLoad(navigationType, domInteractiveMilliseconds, loadEventMilliseconds, transferSize));
+		analytics.dispatch("page_load", new PageLoad(navigationType, domInteractiveMilliseconds, loadEventMilliseconds, transferSize));
 	}
 
 	#trackLargestContentfulPaint(): void {

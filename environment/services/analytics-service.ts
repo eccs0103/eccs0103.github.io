@@ -30,21 +30,7 @@ window.gtag = function (): void {
 
 //#region Collector base
 export abstract class Collector {
-	#analytics: AnalyticsService;
-
-	constructor(analytics: AnalyticsService) {
-		this.#analytics = analytics;
-	}
-
 	abstract collect(): Promise<void>;
-
-	dispatch<M extends Model>(name: string, instance: M): void {
-		this.#analytics.dispatch(name, instance);
-	}
-
-	setProperties<M extends Model>(instance: M): void {
-		this.#analytics.setProperties(instance);
-	}
 }
 //#endregion
 
@@ -69,14 +55,14 @@ export class AnalyticsService {
 		script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
 		document.head.appendChild(script);
 
-		void new DeviceCollector(this).collect();
-		void new BrowserCollector(this).collect();
-		void new NetworkCollector(this).collect();
-		void new BatteryCollector(this).collect();
-		void new WebVitalsCollector(this).collect();
-		void new EngagementCollector(this).collect();
-		void new InteractionCollector(this).collect();
-		void new ErrorCollector(this).collect();
+		void (new DeviceCollector).collect();
+		void (new BrowserCollector).collect();
+		void (new NetworkCollector).collect();
+		void (new BatteryCollector).collect();
+		void (new WebVitalsCollector).collect();
+		void (new EngagementCollector).collect();
+		void (new InteractionCollector).collect();
+		void (new ErrorCollector).collect();
 	}
 
 	static get instance(): AnalyticsService {

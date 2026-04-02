@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { NetworkContext } from "../models/network-context.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 //#region Network collector
 declare global {
@@ -31,7 +31,7 @@ export class NetworkCollector extends Collector {
 		const downlink = connection?.downlink;
 		const rtt = connection?.rtt;
 		const saveData = connection?.saveData;
-		this.dispatch("network_context", new NetworkContext(onLine, connectionType, effectiveType, downlink, rtt, saveData));
+		analytics.dispatch("network_context", new NetworkContext(onLine, connectionType, effectiveType, downlink, rtt, saveData));
 	}
 }
 //#endregion

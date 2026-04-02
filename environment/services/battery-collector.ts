@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { BatteryContext } from "../models/battery-context.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 //#region Battery collector
 declare global {
@@ -39,7 +39,7 @@ export class BatteryCollector extends Collector {
 		const { level, charging } = battery;
 		const chargingTime = battery.chargingTime.insteadInfinity(undefined);
 		const dischargingTime = battery.dischargingTime.insteadInfinity(undefined);
-		this.dispatch("battery_context", new BatteryContext(level, charging, chargingTime, dischargingTime));
+		analytics.dispatch("battery_context", new BatteryContext(level, charging, chargingTime, dischargingTime));
 	}
 }
 //#endregion

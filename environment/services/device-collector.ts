@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { DeviceContext } from "../models/device-context.js";
 import { UserProperties } from "../models/user-properties.js";
-import { Collector } from "./analytics-service.js";
+import { analytics, Collector } from "./analytics-service.js";
 
 //#region Device collector
 declare global {
@@ -39,8 +39,8 @@ export class DeviceCollector extends Collector {
 		const cookiesEnabled = navigator.cookieEnabled;
 		const languages = navigator.languages.join(",");
 		const colorScheme = darkMode ? "dark" : "light";
-		this.dispatch("device_context", new DeviceContext(innerWidth, innerHeight, screenWidth, screenHeight, pixelRatio, colorDepth, timezone, darkMode, lowMotion, highContrast, pointerType, cpuCores, maxTouchPoints, memoryGigabytes, online, cookiesEnabled, languages));
-		this.setProperties(new UserProperties(cpuCores, colorScheme, lowMotion, pointerType, memoryGigabytes));
+		analytics.dispatch("device_context", new DeviceContext(innerWidth, innerHeight, screenWidth, screenHeight, pixelRatio, colorDepth, timezone, darkMode, lowMotion, highContrast, pointerType, cpuCores, maxTouchPoints, memoryGigabytes, online, cookiesEnabled, languages));
+		analytics.setProperties(new UserProperties(cpuCores, colorScheme, lowMotion, pointerType, memoryGigabytes));
 	}
 }
 //#endregion

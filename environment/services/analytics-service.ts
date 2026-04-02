@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { type Model, type PortableConstructor } from "adaptive-extender/web";
+import { type Model } from "adaptive-extender/web";
 import { BatteryCollector } from "./battery-collector.js";
 import { BrowserCollector } from "./browser-collector.js";
 import { DeviceCollector } from "./device-collector.js";
@@ -66,17 +66,20 @@ export class AnalyticsService {
 		return AnalyticsService.#instance;
 	}
 
-	event(name: string, params: object = {}): void {
+	#event(name: string, params: object): void {
 		const session = this.#session;
 		const identity = new SessionIdentity(session.userFingerprint, session.sessionFingerprint);
 		window.gtag("event", name, Object.assign(SessionIdentity.export(identity), params));
 	}
 
-	dispatch<M extends Model>(name: string, instance: M): void {
-		this.event(name, (constructor(instance) as typeof Model).export(instance));
+	dispatch(name: string): void;
+	dispatch(name: string, instance: Model): void;
+	dispatch(name: string, instance?: Model): void {
+		if (instance === undefined) return this.#event(name, {});
+		return this.#event(name, (constructor(instance)).export(instance));
 	}
 
-	setProperties<M extends PortableConstructor<InstanceType<M>>>(instance: M): void {
+	setProperties(instance: Model): void {
 		window.gtag("set", "user_properties", (constructor(instance) as typeof Model).export(instance));
 	}
 }

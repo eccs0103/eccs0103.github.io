@@ -74,7 +74,7 @@ export class ChangelogRenderer {
 		if (entries.length > 0) {
 			buttonChangelogTrigger.addEventListener("click", (event) => {
 				this.#buildEntry(dialog, entries, 0);
-				analytics.event("changelog_open");
+				analytics.dispatch("changelog_open");
 				dialog.showModal();
 			});
 		} else {

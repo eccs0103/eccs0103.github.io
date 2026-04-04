@@ -463,5 +463,16 @@
 		"repository": "eccs0103.github.io",
 		"sha": "b2b68335e1cfe5821bc853cedf0f16d9fe9615ff",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1775341362000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/25bab7e2288262ad801664e62f241e2839edb457.jpg",
+		"title": "The Lovers",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

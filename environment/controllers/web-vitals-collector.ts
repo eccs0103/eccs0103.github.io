@@ -1,8 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { PageLoad } from "../models/page-load.js";
-import { WebVital } from "../models/web-vital.js";
+import { PerformanceContext } from "../models/performance-context.js";
 import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
@@ -21,118 +20,94 @@ declare global {
 }
 
 export class WebVitalsCollector extends Controller {
+	#fcpMs?: number;
+	#lcpMs?: number;
+	#ttfbMs?: number;
+	#clsTotal = 0;
+	#inpWorstMs = 0;
+	#longTaskCount = 0;
+
 	async run(): Promise<void> {
-		this.#trackFirstContentfulPaint();
-		this.#trackNavigationTiming();
-		this.#trackLargestContentfulPaint();
-		this.#trackCumulativeLayoutShift();
-		this.#trackFirstInputDelay();
-		this.#trackInteractionToNextPaint();
-		this.#trackLongTasks();
+		const [navEntry] = performance.getEntriesByType("navigation");
+		if (navEntry instanceof PerformanceNavigationTiming) {
+			const ttfb = round(navEntry.responseStart);
+			if (ttfb > 0) this.#ttfbMs = ttfb;
+		}
+
+		this.#observeFcp();
+		this.#observeLcp();
+		this.#observeCls();
+		this.#observeInp();
+		this.#observeLongTasks();
+
+		document.addEventListener("visibilitychange", (event) => {
+			if (document.visibilityState !== "hidden") return;
+			const fcpMs = this.#fcpMs;
+			const lcpMs = this.#lcpMs;
+			const ttfbMs = this.#ttfbMs;
+			const clsScore = this.#clsTotal > 0 ? round(this.#clsTotal * 1000) : undefined;
+			const inpMs = this.#inpWorstMs > 0 ? this.#inpWorstMs : undefined;
+			const longTasks = this.#longTaskCount > 0 ? this.#longTaskCount : undefined;
+			analytics.dispatch("performance_context", new PerformanceContext(fcpMs, lcpMs, ttfbMs, clsScore, inpMs, longTasks));
+		}, { once: true });
 	}
 
 	#isLayoutShift(entry: PerformanceEntry): entry is LayoutShiftEntry {
 		return "value" in entry && "hadRecentInput" in entry;
 	}
 
-	#trackFirstContentfulPaint(): void {
+	#observeFcp(): void {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (entry.name !== "first-contentful-paint") continue;
-				const fcp = round(entry.startTime);
-				analytics.dispatch("web_vital", new WebVital("FCP", fcp));
+				this.#fcpMs = round(entry.startTime);
 			}
 			observer.disconnect();
 		});
 		observer.observe({ type: "paint", buffered: true });
 	}
 
-	#trackNavigationTiming(): void {
-		const [navEntry] = performance.getEntriesByType("navigation");
-		if (!(navEntry instanceof PerformanceNavigationTiming)) return;
-		const { responseStart, type, domInteractive, loadEventEnd, transferSize } = navEntry;
-		const ttfb = round(responseStart);
-		if (ttfb > 0) analytics.dispatch("web_vital", new WebVital("TTFB", ttfb));
-		const domInteractiveMilliseconds = round(domInteractive);
-		const loadEventMilliseconds = round(loadEventEnd);
-		analytics.dispatch("page_load", new PageLoad(type, domInteractiveMilliseconds, loadEventMilliseconds, transferSize));
-	}
-
-	#trackLargestContentfulPaint(): void {
-		let latest = 0;
+	#observeLcp(): void {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (!(entry instanceof LargestContentfulPaint)) continue;
-				latest = round(entry.renderTime || entry.loadTime);
+				this.#lcpMs = round(entry.renderTime || entry.loadTime);
 			}
 		});
 		observer.observe({ type: "largest-contentful-paint", buffered: true });
-		document.addEventListener("visibilitychange", () => {
-			if (document.visibilityState !== "hidden") return;
-			if (latest > 0) analytics.dispatch("web_vital", new WebVital("LCP", latest));
-			observer.disconnect();
-		}, { once: true });
 	}
 
-	#trackCumulativeLayoutShift(): void {
-		let total = 0;
+	#observeCls(): void {
 		const observer = new PerformanceObserver((list) => {
 			for (const entry of list.getEntries()) {
 				if (!this.#isLayoutShift(entry)) continue;
 				if (entry.hadRecentInput) continue;
-				total += entry.value;
+				this.#clsTotal += entry.value;
 			}
 		});
 		observer.observe({ type: "layout-shift", buffered: true });
-		document.addEventListener("visibilitychange", () => {
-			if (document.visibilityState !== "hidden") return;
-			const cls = round(total * 1000);
-			analytics.dispatch("web_vital", new WebVital("CLS", cls));
-			observer.disconnect();
-		}, { once: true });
 	}
 
-	#trackFirstInputDelay(): void {
-		const observer = new PerformanceObserver((list) => {
-			for (const entry of list.getEntries()) {
-				if (!(entry instanceof PerformanceEventTiming)) continue;
-				const fid = round(entry.processingStart - entry.startTime);
-				analytics.dispatch("web_vital", new WebVital("FID", fid));
-			}
-			observer.disconnect();
-		});
-		observer.observe({ type: "first-input", buffered: true });
-	}
-
-	#trackInteractionToNextPaint(): void {
-		let worst = 0;
-		const observer = new PerformanceObserver((list) => {
-			for (const entry of list.getEntries()) {
-				if (!(entry instanceof PerformanceEventTiming)) continue;
-				if (entry.duration > worst) worst = round(entry.duration);
-			}
-		});
-		observer.observe({ type: "event", buffered: true, durationThreshold: 40 });
-		document.addEventListener("visibilitychange", () => {
-			if (document.visibilityState !== "hidden") return;
-			if (worst > 0) analytics.dispatch("web_vital", new WebVital("INP", worst));
-			observer.disconnect();
-		}, { once: true });
-	}
-
-	#trackLongTasks(): void {
+	#observeInp(): void {
 		try {
-			let count = 0;
 			const observer = new PerformanceObserver((list) => {
-				count += list.getEntries().length;
+				for (const entry of list.getEntries()) {
+					if (!(entry instanceof PerformanceEventTiming)) continue;
+					const duration = round(entry.duration);
+					if (duration > this.#inpWorstMs) this.#inpWorstMs = duration;
+				}
+			});
+			observer.observe({ type: "event", buffered: true, durationThreshold: 40 });
+		} catch { /* INP not supported in this browser */ }
+	}
+
+	#observeLongTasks(): void {
+		try {
+			const observer = new PerformanceObserver((list) => {
+				this.#longTaskCount += list.getEntries().length;
 			});
 			observer.observe({ type: "longtask", buffered: true });
-			document.addEventListener("visibilitychange", () => {
-				if (document.visibilityState !== "hidden") return;
-				if (count > 0) analytics.dispatch("web_vital", new WebVital("LONG_TASKS", count));
-				observer.disconnect();
-			}, { once: true });
-		} catch { /* longtask not supported in all browsers */ }
+		} catch { /* longtask not supported in this browser */ }
 	}
 
 	async catch(error: Error): Promise<void> {

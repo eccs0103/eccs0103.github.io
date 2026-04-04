@@ -4,7 +4,6 @@ import "adaptive-extender/web";
 import { type ChangelogEntry } from "../models/changelog.js";
 import { type ChangelogService } from "../services/changelog-service.js";
 import { TextExpert } from "../services/text-expert.js";
-import { analytics } from "../../environment/services/analytics-service.js";
 
 //#region Changelog renderer
 export class ChangelogRenderer {
@@ -74,7 +73,6 @@ export class ChangelogRenderer {
 		if (entries.length > 0) {
 			buttonChangelogTrigger.addEventListener("click", (event) => {
 				this.#buildEntry(dialog, entries, 0);
-				analytics.dispatch("changelog_open");
 				dialog.showModal();
 			});
 		} else {

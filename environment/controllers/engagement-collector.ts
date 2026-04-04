@@ -2,7 +2,6 @@
 
 import "adaptive-extender/web";
 import { PageLeave } from "../models/page-leave.js";
-import { ScrollDepthHit } from "../models/scroll-depth-hit.js";
 import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
@@ -13,7 +12,6 @@ export class EngagementCollector extends Controller {
 	#maxScrollPercent = 0;
 	#totalVisibleMilliseconds = 0;
 	#visibleSince: number | null = null;
-	#milestones = new Set([25, 50, 75, 100]);
 
 	async run(): Promise<void> {
 		if (document.visibilityState === "visible") this.#visibleSince = Date.now();
@@ -22,17 +20,11 @@ export class EngagementCollector extends Controller {
 	}
 
 	#onScroll(): void {
-		const milestones = this.#milestones;
 		const { scrollY, innerHeight } = window;
 		const { scrollHeight } = document.documentElement;
 		if (scrollHeight <= innerHeight) return;
 		const scrollPercent = min(round((scrollY + innerHeight) / scrollHeight * 100), 100);
 		if (scrollPercent > this.#maxScrollPercent) this.#maxScrollPercent = scrollPercent;
-		for (const milestone of milestones) {
-			if (scrollPercent < milestone) continue;
-			milestones.delete(milestone);
-			analytics.dispatch("scroll_depth", new ScrollDepthHit(milestone));
-		}
 	}
 
 	#onVisibility(): void {

@@ -5,6 +5,8 @@ import { BatteryContext } from "../models/battery-context.js";
 import { analytics } from "../services/analytics-service.js";
 import { Controller } from "adaptive-extender/web";
 
+const { round } = Math;
+
 //#region Battery collector
 declare global {
 	export interface BatteryManager extends EventTarget {
@@ -23,16 +25,14 @@ export class BatteryCollector extends Controller {
 	async run(): Promise<void> {
 		if (!navigator.getBattery) return;
 		const battery = await navigator.getBattery();
-		this.#dispatch(battery);
-		battery.addEventListener("levelchange", event => this.#dispatch(battery));
-		battery.addEventListener("chargingchange", event => this.#dispatch(battery));
+		this.#update(battery);
+		battery.addEventListener("levelchange", event => this.#update(battery));
+		battery.addEventListener("chargingchange", event => this.#update(battery));
 	}
 
-	#dispatch(battery: BatteryManager): void {
-		const { level, charging } = battery;
-		const chargingTime = battery.chargingTime.insteadInfinity(undefined);
-		const dischargingTime = battery.dischargingTime.insteadInfinity(undefined);
-		analytics.dispatch("battery_context", new BatteryContext(level, charging, chargingTime, dischargingTime));
+	#update(battery: BatteryManager): void {
+		const batteryLevel = round(battery.level * 100);
+		analytics.setProperties(new BatteryContext(batteryLevel, battery.charging));
 	}
 
 	async catch(error: Error): Promise<void> {

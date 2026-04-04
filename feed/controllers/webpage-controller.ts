@@ -15,9 +15,7 @@ import { type Bridge } from "../services/bridge.js";
 import { SettingsService } from "../services/settings-service.js";
 import { ChangelogService } from "../services/changelog-service.js";
 import { ChangelogRenderer } from "../view/changelog-renderer.js";
-import { DeviceCollector } from "../../environment/controllers/device-collector.js";
-import { BrowserCollector } from "../../environment/controllers/browser-collector.js";
-import { NetworkCollector } from "../../environment/controllers/network-collector.js";
+import { ProfileCollector } from "../../environment/controllers/profile-collector.js";
 import { BatteryCollector } from "../../environment/controllers/battery-collector.js";
 import { WebVitalsCollector } from "../../environment/controllers/web-vitals-collector.js";
 import { EngagementCollector } from "../../environment/controllers/engagement-collector.js";
@@ -47,9 +45,7 @@ class WebpageController extends Controller {
 	}
 
 	async run(): Promise<void> {
-		void DeviceCollector.launch();
-		void BrowserCollector.launch();
-		void NetworkCollector.launch();
+		void ProfileCollector.launch();
 		void BatteryCollector.launch();
 		void WebVitalsCollector.launch();
 		void EngagementCollector.launch();

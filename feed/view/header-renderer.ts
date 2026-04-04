@@ -27,7 +27,6 @@ export class HeaderRenderer {
 
 		const buttonConnectionsHubTrigger = await itemContainer.getElementAsync(HTMLButtonElement, "button#connections-hub-trigger");
 		buttonConnectionsHubTrigger.addEventListener("click", (event) => {
-			analytics.dispatch("connections_hub_open");
 			dialogConnectionsHub.showModal();
 		});
 

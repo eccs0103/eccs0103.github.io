@@ -485,5 +485,16 @@
 		"description": "Install at least one implant in each system and body part.",
 		"url": "https://steamcommunity.com/stats/1091500/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1775423844000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/2f63e6b9c0774f8f63b9f053ba9ec145e90c678c.jpg",
+		"title": "True Soldier",
+		"description": "Kill or incapacitate 300 enemies using ranged weapons.",
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

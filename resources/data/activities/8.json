@@ -496,5 +496,16 @@
 		"description": "Kill or incapacitate 300 enemies using ranged weapons.",
 		"url": "https://steamcommunity.com/stats/1091500/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1775471658000,
+		"title": "Sound of the falling stars (with Aeris)",
+		"artists": [
+			"Animadrop"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273e7512344962ef70b7b772b04",
+		"url": "https://open.spotify.com/track/0Hj6uImEG6Tou2daLqT3fA",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

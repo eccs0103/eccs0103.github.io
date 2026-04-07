@@ -525,5 +525,16 @@
 		"repository": "adaptive-extender",
 		"sha": "cef894e7fe1a2d6b9859517970b8b828e4220ed3",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1775596565000,
+		"title": "Горы по колено",
+		"artists": [
+			"Max Korzh"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273581ddd8ffa1462ca191c9fb9",
+		"url": "https://open.spotify.com/track/7f6ALwMTMLAhXCfoHYLCsx",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

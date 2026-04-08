@@ -536,5 +536,16 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b273581ddd8ffa1462ca191c9fb9",
 		"url": "https://open.spotify.com/track/7f6ALwMTMLAhXCfoHYLCsx",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1775643850000,
+		"title": "An Angel's Acrimony",
+		"artists": [
+			"Animadrop"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732de34d58b5bc41accc626e7c",
+		"url": "https://open.spotify.com/track/42ohWQshVbRdg0arzmpbsh",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

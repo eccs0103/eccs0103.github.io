@@ -547,5 +547,27 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2732de34d58b5bc41accc626e7c",
 		"url": "https://open.spotify.com/track/42ohWQshVbRdg0arzmpbsh",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1775762226000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/fc3d23405ec0446647b8030bd17786be06b109a7.jpg",
+		"title": "Director",
+		"description": "Create a custom difficulty",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1775763339000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/a09916158949971ee43f51786ed1d2b670383616.jpg",
+		"title": "Boss",
+		"description": "Complete 100 contracts",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

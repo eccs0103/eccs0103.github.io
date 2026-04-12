@@ -580,5 +580,16 @@
 		"description": "Kill or incapacitate 100 enemies using melee weapons.",
 		"url": "https://steamcommunity.com/stats/1091500/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1775950880000,
+		"title": "КТО УБИЛ МАРКА?",
+		"artists": [
+			"Oxxxymiron"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732219f9543c04fd586e0836d4",
+		"url": "https://open.spotify.com/track/0Rw4D9wutsFF7oMSStiiLb",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

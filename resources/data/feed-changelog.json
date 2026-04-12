@@ -1,5 +1,11 @@
 [
 	{
+		"date": "2026-04-12",
+		"changes": [
+			"Feed page now loads noticeably faster — all renderers and analytics now start in parallel instead of one after another."
+		]
+	},
+	{
 		"date": "2026-03-28",
 		"changes": [
 			"Telegram photos are now clickable — tap or click any photo to open the full-size image directly.",

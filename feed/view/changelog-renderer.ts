@@ -54,8 +54,8 @@ export class ChangelogRenderer extends Controller<[HTMLElement, ChangelogService
 		});
 	}
 
-	async run(itemContainer: HTMLElement, service: ChangelogService): Promise<void> {
-		const { entries, unseen } = service;
+	async run(itemContainer: HTMLElement, changelog: ChangelogService): Promise<void> {
+		const { entries, unseen } = changelog;
 
 		const dialog = await itemContainer.getElementAsync(HTMLDialogElement, "dialog#changelog");
 		dialog.addEventListener("click", (event) => {
@@ -75,7 +75,7 @@ export class ChangelogRenderer extends Controller<[HTMLElement, ChangelogService
 
 		if (unseen.length > 0) {
 			this.#buildEntry(dialog, unseen, 0);
-			await service.markAsSeen();
+			await changelog.markAsSeen();
 			dialog.showModal();
 		}
 	}

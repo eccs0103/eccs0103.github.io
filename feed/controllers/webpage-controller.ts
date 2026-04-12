@@ -47,12 +47,12 @@ class WebpageController extends Controller {
 	async run(): Promise<void> {
 		const configuration = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
 		const { platforms, urlProxy } = configuration;
-		const serviceSettings = new SettingsService(new Map(platforms.filter(platform => platform.status === "connected").map(platform => [platform.name, true])));
+		const settings = new SettingsService(new Map(platforms.filter(platform => platform.status === "connected").map(platform => [platform.name, true])));
 		const main = await body.getElementAsync(HTMLElement, "main");
 		const activities = new DataTable(this.#bridge, new URL("../data/activities", baseURI), Activity);
 		const footer = await body.getElementAsync(HTMLElement, "footer");
-		const changelog = await this.#readChangelog(new URL("../data/feed-changelog.json", baseURI));
-		const serviceChangelog = new ChangelogService(changelog);
+		const dataChangelog = await this.#readChangelog(new URL("../data/feed-changelog.json", baseURI));
+		const changelog = new ChangelogService(dataChangelog);
 
 		MetadataInjector.inject({
 			type: "Person",
@@ -67,10 +67,10 @@ class WebpageController extends Controller {
 			description: "Webpage of the person known by the nickname eccs0103.",
 		});
 
-		await HeaderRenderer.launch(body, serviceSettings, platforms);
+		await HeaderRenderer.launch(body, settings, platforms);
 		await ActivitiesRenderer.launch(main, new URL(urlProxy), activities, configuration);
 		await FooterRenderer.launch(footer);
-		await ChangelogRenderer.launch(body, serviceChangelog);
+		await ChangelogRenderer.launch(body, changelog);
 
 		void ProfileCollector.launch();
 		void BatteryCollector.launch();

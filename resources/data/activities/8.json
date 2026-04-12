@@ -627,5 +627,16 @@
 		"repository": "adaptive-extender",
 		"sha": "e49a8cc7415078d7eccf8c67e5a15c759e52d000",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776013824000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"title": "0.9.13",
+		"tag_name": "0.9.13",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

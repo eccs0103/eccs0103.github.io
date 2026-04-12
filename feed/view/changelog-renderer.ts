@@ -1,18 +1,13 @@
 "use strict";
 
 import "adaptive-extender/web";
+import { Controller } from "adaptive-extender/web";
 import { type ChangelogEntry } from "../models/changelog.js";
 import { type ChangelogService } from "../services/changelog-service.js";
 import { TextExpert } from "../services/text-expert.js";
 
 //#region Changelog renderer
-export class ChangelogRenderer {
-	#itemContainer: HTMLElement;
-
-	constructor(itemContainer: HTMLElement) {
-		this.#itemContainer = itemContainer;
-	}
-
+export class ChangelogRenderer extends Controller<[HTMLElement, ChangelogService]> {
 	#buildEntry(dialog: HTMLDialogElement, unseen: readonly ChangelogEntry[], index: number): void {
 		dialog.innerHTML = "";
 
@@ -59,8 +54,7 @@ export class ChangelogRenderer {
 		});
 	}
 
-	async render(service: ChangelogService): Promise<void> {
-		const itemContainer = this.#itemContainer;
+	async run(itemContainer: HTMLElement, service: ChangelogService): Promise<void> {
 		const { entries, unseen } = service;
 
 		const dialog = await itemContainer.getElementAsync(HTMLDialogElement, "dialog#changelog");
@@ -81,7 +75,7 @@ export class ChangelogRenderer {
 
 		if (unseen.length > 0) {
 			this.#buildEntry(dialog, unseen, 0);
-			service.markAsSeen();
+			await service.markAsSeen();
 			dialog.showModal();
 		}
 	}

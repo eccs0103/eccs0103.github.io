@@ -102,7 +102,7 @@ class AppController extends Controller {
 		const memberSelection = this.#selectionMember;
 		if (memberSelection === null) return;
 		const index = this.#members.indexOf(memberSelection);
-		this.#settings.writeSelection(index);
+		void this.#settings.writeSelection(index);
 	}
 
 	#onTimerTrigger(): void {

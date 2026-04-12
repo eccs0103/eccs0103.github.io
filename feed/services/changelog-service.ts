@@ -27,12 +27,12 @@ export class ChangelogService {
 		return this.#entries.filter(entry => entry.isNotSeen(lastSeen));
 	}
 
-	markAsSeen(): void {
+	async markAsSeen(): Promise<void> {
 		const repository = this.#repository;
 		const latest = this.#entries.at(0);
 		if (latest === undefined) return;
 		repository.content.lastSeen = latest.date;
-		repository.save();
+		await repository.save();
 	}
 }
 //#endregion

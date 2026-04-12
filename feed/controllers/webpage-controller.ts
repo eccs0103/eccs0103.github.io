@@ -45,50 +45,39 @@ class WebpageController extends Controller {
 	}
 
 	async run(): Promise<void> {
-		void ProfileCollector.launch();
-		void BatteryCollector.launch();
-		void WebVitalsCollector.launch();
-		void EngagementCollector.launch();
-		void InteractionCollector.launch();
-		void ErrorCollector.launch();
-
-		const [configuration, changelog] = await Promise.all([
-			this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI)),
-			this.#readChangelog(new URL("../data/feed-changelog.json", baseURI)),
-		]);
-
-		const bridge = this.#bridge;
-		const activities = new DataTable(bridge, new URL("../data/activities", baseURI), Activity);
-
-		const { platforms } = configuration;
+		const configuration = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
+		const { platforms, urlProxy } = configuration;
 		const serviceSettings = new SettingsService(new Map(platforms.filter(platform => platform.status === "connected").map(platform => [platform.name, true])));
-		const rendererHeader = new HeaderRenderer(body, serviceSettings);
-		await rendererHeader.render(platforms);
-
 		const main = await body.getElementAsync(HTMLElement, "main");
-		const rendererActivies = new ActivitiesRenderer(main, new URL(configuration.urlProxy));
-		await rendererActivies.render(activities, configuration);
-
+		const activities = new DataTable(this.#bridge, new URL("../data/activities", baseURI), Activity);
 		const footer = await body.getElementAsync(HTMLElement, "footer");
-		const rendererFooter = new FooterRenderer(footer);
-		await rendererFooter.render();
-
+		const changelog = await this.#readChangelog(new URL("../data/feed-changelog.json", baseURI));
 		const serviceChangelog = new ChangelogService(changelog);
-		const rendererChangelog = new ChangelogRenderer(body);
-		await rendererChangelog.render(serviceChangelog);
 
 		MetadataInjector.inject({
 			type: "Person",
 			name: "eccs0103",
 			webpage: new URL("https://eccs0103.github.io"),
 			preview: new URL("../icons/circuit-transparent.gif", baseURI),
-			associations: configuration.platforms
+			associations: platforms
 				.map(platform => platform.webpage)
 				.filter(webpage => webpage !== null)
 				.map(webpage => new URL(webpage)),
 			job: "Software engineer",
 			description: "Webpage of the person known by the nickname eccs0103.",
 		});
+
+		await HeaderRenderer.launch(body, serviceSettings, platforms);
+		await ActivitiesRenderer.launch(main, new URL(urlProxy), activities, configuration);
+		await FooterRenderer.launch(footer);
+		await ChangelogRenderer.launch(body, serviceChangelog);
+
+		void ProfileCollector.launch();
+		void BatteryCollector.launch();
+		void WebVitalsCollector.launch();
+		void EngagementCollector.launch();
+		void InteractionCollector.launch();
+		void ErrorCollector.launch();
 	}
 
 	async catch(error: Error): Promise<void> {

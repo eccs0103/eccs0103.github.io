@@ -3,7 +3,7 @@
 import "adaptive-extender/node";
 import { env } from "../../environment/services/local-environment.js";
 import { Controller } from "adaptive-extender/node";
-import { ActivityDispatcher } from "../services/walkers-dispatcher.js";
+import { ActivityDispatcher } from "./activity-dispatcher.js";
 import { ServerBridge } from "../services/server-bridge.js";
 import { DataTable } from "../services/data-table.js";
 import { Activity } from "../models/activity.js";
@@ -15,6 +15,7 @@ import { StackOverflowWalker } from "../services/stack-overflow-walker.js";
 import { TelegramWalker } from "../services/telegram-walker.js";
 import { Configuration } from "../models/configuration.js";
 import { type Bridge } from "../services/bridge.js";
+import { type ActivityWalker } from "../services/activity-walker.js";
 
 const meta = import.meta;
 
@@ -68,19 +69,17 @@ class ActivityController extends Controller {
 	}
 
 	async #updateActivities(configuration: Configuration): Promise<void> {
-		const bridge = this.#bridge;
-		const activities = new DataTable(bridge, new URL("../../resources/data/activities", meta.url), Activity);
-
-		const dispatcher = new ActivityDispatcher(activities, origin);
-		dispatcher.connect(new GitHubWalker(githubUsername, githubToken));
-		dispatcher.connect(new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken));
-		dispatcher.connect(new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken));
-		dispatcher.connect(new SteamWalker(steamId, steamApiKey));
-		dispatcher.connect(new StackOverflowWalker(stackOverflowId, stackOverflowApiKey));
-		dispatcher.connect(new TelegramWalker(telegramChannelId, telegramApiId, telegramApiHash, telegramSession));
-
+		const activities = new DataTable(this.#bridge, new URL("../../resources/data/activities", meta.url), Activity);
+		const walkers: ActivityWalker[] = [
+			new GitHubWalker(githubUsername, githubToken),
+			new SpotifyWalker(spotifyClientId, spotifyClientSecret, spotifyToken),
+			new PinterestWalker(pinterestClientId, pinterestClientSecret, pinterestToken),
+			new SteamWalker(steamId, steamApiKey),
+			new StackOverflowWalker(stackOverflowId, stackOverflowApiKey),
+			new TelegramWalker(telegramChannelId, telegramApiId, telegramApiHash, telegramSession),
+		];
 		console.log("Starting feed update...");
-		await dispatcher.execute(configuration.platforms);
+		await ActivityDispatcher.launch(activities, origin, walkers, configuration.platforms);
 		console.log("Feed update completed");
 	}
 

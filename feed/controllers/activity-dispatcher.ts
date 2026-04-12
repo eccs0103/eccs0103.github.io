@@ -1,30 +1,14 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { type ActivityWalker } from "./activity-walker.js";
+import { Controller } from "adaptive-extender/core";
+import { type ActivityWalker } from "../services/activity-walker.js";
 import { Activity } from "../models/activity.js";
-import { type DataTable } from "./data-table.js";
+import { type DataTable } from "../services/data-table.js";
 import { type Platform } from "../models/configuration.js";
 
 //#region Activity dispatcher
-export class ActivityDispatcher {
-	#walkers: Set<ActivityWalker> = new Set();
-	#activities: DataTable<typeof Activity>;
-	#since: Date;
-
-	constructor(activities: DataTable<typeof Activity>, since: Date) {
-		this.#activities = activities;
-		this.#since = since;
-	}
-
-	connect(walker: ActivityWalker): void {
-		this.#walkers.add(walker);
-	}
-
-	disconnect(walker: ActivityWalker): void {
-		this.#walkers.delete(walker);
-	}
-
+export class ActivityDispatcher extends Controller<[DataTable<typeof Activity>, Date, readonly ActivityWalker[], readonly Platform[]]> {
 	static async #runWalker(walker: ActivityWalker, since: Date, activities: Activity[]): Promise<void> {
 		const buffer: Activity[] = [];
 
@@ -50,7 +34,7 @@ export class ActivityDispatcher {
 		activities.push(...buffer);
 	}
 
-	static async #runWalkers(walkers: Iterable<ActivityWalker>, platforms: readonly Platform[], since: Date, activities: Activity[]): Promise<void> {
+	static async #runWalkers(walkers: readonly ActivityWalker[], platforms: readonly Platform[], since: Date, activities: Activity[]): Promise<void> {
 		for (const walker of walkers) {
 			try {
 				const platform = platforms.find(({ name }) => name === walker.name);
@@ -68,11 +52,14 @@ export class ActivityDispatcher {
 		activities.sort(Activity.earlier);
 	}
 
-	async execute(platforms: readonly Platform[]): Promise<void> {
-		const activities = this.#activities;
+	async run(activities: DataTable<typeof Activity>, since: Date, walkers: readonly ActivityWalker[], platforms: readonly Platform[]): Promise<void> {
 		await activities.load();
-		await ActivityDispatcher.#runWalkers(this.#walkers, platforms, this.#since, activities);
+		await ActivityDispatcher.#runWalkers(walkers, platforms, since, activities);
 		await activities.save();
+	}
+
+	async catch(error: Error): Promise<void> {
+		console.error(`Feed update failed cause of:\n${error}`);
 	}
 }
 //#endregion

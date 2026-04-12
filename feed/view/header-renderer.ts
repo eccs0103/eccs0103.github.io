@@ -1,6 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
+import { Controller } from "adaptive-extender/web";
 import { type Platform } from "../models/configuration";
 import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
 import { SettingsService } from "../services/settings-service.js";
@@ -10,21 +11,8 @@ import { PlatformToggle } from "../models/platform-toggle.js";
 const { baseURI } = document;
 
 //#region Header renderer
-export class HeaderRenderer {
-	#itemContainer: HTMLElement;
-	#settings: SettingsService;
-	#style: HTMLStyleElement;
-
-	constructor(itemContainer: HTMLElement, settings: SettingsService) {
-		this.#itemContainer = itemContainer;
-		this.#settings = settings;
-		this.#style = document.head.appendChild(document.createElement("style"));
-	}
-
-	async render(platforms: readonly Platform[]): Promise<void> {
-		const itemContainer = this.#itemContainer;
-		const settings = this.#settings;
-
+export class HeaderRenderer extends Controller<[HTMLElement, SettingsService, readonly Platform[]]> {
+	async run(itemContainer: HTMLElement, settings: SettingsService, platforms: readonly Platform[]): Promise<void> {
 		const buttonConnectionsHubTrigger = await itemContainer.getElementAsync(HTMLButtonElement, "button#connections-hub-trigger");
 		buttonConnectionsHubTrigger.addEventListener("click", (event) => {
 			dialogConnectionsHub.showModal();
@@ -37,7 +25,7 @@ export class HeaderRenderer {
 		});
 
 		const preferences = settings.readPreferences();
-		const style = this.#style;
+		const style = document.head.appendChild(document.createElement("style"));
 		const cssParts: string[] = [];
 		for (const platform of platforms) {
 			const { name, icon, webpage, status, note } = platform;
@@ -57,7 +45,7 @@ export class HeaderRenderer {
 				inputPlatformToggle.addEventListener("change", (event) => {
 					preferences.set(name, inputPlatformToggle.checked);
 					analytics.dispatch("platform_toggle", new PlatformToggle(name, inputPlatformToggle.checked));
-					settings.save(200);
+				void settings.save(200);
 				});
 
 				const labelPlatformToggle = divConnectionRow.appendChild(document.createElement("label"));

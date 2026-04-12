@@ -17,11 +17,11 @@ export class SettingsService {
 		return repository.content.selection;
 	}
 
-	writeSelection(index: number) {
+	async writeSelection(index: number): Promise<void> {
 		if (index < 0) return;
 		const repository = this.#repository;
 		repository.content.selection = index;
-		repository.save(1000);
+		await repository.save(1000);
 	}
 }
 //#endregion

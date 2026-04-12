@@ -22,17 +22,17 @@ export class SettingsService {
 		const stored = this.#repository.content.preferences;
 		const unsaved = [...preferences.keys()].filter(name => stored.add(name, true));
 		if (unsaved.length === 0) return;
-		this.#repository.save();
+		void this.#repository.save();
 	}
 
 	readPreferences(): Map<string, boolean> {
 		return this.#repository.content.preferences;
 	}
 
-	save(): void;
-	save(delay: number): void;
-	save(delay: number = 0): void {
-		this.#repository.save(delay);
+	save(): Promise<void>;
+	save(delay: number): Promise<void>;
+	save(delay: number = 0): Promise<void> {
+		return this.#repository.save(delay);
 	}
 }
 //#endregion

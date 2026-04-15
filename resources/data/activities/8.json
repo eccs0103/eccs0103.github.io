@@ -685,5 +685,16 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776284631000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/576fbf4e5c6c1f2bc985ea000324cec9447e1b07.jpg",
+		"title": "Doom Slayed",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

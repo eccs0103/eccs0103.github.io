@@ -139,7 +139,6 @@ export class ProfileCollector extends Controller {
 		}
 
 		const allLanguages = navigator.languages.join(",");
-		const pagePath = location.pathname;
 		const [navEntry] = performance.getEntriesByType("navigation");
 		const navigationType = navEntry instanceof PerformanceNavigationTiming ? navEntry.type : "navigate";
 		const { connection } = navigator;
@@ -152,7 +151,7 @@ export class ProfileCollector extends Controller {
 		const utmSource = params.get("utm_source")?.insteadEmpty(undefined);
 		const utmMedium = params.get("utm_medium")?.insteadEmpty(undefined);
 		const utmCampaign = params.get("utm_campaign")?.insteadEmpty(undefined);
-		analytics.dispatch("session_context", new SessionContext(referrerUrl, referrerDomain, pagePath, navigationType, allLanguages, connectionType, effectiveConnection, downlinkMbps, roundTripTimeMs, dataSaverEnabled, utmSource, utmMedium, utmCampaign));
+		analytics.dispatch("session_context", new SessionContext(referrerUrl, referrerDomain, navigationType, allLanguages, connectionType, effectiveConnection, downlinkMbps, roundTripTimeMs, dataSaverEnabled, utmSource, utmMedium, utmCampaign));
 	}
 
 	async catch(error: Error): Promise<void> {

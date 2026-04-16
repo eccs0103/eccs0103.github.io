@@ -13,10 +13,6 @@ export class SessionContext extends Model {
 	@Field(String, "referrer_domain")
 	referrerDomain: string;
 
-	/** location.pathname at the moment the session started (e.g. "/feed/"). */
-	@Field(String, "page_path")
-	pagePath: string;
-
 	/** PerformanceNavigationTiming.type — how the current document was reached: "navigate" (fresh load), "reload", "back_forward" (history traversal), or "prerender". Falls back to "navigate" when Navigation Timing API is unavailable. */
 	@Field(String, "navigation_type")
 	navigationType: string;
@@ -58,9 +54,9 @@ export class SessionContext extends Model {
 	utmCampaign: string | undefined;
 
 	constructor();
-	constructor(referrerUrl: string, referrerDomain: string, pagePath: string, navigationType: string, allLanguages: string, connectionType: string | undefined, effectiveConnection: string | undefined, downlinkMbps: number | undefined, roundTripTimeMs: number | undefined, dataSaverEnabled: boolean | undefined, utmSource: string | undefined, utmMedium: string | undefined, utmCampaign: string | undefined);
-	constructor(referrerUrl?: string, referrerDomain?: string, pagePath?: string, navigationType?: string, allLanguages?: string, connectionType?: string, effectiveConnection?: string, downlinkMbps?: number, roundTripTimeMs?: number, dataSaverEnabled?: boolean, utmSource?: string, utmMedium?: string, utmCampaign?: string) {
-		if (referrerUrl === undefined || referrerDomain === undefined || pagePath === undefined || navigationType === undefined || allLanguages === undefined) {
+	constructor(referrerUrl: string, referrerDomain: string, navigationType: string, allLanguages: string, connectionType: string | undefined, effectiveConnection: string | undefined, downlinkMbps: number | undefined, roundTripTimeMs: number | undefined, dataSaverEnabled: boolean | undefined, utmSource: string | undefined, utmMedium: string | undefined, utmCampaign: string | undefined);
+	constructor(referrerUrl?: string, referrerDomain?: string, navigationType?: string, allLanguages?: string, connectionType?: string, effectiveConnection?: string, downlinkMbps?: number, roundTripTimeMs?: number, dataSaverEnabled?: boolean, utmSource?: string, utmMedium?: string, utmCampaign?: string) {
+		if (referrerUrl === undefined || referrerDomain === undefined || navigationType === undefined || allLanguages === undefined) {
 			super();
 			return;
 		}
@@ -68,7 +64,6 @@ export class SessionContext extends Model {
 		super();
 		this.referrerUrl = referrerUrl;
 		this.referrerDomain = referrerDomain;
-		this.pagePath = pagePath;
 		this.navigationType = navigationType;
 		this.allLanguages = allLanguages;
 		this.connectionType = connectionType;

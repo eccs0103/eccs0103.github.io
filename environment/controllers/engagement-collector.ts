@@ -36,9 +36,10 @@ export class EngagementCollector extends Controller {
 			this.#totalVisibleMilliseconds += Date.now() - this.#visibleSince;
 			this.#visibleSince = null;
 		}
-		const visibleSeconds = round(this.#totalVisibleMilliseconds / 1000);
+		const engagementTimeMsec = this.#totalVisibleMilliseconds;
+		const timeOnPage = round(engagementTimeMsec / 1000);
 		const maxScrollPercent = this.#maxScrollPercent;
-		analytics.dispatch("page_leave", new PageLeave(visibleSeconds, maxScrollPercent));
+		analytics.dispatch("page_leave", new PageLeave(engagementTimeMsec, timeOnPage, maxScrollPercent));
 	}
 
 	async catch(error: Error): Promise<void> {

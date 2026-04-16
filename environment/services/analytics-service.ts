@@ -28,9 +28,11 @@ export class AnalyticsService {
 		if (AnalyticsService.#lock) throw new TypeError("Illegal constructor");
 
 		const session = this.#session;
+		const identity = new SessionIdentity(session.userFingerprint, session.sessionFingerprint);
+		const exported = SessionIdentity.export(identity);
 		window.gtag("js", new Date());
-		window.gtag("config", id);
-		window.gtag("set", SessionIdentity.export(new SessionIdentity(session.userFingerprint, session.sessionFingerprint)));
+		window.gtag("config", id, exported);
+		window.gtag("set", exported);
 
 		const script = document.createElement("script");
 		script.async = true;

@@ -741,5 +741,71 @@
 		"repository": "eccs0103.github.io",
 		"sha": "4c62be95d1d3cef29df9d0e3f82e0f9f204e8629",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776628700000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/d76f73bbe6db5fb1c9d51eff904fa9f710303ea5.jpg",
+		"title": "Fleming, Alistair B. Fleming",
+		"description": "Complete A Viral Heist as a hacker",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776629565000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/e9c2eb6ffd1eb7afcb8b9d1c367170a5c2491158.jpg",
+		"title": "For Your Eyes Only",
+		"description": "Request a Hint",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776631087000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/254a3d669a3b2201719e9b0b63fd4f572268455a.jpg",
+		"title": "Forever and a Day",
+		"description": "Complete A High-Tech Target as an agent",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776631520000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/9c8af0c38805b74f34c1efd5f9fc57d22a17752b.jpg",
+		"title": "Icebreaker",
+		"description": "Send three messages to your partner as a hacker",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776633644000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/2f9755c88dd11f4d0f636c945658183c95c92374.jpg",
+		"title": "No Time to Die",
+		"description": "Complete Business on the Go as a hacker",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776635219000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/60e4374692c13527d199ecfe0880b50b225c7499.jpg",
+		"title": "License to Kill",
+		"description": "Kill your partner as an agent",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

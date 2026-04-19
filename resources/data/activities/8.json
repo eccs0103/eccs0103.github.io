@@ -807,5 +807,27 @@
 		"description": "Kill your partner as an agent",
 		"url": "https://steamcommunity.com/stats/1335790/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776636179000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/b91249fc82aa8adc4791990c7d5f16b7bfb0163d.jpg",
+		"title": "Ghost Protocol",
+		"description": "Complete Digital Dive as an agent",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1776637894000,
+		"title": "Overdose of You",
+		"artists": [
+			"Narcissa Wren"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27393946ff98525ffc5570635c5",
+		"url": "https://open.spotify.com/track/5P6rPK3Pf9nFJtLZGrqxqC",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

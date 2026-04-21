@@ -829,5 +829,17 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b27393946ff98525ffc5570635c5",
 		"url": "https://open.spotify.com/track/5P6rPK3Pf9nFJtLZGrqxqC",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1776756409000,
+		"title": "Пропадает",
+		"artists": [
+			"10AGE",
+			"Anet Sai"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2736056ced6fc51b8895ddcb263",
+		"url": "https://open.spotify.com/track/2FOmJWP9HrFjXgD3LWUorB",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

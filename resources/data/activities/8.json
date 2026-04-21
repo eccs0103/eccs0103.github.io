@@ -841,5 +841,16 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2736056ced6fc51b8895ddcb263",
 		"url": "https://open.spotify.com/track/2FOmJWP9HrFjXgD3LWUorB",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1776801125000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/997859e0c89dda10f11a091a566999e68e6f9ce3.jpg",
+		"title": "Legend of The Afterlife",
+		"description": "Reach max Street Cred.",
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

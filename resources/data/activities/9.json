@@ -63,5 +63,16 @@
 		"description": "Complete Institutional Cleanup as an agent",
 		"url": "https://steamcommunity.com/stats/1335790/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777067435000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/80cbffe34525f1fcd122422699af7ca2bd07082a.jpg",
+		"title": "Zero Minus Ten",
+		"description": "Locate the bomb as a hacker",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

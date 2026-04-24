@@ -52,5 +52,16 @@
 		"repository": "vscode-quartz",
 		"sha": "88389b008c349b846978b56ce810af4fd83aa985",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777063635000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/bb74adfddd48d2ef6c4ec31b3e0deac83faeb648.jpg",
+		"title": "Quantum of Solace",
+		"description": "Complete Institutional Cleanup as an agent",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

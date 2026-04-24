@@ -74,5 +74,16 @@
 		"description": "Locate the bomb as a hacker",
 		"url": "https://steamcommunity.com/stats/1335790/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777068573000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/cba2bd6b3da18d40cdbc503bf4067ef890ac88aa.jpg",
+		"title": "...to Save the World!",
+		"description": "Complete Big-Bang Theory as a hacker",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

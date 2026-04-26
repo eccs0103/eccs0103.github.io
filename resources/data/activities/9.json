@@ -123,5 +123,16 @@
 		"description": "Use a dialogue option related to V's life path 10 times.",
 		"url": "https://steamcommunity.com/stats/1091500/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777219926000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/41dc56c51263bf0d9f09cf016e3b3443b20990e1.jpg",
+		"title": "Shoe Money Tonight",
+		"description": "Get a 21 in the blackjack minigame.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

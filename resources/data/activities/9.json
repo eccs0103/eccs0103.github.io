@@ -154,5 +154,16 @@
 		"repository": "vscode-quartz",
 		"sha": "86accd580a9d8dd0283ee284bbae2a81b9b1881d",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777491040000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/7d3bac94dbdaa8e05388b43bb3f58bc0a1e12d90.jpg",
+		"title": "Devoted",
+		"description": "Complete 10 weekly tasks",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

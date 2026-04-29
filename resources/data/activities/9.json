@@ -165,5 +165,16 @@
 		"description": "Complete 10 weekly tasks",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777499272000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/9282b51b3ffac2fbdcdf9c43e53d22097d380280.jpg",
+		"title": "Fully Loaded",
+		"description": "Unlock all tier three equipment",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

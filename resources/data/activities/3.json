@@ -1,974 +1,153 @@
 [
 	{
-		"platform": "Spotify",
-		"timestamp": 1767888652000,
-		"title": "Fragments",
-		"artists": [
-			"King Of None"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2733f2026dd0eb52c20c6d18df1",
-		"url": "https://open.spotify.com/track/5S4L6Bimxr2veUlHnSwhx1",
-		"$type": "SpotifyLikeActivity"
-	},
-	{
 		"platform": "GitHub",
-		"timestamp": 1767908108000,
+		"timestamp": 1777054852000,
 		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "23a5ef7307ce230b67d7ef6d59c42c23afd538ef",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "ecbd966eedc81f6945b4d5a9c8bfdef9c5343389",
 		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "GitHub",
-		"timestamp": 1767909695000,
+		"timestamp": 1777054857000,
 		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "adf3568ecfc64c92a0d08e7678413ce0a65a8db4",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "91bb7c54bcb46b856472721dcd18c1080d8feede",
 		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "GitHub",
-		"timestamp": 1767909729000,
+		"timestamp": 1777060163000,
 		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "adf3568ecfc64c92a0d08e7678413ce0a65a8db4",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767926568000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "14cfecbe1ef38e86374d155af315d0179b8f8d7c",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767926587000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "d813efa58b9eddd8ce3d88e9d0f7f40c0c7cba32",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767926605000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "d813efa58b9eddd8ce3d88e9d0f7f40c0c7cba32",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767939724000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "31b2bdb66ce36a215cd872b2e52f749b76156a7e",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767939763000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "d336e0f2d55f9bda9d51f054bdf736e77551926c",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767939800000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "d336e0f2d55f9bda9d51f054bdf736e77551926c",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767940374000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "aa79c564a2e2b2dc9401e663feee925e38648c82",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1767954980000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "ad65edee7f0e339c3c320f06dde2dfa89e008481",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "88389b008c349b846978b56ce810af4fd83aa985",
 		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Steam",
-		"timestamp": 1767981656000,
+		"timestamp": 1777063635000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/bb74adfddd48d2ef6c4ec31b3e0deac83faeb648.jpg",
+		"title": "Quantum of Solace",
+		"description": "Complete Institutional Cleanup as an agent",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777067435000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/80cbffe34525f1fcd122422699af7ca2bd07082a.jpg",
+		"title": "Zero Minus Ten",
+		"description": "Locate the bomb as a hacker",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777068573000,
+		"game": "Operation Tango",
+		"webpage": "https://store.steampowered.com/app/1335790",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1335790/cba2bd6b3da18d40cdbc503bf4067ef890ac88aa.jpg",
+		"title": "...to Save the World!",
+		"description": "Complete Big-Bang Theory as a hacker",
+		"url": "https://steamcommunity.com/stats/1335790/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777075422000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "887f806c92616c50d45c1fd8f68b8d8e0dbef175",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777075426000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "bcb237dada5af5e57c1fca608bf37062a3c30c6f",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777075430000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "3372fd7fd606ac4ab1dc305b8d339580c588ce72",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777145296000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/943a38cb96238b7b020672cf360d9e763dcf6feb.jpg",
+		"title": "Stanislavski's Method",
+		"description": "Use a dialogue option related to V's life path 10 times.",
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777219926000,
 		"game": "Borderlands 3",
 		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/7179fd0e9b5ca91bd5e865961ff6ddeb1f17249a.jpg",
-		"title": "Rewards Card",
-		"description": "Earn a Loyalty Package from each weapon manufacturer.",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/41dc56c51263bf0d9f09cf016e3b3443b20990e1.jpg",
+		"title": "Shoe Money Tonight",
+		"description": "Get a 21 in the blackjack minigame.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
 	{
 		"platform": "Steam",
-		"timestamp": 1768060082000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a0a5679f54b702b82a0a2d81d1826eae66016042.jpg",
-		"title": "Apocalypso!",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768065483000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/cba8bb0ceb868eeaa74e7d6bcf17d0f48692c65f.jpg",
-		"title": "My Name Is Earl",
-		"description": "Buy 20 cosmetic items from Crazy Earl.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768066068000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b99eef0fbed070279d89e3c4358bd3cd83c84559.jpg",
-		"title": "Tales From The Eridian Slab",
-		"description": "Decipher all of the Eridian Slabs.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768075704000,
+		"timestamp": 1777233679000,
 		"game": "Phasmophobia",
 		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/cc56589c066bc7ef7196a5aa1a725f464c3bbaed.jpg",
-		"title": "Goryo Discovered",
-		"description": "Successfully identify your first Goryo and survive",
-		"url": "https://steamcommunity.com/stats/739630/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768075725000,
-		"game": "Phasmophobia",
-		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/0d8c5c8ff15a3f1a4b0394413c7a843dc296ae04.jpg",
-		"title": "Rookie",
-		"description": "Complete 10 contracts",
-		"url": "https://steamcommunity.com/stats/739630/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768075994000,
-		"game": "Phasmophobia",
-		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/7198cdb15c3e3e4b7963e372635461ae1b8d0fa7.jpg",
-		"title": "Spirit Discovered",
-		"description": "Successfully identify your first Spirit and survive",
-		"url": "https://steamcommunity.com/stats/739630/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768076755000,
-		"game": "Phasmophobia",
-		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/95c491517cb7037d296c5f3bb002f3cd79859dd1.jpg",
-		"title": "Phantom Discovered",
-		"description": "Successfully identify your first Phantom and survive",
-		"url": "https://steamcommunity.com/stats/739630/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768078188000,
-		"game": "Phasmophobia",
-		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/1757ad92e164428122ecaa6eeaff11e2d96d40a8.jpg",
-		"title": "Shade Discovered",
-		"description": "Successfully identify your first Shade and survive",
-		"url": "https://steamcommunity.com/stats/739630/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768082536000,
-		"game": "Phasmophobia",
-		"webpage": "https://store.steampowered.com/app/739630",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/e769ac90c013236cc9a42318112c3186c597148e.jpg",
-		"title": "Onryo Discovered",
-		"description": "Successfully identify your first Onryo and survive",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/236713a46691022704a749c5587084ed2e476b9f.jpg",
+		"title": "The Twins Discovered",
+		"description": "Successfully identify The Twins for the first time",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
 	},
 	{
 		"platform": "GitHub",
-		"timestamp": 1768152470000,
+		"timestamp": 1777294472000,
 		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "death-detection-system",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768161044000,
-		"game": "Black Mesa",
-		"webpage": "https://store.steampowered.com/app/362890",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/bb2fd29b1a7269febb3012bda8d59ea41a96d824.jpg",
-		"title": "Convection Refinement",
-		"description": "Ruin the microwave casserole.",
-		"url": "https://steamcommunity.com/stats/362890/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768161246000,
-		"game": "Black Mesa",
-		"webpage": "https://store.steampowered.com/app/362890",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/10a60fce128f3b65bd6ca012daf8957c5314ed0c.jpg",
-		"title": "Brownian Motion",
-		"description": "Pass the toilet paper to the Scientist in need.",
-		"url": "https://steamcommunity.com/stats/362890/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768163289000,
-		"game": "Black Mesa",
-		"webpage": "https://store.steampowered.com/app/362890",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/2a8a17a9fe58ba8aa987e60b0d8f9f5afdc91d3e.jpg",
-		"title": "Inflammatory Actions",
-		"description": "Kill a Headcrab using fire.",
-		"url": "https://steamcommunity.com/stats/362890/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768166964000,
-		"game": "Black Mesa",
-		"webpage": "https://store.steampowered.com/app/362890",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/902ad4cdd1433bc56ecd9590db10d1aad5753903.jpg",
-		"title": "Caffeine Extraction",
-		"description": "Perform surgical caffeine extraction from 20 vending machines.",
-		"url": "https://steamcommunity.com/stats/362890/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768169782000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5448028b896d9a4360e0abc6471e6aac00ca4502.jpg",
-		"title": "Biggest Badass In The Borderlands",
-		"description": "Reach level 50.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768218584000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "aa9fc8a152442c8e556292c3b9d664df6eabe750",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768218615000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "4929e5cca437ebbb5eb9a98cacc1c294a64f4309",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768218629000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "4929e5cca437ebbb5eb9a98cacc1c294a64f4309",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768218672000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "system-improvements",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "Spotify",
-		"timestamp": 1768231377000,
-		"title": "Black and Yellow (feat. Juicy J, Snoop Dogg & T-Pain) - G-Mix [G-Mix]",
-		"artists": [
-			"Wiz Khalifa",
-			"Juicy J",
-			"Snoop Dogg",
-			"T-Pain"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273fd84fedd1859fb54ea900f43",
-		"url": "https://open.spotify.com/track/7EWaWcYUdatuLQQ7NJjh1O",
-		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768238719000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "c1e2a1b8d4f177898bfaa155c3a3201f24b9fcf7",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768239420000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "880c23265ed1e5873a472ae03073df74dca6c33b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768241106000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b8e129c8344b0ba0007e3926a179fb61fb5f0092",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768241319000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b8e129c8344b0ba0007e3926a179fb61fb5f0092",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768241377000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b8e129c8344b0ba0007e3926a179fb61fb5f0092",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "86accd580a9d8dd0283ee284bbae2a81b9b1881d",
 		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Steam",
-		"timestamp": 1768252551000,
-		"game": "Black Mesa",
-		"webpage": "https://store.steampowered.com/app/362890",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/3ec1d642a0b1d913a5bd494c2c0f3a64d354dd02.jpg",
-		"title": "Digital Wizardry",
-		"description": "Kill 10 enemies with a reprogrammed Sentry.",
-		"url": "https://steamcommunity.com/stats/362890/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Spotify",
-		"timestamp": 1768374824000,
-		"title": "Twilight Empress",
-		"artists": [
-			"Celestial Void"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2739bbb03fbccee2eb37b0017b2",
-		"url": "https://open.spotify.com/track/6du4H42s6SZbNjMkbOeiaJ",
-		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768500858000,
-		"game": "Returnal™",
-		"webpage": "https://store.steampowered.com/app/1649240",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/1a6617d111960c5d5cb816ef475a16ed70bed7bf.jpg",
-		"title": "Ascension",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/1649240/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768562323000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "portability-enhance",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768567309000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "a3fc8c30ec86b8dbc88d1072ea80868daa3161be",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768662937000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "c7fbf8616c63bd85c093d19c93867cf4abef6477",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768669368000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "7c7356e24e020d7fc2e6bd0d7a510f12a7b6f500",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768669758000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "8ab86d08ca4611d6fc32d92b9f7ab307227981c2",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768674593000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "e0b9775bec96ad44dc2d97b0f7866e28c2fbadec",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768675078000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "091421088e9f5969ad19fe08e0a7039e2900791e",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768675113000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "e35e54ef74578b831ff2b584b4ca1cea7cf5008a",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768675213000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "5a479d4822a9748112a849181b22e94515fdc5c7",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768675246000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "5a479d4822a9748112a849181b22e94515fdc5c7",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768675379000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "5a479d4822a9748112a849181b22e94515fdc5c7",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768680150000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/ef5e5994a5f289c27fc5d2e8ee88cdfcaca80fff.jpg",
-		"title": "Florida Man",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"timestamp": 1777491040000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/7d3bac94dbdaa8e05388b43bb3f58bc0a1e12d90.jpg",
+		"title": "Devoted",
+		"description": "Complete 10 weekly tasks",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
 	},
 	{
 		"platform": "Steam",
-		"timestamp": 1768690833000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b240a30e93e20ac89a6662dda5693ab6d05ad8e5.jpg",
-		"title": "Damn, Gina",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"timestamp": 1777499272000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/9282b51b3ffac2fbdcdf9c43e53d22097d380280.jpg",
+		"title": "Fully Loaded",
+		"description": "Unlock all tier three equipment",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768691374000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/8b651d0d3a3344b062b89cf7f2cb2c647ee44947.jpg",
-		"title": "Zer0ed In",
-		"description": "Defeat all of Zer0's Targets of Opportunity.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768755831000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "6e128349c195855a21cb4567d165016b56f9ac0b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768755884000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "6e128349c195855a21cb4567d165016b56f9ac0b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768755979000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "portability-enhance",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768757691000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"title": "0.9.0",
-		"tag_name": "0.9.0",
-		"is_prerelease": false,
-		"$type": "GitHubReleaseActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768768068000,
-		"game": "Returnal™",
-		"webpage": "https://store.steampowered.com/app/1649240",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/dee6388b6ecd469e399e13e8443408cdbf765291.jpg",
-		"title": "Eternal Ascent",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/1649240/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768768518000,
-		"game": "Returnal™",
-		"webpage": "https://store.steampowered.com/app/1649240",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/cca532c0684e7088b79cbe8fb595fe6d94e08a47.jpg",
-		"title": "Broken, Restored, Empty",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/1649240/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768776959000,
-		"game": "Returnal™",
-		"webpage": "https://store.steampowered.com/app/1649240",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/d58479400831b5b60c475476126833ce53a892ce.jpg",
-		"title": "Visions of the Past",
-		"description": "Complete a Xeno-archive set (excluding Tower of Sisyphus)",
-		"url": "https://steamcommunity.com/stats/1649240/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Spotify",
-		"timestamp": 1768783554000,
-		"title": "The Sown",
-		"artists": [
-			"Celestial Void",
-			"IVEEN",
-			"Nightlark"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2739bbb03fbccee2eb37b0017b2",
-		"url": "https://open.spotify.com/track/0m6Oxh1Umanz547cfnLbQV",
-		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768833457000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "portability-patch",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768833483000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "d61a0f7b294434eea38151505ee539eeb3ee69a9",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768864586000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "fd6629323cbb7c6b056e5cb5c695f6b7e6e2aef4",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768864600000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "03ca665b7c339e6cec79a0c9ce4363bc62490e2f",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768864617000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "03ca665b7c339e6cec79a0c9ce4363bc62490e2f",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768864638000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "03ca665b7c339e6cec79a0c9ce4363bc62490e2f",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768907757000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "b35e55c26d290db3e537bbbc1cbe036635031cc1",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768913327000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "1c728139f1a29e13d9066f8544ce5ce059a0a19d",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768913443000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "1c728139f1a29e13d9066f8544ce5ce059a0a19d",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768913475000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "portability-patch",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768914663000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "cc820065b7e9a8b8906069b8189d828ef5fef4e4",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768918398000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "34bbaf4edf9fe5070fc83f87fc78c405a09fb4a4",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768918553000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "portability-completion",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768918611000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "14e197d217974ed006a16c531997482e6f5fa53b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1768919010000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "10d710a104310e9a46dd797c10291bced50d00f4",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768942470000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/06a93118c349d13328a1e40bf7b072be13bb63dd.jpg",
-		"title": "Exoarchaeolo—You Get The Gist",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768942594000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/59b522503bd8a1e8693e020f15ff756079a0fbbb.jpg",
-		"title": "Got Big Game",
-		"description": "Defeat all of Hammerlock's Legendary Hunts.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768943124000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/9c8b7a0d223d3dad59d0f03930f43646dcdc4f1c.jpg",
-		"title": "I Am A Goddess, A Glorious Female Warrior",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
-		"timestamp": 1768946376000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/952d5e58d19ca2f1780fe011456d410f429fb4b7.jpg",
-		"title": "Bye, Felicia!",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769037506000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "370e8d7086cf1309814778ac2a0836a5e239ae07",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769037997000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "2affa16728bd56286b9f20c9f363637d0e777e39",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769038018000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "41fc0c8125702696c514169755c883c4d8901df3",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769038037000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "41fc0c8125702696c514169755c883c4d8901df3",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769038067000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "41fc0c8125702696c514169755c883c4d8901df3",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769038134000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "beba0885abf49dfe07f99aeb8beac8c27880666b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769038156000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "beba0885abf49dfe07f99aeb8beac8c27880666b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769038174000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "beba0885abf49dfe07f99aeb8beac8c27880666b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769090901000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "1f815f393a13f463754ad76c8661c61ab65f1a0c",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "Stack overflow",
-		"timestamp": 1769099485000,
-		"title": "Как можно оптимизировать данный код на Typescript?",
-		"body": "<p>Покажу вам 3 этапа оптимизации</p>\n<h2>DRY оптимизация</h2>\n<p>Делаем код чище и убираем повторения:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>function saveNumberVisits(key: string = &quot;userVisit&quot;): void {\n    const item: string | null = localStorage.getItem(key);\n    let counter = (item ? Number(JSON.parse(item)) : 0);\n    counter++;\n    localStorage.setItem(key, JSON.stringify(counter));\n}\n</code></pre>\n<h2>Машинная оптимизация</h2>\n<p>Чистый код делаем еще и быстрым:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>const key: string = &quot;userVisit&quot;;\nconst item: string | null = localStorage.getItem(key); // загружаем 1 раз в начале\nlet counter = (item ? Number(JSON.parse(item)) : 0);\n\nfunction incrementVisits(): void {\n    counter++;\n}\n\nwindow.addEventListener(&quot;beforeunload&quot;, (event) =&gt; {\n    const item = JSON.stringify(counter);\n    localStorage.setItem(key, item); // сохраняем 1 раз, в конце\n});\n</code></pre>\n<h2>SOLID оптимизация</h2>\n<p>Чистый и быстрый код делаем расширяемым и универсальным, соблюдая правила SOLID:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>class Archive {\n    #counter: number;\n\n    constructor(key: string) {\n        const item: string | null = localStorage.getItem(key);\n        this.#counter = (item ? Number(JSON.parse(item)) : 0);\n        window.addEventListener(&quot;beforeunload&quot;, (event) =&gt; {\n            const item = JSON.stringify(counter);\n            localStorage.setItem(key, item);\n        });\n    }\n\n    increment(): void {\n        this.#counter++;\n    }\n}\n\nconst archive = new Archive(&quot;userVisit&quot;);\narchive.increment();\n</code></pre>\n",
-		"score": 0,
-		"url": "https://ru.stackoverflow.com/questions/1623999/%d0%9a%d0%b0%d0%ba-%d0%bc%d0%be%d0%b6%d0%bd%d0%be-%d0%be%d0%bf%d1%82%d0%b8%d0%bc%d0%b8%d0%b7%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d1%82%d1%8c-%d0%b4%d0%b0%d0%bd%d0%bd%d1%8b%d0%b9-%d0%ba%d0%be%d0%b4-%d0%bd%d0%b0-typescript/1624001#1624001",
-		"is_accepted": false,
-		"$type": "StackOverflowAnswerActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769193012000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "355f49f695c1e984d425cf9e6f133f872c91fd2a",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769193445000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "7061e2fea1ffb033162a966374b7304636f5e14b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769193479000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "7061e2fea1ffb033162a966374b7304636f5e14b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769193495000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "portability-completion",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769193867000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"title": "0.9.4",
-		"tag_name": "0.9.4",
-		"is_prerelease": false,
-		"$type": "GitHubReleaseActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769195221000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "68421d0a9d3f1afffba66c66959b1a47aa4b87b3",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769195281000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "6c80f8319f7df25532d13d6f591bd92b6f1a18cf",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1769199181000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "5db4500ccc5ee97ed66338fed06937eca1e381de",
-		"$type": "GitHubPushActivity"
 	}
 ]

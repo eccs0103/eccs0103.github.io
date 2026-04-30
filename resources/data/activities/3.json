@@ -149,5 +149,15 @@
 		"description": "Unlock all tier three equipment",
 		"url": "https://steamcommunity.com/stats/739630/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Telegram",
+		"timestamp": 1777567882000,
+		"channel_id": -1003471238866,
+		"message_id": 32,
+		"file_name": "32.jpg",
+		"media_type": "photo",
+		"content": null,
+		"$type": "TelegramMediaPostActivity"
 	}
 ]

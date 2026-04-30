@@ -67,24 +67,6 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
-		"platform": "GitHub",
-		"timestamp": 1762340509000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "8b1013a94c756bec7824a03be0b66e586e859f18",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762347313000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "ee0feea4493ce6834c646d97ace33eaf14b731b4",
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"platform": "Steam",
 		"timestamp": 1762368995000,
 		"game": "Borderlands 3",
@@ -118,15 +100,6 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "GitHub",
-		"timestamp": 1762445383000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "4a6257949c3caba3421d0230dcfd23205ecd083d",
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"platform": "Steam",
 		"timestamp": 1762456124000,
 		"game": "Borderlands 3",
@@ -147,78 +120,6 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b273bafcef0262b82dec233717e2",
 		"url": "https://open.spotify.com/track/31rneVrsMC6jefCoDyQKam",
 		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762527630000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "63b46d13fc3c5fa8f8e2da9390dc176aea5367ce",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762527697000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "58fa408e5045830eb28608c235c5e2fde72fad79",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762527806000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "backup-main",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762527850000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "58fa408e5045830eb28608c235c5e2fde72fad79",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762529281000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "205aca79ff21dcc720d660e53f0e61da2239dae5",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762529463000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "5c3bccb00d4529697e2f189c28de7051fd61c970",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762540822000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "87da24cf64c88f75a8a8ac6dfd7791644b256e5d",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1762599508000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "78133b0d990ac96c3c5e344475982389e021a69b",
-		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Spotify",
@@ -255,237 +156,6 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "GitHub",
-		"timestamp": 1763071089000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "5c4b7eea21f1474c47800fd082477b9aa8a4d56d",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763071844000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "5c4b7eea21f1474c47800fd082477b9aa8a4d56d",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763072440000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"title": "0.4.0",
-		"tag_name": "0.4.0",
-		"is_prerelease": false,
-		"$type": "GitHubReleaseActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763072533000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "8c1c984774e6404d06362a3a588203126be27acd",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763072555000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "8c1c984774e6404d06362a3a588203126be27acd",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763158757000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "dff5b964ebc9a9b8d56c644d7742938dd53f5e9f",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763158790000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "dff5b964ebc9a9b8d56c644d7742938dd53f5e9f",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763159430000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"title": "0.4.2",
-		"tag_name": "0.4.2",
-		"is_prerelease": false,
-		"$type": "GitHubReleaseActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763196056000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"name": "main",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763197915000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "cba8ad9246bf973c838ebcda7cb23bda9d80a4f4",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763199208000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "4c1622069359bb3c116caf66ca8f8e603000af77",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763199314000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "8cb8bfd10b7e8ab5bdea593c7a37915c94ecd128",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763199390000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "0646ff5c040896520fe9714c1a79e41adadcbadd",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763199950000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "0eda699ada9ceb25ea7c75662190fc7200a8b2f8",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763200701000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "c11444215af2d88a17f1c0884a1f2ac9a69772a3",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763202941000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "8b86c500dce80442d399b8d021c816a9bd7cfffd",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763303955000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "7c8e2f43a7cadbfdbbba9fb14eb5574ac9d8f93e",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763371944000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "32dcf8811f5d3c49235b0f4963e5a11deb0374ba",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763374921000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "22763687a28e7958dbf5a94b82bdc7db7b205a02",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763401729000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "c3586fca40f6f5b30499188859268c543c35685c",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763403625000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "6a82ca10c39fb7309cc50d7c48964168835a3469",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763404068000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "b66c8e295ddaae0849e5f9c9b8b2644da12d211b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763404088000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "b66c8e295ddaae0849e5f9c9b8b2644da12d211b",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763404324000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"title": "0.4.3",
-		"tag_name": "0.4.3",
-		"is_prerelease": false,
-		"$type": "GitHubReleaseActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763416199000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "3ad7e942d0f27c60b4da4a79fd7003c623d16ef2",
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"platform": "Spotify",
 		"timestamp": 1763447241000,
 		"title": "empty room",
@@ -498,51 +168,6 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "GitHub",
-		"timestamp": 1763459548000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "31cb217a37c2e2eb3be7b77b19534f6bd66c0869",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763484682000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "99173ce56cdc7231941cc9879d5a04c655b6bd08",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763484756000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "b018015eea9c34a48ed5489c10394ab48f33481c",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763488550000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "45879b7e5bf6feb42738ea70090bc8d5f0909ebf",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763502761000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "dfa89735000621d2c37709941816eaa68bf571d6",
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"platform": "Spotify",
 		"timestamp": 1763537048000,
 		"title": "Ocean Drive",
@@ -552,24 +177,6 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2732500bcdc1790d13e7ac1a0c0",
 		"url": "https://open.spotify.com/track/0b6wdul3A5sQNpIOv03OxP",
 		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763544800000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "65f2044709e8b5935e72243e8fb6de40973faa04",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1763545170000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "c2b79358d717550621f66709fc8576e1fa77cdbf",
-		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Spotify",
@@ -604,15 +211,6 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764106009000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "edb161f49080d6c351cd4945be9bdca6296416ae",
-		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Spotify",
@@ -650,24 +248,6 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "GitHub",
-		"timestamp": 1764153421000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/quartz",
-		"repository": "quartz",
-		"sha": "fb9e1e6a8edd1a6c53536ebf3eef2f89468cb1db",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764284717000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/Visualizer",
-		"repository": "Visualizer",
-		"sha": "046b63b000941670ee7cd6030f321f337f2205c3",
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"platform": "Spotify",
 		"timestamp": 1764328825000,
 		"title": "Пусть Бог будет рядом с твоими планами",
@@ -678,168 +258,6 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b273b3ca871cb420d01758892668",
 		"url": "https://open.spotify.com/track/5btmzICOnW8Vl6A2zqOV2S",
 		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764353839000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "f5d7e7ecf603557c8fef08ebb2ff21617bdfc9e9",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764354821000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "a2f0efdd5ceb1541f819a7d29886c8822f8083e5",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764354979000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "9befbec458c97e77e52f7bd5d8e02093a3cdc9d9",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764355802000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "18da939e5715f00fb8cf717b8db5e9957e833a0d",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764364382000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "841010ceea0b1739e6827a9fd2bc99efae927868",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764366006000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "6711df54f404de67abd3cf421a08b17f857290e9",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764375536000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "314a1e2a1d96cdb74f57616ea7a36beb4fd59444",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764377978000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "bd0564f0e2ceb627b95b53ebb8ea223a99600447",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764421358000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "d97488fafdcae75839ba4a1072039b7f2825f830",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764423959000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "0f1dc6238496266da75db9de75131472c175a817",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764425165000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "ef23d5d2d91101785ac878dc4bf499d0f6311881",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764425733000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "8873d010d7a7ddf560bc17e42c75b02b0b4c5122",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764425758000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "6785302ed5391f0100a502158cd19c649f0a2ec3",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764426036000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b3d8e8bb8d6c54fd23d2c33f09d6af22d767d15d",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764540771000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "backup-main",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764540811000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "development",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764540836000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"name": "development",
-		"$type": "GitHubCreateBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764546860000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "6de57cf19c045ab94dc4857b8df334c8b7852c26",
-		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Spotify",
@@ -854,42 +272,6 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "GitHub",
-		"timestamp": 1764586014000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "e7279f0631cf7e73e6245f32b3d7d4c8cb0c5002",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764606913000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "ffd9b2dd7710ffe618ee7c55dd9868960c1357a8",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764617299000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "52e25f999a37255911f72580dd31a46e2f4320a1",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764617623000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "d5016096754aebfd22e2abd0b9b9fff079511d95",
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"platform": "Spotify",
 		"timestamp": 1764629306000,
 		"title": "FEEL NOTHING",
@@ -899,51 +281,6 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b273197f778e9f68a8ab1d7da3f8",
 		"url": "https://open.spotify.com/track/4xDwCYhobDehSBGUmd5H6Y",
 		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764690732000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "956dd69d7856293089f8752110ae130474ab7103",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764691331000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "b570a29eade259c163de582c0eab14d4eb5bf585",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764709376000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "web-development",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764709393000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"name": "core-development",
-		"$type": "GitHubDeleteBranchActivity"
-	},
-	{
-		"platform": "GitHub",
-		"timestamp": 1764716981000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/eccs0103.github.io",
-		"repository": "eccs0103.github.io",
-		"sha": "952351de0c275cef0858e1932cc36b9e975ddf4f",
-		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Spotify",
@@ -959,12 +296,830 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "GitHub",
-		"timestamp": 1764752710000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/adaptive-extender",
-		"repository": "adaptive-extender",
-		"sha": "816d8d19ba2497dacdd910923fb6da313ad288ca",
-		"$type": "GitHubPushActivity"
+		"platform": "Spotify",
+		"timestamp": 1765185667000,
+		"title": "Half-Life",
+		"artists": [
+			"Essenger"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2733127ae7ff2ffdeb7961e15fc",
+		"url": "https://open.spotify.com/track/1tvFHuk4qoLouV1DYh7ieW",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Stack overflow",
+		"timestamp": 1765359833000,
+		"title": "Отключать все обработки Vite",
+		"body": "<h2>Описание</h2>\n<p>Мне понадобился компилятор и линкер для Node модулей на Front-end, и мне посоветовали Vite. Я решил его попробовать... В целом, он справляется с компиляцией и подключением модулей, что неплохо. Однако он делает много лишнего: меняет пути, компилирует изображения, создает новые папки и превращает мою многослойную структуру в плоскую.</p>\n<p>Кому-то это может показаться удобным, но мне это ломает все расчеты и пути. Если в режиме разработки все работает прекрасно, то после компиляции возникает полная неразбериха.</p>\n<p>Мне нужно настроить его так, чтобы он просто копировал всю структуру, компилируя файлы TS в файлы JS с сохранением прежних имен, то есть создавал абсолютную копию.</p>\n<p><div class=\"snippet\" data-lang=\"js\" data-hide=\"true\" data-console=\"false\" data-babel=\"false\" data-babel-preset-react=\"false\" data-babel-preset-ts=\"false\">\n<div class=\"snippet-code snippet-currently-hidden\">\n<pre class=\"snippet-code-js lang-js prettyprint-override\"><code>\"use strict\";\n\nimport \"adaptive-extender/node\";\nimport { defineConfig } from \"vite\";\nimport { viteStaticCopy, type Target } from \"vite-plugin-static-copy\";\nimport FileSystem from \"fs\";\n\nconst input: Record&lt;string, string&gt; = {\n    [\"main\"]: \"index.html\",\n    [\"feed/index\"]: \"feed/index.html\",\n    [\"applications/209-birthdays/index\"]: \"applications/209-birthdays/index.html\",\n    [\"shortcuts/vscode-quartz/index\"]: \"shortcuts/vscode-quartz/index.html\",\n    // [\"404/index\"]: \"404/index.html\",\n};\n\nfunction collectStaticFiles(dir: string, baseDir: string = \"\"): Target[] {\n    const ignoreList = [\"node_modules\", \"dist\", \".git\", \".vscode\", \".idea\", \"types\"];\n    const results: Target[] = [];\n\n    try {\n        const items = FileSystem.readdirSync(dir);\n\n        for (const item of items) {\n            if (ignoreList.includes(item)) continue;\n            if (item === \"vite.config.ts\") continue;\n            if (item === \"tsconfig.json\") continue;\n            if (item.startsWith(\"package\")) continue;\n            if (item.startsWith(\".\")) continue;\n\n            const fullPath = baseDir ? `${dir}/${item}` : item;\n            const isDirectory = FileSystem.statSync(fullPath).isDirectory();\n\n            if (isDirectory) {\n                results.push(...collectStaticFiles(fullPath, fullPath));\n            } else {\n                const isViteFile = item.endsWith(\".ts\") || item.endsWith(\".html\");\n                if (!isViteFile) {\n                    const destFolder = baseDir || \".\";\n                    results.push({ src: fullPath, dest: destFolder });\n                }\n            }\n        }\n    } catch (e) {\n        console.error(`Error scanning directory ${dir}:`, e);\n    }\n\n    return results;\n}\n\nexport default defineConfig(({ command }) =&gt; {\n    const isBuild = command === 'build';\n    const copyTargets = collectStaticFiles(\".\");\n\n    return {\n        publicDir: false,\n        base: \"/\",\n        build: {\n            outDir: \"dist\",\n            emptyOutDir: true,\n            rollupOptions: {\n                preserveEntrySignatures: \"strict\",\n                input,\n                output: {\n                    preserveModules: true,\n                    entryFileNames: \"[name].js\",\n                    chunkFileNames: \"chunks/[name].js\",\n                    assetFileNames: \"assets/[name][extname]\",\n                },\n            },\n        },\n        plugins: [\n            isBuild ? viteStaticCopy({\n                targets: copyTargets\n            }) : undefined,\n        ],\n    };\n});</code></pre>\n</div>\n</div>\n</p>\n<h2>Вопрос</h2>\n<p>Не могу я его вот так настроить.</p>\n<p>Поможете?<br />\nИли может есть более хорошие и простые инструменты для этого дела?</p>\n",
+		"score": 0,
+		"url": "https://ru.stackoverflow.com/questions/1622165/%d0%9e%d1%82%d0%ba%d0%bb%d1%8e%d1%87%d0%b0%d1%82%d1%8c-%d0%b2%d1%81%d0%b5-%d0%be%d0%b1%d1%80%d0%b0%d0%b1%d0%be%d1%82%d0%ba%d0%b8-vite",
+		"tags": [
+			"node.js",
+			"typescript",
+			"vite"
+		],
+		"views": 61,
+		"is_answered": false,
+		"$type": "StackOverflowQuestionActivity"
+	},
+	{
+		"platform": "Stack overflow",
+		"timestamp": 1765459799000,
+		"title": "Странные метрики GA4",
+		"body": "<h2>Описание</h2>\n<p>Устанавливаю скрипт для сбора аналитики. Гугл предлагет вот это сразу в <code>&lt;head&gt;</code> страницы:</p>\n<pre class=\"lang-html prettyprint-override\"><code>&lt;script async src=&quot;https://www.googletagmanager.com/gtag/js?id=G-ID&quot;&gt;&lt;/script&gt;\n&lt;script&gt;\n    window.dataLayer = window.dataLayer || [];\n    function gtag() { dataLayer.push(arguments); }\n    gtag('js', new Date());\n    gtag('config', 'G-ID');\n&lt;/script&gt;\n</code></pre>\n<p>Не очень люблю засорять <code>&lt;head&gt;</code>, создаю простой скрипт, чтобы делал вышеуказанное:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>&quot;use strict&quot;;\n\ndeclare global {\n    export interface Window {\n        dataLayer?: any[];\n    }\n}\n\nconst id = &quot;G-ID&quot;;\n\nfunction gtag(layer: any[], ...args: any[]): void {\n    layer.push(args);\n}\n\nwindow.dataLayer = window.dataLayer || [];\ngtag(window.dataLayer, &quot;js&quot;, new Date());\ngtag(window.dataLayer, &quot;config&quot;, id);\n\nconst script = document.head.appendChild(document.createElement(&quot;script&quot;));\nscript.async = true;\nscript.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;\n</code></pre>\n<p>И подключаю так же в <code>&lt;head&gt;</code>:</p>\n<pre class=\"lang-html prettyprint-override\"><code>&lt;script type=&quot;module&quot; src=&quot;./services/analytics-service.ts&quot;&gt;&lt;/script&gt;\n</code></pre>\n<h2>Проблема</h2>\n<p>Аналитика собирается 1-2 раза и стоит тупо на 0... всегда. Уже неделя прошла и полный 0. Даже когда я захожу через ПК и телефон с отключенным Tracking prevention, все равно не регистрирует.</p>\n<h2>Вопрос</h2>\n<p>Что не так у моего скрипта?<br />\nПочему сбор останавливается?</p>\n",
+		"score": 2,
+		"url": "https://ru.stackoverflow.com/questions/1622198/%d0%a1%d1%82%d1%80%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5-%d0%bc%d0%b5%d1%82%d1%80%d0%b8%d0%ba%d0%b8-ga4",
+		"tags": [
+			"typescript",
+			"google-analytics"
+		],
+		"views": 85,
+		"is_answered": true,
+		"$type": "StackOverflowQuestionActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1765715623000,
+		"title": "Give It To Dem",
+		"artists": [
+			"Skan",
+			"Drama B",
+			"Highdiwaan"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273a1ec622b76f2a89009ca0ca5",
+		"url": "https://open.spotify.com/track/0SgIqozTDJNmyRQH1348UZ",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1766257799000,
+		"title": "F1 - Symphonic Version",
+		"artists": [
+			"Imperial Orchestra"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27368e5b0e4805f46b71617c3c8",
+		"url": "https://open.spotify.com/track/6Cb1rKHcpfGMsvAIW2HRgi",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1766525107000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/aaab8116d5605e85b3fad8d9a302f0df06a5c560.jpg",
+		"title": "On Fleek",
+		"description": "Equip purple-rated gear or better in every slot.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1766525342000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/ae5fc1985199f7af045634d1c9f19fcb8f439a4e.jpg",
+		"title": "Heir To An Empty Castle",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1766673983000,
+		"title": "Where'd You Go",
+		"artists": [
+			"2nd Life",
+			"RYVN"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737e15e0f49f5f8aab47ef8cd5",
+		"url": "https://open.spotify.com/track/7xukLsvxV5raJ1xBIlg26H",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1766851860000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/74644bb234de625b7fe80e521e900d8fc3d7d9cc.jpg",
+		"title": "Dropping Loads",
+		"description": "Win a live grenade at a Slot Machine.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1766852052000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/4fa2f74efaef0c7541e2f8d9830b226f64b502e8.jpg",
+		"title": "Tips Appreciated",
+		"description": "Tip Moxxi.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1766862672000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f10c0f74b4b223f0cfe16d68d11c971a0b22b1f6.jpg",
+		"title": "I Hope You Didn't Tea-bag",
+		"description": "Win a duel.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1766951385000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5b00d96948b169d95846b242aade921c2755de84.jpg",
+		"title": "Swamped",
+		"description": "Discover all named locations on Eden-6.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Telegram",
+		"timestamp": 1767001650000,
+		"channel_id": -1003471238866,
+		"message_id": 2,
+		"file_name": "2.jpg",
+		"media_type": "photo",
+		"content": null,
+		"$type": "TelegramMediaPostActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767035037000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ed2d08f4f65a4c66d9af48a925c1b2a0be04e3b7.jpg",
+		"title": "Work Experience",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767036416000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/6e407474aa59188d1176d03a414e9a06f4844927.jpg",
+		"title": "Chump Change",
+		"description": "Spend $1",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767043553000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/8f0eee4b8ee2dd7f82c521dcaa6cfba7da4b169b.jpg",
+		"title": "Poltergeist Discovered",
+		"description": "Successfully identify your first Poltergeist and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767043553000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/ee94ee6a058807c8bb712750f6a8b5ea053f5c01.jpg",
+		"title": "Revenant Discovered",
+		"description": "Successfully identify your first Revenant and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Telegram",
+		"timestamp": 1767045834000,
+		"channel_id": -1003471238866,
+		"message_id": 3,
+		"file_name": "3.jpg",
+		"media_type": "photo",
+		"content": null,
+		"$type": "TelegramMediaPostActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1767085211000,
+		"title": "SKORN - Slowed",
+		"artists": [
+			"VUKEINE"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2737bdfaa725cbbfa6cba502fcd",
+		"url": "https://open.spotify.com/track/0P9InPWq1e6wvGzQz7XCmG",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767120428000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/c68cb898a26bed8e947984cd48ea1a3dcb7a5939.jpg",
+		"title": "Yokai Discovered",
+		"description": "Successfully identify your first Yokai and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767124245000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/fa94d0e7a3ba509826754e962e603d7bd6f90f51.jpg",
+		"title": "Raiju Discovered",
+		"description": "Successfully identify your first Raiju and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767287040000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/5d1f14dd932b7bb381b5a4083740da923e712668.jpg",
+		"title": "Eternal Return",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767290624000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/b61cf1bf211ae9493e556949d6b4b39f6410a4ec.jpg",
+		"title": "Banshee Discovered",
+		"description": "Successfully identify your first Banshee and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767291972000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/645bebb0bcd8cd03fdad714d01d13ed13aa43eba.jpg",
+		"title": "Cryptic Messages",
+		"description": "Scan a Xenoglyph",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767291972000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/07e045e5b8f3cdb463e078299484c95485d5a5b1.jpg",
+		"title": "Welcome Home",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767294760000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/70ae7720e760a0488700103300c49578f35332ba.jpg",
+		"title": "Oni Discovered",
+		"description": "Successfully identify your first Oni and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767296470000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/169d7023c389aa2507e25a932fc9526a9c5e21a4.jpg",
+		"title": "Myling Discovered",
+		"description": "Successfully identify your first Myling and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767298207000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/74b25aa3b137110bbbb4d9f76a6520a048ef36f2.jpg",
+		"title": "Thaye Discovered",
+		"description": "Successfully identify your first Thaye and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767299278000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/31d490c691d4bd99a4e78b34163f5f186109185c.jpg",
+		"title": "Mare Discovered",
+		"description": "Successfully identify your first Mare and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1767396687000,
+		"title": "Hay Zinvor",
+		"artists": [
+			"Lilit Karapetyan"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273601dc11ad45002f8043b839b",
+		"url": "https://open.spotify.com/track/1Yk7DLLwxqKK5PHA3YVKZp",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767463709000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/7b8a8b757498b25fabcc3af21226330dab83d7d8.jpg",
+		"title": "Atropian Survival",
+		"description": "Learn the basics of survival on Atropos",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767465609000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/c71aee624e9efd12d06c0f4f930a8e51bf70f404.jpg",
+		"title": "Second Chance",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767469304000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/260e7e4c4b769bbc4427a0ce3b74b192a73c49b6.jpg",
+		"title": "Adrenaline Spike",
+		"description": "Achieve maximum Adrenaline Level",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767472369000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/2afaa2bccb84ebbde4af968286aaad6eb44aa2ae.jpg",
+		"title": "A Shadow in the Fog",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767545788000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/a9a2fdf6037e17bb1d89046c09f1e707f93a97e2.jpg",
+		"title": "Alternate Fates",
+		"description": "Retrieve 10 Scout Logs",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767546216000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/e15f8c892901d462e2c3541635a9f1174a21acf5.jpg",
+		"title": "Surgical Precision",
+		"description": "Perform 5 successful Overloads in a row",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767546526000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/3a58ba10f4c25f7633e4072a7bef0f80f921bc55.jpg",
+		"title": "Cryptic Translations",
+		"description": "Unlock all translation tiers of a Xenoglyph",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Telegram",
+		"timestamp": 1767576479000,
+		"channel_id": -1003471238866,
+		"message_id": 5,
+		"file_name": "5.jpg",
+		"media_type": "photo",
+		"content": null,
+		"$type": "TelegramMediaPostActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767732779000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/544966677904670c1e3f008eff07c445468b88b3.jpg",
+		"title": "Cross The Streamers",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767733150000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f9c426c01b6fed8184ad35ef8baf170914c8f1c3.jpg",
+		"title": "Stay Golden",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1767769039000,
+		"title": "Gathering Coven",
+		"artists": [
+			"Caster"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273dfddac921145f52153c28a91",
+		"url": "https://open.spotify.com/track/223TKhq1KvVayHmT6H7XtW",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1767769055000,
+		"title": "Calvaire",
+		"artists": [
+			"Code: Pandorum"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732f7d14eaa4d6fc91ce534b15",
+		"url": "https://open.spotify.com/track/64GgSqv4B2pUtN3IW1g0Dc",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1767769069000,
+		"title": "Plasma Storm",
+		"artists": [
+			"Beds and Beats"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273ad6f50983e7f93b6accc322b",
+		"url": "https://open.spotify.com/track/727cQTYfamvvC8Udcffdyf",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767818264000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/3dd2f628679050abc3be029098d6cdc969ba730b.jpg",
+		"title": "Risk Assessment",
+		"description": "Finish Calculated Risk",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Stack overflow",
+		"timestamp": 1767825118000,
+		"title": "Странные метрики GA4",
+		"body": "<h2>Что не так у моего скрипта?</h2>\n<p>У скрипта все в порядке, проблема в костылях Google.<br />\nДело в том, что для корректной работы GA4 необходимо не только наличие <code>window.dataLayer</code>, но и функция <code>window.gtag(...args: any[]): void;</code>. Именно через эту функцию отправляются данные.</p>\n<p>Когда мы просто вставляем в head...</p>\n<pre class=\"lang-ts prettyprint-override\"><code>window.dataLayer = window.dataLayer || [];\nfunction gtag() { dataLayer.push(arguments); }\ngtag('js', new Date());\ngtag('config', 'G-ID');\n</code></pre>\n<p>... то функция становится доступной в глобальном объекте <code>window</code>. Однако, если мы выполняем те же действия в модуле, функция остается в контексте этого модуля, и скрипт GA4 его не видит.</p>\n<h2>Почему сбор останавливается?</h2>\n<p>Далее по сценарию, первые два запроса выглядят так:</p>\n<pre class=\"lang-ts prettyprint-override\"><code>gtag(window.dataLayer, &quot;js&quot;, new Date());\ngtag(window.dataLayer, &quot;config&quot;, id);\n</code></pre>\n<p>А все остальные запросы просто не проходят по вышеуказанным причинам. После этого GA4 начинает фиксировать пустые данные без действий и считает это ложными срабатываниями, тем самым игнорируя последующие данные.</p>\n<h2>Как это исправить?</h2>\n<p>Всего лишь...</p>\n<pre class=\"lang-ts prettyprint-override\"><code>declare global {\n    export interface Window {\n        dataLayer: any[];\n        gtag(...args: any[]): void;\n    }\n}\n\nwindow.dataLayer = window.dataLayer ?? [];\nwindow.gtag = function (): void {\n    window.dataLayer.push(arguments);\n};\n\nconst id = &quot;G-ID&quot;;\n\nwindow.gtag(&quot;js&quot;, new Date());\nwindow.gtag(&quot;config&quot;, id);\n\nconst script = document.head.appendChild(document.createElement(&quot;script&quot;));\nscript.async = true;\nscript.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;\n</code></pre>\n",
+		"score": 0,
+		"url": "https://ru.stackoverflow.com/questions/1622198/%d0%a1%d1%82%d1%80%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5-%d0%bc%d0%b5%d1%82%d1%80%d0%b8%d0%ba%d0%b8-ga4/1623701#1623701",
+		"is_accepted": true,
+		"$type": "StackOverflowAnswerActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1767888652000,
+		"title": "Fragments",
+		"artists": [
+			"King Of None"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2733f2026dd0eb52c20c6d18df1",
+		"url": "https://open.spotify.com/track/5S4L6Bimxr2veUlHnSwhx1",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1767981656000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/7179fd0e9b5ca91bd5e865961ff6ddeb1f17249a.jpg",
+		"title": "Rewards Card",
+		"description": "Earn a Loyalty Package from each weapon manufacturer.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768060082000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a0a5679f54b702b82a0a2d81d1826eae66016042.jpg",
+		"title": "Apocalypso!",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768065483000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/cba8bb0ceb868eeaa74e7d6bcf17d0f48692c65f.jpg",
+		"title": "My Name Is Earl",
+		"description": "Buy 20 cosmetic items from Crazy Earl.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768066068000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b99eef0fbed070279d89e3c4358bd3cd83c84559.jpg",
+		"title": "Tales From The Eridian Slab",
+		"description": "Decipher all of the Eridian Slabs.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768075704000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/cc56589c066bc7ef7196a5aa1a725f464c3bbaed.jpg",
+		"title": "Goryo Discovered",
+		"description": "Successfully identify your first Goryo and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768075725000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/0d8c5c8ff15a3f1a4b0394413c7a843dc296ae04.jpg",
+		"title": "Rookie",
+		"description": "Complete 10 contracts",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768075994000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/7198cdb15c3e3e4b7963e372635461ae1b8d0fa7.jpg",
+		"title": "Spirit Discovered",
+		"description": "Successfully identify your first Spirit and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768076755000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/95c491517cb7037d296c5f3bb002f3cd79859dd1.jpg",
+		"title": "Phantom Discovered",
+		"description": "Successfully identify your first Phantom and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768078188000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/1757ad92e164428122ecaa6eeaff11e2d96d40a8.jpg",
+		"title": "Shade Discovered",
+		"description": "Successfully identify your first Shade and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768082536000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/e769ac90c013236cc9a42318112c3186c597148e.jpg",
+		"title": "Onryo Discovered",
+		"description": "Successfully identify your first Onryo and survive",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768161044000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/bb2fd29b1a7269febb3012bda8d59ea41a96d824.jpg",
+		"title": "Convection Refinement",
+		"description": "Ruin the microwave casserole.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768161246000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/10a60fce128f3b65bd6ca012daf8957c5314ed0c.jpg",
+		"title": "Brownian Motion",
+		"description": "Pass the toilet paper to the Scientist in need.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768163289000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/2a8a17a9fe58ba8aa987e60b0d8f9f5afdc91d3e.jpg",
+		"title": "Inflammatory Actions",
+		"description": "Kill a Headcrab using fire.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768166964000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/902ad4cdd1433bc56ecd9590db10d1aad5753903.jpg",
+		"title": "Caffeine Extraction",
+		"description": "Perform surgical caffeine extraction from 20 vending machines.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768169782000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5448028b896d9a4360e0abc6471e6aac00ca4502.jpg",
+		"title": "Biggest Badass In The Borderlands",
+		"description": "Reach level 50.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1768231377000,
+		"title": "Black and Yellow (feat. Juicy J, Snoop Dogg & T-Pain) - G-Mix [G-Mix]",
+		"artists": [
+			"Wiz Khalifa",
+			"Juicy J",
+			"Snoop Dogg",
+			"T-Pain"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273fd84fedd1859fb54ea900f43",
+		"url": "https://open.spotify.com/track/7EWaWcYUdatuLQQ7NJjh1O",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768252551000,
+		"game": "Black Mesa",
+		"webpage": "https://store.steampowered.com/app/362890",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/362890/3ec1d642a0b1d913a5bd494c2c0f3a64d354dd02.jpg",
+		"title": "Digital Wizardry",
+		"description": "Kill 10 enemies with a reprogrammed Sentry.",
+		"url": "https://steamcommunity.com/stats/362890/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1768374824000,
+		"title": "Twilight Empress",
+		"artists": [
+			"Celestial Void"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2739bbb03fbccee2eb37b0017b2",
+		"url": "https://open.spotify.com/track/6du4H42s6SZbNjMkbOeiaJ",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768500858000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/1a6617d111960c5d5cb816ef475a16ed70bed7bf.jpg",
+		"title": "Ascension",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768680150000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/ef5e5994a5f289c27fc5d2e8ee88cdfcaca80fff.jpg",
+		"title": "Florida Man",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768690833000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b240a30e93e20ac89a6662dda5693ab6d05ad8e5.jpg",
+		"title": "Damn, Gina",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768691374000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/8b651d0d3a3344b062b89cf7f2cb2c647ee44947.jpg",
+		"title": "Zer0ed In",
+		"description": "Defeat all of Zer0's Targets of Opportunity.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768768068000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/dee6388b6ecd469e399e13e8443408cdbf765291.jpg",
+		"title": "Eternal Ascent",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768768518000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/cca532c0684e7088b79cbe8fb595fe6d94e08a47.jpg",
+		"title": "Broken, Restored, Empty",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768776959000,
+		"game": "Returnal™",
+		"webpage": "https://store.steampowered.com/app/1649240",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1649240/d58479400831b5b60c475476126833ce53a892ce.jpg",
+		"title": "Visions of the Past",
+		"description": "Complete a Xeno-archive set (excluding Tower of Sisyphus)",
+		"url": "https://steamcommunity.com/stats/1649240/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1768783554000,
+		"title": "The Sown",
+		"artists": [
+			"Celestial Void",
+			"IVEEN",
+			"Nightlark"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2739bbb03fbccee2eb37b0017b2",
+		"url": "https://open.spotify.com/track/0m6Oxh1Umanz547cfnLbQV",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768942470000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/06a93118c349d13328a1e40bf7b072be13bb63dd.jpg",
+		"title": "Exoarchaeolo—You Get The Gist",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768942594000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/59b522503bd8a1e8693e020f15ff756079a0fbbb.jpg",
+		"title": "Got Big Game",
+		"description": "Defeat all of Hammerlock's Legendary Hunts.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

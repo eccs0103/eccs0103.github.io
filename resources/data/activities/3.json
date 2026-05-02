@@ -206,5 +206,16 @@
 		"tag_name": "0.5.0",
 		"is_prerelease": false,
 		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777747939000,
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/b8ee65cd65aaa641b46c4088a21eed493af5ca38.jpg",
+		"title": "Flawless Execution",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

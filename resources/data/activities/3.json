@@ -228,5 +228,38 @@
 		"description": "Return for a chat with the Clapstructor.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777931281000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/82fa77fef53472e2caf2202d0001640b22e914b9.jpg",
+		"title": "Killer Look",
+		"description": "Complete the Mayor's outfit.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777931388000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/900eca253336b33e887b0bc32b41eb0f9f19a3b5.jpg",
+		"title": "Firebug",
+		"description": "Sabotage all statues for Ember.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1777931522000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/23391d4380dfccd36844d5752c5f68cba032303f.jpg",
+		"title": "Scovillain",
+		"description": "Destroy all of Mr. Torgue's hot sauces.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

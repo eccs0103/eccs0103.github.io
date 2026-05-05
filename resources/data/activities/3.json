@@ -307,5 +307,16 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b27305648ef5fb8bd2dd7b70317b",
 		"url": "https://open.spotify.com/track/4ICjHayXFUym4Xu9xq71gE",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1778017377000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/96b9d0c95bc80867a61a2870c6ddec9ab424f728.jpg",
+		"title": "Gun Fu",
+		"description": "Kill or incapacitate 3 enemies in quick succession with a revolver or pistol in close combat.",
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

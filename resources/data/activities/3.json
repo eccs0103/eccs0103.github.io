@@ -272,5 +272,40 @@
 		"description": "Complete mission “All Bets Off”.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1778007515000,
+		"title": "Minor",
+		"artists": [
+			"Mari Sarg",
+			"Naret"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27347f45ccaaa207aea35cac0c2",
+		"url": "https://open.spotify.com/track/6x8jarv03TvOIYLbOgbPIQ",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1778007523000,
+		"title": "Я тебе кохаю",
+		"artists": [
+			"MOHSEN"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273e00161af14a1b8096cede364",
+		"url": "https://open.spotify.com/track/3PrPGIXi0rT0UKh2Cp8Iqc",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1778007548000,
+		"title": "Shadows of Despair",
+		"artists": [
+			"Through The Angel's Eye",
+			"W!CKED"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27305648ef5fb8bd2dd7b70317b",
+		"url": "https://open.spotify.com/track/4ICjHayXFUym4Xu9xq71gE",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

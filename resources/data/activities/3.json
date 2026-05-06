@@ -274,8 +274,19 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
+		"platform": "Steam",
+		"timestamp": 1778017377000,
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/96b9d0c95bc80867a61a2870c6ddec9ab424f728.jpg",
+		"title": "Gun Fu",
+		"description": "Kill or incapacitate 3 enemies in quick succession with a revolver or pistol in close combat.",
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
 		"platform": "Spotify",
-		"timestamp": 1778007515000,
+		"timestamp": 1778051534000,
 		"title": "Minor",
 		"artists": [
 			"Mari Sarg",
@@ -287,7 +298,7 @@
 	},
 	{
 		"platform": "Spotify",
-		"timestamp": 1778007523000,
+		"timestamp": 1778051541000,
 		"title": "Я тебе кохаю",
 		"artists": [
 			"MOHSEN"
@@ -298,7 +309,7 @@
 	},
 	{
 		"platform": "Spotify",
-		"timestamp": 1778007548000,
+		"timestamp": 1778051548000,
 		"title": "Shadows of Despair",
 		"artists": [
 			"Through The Angel's Eye",
@@ -309,14 +320,14 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "Steam",
-		"timestamp": 1778017377000,
-		"game": "Cyberpunk 2077",
-		"webpage": "https://store.steampowered.com/app/1091500",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/96b9d0c95bc80867a61a2870c6ddec9ab424f728.jpg",
-		"title": "Gun Fu",
-		"description": "Kill or incapacitate 3 enemies in quick succession with a revolver or pistol in close combat.",
-		"url": "https://steamcommunity.com/stats/1091500/achievements",
-		"$type": "SteamAchievementActivity"
+		"platform": "Spotify",
+		"timestamp": 1778051554000,
+		"title": "Glitch",
+		"artists": [
+			"Bronik Beats"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2730492935e47f2e15c07020571",
+		"url": "https://open.spotify.com/track/05SbY2LtKYleDS8MERqhZd",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

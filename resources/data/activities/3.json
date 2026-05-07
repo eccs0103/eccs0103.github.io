@@ -403,5 +403,34 @@
 		"repository": "vscode-quartz",
 		"sha": "181f7cf1a9dd41eeb4254e878d1bbac701310c67",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1778181338000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "41a45c8828a5b95d6f7be726be54d94edabc44f2",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1778181343000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "bd8d5e574f260b52d0b973b79eb31a1a126af3aa",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1778186833000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"title": "0.5.1",
+		"tag_name": "0.5.1",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

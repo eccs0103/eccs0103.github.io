@@ -1,17 +1,6 @@
 [
 	{
 		"platform": "Steam",
-		"timestamp": 1768943124000,
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/9c8b7a0d223d3dad59d0f03930f43646dcdc4f1c.jpg",
-		"title": "I Am A Goddess, A Glorious Female Warrior",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
 		"timestamp": 1768946376000,
 		"game": "Borderlands 3",
 		"webpage": "https://store.steampowered.com/app/397540",
@@ -1084,6 +1073,17 @@
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/d96d9d4827f41c47ca353a5444b82e18df1b6656.jpg",
 		"title": "Sticky Situation",
 		"description": "Kill 70 slimes.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1774115877000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/ecec93c8f3873daed90ef36fe0b51fe7ea0d0528.jpg",
+		"title": "Big Spender",
+		"description": "Use the slot machine 77 times.",
 		"url": "https://steamcommunity.com/stats/1605250/achievements",
 		"$type": "SteamAchievementActivity"
 	}

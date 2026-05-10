@@ -180,18 +180,6 @@
 	},
 	{
 		"platform": "Spotify",
-		"timestamp": 1763804098000,
-		"title": "NO BATIDÃO - Slowed",
-		"artists": [
-			"ZXKAI",
-			"slxughter"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2737bff89cf90806ae22a6b72df",
-		"url": "https://open.spotify.com/track/72YttnPRxyHe8zCG50jYhj",
-		"$type": "SpotifyLikeActivity"
-	},
-	{
-		"platform": "Spotify",
 		"timestamp": 1764020425000,
 		"title": "Impossible",
 		"artists": [
@@ -1119,6 +1107,17 @@
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/59b522503bd8a1e8693e020f15ff756079a0fbbb.jpg",
 		"title": "Got Big Game",
 		"description": "Defeat all of Hammerlock's Legendary Hunts.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1768943124000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/9c8b7a0d223d3dad59d0f03930f43646dcdc4f1c.jpg",
+		"title": "I Am A Goddess, A Glorious Female Warrior",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	}

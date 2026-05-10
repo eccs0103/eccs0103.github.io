@@ -1,15 +1,6 @@
 [
 	{
 		"platform": "GitHub",
-		"timestamp": 1777054852000,
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/vscode-quartz",
-		"repository": "vscode-quartz",
-		"sha": "ecbd966eedc81f6945b4d5a9c8bfdef9c5343389",
-		"$type": "GitHubPushActivity"
-	},
-	{
-		"platform": "GitHub",
 		"timestamp": 1777054857000,
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/vscode-quartz",

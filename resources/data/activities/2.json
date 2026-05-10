@@ -1,17 +1,6 @@
 [
 	{
 		"platform": "Steam",
-		"timestamp": 1774115877000,
-		"game": "Moros Protocol",
-		"webpage": "https://store.steampowered.com/app/1605250",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/ecec93c8f3873daed90ef36fe0b51fe7ea0d0528.jpg",
-		"title": "Big Spender",
-		"description": "Use the slot machine 77 times.",
-		"url": "https://steamcommunity.com/stats/1605250/achievements",
-		"$type": "SteamAchievementActivity"
-	},
-	{
-		"platform": "Steam",
 		"timestamp": 1774116090000,
 		"game": "Moros Protocol",
 		"webpage": "https://store.steampowered.com/app/1605250",
@@ -988,6 +977,15 @@
 		"url": "https://github.com/eccs0103/vscode-quartz",
 		"repository": "vscode-quartz",
 		"sha": "d94397b91ef6c69ad1145a1e0887e4c4e8a01c67",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054852000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "ecbd966eedc81f6945b4d5a9c8bfdef9c5343389",
 		"$type": "GitHubPushActivity"
 	}
 ]

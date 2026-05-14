@@ -461,5 +461,17 @@
 		"tag_name": "0.6.0",
 		"is_prerelease": false,
 		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1778775936000,
+		"title": "In These Shadows",
+		"artists": [
+			"Fytch",
+			"Carmen Forbes"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273b081fbbef121b285d5bba4cf",
+		"url": "https://open.spotify.com/track/5fQajWfN2Bv51u1aEu6Pfp",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

@@ -76,6 +76,17 @@
 		"$type": "GitHubReleaseActivity"
 	},
 	{
+		"platform": "Steam",
+		"timestamp": 1778272771000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/90bae5373363a400fcffe70c90fe6287fa5d36fd.jpg",
+		"title": "Complex Made Simple",
+		"description": "Explore the entire Stormblind Complex.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
 		"platform": "GitHub",
 		"timestamp": 1778465013000,
 		"username": "eccs0103",
@@ -112,6 +123,17 @@
 		"tag_name": "0.6.0",
 		"is_prerelease": false,
 		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1778697698000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/e8514a5937752659d35232adc13f7ed011b7f2c2.jpg",
+		"title": "Stone Cold Killer",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	},
 	{
 		"platform": "Spotify",

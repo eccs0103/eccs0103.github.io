@@ -370,6 +370,51 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
+		"platform": "GitHub",
+		"timestamp": 1776339114000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "8a41dd332a5ed652f9c3b7f82a4fcb20f9709f71",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776339178000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "b3840a5e0c83b6de3aa80e39f1b4ee74476925e5",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776341879000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "401336c2ee8f7ab7fb790630b7f3f9505fd55dcd",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776342129000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "d1cd08a4911a4eaa5f7ebc7f9ce609be123b3fd5",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776344749000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"sha": "4c62be95d1d3cef29df9d0e3f82e0f9f204e8629",
+		"$type": "GitHubPushActivity"
+	},
+	{
 		"platform": "Steam",
 		"timestamp": 1776628700000,
 		"game": "Operation Tango",
@@ -481,6 +526,177 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
+		"platform": "GitHub",
+		"timestamp": 1776864925000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"name": "enhanced-intellisense",
+		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776882349000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "e6f788bb667d77bb1b87810536598dcc38b75717",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776882353000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "05e72bde096bbd44cbd6d1bfbe8fc976d222723d",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776897555000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "d34271d6f84915ef710cd41dd8c23cac6bf4df68",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776897559000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "d36153065a1def90cb5066bf990a26d66a0aa049",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776897563000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "fa5773cecd79d2d6aac89a4628007ac616fd7cf0",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776897567000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "3335ad6d76da601fb608f9b45157b26ee2aa209b",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776961387000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "4f39041a076491c3ba20c822b7df49667dc9a8cc",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776961391000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "f8e3711dab62eac0eeb523a1dee637c900069f17",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776961396000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "1ea9a7a0004b8ddb75b89070147b0658ec29c0ba",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1776961400000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "018a60195012a04ee4f8a04c0251171d5e96dfeb",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054829000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "2a032e3f7ffceff23c34e432427971317948a57e",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054834000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "c590a484c7db81e2160fbecaa4219fbcac41e59f",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054838000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "fc2cb49fe3d97491c4d3513e4e370ec1ecd9440c",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054843000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "65c5dc4a58aa6d41b2ebba800ae382cc4987b89a",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054848000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "d94397b91ef6c69ad1145a1e0887e4c4e8a01c67",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054852000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "ecbd966eedc81f6945b4d5a9c8bfdef9c5343389",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777054857000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "91bb7c54bcb46b856472721dcd18c1080d8feede",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777060163000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "88389b008c349b846978b56ce810af4fd83aa985",
+		"$type": "GitHubPushActivity"
+	},
+	{
 		"platform": "Steam",
 		"timestamp": 1777063635000,
 		"game": "Operation Tango",
@@ -512,6 +728,33 @@
 		"description": "Complete Big-Bang Theory as a hacker",
 		"url": "https://steamcommunity.com/stats/1335790/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777075422000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "887f806c92616c50d45c1fd8f68b8d8e0dbef175",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777075426000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "bcb237dada5af5e57c1fca608bf37062a3c30c6f",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777075430000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "3372fd7fd606ac4ab1dc305b8d339580c588ce72",
+		"$type": "GitHubPushActivity"
 	},
 	{
 		"platform": "Steam",
@@ -547,6 +790,15 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
+		"platform": "GitHub",
+		"timestamp": 1777294472000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "86accd580a9d8dd0283ee284bbae2a81b9b1881d",
+		"$type": "GitHubPushActivity"
+	},
+	{
 		"platform": "Steam",
 		"timestamp": 1777491040000,
 		"game": "Phasmophobia",
@@ -577,6 +829,53 @@
 		"media_type": "photo",
 		"content": null,
 		"$type": "TelegramMediaPostActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777588001000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "e8b63e44ff8739972b633ce9597a94bf48f517a4",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777588812000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "fdce3966e28c70d0a40831131b580b720793f4e0",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777588847000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"sha": "fdce3966e28c70d0a40831131b580b720793f4e0",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777588859000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"name": "enhanced-intellisense",
+		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1777588895000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/vscode-quartz",
+		"repository": "vscode-quartz",
+		"title": "0.5.0",
+		"tag_name": "0.5.0",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
 	},
 	{
 		"platform": "Steam",
@@ -702,15 +1001,30 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"platform": "Spotify",
-		"timestamp": 1778775936000,
-		"title": "In These Shadows",
-		"artists": [
-			"Fytch",
-			"Carmen Forbes"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b273b081fbbef121b285d5bba4cf",
-		"url": "https://open.spotify.com/track/5fQajWfN2Bv51u1aEu6Pfp",
-		"$type": "SpotifyLikeActivity"
+		"platform": "GitHub",
+		"timestamp": 1778092164000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "256e4ee0694483a6b2e6cb89b4355a73d760210f",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1778092170000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "2bf00c596294d9b30539b74cf55be646a137129a",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1778092985000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/quartz",
+		"repository": "quartz",
+		"sha": "64c66db41782c7a7bb9396c92dd15642ae1e1450",
+		"$type": "GitHubPushActivity"
 	}
 ]

@@ -256,5 +256,16 @@
 		"repository": "Visualizer",
 		"sha": "b59e98877df5f32b5bfc50c7f4dc89c8d05e3cdf",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1779633321000,
+		"title": "Specter",
+		"artists": [
+			"Bad Omens"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273291facfe6e704c2a78d36782",
+		"url": "https://open.spotify.com/track/5krhWYmWIKJhI96deUujm8",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

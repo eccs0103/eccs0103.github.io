@@ -655,9 +655,9 @@
 		"timestamp": 1780227479000,
 		"game": "Borderlands 3",
 		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5babbe20a009073ea29d7c001a9589aa96d43358.jpg",
-		"title": "Master Of All You Survey",
-		"description": "Discover all named locations.",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f3fffe1e954909547a3b072ac1a60c4aac4815f7.jpg",
+		"title": "City Slicker",
+		"description": "Discover all named locations on Promethea.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	},
@@ -666,9 +666,20 @@
 		"timestamp": 1780227479000,
 		"game": "Borderlands 3",
 		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f3fffe1e954909547a3b072ac1a60c4aac4815f7.jpg",
-		"title": "City Slicker",
-		"description": "Discover all named locations on Promethea.",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5babbe20a009073ea29d7c001a9589aa96d43358.jpg",
+		"title": "Master Of All You Survey",
+		"description": "Discover all named locations.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1780232791000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/0243d0bec6a4ed99670b2cf5fc29de4b39d3b625.jpg",
+		"title": "Ye Who Enter",
+		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	}

@@ -638,5 +638,16 @@
 		"repository": "visualizer",
 		"sha": "037ee35977cdc7f89f74bba9f55b65bc68c8c649",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1780225461000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/91c491962e4c1f3844150b524627e12e169e8ad8.jpg",
+		"title": "A Hundred Names For Sand",
+		"description": "Discover all named locations on Pandora.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

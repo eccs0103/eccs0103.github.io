@@ -917,5 +917,25 @@
 		"repository": "visualizer",
 		"sha": "07ed8c2aa17cd70186a723b9eb412a8181ee2618",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1780695082000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "0afa994ed72a7aea415d42c7a8e846650bc95564",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1780695157000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"title": "0.10.3",
+		"tag_name": "0.10.3",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

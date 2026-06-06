@@ -54,5 +54,16 @@
 		"repository": "visualizer",
 		"sha": "ac284a5c9942ba967f55a8ca01a4bd7362c97cee",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1780777726000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/c6b0d535eb2179bfe5773dd3b67f8dc3e5ccb15b.jpg",
+		"title": "It's A Wash",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

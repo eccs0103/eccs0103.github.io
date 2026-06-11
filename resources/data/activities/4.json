@@ -87,5 +87,38 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1781168953000,
+		"title": "Lunae",
+		"artists": [
+			"Animadrop"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27308f3df162fdd3de150885f4c",
+		"url": "https://open.spotify.com/track/2x3Fos90NGmwNyGrzlDte8",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1781168966000,
+		"title": "Ein Sof",
+		"artists": [
+			"Arkana"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732044687678a5ee5a46576be8",
+		"url": "https://open.spotify.com/track/5n61zg8XyBFQOYnWscosYZ",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1781170688000,
+		"title": "Дорога дальняя",
+		"artists": [
+			"Jakone"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2735f706b57219abe4d0e75643d",
+		"url": "https://open.spotify.com/track/5YNKCRZA5rU0TK3gAzwTo5",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

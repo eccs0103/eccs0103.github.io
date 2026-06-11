@@ -120,5 +120,16 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b2735f706b57219abe4d0e75643d",
 		"url": "https://open.spotify.com/track/5YNKCRZA5rU0TK3gAzwTo5",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781203125000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/95dcdd86c3717971cff5e1dd3b86c0f585cf7175.jpg",
+		"title": "Bounty: Hunted",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

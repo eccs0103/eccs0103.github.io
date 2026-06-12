@@ -131,5 +131,137 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781294877000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"title": "0.10.4",
+		"tag_name": "0.10.4",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781296517000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "e30aed98038a0f937b31b614db4aa56f4e22ad44",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781296522000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "c909102ca7dde526a46d28dbb92209dbf24869e8",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781296526000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "3a3a893d6c6b46a0352a4c448ee1c81dce8206b1",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781296688000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "9941b5c850e975df437ac253b6dad821218591d1",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298793000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "f2259cd361a19b38a6f331286c660b9265735953",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298798000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "29238f9aa083110f61784f700fa66c1b8bcf64b8",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298804000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "0f08b37b8d1406271778d75cd106ff88be8be97e",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298809000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "eeac49dafcc3ae439a4691804141fd93d2223019",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298815000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "4a220cf5396348d24ca630f5f8c21033491f3e96",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298821000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "4d2f730255cbd89e2f085600ae253b8293332ca8",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298826000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"sha": "7f538226ee9262bf0f75d49e06f94290ab40d4ad",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298909000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"title": "0.10.5",
+		"tag_name": "0.10.5",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1781298963000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/claude-cli-status-line",
+		"repository": "claude-cli-status-line",
+		"title": "1.1.0",
+		"tag_name": "1.1.0",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

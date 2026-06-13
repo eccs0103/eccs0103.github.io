@@ -337,5 +337,16 @@
 		"repository": "visualizer",
 		"sha": "b6a66865257c413ec717be2356572757562700cf",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781386467000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/f1c1bbdd98fd6311f1f15c403e063be5b04242e5.jpg",
+		"title": "Ruin On The Horizon",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -354,8 +354,8 @@
 		"timestamp": 1781388626000,
 		"game": "Borderlands 3",
 		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a564d8629ad6d43354f5a6438f05c165382a5f6e.jpg",
-		"title": "That's Quite Challenging",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/62db76e60a59f58f42a4b287cbb181b6b2ca062b.jpg",
+		"title": "How The West Was Done",
 		"description": null,
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
@@ -365,9 +365,53 @@
 		"timestamp": 1781388626000,
 		"game": "Borderlands 3",
 		"webpage": "https://store.steampowered.com/app/397540",
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/62db76e60a59f58f42a4b287cbb181b6b2ca062b.jpg",
-		"title": "How The West Was Done",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a564d8629ad6d43354f5a6438f05c165382a5f6e.jpg",
+		"title": "That's Quite Challenging",
 		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781394790000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/c63027b09e17ce6e561c77de4ec5a7636c468275.jpg",
+		"title": "Good One, Babe",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781395285000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/a1f7574580bb3dd0bfd77d02f3b01cf37b9c4df9.jpg",
+		"title": "Whispers On The Wind",
+		"description": "Collect all ECHO logs on Xylourgos.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781395766000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/918640f0009f2d9060e9e27a8f86dc475311eb48.jpg",
+		"title": "I'm Floudering Up Here",
+		"description": "Listen to 25 fish jokes.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781398028000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/5faea3758d7ea589c0ae31bb16a03c63f803bbd7.jpg",
+		"title": "Might Beyond Sight",
+		"description": "Destroy 50 mysterious Eridium piles.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
 	}

@@ -414,5 +414,16 @@
 		"description": "Destroy 50 mysterious Eridium piles.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781477427000,
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/879be8d99935d05411007d4a9068ce8a17fb22aa.jpg",
+		"title": "Treat Yo Self",
+		"description": "Extract 100 pieces of gear from Arms Race.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

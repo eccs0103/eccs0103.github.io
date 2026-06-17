@@ -425,5 +425,28 @@
 		"description": "Extract 100 pieces of gear from Arms Race.",
 		"url": "https://steamcommunity.com/stats/397540/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1781691349000,
+		"title": "Soul Mirror",
+		"artists": [
+			"Animadrop"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273d2a0f311e33f3b883bd72a83",
+		"url": "https://open.spotify.com/track/2Bu4nIOLvKJ8b58ZXdcM9c",
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Spotify",
+		"timestamp": 1781691355000,
+		"title": "Thrice Woven",
+		"artists": [
+			"Seven Lions",
+			"Kerli"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273d70526d70ad012bac831a86d",
+		"url": "https://open.spotify.com/track/5TnVZsHM8l1LkfgL7YaTyk",
+		"$type": "SpotifyLikeActivity"
 	}
 ]

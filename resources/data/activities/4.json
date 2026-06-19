@@ -448,5 +448,27 @@
 		"cover": "https://i.scdn.co/image/ab67616d0000b273d70526d70ad012bac831a86d",
 		"url": "https://open.spotify.com/track/5TnVZsHM8l1LkfgL7YaTyk",
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781906137000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/c992b2325f06de6657f99b1ec5a656d96d461e06.jpg",
+		"title": "Motherless",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1781906138000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/f469ee470eac8048b88128e67dc74033638274c7.jpg",
+		"title": "Just a humble beginning",
+		"description": "Complete first area.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

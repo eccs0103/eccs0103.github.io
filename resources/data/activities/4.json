@@ -596,5 +596,16 @@
 		"repository": "adaptive-extender",
 		"sha": "7cc5746017520f9fed2f8f6f10c4518e565d366a",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782063005000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/ab7327d33ba2ab245e45d5ac8ffe196b56efef9e.jpg",
+		"title": "Familiar Faces",
+		"description": "Defeat your first marine.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

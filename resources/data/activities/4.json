@@ -735,5 +735,27 @@
 		"repository": "visualizer",
 		"sha": "fe7e9d64c39f2f0252f5dea2957b3703ded3c12e",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782308364000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/8319067340f44fbc178c68ae22add346a9bbc2ab.jpg",
+		"title": "One-Man Army",
+		"description": "Kill 100 Jocaste's troops/robots.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782308364000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/206fff079ebb5e3af37e335c0e7060222b303e8e.jpg",
+		"title": "Mercyful",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

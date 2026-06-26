@@ -919,5 +919,38 @@
 		"repository": "claude-cli-status-line",
 		"sha": "886ece93d02ce8c3c250bcf1bb021998331db81b",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782507018000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/735ed6b79b1d8bcca1c83e573c479c020da177cf.jpg",
+		"title": "Augmented Reality",
+		"description": "Pick up 200 augments.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782508270000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/b6dfaae6bcbc957caea08f013a9d2d441fdd30ae.jpg",
+		"title": "Change of heart",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782508271000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/8a4a0cd5f97eee9391de85b546a4d62c16f1d5c2.jpg",
+		"title": "Almost there",
+		"description": "Complete two areas.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

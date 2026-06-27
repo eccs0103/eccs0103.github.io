@@ -130,5 +130,16 @@
 		"description": "Reach spell level 5",
 		"url": "https://steamcommunity.com/stats/2701350/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782590870000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/843b96cd7e0800ca0d4c8240a1d423f8bb70861f.jpg",
+		"title": "Walk In The Park",
+		"description": "Kill 20 Nychoraptors.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

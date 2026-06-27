@@ -141,5 +141,16 @@
 		"description": "Kill 20 Nychoraptors.",
 		"url": "https://steamcommunity.com/stats/1605250/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782595811000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/1a1704b791a4bea78029c5ecd35c21611c153828.jpg",
+		"title": "Catharsis",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

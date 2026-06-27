@@ -152,5 +152,16 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/1605250/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782602331000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/1f8e4e7a3a8c47a5ded62f0dfac5aa2ded5b1629.jpg",
+		"title": "Armory",
+		"description": "Unlock all weapons.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

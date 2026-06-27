@@ -119,5 +119,16 @@
 		"repository": "claude-cli-status-line",
 		"sha": "3f99d9f396ddd195fca685519c5f9f0fa82ade05",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782588333000,
+		"game": "Dragon Chronicles: Black Tears",
+		"webpage": "https://store.steampowered.com/app/2701350",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/2701350/7af89bc300faacd3ed8324fb171b711658d56e22.jpg",
+		"title": "Ready To Read",
+		"description": "Reach spell level 5",
+		"url": "https://steamcommunity.com/stats/2701350/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

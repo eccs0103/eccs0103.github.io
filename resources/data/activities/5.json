@@ -266,5 +266,27 @@
 		"repository": "claude-cli-status-line",
 		"name": "ux-enhance",
 		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782681854000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/b82fc12b874c95af892fd0ad4c08f5e2f526fef4.jpg",
+		"title": "The ONE above all",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1782681854000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/0248b3b469aa0680c20cb44d60cf5b215f9cd9bc.jpg",
+		"title": "Epilogue",
+		"description": "Complete all areas.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

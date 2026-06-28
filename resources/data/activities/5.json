@@ -288,5 +288,25 @@
 		"description": null,
 		"url": "https://steamcommunity.com/stats/1605250/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1782684530000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"sha": "511baee3e498f9d98648b21a3748d60a290957fa",
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "GitHub",
+		"timestamp": 1782684801000,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"title": "1.0.0",
+		"tag_name": "1.0.0",
+		"is_prerelease": false,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

@@ -511,5 +511,16 @@
 		"repository": "eccs0103.github.io",
 		"sha": "6eb07aa46def971e9362891ee35fd8c40ee2f2bb",
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1783115905000,
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/05ff7e765a0c55d4ace7f21f1d0155aff866b59f.jpg",
+		"title": "Fully Charged",
+		"description": "Unlock all bioboost upgrades.",
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

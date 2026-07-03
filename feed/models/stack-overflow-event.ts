@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { Any, ArrayOf, Field, Model, Optional, UnixSeconds } from "adaptive-extender/core";
+import { Any, Field, Model, Optional } from "adaptive-extender/core";
 
 //#region Stack overflow owner
 export interface StackOverflowOwnerScheme {
@@ -14,22 +14,22 @@ export interface StackOverflowOwnerScheme {
 }
 
 export class StackOverflowOwner extends Model {
-	@Field(Optional(Number), "reputation")
+	@Field(Optional.Of(Number), { name: "reputation" })
 	reputation: number | undefined;
 
-	@Field(Optional(Number), "user_id")
+	@Field(Optional.Of(Number), { name: "user_id" })
 	userId: number | undefined;
 
-	@Field(String, "user_type")
+	@Field(String, { name: "user_type" })
 	userType: string;
 
-	@Field(Optional(String), "display_name")
+	@Field(Optional.Of(String), { name: "display_name" })
 	displayName: string | undefined;
 
-	@Field(Optional(String), "link")
+	@Field(Optional.Of(String), { name: "link" })
 	link: string | undefined;
 
-	@Field(Optional(String), "profile_image")
+	@Field(Optional.Of(String), { name: "profile_image" })
 	profileImage: string | undefined;
 }
 //#endregion
@@ -54,37 +54,37 @@ export interface StackOverflowQuestionScheme {
 }
 
 export class StackOverflowQuestion extends Model {
-	@Field(ArrayOf(String), "tags")
+	@Field(Array.Of(String), { name: "tags" })
 	tags: string[];
 
-	@Field(StackOverflowOwner, "owner")
+	@Field(StackOverflowOwner, { name: "owner" })
 	owner: StackOverflowOwner;
 
-	@Field(Number, "score")
+	@Field(Number, { name: "score" })
 	score: number;
 
-	@Field(UnixSeconds, "creation_date")
+	@Field(Date.AsUnixSeconds, { name: "creation_date" })
 	creationDate: Date;
 
-	@Field(Number, "question_id")
+	@Field(Number, { name: "question_id" })
 	questionId: number;
 
-	@Field(String, "link")
+	@Field(String, { name: "link" })
 	link: string;
 
-	@Field(String, "title")
+	@Field(String, { name: "title" })
 	title: string;
 
-	@Field(Number, "view_count")
+	@Field(Number, { name: "view_count" })
 	viewCount: number;
 
-	@Field(Number, "answer_count")
+	@Field(Number, { name: "answer_count" })
 	answerCount: number;
 
-	@Field(Boolean, "is_answered")
+	@Field(Boolean, { name: "is_answered" })
 	isAnswered: boolean;
 
-	@Field(String, "body")
+	@Field(String, { name: "body" })
 	body: string;
 }
 //#endregion
@@ -107,31 +107,31 @@ export interface StackOverflowAnswerScheme {
 }
 
 export class StackOverflowAnswer extends Model {
-	@Field(StackOverflowOwner, "owner")
+	@Field(StackOverflowOwner, { name: "owner" })
 	owner: StackOverflowOwner;
 
-	@Field(Boolean, "is_accepted")
+	@Field(Boolean, { name: "is_accepted" })
 	isAccepted: boolean;
 
-	@Field(Number, "score")
+	@Field(Number, { name: "score" })
 	score: number;
 
-	@Field(UnixSeconds, "creation_date")
+	@Field(Date.AsUnixSeconds, { name: "creation_date" })
 	creationDate: Date;
 
-	@Field(Number, "answer_id")
+	@Field(Number, { name: "answer_id" })
 	answerId: number;
 
-	@Field(Number, "question_id")
+	@Field(Number, { name: "question_id" })
 	questionId: number;
 
-	@Field(String, "link")
+	@Field(String, { name: "link" })
 	link: string;
 
-	@Field(String, "title")
+	@Field(String, { name: "title" })
 	title: string;
 
-	@Field(String, "body")
+	@Field(String, { name: "body" })
 	body: string;
 }
 //#endregion
@@ -149,19 +149,19 @@ export interface StackExchangeResponseScheme<T = any> {
 }
 
 export class StackExchangeResponse extends Model {
-	@Field(ArrayOf(Any), "items")
+	@Field(Array.Of(Any), { name: "items" })
 	items: any[];
 
-	@Field(Boolean, "has_more")
+	@Field(Boolean, { name: "has_more" })
 	hasMore: boolean;
 
-	@Field(Number, "quota_remaining")
+	@Field(Number, { name: "quota_remaining" })
 	quotaRemaining: number;
 
-	@Field(Number, "quota_max")
+	@Field(Number, { name: "quota_max" })
 	quotaMax: number;
 
-	@Field(Optional(Number), "backoff")
+	@Field(Optional.Of(Number), { name: "backoff" })
 	backoff: number | undefined;
 }
 //#endregion

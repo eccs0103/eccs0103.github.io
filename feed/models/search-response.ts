@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model } from "adaptive-extender/core";
+import { Field, Model } from "adaptive-extender/core";
 
 //#region Search item
 export interface SearchItemScheme {
@@ -10,10 +10,10 @@ export interface SearchItemScheme {
 }
 
 export class SearchItem extends Model {
-	@Field(String, "title")
+	@Field(String, { name: "title" })
 	title: string;
 
-	@Field(String, "snippet")
+	@Field(String, { name: "snippet" })
 	snippet: string;
 }
 //#endregion
@@ -23,7 +23,7 @@ export interface SearchResponseScheme {
 }
 
 export class SearchResponse extends Model {
-	@Field(ArrayOf(SearchItem), "items")
+	@Field(Array.Of(SearchItem), { name: "items" })
 	items: SearchItem[];
 }
 //#endregion

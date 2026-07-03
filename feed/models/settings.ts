@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model, RecordOf } from "adaptive-extender/core";
+import { Field, Model } from "adaptive-extender/core";
 
 //#region Old settings
 /**
@@ -15,7 +15,7 @@ export interface OldSettingsScheme {
  * @deprecated
  */
 export class OldSettings extends Model {
-	@Field(ArrayOf(String), "preferences")
+	@Field(Array.Of(String), { name: "preferences" })
 	platforms: string[];
 
 	constructor();
@@ -37,7 +37,7 @@ export interface SettingsScheme {
 }
 
 export class Settings extends Model {
-	@Field(RecordOf(Boolean), "preferences")
+	@Field(Map.AsRecord(Boolean), { name: "preferences" })
 	preferences: Map<string, boolean>;
 
 	constructor();

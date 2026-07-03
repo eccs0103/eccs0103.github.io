@@ -12,7 +12,7 @@ export interface DataTableMetadataScheme {
 }
 
 export class DataTableMetadata extends Model {
-	@Field(Number, "length")
+	@Field(Number, { name: "length" })
 	length: number;
 
 	constructor();

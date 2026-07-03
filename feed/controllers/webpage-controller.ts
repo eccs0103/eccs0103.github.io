@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { ArrayOf, Controller } from "adaptive-extender/web";
+import { Controller } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ClientBridge } from "../services/client-bridge.js";
 import { DataTable } from "../services/data-table.js";
@@ -36,7 +36,7 @@ class WebpageController extends Controller {
 		const content = await bridge.read(url);
 		if (content === null) throw new ReferenceError();
 		const object = JSON.parse(content);
-		return ArrayOf<ChangelogEntry, ChangelogEntryScheme>(ChangelogEntry).import(object, "changelog");
+		return Array.Of<ChangelogEntry, ChangelogEntryScheme>(ChangelogEntry).import(object, "changelog");
 	}
 
 	async run(): Promise<void> {

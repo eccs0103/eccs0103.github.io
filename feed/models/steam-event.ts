@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model, Optional, UnixSeconds } from "adaptive-extender/core";
+import { Field, Model, Optional } from "adaptive-extender/core";
 
 //#region Steam game
 export interface SteamGameScheme {
@@ -17,31 +17,31 @@ export interface SteamGameScheme {
 }
 
 export class SteamGame extends Model {
-	@Field(Number, "appid")
+	@Field(Number, { name: "appid" })
 	appId: number;
 
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(Number, "playtime_forever")
+	@Field(Number, { name: "playtime_forever" })
 	playtimeForever: number;
 
-	@Field(Optional(String), "img_icon_url")
+	@Field(Optional.Of(String), { name: "img_icon_url" })
 	imgIconUrl: string | undefined;
-	
-	@Field(Optional(Number), "playtime_windows_forever")
+
+	@Field(Optional.Of(Number), { name: "playtime_windows_forever" })
 	playtimeWindowsForever: number | undefined;
 
-	@Field(Optional(Number), "playtime_mac_forever")
+	@Field(Optional.Of(Number), { name: "playtime_mac_forever" })
 	playtimeMacForever: number | undefined;
 
-	@Field(Optional(Number), "playtime_linux_forever")
+	@Field(Optional.Of(Number), { name: "playtime_linux_forever" })
 	playtimeLinuxForever: number | undefined;
 
-	@Field(UnixSeconds, "rtime_last_played")
+	@Field(Date.AsUnixSeconds, { name: "rtime_last_played" })
 	rtimeLastPlayed: Date;
 
-	@Field(Optional(Boolean), "has_community_visible_stats")
+	@Field(Optional.Of(Boolean), { name: "has_community_visible_stats" })
 	hasCommunityVisibleStats: boolean | undefined;
 }
 //#endregion
@@ -53,10 +53,10 @@ export interface SteamOwnedGamesScheme {
 }
 
 export class SteamOwnedGames extends Model {
-	@Field(Optional(Number), "game_count")
+	@Field(Optional.Of(Number), { name: "game_count" })
 	gameCount: number | undefined;
 
-	@Field(Optional(ArrayOf(SteamGame)), "games")
+	@Field(Optional.Of(Array.Of(SteamGame)), { name: "games" })
 	games: SteamGame[] | undefined;
 }
 //#endregion
@@ -67,7 +67,7 @@ export interface SteamOwnedGamesContainerScheme {
 }
 
 export class SteamOwnedGamesContainer extends Model {
-	@Field(SteamOwnedGames, "response")
+	@Field(SteamOwnedGames, { name: "response" })
 	response: SteamOwnedGames;
 }
 //#endregion
@@ -84,16 +84,16 @@ export interface SteamGameSchemaStatsAchievementScheme {
 }
 
 export class SteamGameSchemaStatsAchievement extends Model {
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(Optional(String), "displayName")
+	@Field(Optional.Of(String), { name: "displayName" })
 	displayName: string | undefined;
 
-	@Field(Optional(String), "description")
+	@Field(Optional.Of(String), { name: "description" })
 	description: string | undefined;
 
-	@Field(String, "icon")
+	@Field(String, { name: "icon" })
 	icon: string;
 }
 //#endregion
@@ -104,7 +104,7 @@ export interface SteamGameSchemaStatsScheme {
 }
 
 export class SteamGameSchemaStats extends Model {
-	@Field(Optional(ArrayOf(SteamGameSchemaStatsAchievement)), "achievements")
+	@Field(Optional.Of(Array.Of(SteamGameSchemaStatsAchievement)), { name: "achievements" })
 	achievements: SteamGameSchemaStatsAchievement[] | undefined;
 }
 //#endregion
@@ -117,7 +117,7 @@ export interface SteamGameSchemaScheme {
 }
 
 export class SteamGameSchema extends Model {
-	@Field(Optional(SteamGameSchemaStats), "availableGameStats")
+	@Field(Optional.Of(SteamGameSchemaStats), { name: "availableGameStats" })
 	availableGameStats: SteamGameSchemaStats | undefined;
 }
 //#endregion
@@ -128,7 +128,7 @@ export interface SteamGameSchemaContainerScheme {
 }
 
 export class SteamGameSchemaContainer extends Model {
-	@Field(SteamGameSchema, "game")
+	@Field(SteamGameSchema, { name: "game" })
 	game: SteamGameSchema;
 }
 //#endregion
@@ -143,19 +143,19 @@ export interface SteamAchievementScheme {
 }
 
 export class SteamAchievement extends Model {
-	@Field(String, "apiname")
+	@Field(String, { name: "apiname" })
 	apiName: string;
 
-	@Field(Number, "achieved")
+	@Field(Number, { name: "achieved" })
 	achieved: number;
 
-	@Field(UnixSeconds, "unlocktime")
+	@Field(Date.AsUnixSeconds, { name: "unlocktime" })
 	unlockTime: Date;
 
-	@Field(Optional(String), "name")
+	@Field(Optional.Of(String), { name: "name" })
 	name: string | undefined;
 
-	@Field(Optional(String), "description")
+	@Field(Optional.Of(String), { name: "description" })
 	description: string | undefined;
 }
 //#endregion
@@ -170,19 +170,19 @@ export interface SteamPlayerStatsScheme {
 }
 
 export class SteamPlayerStats extends Model {
-	@Field(Optional(String), "steamID")
+	@Field(Optional.Of(String), { name: "steamID" })
 	steamId: string | undefined;
 
-	@Field(Optional(String), "gameName")
+	@Field(Optional.Of(String), { name: "gameName" })
 	gameName: string | undefined;
 
-	@Field(Optional(ArrayOf(SteamAchievement)), "achievements")
+	@Field(Optional.Of(Array.Of(SteamAchievement)), { name: "achievements" })
 	achievements: SteamAchievement[] | undefined;
 
-	@Field(Boolean, "success")
+	@Field(Boolean, { name: "success" })
 	success: boolean;
 
-	@Field(Optional(String), "error")
+	@Field(Optional.Of(String), { name: "error" })
 	error: string | undefined;
 }
 //#endregion
@@ -193,7 +193,7 @@ export interface SteamPlayerStatsContainerScheme {
 }
 
 export class SteamPlayerStatsContainer extends Model {
-	@Field(SteamPlayerStats, "playerstats")
+	@Field(SteamPlayerStats, { name: "playerstats" })
 	playerStats: SteamPlayerStats;
 }
 //#endregion
@@ -224,25 +224,25 @@ export interface SteamPublishedFileScheme {
 }
 
 export class SteamPublishedFile extends Model {
-	@Field(Number, "consumer_appid")
+	@Field(Number, { name: "consumer_appid" })
 	consumerAppId: number;
 
-	@Field(Optional(String), "file_url")
+	@Field(Optional.Of(String), { name: "file_url" })
 	fileUrl: string | undefined;
 
-	@Field(Optional(String), "preview_url")
+	@Field(Optional.Of(String), { name: "preview_url" })
 	previewUrl: string | undefined;
 
-	@Field(String, "short_description")
+	@Field(String, { name: "short_description" })
 	shortDescription: string;
 
-	@Field(UnixSeconds, "time_created")
+	@Field(Date.AsUnixSeconds, { name: "time_created" })
 	timeCreated: Date;
 
-	@Field(Number, "visibility")
+	@Field(Number, { name: "visibility" })
 	visibility: number;
 
-	@Field(Boolean, "banned")
+	@Field(Boolean, { name: "banned" })
 	banned: boolean;
 }
 //#endregion
@@ -254,7 +254,7 @@ export interface SteamUserFilesResponseScheme {
 }
 
 export class SteamUserFilesResponse extends Model {
-	@Field(Optional(ArrayOf(SteamPublishedFile)), "publishedfiledetails")
+	@Field(Optional.Of(Array.Of(SteamPublishedFile)), { name: "publishedfiledetails" })
 	publishedFileDetails: SteamPublishedFile[] | undefined;
 }
 //#endregion
@@ -265,7 +265,7 @@ export interface SteamUserFilesResponseContainerScheme {
 }
 
 export class SteamUserFilesResponseContainer extends Model {
-	@Field(SteamUserFilesResponse, "response")
+	@Field(SteamUserFilesResponse, { name: "response" })
 	response: SteamUserFilesResponse;
 }
 //#endregion

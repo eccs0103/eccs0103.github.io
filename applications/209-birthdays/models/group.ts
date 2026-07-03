@@ -1,24 +1,24 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model } from "adaptive-extender/core";
+import { Field, Model } from "adaptive-extender/core";
 import { Random } from "adaptive-extender/web";
 
 //#region Group
 export class GroupMember extends Model {
-	@Field(Number, "identifier")
+	@Field(Number, { name: "identifier" })
 	identifier: number;
 
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(String, "surname")
+	@Field(String, { name: "surname" })
 	surname: string;
 
-	@Field(String, "patronymic")
+	@Field(String, { name: "patronymic" })
 	patronymic: string;
 
-	@Field(Date, "birthday")
+	@Field(Date, { name: "birthday" })
 	birthday: Date;
 
 	#wishes: Map<GroupMember, string> = new Map();
@@ -59,24 +59,24 @@ export class GroupMember extends Model {
 }
 
 class Wish extends Model {
-	@Field(Number, "member")
+	@Field(Number, { name: "member" })
 	member: number;
 
-	@Field(Number, "addressee")
+	@Field(Number, { name: "addressee" })
 	addressee: number;
 
-	@Field(String, "content")
+	@Field(String, { name: "content" })
 	content: string;
 
-	@Field(Number, "importance")
+	@Field(Number, { name: "importance" })
 	importance: number;
 }
 
 export class Group extends Model {
-	@Field(ArrayOf(GroupMember), "members")
+	@Field(Array.Of(GroupMember), { name: "members" })
 	members: GroupMember[];
 
-	@Field(ArrayOf(Wish), "wishes")
+	@Field(Array.Of(Wish), { name: "wishes" })
 	wishes: Wish[];
 
 	static load(source: any, name: string): Group {

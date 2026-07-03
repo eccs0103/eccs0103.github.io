@@ -5,7 +5,7 @@ import { Field, Model } from "adaptive-extender/core";
 
 //#region Settings
 export class Settings extends Model {
-	@Field(Number, "selection")
+	@Field(Number, { name: "selection" })
 	selection: number = 0;
 }
 //#endregion

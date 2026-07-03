@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model, Nullable } from "adaptive-extender/core";
+import { Field, Model, Nullable } from "adaptive-extender/core";
 
 //#region Platform
 export interface PlatformScheme {
@@ -13,19 +13,19 @@ export interface PlatformScheme {
 }
 
 export class Platform extends Model {
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(String, "icon")
+	@Field(String, { name: "icon" })
 	icon: string;
 
-	@Field(Nullable(String), "webpage")
+	@Field(Nullable.Of(String), { name: "webpage" })
 	webpage: string | null;
 
-	@Field(Nullable(String), "note")
+	@Field(Nullable.Of(String), { name: "note" })
 	note: string | null;
 
-	@Field(Nullable(String), "status")
+	@Field(Nullable.Of(String), { name: "status" })
 	status: string | null;
 }
 //#endregion
@@ -38,16 +38,16 @@ export interface ConfigurationScheme {
 }
 
 export class Configuration extends Model {
-	@Field(ArrayOf(Platform), "platforms")
+	@Field(Array.Of(Platform), { name: "platforms" })
 	platforms: Platform[];
 
-	@Field(String, "intro")
+	@Field(String, { name: "intro" })
 	intro: string;
 
-	@Field(String, "outro")
+	@Field(String, { name: "outro" })
 	outro: string;
 
-	@Field(String, "url_proxy")
+	@Field(String, { name: "url_proxy" })
 	urlProxy: string;
 }
 //#endregion

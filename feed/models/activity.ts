@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Deferred, Descendant, Field, Model, Nullable, Timestamp } from "adaptive-extender/core";
+import { Deferred, Descendant, Field, Model, Nullable } from "adaptive-extender/core";
 
 //#region Activity
 export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator, TelegramActivityDiscriminator {
@@ -31,10 +31,10 @@ export interface ActivityScheme {
 @Descendant(Deferred(_ => TelegramTextPostActivity))
 @Descendant(Deferred(_ => TelegramMediaPostActivity))
 export abstract class Activity extends Model {
-	@Field(String, "platform")
+	@Field(String, { name: "platform" })
 	platform: string;
 
-	@Field(Timestamp, "timestamp")
+	@Field(Date.AsTimestamp, { name: "timestamp" })
 	timestamp: Date;
 
 	constructor();
@@ -83,13 +83,13 @@ export interface GitHubActivityScheme extends ActivityScheme {
 @Descendant(Deferred(_ => GitHubDeleteTagActivity))
 @Descendant(Deferred(_ => GitHubDeleteBranchActivity))
 export abstract class GitHubActivity extends Activity {
-	@Field(String, "username")
+	@Field(String, { name: "username" })
 	username: string;
 
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
-	@Field(String, "repository")
+	@Field(String, { name: "repository" })
 	repository: string;
 
 	constructor();
@@ -119,7 +119,7 @@ export interface GitHubPushActivityScheme extends GitHubActivityScheme {
 }
 
 export class GitHubPushActivity extends GitHubActivity {
-	@Field(String, "sha")
+	@Field(String, { name: "sha" })
 	sha: string;
 
 	constructor();
@@ -148,13 +148,13 @@ export interface GitHubReleaseActivityScheme extends GitHubActivityScheme {
 }
 
 export class GitHubReleaseActivity extends GitHubActivity {
-	@Field(String, "title")
+	@Field(String, { name: "title" })
 	title: string;
 
-	@Field(String, "tag_name")
+	@Field(String, { name: "tag_name" })
 	tagName: string;
 
-	@Field(Boolean, "is_prerelease")
+	@Field(Boolean, { name: "is_prerelease" })
 	isPrerelease: boolean;
 
 	constructor();
@@ -207,7 +207,7 @@ export interface GitHubCreateActivityScheme extends GitHubActivityScheme {
 @Descendant(Deferred(_ => GitHubCreateBranchActivity))
 @Descendant(Deferred(_ => GitHubCreateRepositoryActivity))
 export abstract class GitHubCreateActivity extends GitHubActivity {
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
 	constructor();
@@ -302,7 +302,7 @@ export interface GitHubDeleteActivityScheme extends GitHubActivityScheme {
 @Descendant(Deferred(_ => GitHubDeleteTagActivity))
 @Descendant(Deferred(_ => GitHubDeleteBranchActivity))
 export abstract class GitHubDeleteActivity extends GitHubActivity {
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
 	constructor();
@@ -401,16 +401,16 @@ export interface SpotifyLikeActivityScheme extends SpotifyActivityScheme {
 }
 
 export class SpotifyLikeActivity extends SpotifyActivity {
-	@Field(String, "title")
+	@Field(String, { name: "title" })
 	title: string;
 
-	@Field(ArrayOf(String), "artists")
+	@Field(Array.Of(String), { name: "artists" })
 	artists: string[];
 
-	@Field(Nullable(String), "cover")
+	@Field(Nullable.Of(String), { name: "cover" })
 	cover: string | null;
 
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
 	constructor();
@@ -472,25 +472,25 @@ export interface PinterestPinActivityScheme extends PinterestActivityScheme {
 @Descendant(Deferred(_ => PinterestImagePinActivity))
 @Descendant(Deferred(_ => PinterestVideoPinActivity))
 export abstract class PinterestPinActivity extends PinterestActivity {
-	@Field(String, "content")
+	@Field(String, { name: "content" })
 	content: string;
 
-	@Field(Number, "width")
+	@Field(Number, { name: "width" })
 	width: number;
 
-	@Field(Number, "height")
+	@Field(Number, { name: "height" })
 	height: number;
 
-	@Field(Nullable(String), "title")
+	@Field(Nullable.Of(String), { name: "title" })
 	title: string | null;
 
-	@Field(Nullable(String), "description")
+	@Field(Nullable.Of(String), { name: "description" })
 	description: string | null;
 
-	@Field(String, "board")
+	@Field(String, { name: "board" })
 	board: string;
 
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
 	constructor();
@@ -571,10 +571,10 @@ export interface SteamActivityScheme extends ActivityScheme {
 @Descendant(Deferred(_ => SteamAchievementActivity))
 @Descendant(Deferred(_ => SteamScreenshotActivity))
 export abstract class SteamActivity extends Activity {
-	@Field(String, "game")
+	@Field(String, { name: "game" })
 	game: string;
 
-	@Field(String, "webpage")
+	@Field(String, { name: "webpage" })
 	webpage: string;
 
 	constructor();
@@ -606,16 +606,16 @@ export interface SteamAchievementActivityScheme extends SteamActivityScheme {
 }
 
 export class SteamAchievementActivity extends SteamActivity {
-	@Field(Nullable(String), "icon")
+	@Field(Nullable.Of(String), { name: "icon" })
 	icon: string | null;
 
-	@Field(String, "title")
+	@Field(String, { name: "title" })
 	title: string;
 
-	@Field(Nullable(String), "description")
+	@Field(Nullable.Of(String), { name: "description" })
 	description: string | null;
 
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
 	constructor();
@@ -646,10 +646,10 @@ export interface SteamScreenshotActivityScheme extends SteamActivityScheme {
 }
 
 export class SteamScreenshotActivity extends SteamActivity {
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
-	@Field(Nullable(String), "title")
+	@Field(Nullable.Of(String), { name: "title" })
 	title: string | null;
 
 	constructor();
@@ -682,16 +682,16 @@ export interface StackOverflowActivityScheme extends ActivityScheme {
 @Descendant(Deferred(_ => StackOverflowQuestionActivity))
 @Descendant(Deferred(_ => StackOverflowAnswerActivity))
 export abstract class StackOverflowActivity extends Activity {
-	@Field(String, "title")
+	@Field(String, { name: "title" })
 	title: string;
 
-	@Field(String, "body")
+	@Field(String, { name: "body" })
 	body: string;
 
-	@Field(Number, "score")
+	@Field(Number, { name: "score" })
 	score: number;
 
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
 	constructor();
@@ -724,13 +724,13 @@ export interface StackOverflowQuestionActivityScheme extends StackOverflowActivi
 }
 
 export class StackOverflowQuestionActivity extends StackOverflowActivity {
-	@Field(ArrayOf(String), "tags")
+	@Field(Array.Of(String), { name: "tags" })
 	tags: string[];
 
-	@Field(Number, "views")
+	@Field(Number, { name: "views" })
 	views: number;
 
-	@Field(Boolean, "is_answered")
+	@Field(Boolean, { name: "is_answered" })
 	isAnswered: boolean;
 
 	constructor();
@@ -759,7 +759,7 @@ export interface StackOverflowAnswerActivityScheme extends StackOverflowActivity
 }
 
 export class StackOverflowAnswerActivity extends StackOverflowActivity {
-	@Field(Boolean, "is_accepted")
+	@Field(Boolean, { name: "is_accepted" })
 	isAccepted: boolean;
 
 	constructor();
@@ -789,10 +789,10 @@ export interface TelegramActivityScheme extends ActivityScheme {
 @Descendant(Deferred(_ => TelegramTextPostActivity))
 @Descendant(Deferred(_ => TelegramMediaPostActivity))
 export abstract class TelegramActivity extends Activity {
-	@Field(Number, "channel_id")
+	@Field(Number, { name: "channel_id" })
 	channelId: number;
 
-	@Field(Number, "message_id")
+	@Field(Number, { name: "message_id" })
 	messageId: number;
 
 	constructor();
@@ -821,7 +821,7 @@ export interface TelegramTextPostActivityScheme extends TelegramActivityScheme {
 }
 
 export class TelegramTextPostActivity extends TelegramActivity {
-	@Field(String, "text")
+	@Field(String, { name: "text" })
 	text: string;
 
 	constructor();
@@ -850,13 +850,13 @@ export interface TelegramMediaPostActivityScheme extends TelegramActivityScheme 
 }
 
 export class TelegramMediaPostActivity extends TelegramActivity {
-	@Field(String, "file_name")
+	@Field(String, { name: "file_name" })
 	fileName: string;
 
-	@Field(String, "media_type")
+	@Field(String, { name: "media_type" })
 	mediaType: string;
 
-	@Field(Nullable(String), "content")
+	@Field(Nullable.Of(String), { name: "content" })
 	description: string | null;
 
 	constructor();

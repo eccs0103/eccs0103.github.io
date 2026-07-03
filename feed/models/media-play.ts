@@ -6,7 +6,7 @@ import { Field, Model } from "adaptive-extender/core";
 //#region Media play
 export class MediaPlay extends Model {
 	/** HTML tag name of the media element that started playing: "video" or "audio". Derived from HTMLMediaElement.tagName.toLowerCase(). */
-	@Field(String, "media_type")
+	@Field(String, { name: "media_type" })
 	mediaType: string;
 
 	constructor();

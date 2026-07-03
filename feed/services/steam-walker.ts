@@ -1,6 +1,7 @@
 "use strict";
 
 import "adaptive-extender/node";
+import { Optional } from "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
 import { SteamGame, SteamAchievement, SteamOwnedGamesContainer, SteamPlayerStatsContainer, SteamGameSchemaContainer, SteamUserFilesResponseContainer, SteamPublishedFile, SteamGameSchemaStatsAchievement } from "../models/steam-event.js";
 import { Activity, SteamAchievementActivity, SteamScreenshotActivity } from "../models/activity.js";
@@ -119,7 +120,7 @@ export class SteamWalker extends ActivityWalker {
 				const schema = mapping.get(apiName);
 				const icon =
 					schema?.icon ??
-					Reflect.mapUndefined(imgIconUrl, url => `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${url}.jpg`) ??
+					Optional.map(imgIconUrl, url => `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${url}.jpg`) ??
 					null;
 				const title = achievement.name?.insteadWhitespace(null) ?? schema?.displayName?.insteadWhitespace(null) ?? apiName;
 				const description = achievement.description?.insteadWhitespace(null) ?? schema?.description?.insteadWhitespace(null) ?? null;

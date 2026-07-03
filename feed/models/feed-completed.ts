@@ -6,7 +6,7 @@ import { Field, Model } from "adaptive-extender/core";
 //#region Feed completed
 export class FeedCompleted extends Model {
 	/** Total number of batches that were loaded before the feed was exhausted. */
-	@Field(Number, "total_batches")
+	@Field(Number, { name: "total_batches" })
 	totalBatches: number;
 
 	constructor();

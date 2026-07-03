@@ -9,7 +9,7 @@ export interface BooleanResponseScheme {
 }
 
 export class BooleanResponse extends Model {
-	@Field(Boolean, "result")
+	@Field(Boolean, { name: "result" })
 	result: boolean;
 }
 //#endregion

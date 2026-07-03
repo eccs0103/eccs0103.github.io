@@ -1,15 +1,15 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { ArchiveRepository } from "adaptive-extender/web";
+import { type BufferedCell } from "adaptive-extender/web";
 import { Settings } from "../models/settings.js";
 
 //#region Settings service
 export class SettingsService {
-	#repository: ArchiveRepository<typeof Settings>;
+	#repository: BufferedCell<typeof Settings>;
 
 	constructor() {
-		this.#repository = new ArchiveRepository("Personal webpage\\209 birthdays\\Settings", Settings, new Settings);
+		this.#repository = localStorage.openBufferedCell("Personal webpage\\209 birthdays\\Settings", Settings, new Settings);
 	}
 
 	readSelection(): number {

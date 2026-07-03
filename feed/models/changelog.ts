@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model, Nullable } from "adaptive-extender/core";
+import { Field, Model, Nullable } from "adaptive-extender/core";
 
 //#region Changelog entry
 export interface ChangelogEntryScheme {
@@ -10,10 +10,10 @@ export interface ChangelogEntryScheme {
 }
 
 export class ChangelogEntry extends Model {
-	@Field(Date, "date")
+	@Field(Date, { name: "date" })
 	date: Date;
 
-	@Field(ArrayOf(String), "changes")
+	@Field(Array.Of(String), { name: "changes" })
 	changes: string[];
 
 	constructor();
@@ -43,7 +43,7 @@ export interface ChangelogStateScheme {
 }
 
 export class ChangelogState extends Model {
-	@Field(Nullable(Date), "last_seen")
+	@Field(Nullable.Of(Date), { name: "last_seen" })
 	lastSeen: Date | null;
 
 	constructor();

@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Model, Nullable, Optional, Any } from "adaptive-extender/core";
+import { Any, Field, Model, Nullable, Optional } from "adaptive-extender/core";
 
 //#region Pinterest token
 export interface PinterestTokenScheme {
@@ -10,10 +10,10 @@ export interface PinterestTokenScheme {
 }
 
 export class PinterestToken extends Model {
-	@Field(String, "access_token")
+	@Field(String, { name: "access_token" })
 	accessToken: string;
 
-	@Field(String, "scope")
+	@Field(String, { name: "scope" })
 	scope: string;
 }
 //#endregion
@@ -26,13 +26,13 @@ export interface PinterestImageScheme {
 }
 
 export class PinterestImage extends Model {
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
-	@Field(Number, "width")
+	@Field(Number, { name: "width" })
 	width: number;
 
-	@Field(Number, "height")
+	@Field(Number, { name: "height" })
 	height: number;
 }
 //#endregion
@@ -46,16 +46,16 @@ export interface PinterestImagesCollectionScheme {
 }
 
 export class PinterestImagesCollection extends Model {
-	@Field(Optional(PinterestImage), "150x150")
+	@Field(Optional.Of(PinterestImage), { name: "150x150" })
 	thumbnail: PinterestImage | undefined;
 
-	@Field(Optional(PinterestImage), "400x300")
+	@Field(Optional.Of(PinterestImage), { name: "400x300" })
 	feed: PinterestImage | undefined;
 
-	@Field(Optional(PinterestImage), "600x")
+	@Field(Optional.Of(PinterestImage), { name: "600x" })
 	preview: PinterestImage | undefined;
 
-	@Field(Optional(PinterestImage), "1200x")
+	@Field(Optional.Of(PinterestImage), { name: "1200x" })
 	original: PinterestImage | undefined;
 }
 //#endregion
@@ -67,10 +67,10 @@ export interface PinterestMediaContainerScheme {
 }
 
 export class PinterestMediaContainer extends Model {
-	@Field(Optional(String), "media_type")
+	@Field(Optional.Of(String), { name: "media_type" })
 	mediaType: string | undefined;
 
-	@Field(PinterestImagesCollection, "images")
+	@Field(PinterestImagesCollection, { name: "images" })
 	images: PinterestImagesCollection;
 }
 //#endregion
@@ -91,16 +91,16 @@ export interface PinterestBoardScheme {
 }
 
 export class PinterestBoard extends Model {
-	@Field(String, "id")
+	@Field(String, { name: "id" })
 	id: string;
 
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(Nullable(String), "description")
+	@Field(Nullable.Of(String), { name: "description" })
 	description: string | null;
 
-	@Field(String, "privacy")
+	@Field(String, { name: "privacy" })
 	privacy: string;
 }
 //#endregion
@@ -118,28 +118,28 @@ export interface PinterestPinScheme {
 }
 
 export class PinterestPin extends Model {
-	@Field(String, "id")
+	@Field(String, { name: "id" })
 	id: string;
 
-	@Field(Date, "created_at")
+	@Field(Date, { name: "created_at" })
 	createdAt: Date;
 
-	@Field(Nullable(String), "link")
+	@Field(Nullable.Of(String), { name: "link" })
 	link: string | null;
 
-	@Field(Nullable(String), "title")
+	@Field(Nullable.Of(String), { name: "title" })
 	title: string | null;
 
-	@Field(Nullable(String), "description")
+	@Field(Nullable.Of(String), { name: "description" })
 	description: string | null;
 
-	@Field(Nullable(String), "alt_text")
+	@Field(Nullable.Of(String), { name: "alt_text" })
 	altText: string | null;
 
-	@Field(String, "board_id")
+	@Field(String, { name: "board_id" })
 	boardId: string;
 
-	@Field(Nullable(PinterestMediaContainer), "media")
+	@Field(Nullable.Of(PinterestMediaContainer), { name: "media" })
 	media: PinterestMediaContainer | null;
 }
 //#endregion
@@ -153,16 +153,16 @@ export interface PinterestResponseScheme<T = any> {
 }
 
 export class PinterestResponse extends Model {
-	@Field(ArrayOf(Any), "items")
+	@Field(Array.Of(Any), { name: "items" })
 	items: any[];
 
-	@Field(Nullable(String), "bookmark")
+	@Field(Nullable.Of(String), { name: "bookmark" })
 	bookmark: string | null;
 
-	@Field(Optional(Number), "code")
+	@Field(Optional.Of(Number), { name: "code" })
 	code: number | undefined;
 
-	@Field(Optional(String), "message")
+	@Field(Optional.Of(String), { name: "message" })
 	message: string | undefined;
 }
 //#endregion

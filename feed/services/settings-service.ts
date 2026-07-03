@@ -1,22 +1,22 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { ArchiveRepository } from "adaptive-extender/web";
+import { type BufferedCell } from "adaptive-extender/web";
 import { OldSettings, Settings } from "../models/settings.js";
 
 //#region Settings service
 export class SettingsService {
-	#repository: ArchiveRepository<typeof Settings>;
+	#repository: BufferedCell<typeof Settings>;
 
 	constructor(preferences: Map<string, boolean>) {
 		try {
-			this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Settings", Settings, new Settings(preferences));
+			this.#repository = localStorage.openBufferedCell("Personal webpage\\Feed\\Settings", Settings, new Settings(preferences));
 		} catch (reason) {
 			if (!(reason instanceof SyntaxError)) throw reason;
-			const { platforms } = new ArchiveRepository("Personal webpage\\Feed\\Settings", OldSettings, new OldSettings([])).content;
+			const { platforms } = localStorage.openBufferedCell("Personal webpage\\Feed\\Settings", OldSettings, new OldSettings([])).content;
 			const recovered = new Map(platforms.map(preference => [preference, true]));
 			localStorage.removeItem("Personal webpage\\Feed\\Settings");
-			this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Settings", Settings, new Settings(recovered));
+			this.#repository = localStorage.openBufferedCell("Personal webpage\\Feed\\Settings", Settings, new Settings(recovered));
 		}
 
 		const stored = this.#repository.content.preferences;
@@ -31,8 +31,8 @@ export class SettingsService {
 
 	save(): Promise<void>;
 	save(delay: number): Promise<void>;
-	save(delay: number = 0): Promise<void> {
-		return this.#repository.save(delay);
+	async save(delay: number = 0): Promise<void> {
+		await this.#repository.save(delay);
 	}
 }
 //#endregion

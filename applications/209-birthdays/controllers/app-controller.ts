@@ -1,14 +1,13 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller, Timespan } from "adaptive-extender/web";
+import { Controller, MetadataInjector, Timespan } from "adaptive-extender/web";
 import { BirthdaysRenderer } from "../view/birthdays-renderer.js";
 import { ClientBridge } from "../services/client-bridge.js";
 import { type Bridge } from "../services/bridge.js";
 import { Group, type GroupMember } from "../models/group.js";
 import { SettingsService } from "../services/settings-service.js";
 import { Timer } from "../services/timer.js";
-import { MetadataInjector } from "../../../environment/services/metadata-injector.js";
 
 const { baseURI, body } = document;
 
@@ -18,7 +17,7 @@ class AppController extends Controller {
 	#renderer: BirthdaysRenderer;
 	#timer: Timer;
 	#settings: SettingsService;
-	
+
 	#members: GroupMember[] = [];
 	#selectionIndex: number = 0;
 	#selectionMember: GroupMember | null = null;
@@ -60,7 +59,7 @@ class AppController extends Controller {
 		MetadataInjector.inject({
 			type: "Person",
 			name: "eccs0103",
-			webpage: new URL("https://eccs0103.github.io"),
+			webpage: new URL("https://eccs.dev"),
 			preview: new URL("../../assets/icons/cake.png", baseURI),
 			associations: [],
 			job: "Software engineer",

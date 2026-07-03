@@ -5,16 +5,16 @@ import { Field, Model } from "adaptive-extender/core";
 
 //#region Media proxy environment
 export class MediaProxyEnvironment extends Model {
-	@Field(Number, "TELEGRAM_CHANNEL_ID")
+	@Field(Number, { name: "TELEGRAM_CHANNEL_ID" })
 	channelId: number;
 
-	@Field(Number, "TELEGRAM_API_ID")
+	@Field(Number, { name: "TELEGRAM_API_ID" })
 	apiId: number;
 
-	@Field(String, "TELEGRAM_API_HASH")
+	@Field(String, { name: "TELEGRAM_API_HASH" })
 	apiHash: string;
 
-	@Field(String, "TELEGRAM_SESSION")
+	@Field(String, { name: "TELEGRAM_SESSION" })
 	session: string;
 }
 //#endregion

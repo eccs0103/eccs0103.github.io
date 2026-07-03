@@ -14,22 +14,22 @@ export interface GitHubEventActorScheme {
 }
 
 export class GitHubEventActor extends Model {
-	@Field(Number, "id")
+	@Field(Number, { name: "id" })
 	id: number;
 
-	@Field(String, "login")
+	@Field(String, { name: "login" })
 	login: string;
 
-	@Field(Optional(String), "display_login")
+	@Field(Optional.Of(String), { name: "display_login" })
 	displayLogin?: string;
 
-	@Field(String, "gravatar_id")
+	@Field(String, { name: "gravatar_id" })
 	gravatarId: string;
 
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
-	@Field(String, "avatar_url")
+	@Field(String, { name: "avatar_url" })
 	avatarUrl: string;
 }
 //#endregion
@@ -42,13 +42,13 @@ export interface GitHubEventRepositoryScheme {
 }
 
 export class GitHubEventRepository extends Model {
-	@Field(Number, "id")
+	@Field(Number, { name: "id" })
 	id: number;
 
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 }
 //#endregion
@@ -65,25 +65,25 @@ export interface GitHubEventReleaseScheme {
 }
 
 export class GitHubEventRelease extends Model {
-	@Field(String, "html_url")
+	@Field(String, { name: "html_url" })
 	htmlUrl: string;
 
-	@Field(String, "tag_name")
+	@Field(String, { name: "tag_name" })
 	tagName: string;
 
-	@Field(Nullable(String), "name")
+	@Field(Nullable.Of(String), { name: "name" })
 	name: string | null;
 
-	@Field(Boolean, "draft")
+	@Field(Boolean, { name: "draft" })
 	draft: boolean;
 
-	@Field(Boolean, "prerelease")
+	@Field(Boolean, { name: "prerelease" })
 	prerelease: boolean;
 
-	@Field(String, "published_at")
+	@Field(String, { name: "published_at" })
 	publishedAt: string;
 
-	@Field(Nullable(String), "body")
+	@Field(Nullable.Of(String), { name: "body" })
 	body: string | null;
 }
 //#endregion
@@ -102,16 +102,16 @@ export interface GitHubPushEventPayloadScheme {
 }
 
 export class GitHubPushEventPayload extends Model {
-	@Field(Number, "push_id")
+	@Field(Number, { name: "push_id" })
 	pushId: number;
 
-	@Field(String, "ref")
+	@Field(String, { name: "ref" })
 	ref: string;
 
-	@Field(String, "head")
+	@Field(String, { name: "head" })
 	head: string;
 
-	@Field(String, "before")
+	@Field(String, { name: "before" })
 	before: string;
 }
 //#endregion
@@ -128,10 +128,10 @@ export interface GitHubReleaseEventPayloadScheme {
 }
 
 export class GitHubReleaseEventPayload extends Model {
-	@Field(String, "action")
+	@Field(String, { name: "action" })
 	action: string;
 
-	@Field(GitHubEventRelease, "release")
+	@Field(GitHubEventRelease, { name: "release" })
 	release: GitHubEventRelease;
 }
 //#endregion
@@ -147,7 +147,7 @@ export interface GitHubWatchEventPayloadScheme {
 }
 
 export class GitHubWatchEventPayload extends Model {
-	@Field(String, "action")
+	@Field(String, { name: "action" })
 	action: string;
 }
 //#endregion
@@ -167,19 +167,19 @@ export interface GitHubCreateEventPayloadScheme {
 }
 
 export class GitHubCreateEventPayload extends Model {
-	@Field(Nullable(String), "ref")
+	@Field(Nullable.Of(String), { name: "ref" })
 	ref: string | null;
 
-	@Field(String, "ref_type")
+	@Field(String, { name: "ref_type" })
 	refType: string;
 
-	@Field(String, "master_branch")
+	@Field(String, { name: "master_branch" })
 	masterBranch: string;
 
-	@Field(Nullable(String), "description")
+	@Field(Nullable.Of(String), { name: "description" })
 	description: string | null;
 
-	@Field(String, "pusher_type")
+	@Field(String, { name: "pusher_type" })
 	pusherType: string;
 }
 //#endregion
@@ -197,13 +197,13 @@ export interface GitHubDeleteEventPayloadScheme {
 }
 
 export class GitHubDeleteEventPayload extends Model {
-	@Field(String, "ref")
+	@Field(String, { name: "ref" })
 	ref: string;
 
-	@Field(String, "ref_type")
+	@Field(String, { name: "ref_type" })
 	refType: string;
 
-	@Field(String, "pusher_type")
+	@Field(String, { name: "pusher_type" })
 	pusherType: string;
 }
 //#endregion
@@ -219,11 +219,11 @@ export interface GitHubEventPayloadScheme {
 	$type: keyof GitHubEventPayloadDiscriminator;
 }
 
-@Descendant(Deferred(_ => GitHubPushEventPayload), "PushEvent")
-@Descendant(Deferred(_ => GitHubReleaseEventPayload), "ReleaseEvent")
-@Descendant(Deferred(_ => GitHubWatchEventPayload), "WatchEvent")
-@Descendant(Deferred(_ => GitHubCreateEventPayload), "CreateEvent")
-@Descendant(Deferred(_ => GitHubDeleteEventPayload), "DeleteEvent")
+@Descendant(Deferred(_ => GitHubPushEventPayload), { discriminator: "PushEvent" })
+@Descendant(Deferred(_ => GitHubReleaseEventPayload), { discriminator: "ReleaseEvent" })
+@Descendant(Deferred(_ => GitHubWatchEventPayload), { discriminator: "WatchEvent" })
+@Descendant(Deferred(_ => GitHubCreateEventPayload), { discriminator: "CreateEvent" })
+@Descendant(Deferred(_ => GitHubDeleteEventPayload), { discriminator: "DeleteEvent" })
 export abstract class GitHubEventPayload extends Model {
 }
 //#endregion
@@ -243,25 +243,25 @@ export interface GitHubEventScheme {
 }
 
 export class GitHubEvent extends Model {
-	@Field(String, "id")
+	@Field(String, { name: "id" })
 	id: string;
 
-	@Field(String, "type")
+	@Field(String, { name: "type" })
 	type: string;
 
-	@Field(GitHubEventActor, "actor")
+	@Field(GitHubEventActor, { name: "actor" })
 	actor: GitHubEventActor;
 
-	@Field(GitHubEventRepository, "repo")
+	@Field(GitHubEventRepository, { name: "repo" })
 	repo: GitHubEventRepository;
 
-	@Field(Boolean, "public")
+	@Field(Boolean, { name: "public" })
 	public: boolean;
 
-	@Field(Date, "created_at")
+	@Field(Date, { name: "created_at" })
 	createdAt: Date;
 
-	@Field(GitHubEventPayload, "payload")
+	@Field(GitHubEventPayload, { name: "payload" })
 	payload: GitHubEventPayload;
 
 	static import<I extends Model>(this: Constructor<I>, source: any, name: string): I {

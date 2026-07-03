@@ -1,17 +1,17 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { ArchiveRepository } from "adaptive-extender/web";
+import { type BufferedCell } from "adaptive-extender/web";
 import { ChangelogEntry, ChangelogState } from "../models/changelog.js";
 
 //#region Changelog service
 export class ChangelogService {
-	#repository: ArchiveRepository<typeof ChangelogState>;
+	#repository: BufferedCell<typeof ChangelogState>;
 	#entries: readonly ChangelogEntry[];
 
 	constructor(entries: readonly ChangelogEntry[]) {
 		this.#entries = [...entries].sort((first, second) => second.date.valueOf() - first.date.valueOf());
-		this.#repository = new ArchiveRepository("Personal webpage\\Feed\\Changelog", ChangelogState, new ChangelogState(null));
+		this.#repository = localStorage.openBufferedCell("Personal webpage\\Feed\\Changelog", ChangelogState, new ChangelogState(null));
 	}
 
 	get entries(): readonly ChangelogEntry[] {

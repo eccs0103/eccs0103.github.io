@@ -1,6 +1,6 @@
 "use strict";
 
-import { Random } from "adaptive-extender/web";
+import { Optional, Random } from "adaptive-extender/web";
 import { GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, type GitHubActivity } from "../models/activity.js";
 import { TextExpert } from "./text-expert.js";
 import type { LinkCreationOptions } from "../view/view-builders.js";
@@ -245,8 +245,8 @@ export class GitHubSummaryExpert {
 
 	build(linker: LinkerFunction): SummaryContext {
 		const { primary, secondary, magnitude, label, modifier, urls } = this.#report;
-		const nodePrimary = Reflect.mapUndefined(primary, primary => linker(ReferenceError.suppress(urls.get(primary)), { text: primary }));
-		const nodeSecondary = Reflect.mapUndefined(secondary, secondary => linker(ReferenceError.suppress(urls.get(secondary)), { text: secondary }));
+		const nodePrimary = Optional.map(primary, primary => linker(ReferenceError.suppress(urls.get(primary)), { text: primary }));
+		const nodeSecondary = Optional.map(secondary, secondary => linker(ReferenceError.suppress(urls.get(secondary)), { text: secondary }));
 		return new SummaryContext(nodePrimary, nodeSecondary, magnitude, label, modifier);
 	}
 

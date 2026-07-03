@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { ArrayOf, Field, Nullable, Model, Any } from "adaptive-extender/core";
+import { Any, Field, Nullable, Model } from "adaptive-extender/core";
 
 //#region Spotify token
 export interface SpotifyTokenScheme {
@@ -12,16 +12,16 @@ export interface SpotifyTokenScheme {
 }
 
 export class SpotifyToken extends Model {
-	@Field(String, "access_token")
+	@Field(String, { name: "access_token" })
 	accessToken: string;
 
-	@Field(String, "token_type")
+	@Field(String, { name: "token_type" })
 	tokenType: string;
 
-	@Field(Number, "expires_in")
+	@Field(Number, { name: "expires_in" })
 	expiresIn: number;
 
-	@Field(String, "scope")
+	@Field(String, { name: "scope" })
 	scope: string;
 }
 //#endregion
@@ -32,7 +32,7 @@ export interface SpotifyExternalUrlsScheme {
 }
 
 export class SpotifyExternalUrls extends Model {
-	@Field(String, "spotify")
+	@Field(String, { name: "spotify" })
 	spotify: string;
 }
 //#endregion
@@ -45,13 +45,13 @@ export interface SpotifyImageScheme {
 }
 
 export class SpotifyImage extends Model {
-	@Field(String, "url")
+	@Field(String, { name: "url" })
 	url: string;
 
-	@Field(Nullable(Number), "height")
+	@Field(Nullable.Of(Number), { name: "height" })
 	height: number | null;
 
-	@Field(Nullable(Number), "width")
+	@Field(Nullable.Of(Number), { name: "width" })
 	width: number | null;
 }
 //#endregion
@@ -66,19 +66,19 @@ export interface SpotifyAlbumScheme {
 }
 
 export class SpotifyAlbum extends Model {
-	@Field(String, "id")
+	@Field(String, { name: "id" })
 	id: string;
 
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(ArrayOf(SpotifyImage), "images")
+	@Field(Array.Of(SpotifyImage), { name: "images" })
 	images: SpotifyImage[];
 
-	@Field(String, "release_date")
+	@Field(String, { name: "release_date" })
 	releaseDate: string;
 
-	@Field(SpotifyExternalUrls, "external_urls")
+	@Field(SpotifyExternalUrls, { name: "external_urls" })
 	externalUrls: SpotifyExternalUrls;
 }
 //#endregion
@@ -92,16 +92,16 @@ export interface SpotifyArtistScheme {
 }
 
 export class SpotifyArtist extends Model {
-	@Field(String, "id")
+	@Field(String, { name: "id" })
 	id: string;
 
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(SpotifyExternalUrls, "external_urls")
+	@Field(SpotifyExternalUrls, { name: "external_urls" })
 	externalUrls: SpotifyExternalUrls;
 
-	@Field(String, "uri")
+	@Field(String, { name: "uri" })
 	uri: string;
 }
 //#endregion
@@ -119,28 +119,28 @@ export interface SpotifyTrackScheme {
 }
 
 export class SpotifyTrack extends Model {
-	@Field(String, "id")
+	@Field(String, { name: "id" })
 	id: string;
 
-	@Field(String, "name")
+	@Field(String, { name: "name" })
 	name: string;
 
-	@Field(ArrayOf(SpotifyArtist), "artists")
+	@Field(Array.Of(SpotifyArtist), { name: "artists" })
 	artists: SpotifyArtist[];
 
-	@Field(SpotifyAlbum, "album")
+	@Field(SpotifyAlbum, { name: "album" })
 	album: SpotifyAlbum;
 
-	@Field(SpotifyExternalUrls, "external_urls")
+	@Field(SpotifyExternalUrls, { name: "external_urls" })
 	externalUrls: SpotifyExternalUrls;
 
-	@Field(Number, "duration_ms")
+	@Field(Number, { name: "duration_ms" })
 	durationMs: number;
 
-	@Field(Nullable(String), "preview_url")
+	@Field(Nullable.Of(String), { name: "preview_url" })
 	previewUrl: string | null;
 
-	@Field(String, "uri")
+	@Field(String, { name: "uri" })
 	uri: string;
 }
 //#endregion
@@ -152,10 +152,10 @@ export interface SpotifySaveEventScheme {
 }
 
 export class SpotifySaveEvent extends Model {
-	@Field(Date, "added_at")
+	@Field(Date, { name: "added_at" })
 	addedAt: Date;
 
-	@Field(SpotifyTrack, "track")
+	@Field(SpotifyTrack, { name: "track" })
 	track: SpotifyTrack;
 }
 //#endregion
@@ -172,25 +172,25 @@ export interface SpotifySavesCollectionScheme {
 }
 
 export class SpotifySavesCollection extends Model {
-	@Field(String, "href")
+	@Field(String, { name: "href" })
 	href: string;
 
-	@Field(Number, "limit")
+	@Field(Number, { name: "limit" })
 	limit: number;
 
-	@Field(Nullable(String), "next")
+	@Field(Nullable.Of(String), { name: "next" })
 	next: string | null;
 
-	@Field(Number, "offset")
+	@Field(Number, { name: "offset" })
 	offset: number;
 
-	@Field(Nullable(String), "previous")
+	@Field(Nullable.Of(String), { name: "previous" })
 	previous: string | null;
 
-	@Field(Number, "total")
+	@Field(Number, { name: "total" })
 	total: number;
 
-	@Field(ArrayOf(Any), "items")
+	@Field(Array.Of(Any), { name: "items" })
 	items: any[];
 }
 //#endregion

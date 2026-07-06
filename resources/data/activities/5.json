@@ -522,5 +522,27 @@
 		"description": "Unlock all bioboost upgrades.",
 		"url": "https://steamcommunity.com/stats/1605250/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1783371959000,
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/f255023acd2636c5c32c0ca57546587662e76bc7.jpg",
+		"title": "And He Wandered the Earth",
+		"description": "Complete the prologue on any difficulty.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1783374531000,
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/e93de03c02bdfcb2c370302b5e389b619a8b244c.jpg",
+		"title": "Carnival Trickster",
+		"description": "Win at all carnival games.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -544,5 +544,16 @@
 		"description": "Win at all carnival games.",
 		"url": "https://steamcommunity.com/stats/1790930/achievements",
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"platform": "Steam",
+		"timestamp": 1783547277000,
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/f29b7d62df7e1da6edbb124e97f3fbbe11b567f5.jpg",
+		"title": "Forbidden Love",
+		"description": "Complete chapter I on any difficulty.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"$type": "SteamAchievementActivity"
 	}
 ]

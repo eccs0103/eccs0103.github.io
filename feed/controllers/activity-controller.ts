@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/node";
-import { env } from "../../environment/services/local-environment.js";
+import { environment } from "../../environment/services/local-environment.js";
 import { Controller } from "adaptive-extender/node";
 import { ActivityDispatcher } from "./activity-dispatcher.js";
 import { ServerBridge } from "../services/server-bridge.js";
@@ -19,15 +19,15 @@ import { type ActivityWalker } from "../services/activity-walker.js";
 
 const meta = import.meta;
 
-const { specialDictionary } = env;
+const { specialDictionary } = environment;
 
-const { origin } = env;
-const { githubUsername, githubToken } = env;
-const { spotifyClientId, spotifyClientSecret, spotifyToken } = env;
-const { pinterestClientId, pinterestClientSecret, pinterestToken } = env;
-const { steamId, steamApiKey } = env;
-const { stackOverflowId, stackOverflowApiKey } = env;
-const { telegramChannelId, telegramApiId, telegramApiHash, telegramSession } = env;
+const { origin } = environment;
+const { githubUsername, githubToken } = environment;
+const { spotifyClientId, spotifyClientSecret, spotifyToken } = environment;
+const { pinterestClientId, pinterestClientSecret, pinterestToken } = environment;
+const { steamId, steamApiKey } = environment;
+const { stackOverflowId, stackOverflowApiKey } = environment;
+const { telegramChannelId, telegramApiId, telegramApiHash, telegramSession } = environment;
 
 //#region Activity controller
 class ActivityController extends Controller {

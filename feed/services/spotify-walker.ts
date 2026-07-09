@@ -22,7 +22,7 @@ export class SpotifyWalker extends ActivityWalker {
 		const url = new URL("https://accounts.spotify.com/api/token");
 		const method = "POST";
 		const auth = Buffer.from(`${this.#clientId}:${this.#clientSecret}`).toString("base64");
-		const headers: HeadersInit = {
+		const headers: Record<string, string> = {
 			["Authorization"]: `Basic ${auth}`,
 			["Content-Type"]: "application/x-www-form-urlencoded"
 		};
@@ -39,7 +39,7 @@ export class SpotifyWalker extends ActivityWalker {
 		const url = new URL("https://api.spotify.com/v1/me/tracks");
 		url.searchParams.set("limit", String(count));
 		url.searchParams.set("offset", String((page - 1) * count));
-		const headers: HeadersInit = {
+		const headers: Record<string, string> = {
 			["Authorization"]: `Bearer ${token.accessToken}`
 		};
 		const response = await fetch(url, { headers });

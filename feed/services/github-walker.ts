@@ -20,7 +20,7 @@ export class GitHubWalker extends ActivityWalker {
 		const url = new URL(`https://api.github.com/users/${this.#username}/events`);
 		url.searchParams.set("per_page", String(count));
 		url.searchParams.set("page", String(page));
-		const headers: HeadersInit = {
+		const headers: Record<string, string> = {
 			["Authorization"]: `Bearer ${this.#token}`,
 			["Accept"]: "application/vnd.github+json",
 			["User-Agent"]: "Digital garden"

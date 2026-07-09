@@ -22,7 +22,7 @@ export class PinterestWalker extends ActivityWalker {
 		const url = new URL("https://api.pinterest.com/v5/oauth/token");
 		const method = "POST";
 		const auth = Buffer.from(`${this.#clientId}:${this.#clientSecret}`).toString("base64");
-		const headers: HeadersInit = {
+		const headers: Record<string, string> = {
 			["Authorization"]: `Basic ${auth}`,
 			["Content-Type"]: "application/x-www-form-urlencoded"
 		};
@@ -41,7 +41,7 @@ export class PinterestWalker extends ActivityWalker {
 			const url = new URL(`https://api.pinterest.com/v5${endpoint}`);
 			url.searchParams.set("page_size", String(count));
 			if (bookmark !== null) url.searchParams.set("bookmark", bookmark);
-			const headers: HeadersInit = {
+			const headers: Record<string, string> = {
 				["Authorization"]: `Bearer ${token.accessToken}`,
 				["Content-Type"]: "application/json"
 			};

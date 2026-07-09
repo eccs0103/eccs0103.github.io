@@ -1,0 +1,25 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"lib": [ "ES2025", "ESNext.Array" ],
+		"types": [ "node" ]
+	},
+	"include": [
+		"vite.config.ts",
+		"environment/configs/**/*.ts",
+		"environment/plugins/**/*.ts",
+		"environment/services/local-environment.ts",
+		"feed/controllers/activity-controller.ts",
+		"feed/controllers/activity-dispatcher.ts",
+		"feed/services/server-bridge.ts",
+		"feed/services/ai-agent.ts",
+		"feed/services/search-provider.ts",
+		"feed/services/death-detection-system.ts",
+		"feed/services/github-walker.ts",
+		"feed/services/spotify-walker.ts",
+		"feed/services/pinterest-walker.ts",
+		"feed/services/steam-walker.ts",
+		"feed/services/stack-overflow-walker.ts",
+		"feed/services/telegram-walker.ts"
+	]
+}

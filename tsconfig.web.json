@@ -1,0 +1,28 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"lib": [ "DOM", "DOM.Iterable", "ES2025" ]
+	},
+	"include": [
+		"environment/models/**/*.ts",
+		"environment/controllers/**/*.ts",
+		"environment/services/**/*.ts",
+		"feed/**/*.ts",
+		"applications/**/*.ts"
+	],
+	"exclude": [
+		"environment/services/local-environment.ts",
+		"feed/controllers/activity-controller.ts",
+		"feed/controllers/activity-dispatcher.ts",
+		"feed/services/server-bridge.ts",
+		"feed/services/ai-agent.ts",
+		"feed/services/search-provider.ts",
+		"feed/services/death-detection-system.ts",
+		"feed/services/github-walker.ts",
+		"feed/services/spotify-walker.ts",
+		"feed/services/pinterest-walker.ts",
+		"feed/services/steam-walker.ts",
+		"feed/services/stack-overflow-walker.ts",
+		"feed/services/telegram-walker.ts"
+	]
+}

@@ -13,6 +13,7 @@ jobs:
 
         permissions:
             contents: write
+            issues: write
 
         steps:
           - name: Checkout code
@@ -38,6 +39,8 @@ jobs:
 
                 GITHUB_USERNAME: ${{ vars.USERNAME_GITHUB }}
                 GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+                GITHUB_REPOSITORY: ${{ github.repository }}
+                GITHUB_ISSUES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
                 SPOTIFY_CLIENT_ID: ${{ vars.CLIENT_ID_SPOTIFY }}
                 SPOTIFY_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SPOTIFY }}

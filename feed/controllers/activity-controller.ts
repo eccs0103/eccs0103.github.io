@@ -8,6 +8,7 @@ import { ServerBridge } from "../services/server-bridge.js";
 import { DataTable } from "../services/data-table.js";
 import { Activity } from "../models/activity.js";
 import { GitHubWalker } from "../services/github-walker.js";
+import { GitHubReporter } from "../services/github-reporter.js";
 import { SpotifyWalker } from "../services/spotify-walker.js";
 import { PinterestWalker } from "../services/pinterest-walker.js";
 import { SteamWalker } from "../services/steam-walker.js";
@@ -22,7 +23,7 @@ const meta = import.meta;
 const { specialDictionary } = environment;
 
 const { origin } = environment;
-const { githubUsername, githubToken } = environment;
+const { githubUsername, githubRepository, githubToken, githubIssuesToken } = environment;
 const { spotifyClientId, spotifyClientSecret, spotifyToken } = environment;
 const { pinterestClientId, pinterestClientSecret, pinterestToken } = environment;
 const { steamId, steamApiKey } = environment;
@@ -32,6 +33,7 @@ const { telegramChannelId, telegramApiId, telegramApiHash, telegramSession } = e
 //#region Activity controller
 class ActivityController extends Controller {
 	#bridge: Bridge = new ServerBridge();
+	#reporter: GitHubReporter = new GitHubReporter(githubRepository, githubIssuesToken);
 
 	async #readConfiguration(url: Readonly<URL>): Promise<Configuration> {
 		const bridge = this.#bridge;
@@ -79,7 +81,7 @@ class ActivityController extends Controller {
 			new TelegramWalker(telegramChannelId, telegramApiId, telegramApiHash, telegramSession),
 		];
 		console.log("Starting feed update...");
-		await ActivityDispatcher.launch(activities, origin, walkers, configuration.platforms);
+		await ActivityDispatcher.launch(activities, origin, walkers, configuration.platforms, this.#reporter);
 		console.log("Feed update completed");
 	}
 

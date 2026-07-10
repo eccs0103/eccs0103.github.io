@@ -3,6 +3,20 @@
 import "adaptive-extender/core";
 import { Activity } from "../models/activity.js";
 
+//#region Authorization expired error
+export class AuthorizationExpiredError extends Error {
+	#platform: string;
+
+	constructor(platform: string, message: string) {
+		super(`Authorization for '${platform}' has expired: ${message}`);
+		this.name = "AuthorizationExpiredError";
+		this.#platform = platform;
+	}
+
+	get platform(): string { return this.#platform; }
+}
+//#endregion
+
 //#region Activity walker
 export class ActivityWalker {
 	#name: string;

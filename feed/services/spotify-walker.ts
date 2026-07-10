@@ -1,8 +1,8 @@
 "use strict";
 
 import "adaptive-extender/node";
-import { ActivityWalker } from "./activity-walker.js";
-import { SpotifySaveEvent, SpotifySavesCollection, SpotifyToken } from "../models/spotify-event.js";
+import { ActivityWalker, AuthorizationExpiredError } from "./activity-walker.js";
+import { SpotifySaveEvent, SpotifySavesCollection, SpotifyToken, SpotifyTokenError } from "../models/spotify-event.js";
 import { Activity, SpotifyLikeActivity } from "../models/activity.js";
 
 //#region Spotify walker
@@ -18,6 +18,15 @@ export class SpotifyWalker extends ActivityWalker {
 		this.#refreshToken = refreshToken;
 	}
 
+	static async #isInvalidGrant(data: unknown): Promise<boolean> {
+		try {
+			const error = SpotifyTokenError.import(data, "spotify_token_error");
+			return error.error === "invalid_grant";
+		} catch {
+			return false;
+		}
+	}
+
 	async #authenticate(): Promise<SpotifyToken> {
 		const url = new URL("https://accounts.spotify.com/api/token");
 		const method = "POST";
@@ -31,8 +40,12 @@ export class SpotifyWalker extends ActivityWalker {
 			refresh_token: this.#refreshToken
 		});
 		const response = await fetch(url, { method, headers, body });
-		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		return SpotifyToken.import(await response.json(), "spotify_token");
+		const data = await response.json();
+		if (!response.ok) {
+			if (await SpotifyWalker.#isInvalidGrant(data)) throw new AuthorizationExpiredError(this.name, "the refresh token was rejected (invalid_grant); re-authorization is required");
+			throw new Error(`${response.status}: ${response.statusText}`);
+		}
+		return SpotifyToken.import(data, "spotify_token");
 	}
 
 	async *#fetchPaginated(token: SpotifyToken, page: number, count: number): AsyncIterable<any> {

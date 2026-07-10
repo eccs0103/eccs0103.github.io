@@ -26,6 +26,21 @@ export class SpotifyToken extends Model {
 }
 //#endregion
 
+//#region Spotify token error
+export interface SpotifyTokenErrorScheme {
+	error: string;
+	error_description: string;
+}
+
+export class SpotifyTokenError extends Model {
+	@Field(String, { name: "error" })
+	error: string;
+
+	@Field(String, { name: "error_description" })
+	errorDescription: string;
+}
+//#endregion
+
 //#region Spotify external urls
 export interface SpotifyExternalUrlsScheme {
 	spotify: string;

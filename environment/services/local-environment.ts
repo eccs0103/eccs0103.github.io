@@ -27,6 +27,12 @@ class LocalEnviroment extends Model {
 	@Field(String, { name: "GITHUB_TOKEN" })
 	githubToken: string;
 
+	@Field(String, { name: "GITHUB_REPOSITORY" })
+	githubRepository: string;
+
+	@Field(String, { name: "GITHUB_ISSUES_TOKEN" })
+	githubIssuesToken: string;
+
 	@Field(String, { name: "SPOTIFY_CLIENT_ID" })
 	spotifyClientId: string;
 

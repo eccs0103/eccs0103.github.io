@@ -23,7 +23,7 @@ concurrency:
 jobs:
     build-and-deploy:
         if: >-
-            (github.event_name == "workflow_run" && github.event.workflow_run.conclusion == "success") || (github.event_name == "push" && github.actor != "github-actions[bot]")
+            (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') || (github.event_name == 'push' && github.actor != 'github-actions[bot]')
         runs-on: ubuntu-latest
         timeout-minutes: 10
         environment:

@@ -5,6 +5,9 @@
 	"type": "module",
 	"author": "eccs0103",
 	"packageManager": "npm@11.6.2",
+	"engines": {
+		"node": ">=22"
+	},
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",

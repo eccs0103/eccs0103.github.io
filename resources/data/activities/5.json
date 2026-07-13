@@ -734,5 +734,31 @@
 		"platform": "GitHub",
 		"timestamp": 1783816861000,
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"title": "Glory (No Glory pt. II)",
+		"artists": [
+			"Skan",
+			"Krale",
+			"Drama B",
+			"M.I.M.E"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b27398a509c41c6764e4924f14a5",
+		"url": "https://open.spotify.com/track/3yz0zJTqkujOy68uJGIzFd",
+		"platform": "Spotify",
+		"timestamp": 1783934063000,
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"title": "Fall Back to Nothing (feat. Saint Monet)",
+		"artists": [
+			"Subtronics",
+			"Saint Monet"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b273e9227792e2211ec7bb7798bf",
+		"url": "https://open.spotify.com/track/2BKaOhRDmln79AvTiZecSm",
+		"platform": "Spotify",
+		"timestamp": 1783934071000,
+		"$type": "SpotifyLikeActivity"
 	}
 ]

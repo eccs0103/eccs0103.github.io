@@ -861,5 +861,15 @@
 		"platform": "GitHub",
 		"timestamp": 1784123576000,
 		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"file_name": "33.jpg",
+		"media_type": "photo",
+		"content": null,
+		"channel_id": -1003471238866,
+		"message_id": 33,
+		"platform": "Telegram",
+		"timestamp": 1784157750000,
+		"$type": "TelegramMediaPostActivity"
 	}
 ]

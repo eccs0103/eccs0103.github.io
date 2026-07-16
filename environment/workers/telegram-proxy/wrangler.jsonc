@@ -9,10 +9,13 @@
 			"enabled": true
 		}
 	},
-	"vars": {
-		"TELEGRAM_CHANNEL_ID": "-1003471238866"
-	},
 	"env": {
+		"production": {
+			"name": "telegram-proxy",
+			"vars": {
+				"TELEGRAM_CHANNEL_ID": "-1003471238866"
+			}
+		},
 		"development": {
 			"name": "telegram-proxy-development",
 			"vars": {

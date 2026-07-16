@@ -13,7 +13,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"walk": "tsx feed/controllers/activity-controller.ts",
-		"deploy:telegram-proxy": "wrangler deploy --config environment/workers/telegram-proxy/wrangler.jsonc --env=\"\"",
+		"deploy:telegram-proxy": "wrangler deploy --config environment/workers/telegram-proxy/wrangler.jsonc --env production",
 		"development:telegram-proxy": "wrangler dev --config environment/workers/telegram-proxy/wrangler.jsonc --env development"
 	},
 	"devDependencies": {

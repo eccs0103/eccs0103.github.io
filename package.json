@@ -17,12 +17,12 @@
 		"deploy:telegram-proxy:development": "wrangler deploy --config environment/workers/telegram-proxy/wrangler.jsonc --env development"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.0.0",
+		"@cloudflare/workers-types": "^5.20260716.1",
 		"@types/node": "^24.10.1",
 		"tsx": "^4.21.0",
 		"typescript": "^6.0.3",
 		"vite": "^7.3.0",
-		"wrangler": "^4.75.0"
+		"wrangler": "^4.111.0"
 	},
 	"dependencies": {
 		"@google/generative-ai": "^0.24.1",
@@ -32,10 +32,7 @@
 		"dotenv": "^17.3.1"
 	},
 	"overrides": {
-		"undici": ">=7.24.0",
+		"undici": ">=7.28.0",
 		"esbuild": "^0.28.1"
-	},
-	"allowScripts": {
-		"esbuild": true
 	}
 }

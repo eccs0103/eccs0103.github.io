@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "personal-webpage",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"type": "module",
 	"author": "eccs0103",
 	"packageManager": "npm@11.6.2",
@@ -11,11 +11,13 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
-		"preview": "vite preview",
+		"preview": "npm run build && vite preview",
+		"deploy": "vite build && wrangler deploy",
 		"walk": "tsx feed/controllers/activity-controller.ts",
 		"deploy:telegram-proxy": "wrangler deploy --config environment/workers/telegram-proxy/wrangler.jsonc"
 	},
 	"devDependencies": {
+		"@cloudflare/vite-plugin": "^1.45.0",
 		"@cloudflare/workers-types": "^5.20260716.1",
 		"@types/node": "^24.10.1",
 		"tsx": "^4.21.0",

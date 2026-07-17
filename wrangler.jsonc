@@ -2,9 +2,6 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "personal-webpage",
 	"compatibility_date": "2026-07-16",
-	"assets": {
-		"directory": "./dist"
-	},
 	"observability": {
 		"enabled": true,
 		"traces": {

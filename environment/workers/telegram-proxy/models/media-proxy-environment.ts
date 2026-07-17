@@ -8,6 +8,9 @@ export class MediaProxyEnvironment extends Model {
 	@Field(Number, { name: "TELEGRAM_CHANNEL_ID" })
 	channelId: number;
 
+	@Field(Number, { name: "TELEGRAM_CHANNEL_ID_DEVELOPMENT" })
+	channelIdDevelopment: number;
+
 	@Field(Number, { name: "TELEGRAM_API_ID" })
 	apiId: number;
 

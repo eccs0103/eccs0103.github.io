@@ -15,18 +15,21 @@ class TelegramMediaProxyWorker extends CloudflareWorker {
 	#cache: CacheService = new CacheService();
 
 	async run(request: Request, environment: Environment, context: ExecutionContext): Promise<Response> {
-		const { method } = request;
-		const key = method === "GET" ? this.#cache.keyFor(request) : null;
+		const cache = this.#cache;
+		const { method, url } = request;
+		const key = method === "GET" ? cache.keyFor(request) : null;
 		if (key !== null) {
-			const cached = await this.#cache.tryMatch(key);
+			const cached = await cache.tryMatch(key);
 			if (cached !== null) return cached;
 		}
 
-		const { channelId, apiId, apiHash, session } = EnvironmentProvider.resolve(environment, MediaProxyEnvironment);
-		const channel = await TelegramChannel.connect(channelId, apiId, apiHash, session);
+		const { searchParams } = new URL(url);
+		const isDevelopment = searchParams.has("development");
+		const { channelId, channelIdDevelopment, apiId, apiHash, session } = EnvironmentProvider.resolve(environment, MediaProxyEnvironment);
+		const channel = await TelegramChannel.connect(isDevelopment ? channelIdDevelopment : channelId, apiId, apiHash, session);
 		const proxy = new MediaProxy(channel, this.#factory);
 		const response = await proxy.handle(request, context);
-		if (key !== null) this.#cache.tryStore(key, response, context);
+		if (key !== null) cache.tryStore(key, response, context);
 		return response;
 	}
 

@@ -127,5 +127,27 @@
 		"platform": "GitHub",
 		"timestamp": 1784630311000,
 		"$type": "GitHubCreateBranchActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/5044c678bf8cc1cb0ef79f1fb9ea505d5b71b7c9.jpg",
+		"title": "Thanks for Your Donation",
+		"description": "Collect 30000 coins.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784669958000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/a4d5d8d41c6a829d79c66d230f920bca05033cbf.jpg",
+		"title": "Dyna-mighty",
+		"description": "Detonate a stick of dynamite from an Astillado.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784670009000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -1,0 +1,344 @@
+/* Tokens */
+:root {
+	--font-hud: "Cascadia Code", "Consolas", monospace;
+
+	--color-hud-bg: rgb(6, 10, 14);
+	--color-hud-panel: rgb(13, 19, 24);
+	--color-hud-line: rgb(32, 46, 54);
+	--color-hud-text: rgb(200, 224, 230);
+	--color-hud-dim: rgb(100, 124, 132);
+	--color-hud-accent: hsl(190deg 100% 55%);
+	--color-hud-online: hsl(145deg 85% 50%);
+	--color-hud-delayed: hsl(45deg 100% 55%);
+	--color-hud-offline: hsl(0deg 80% 55%);
+	--color-hud-idle: rgb(72, 88, 96);
+
+	--time-duration: 120ms;
+	--time-scan-duration: 7s;
+
+	color-scheme: dark;
+}
+
+/* Body */
+body.hud {
+	background-color: var(--color-hud-bg);
+	color: var(--color-hud-text);
+	font-family: var(--font-hud);
+	position: relative;
+
+	& * {
+		background-color: initial;
+		color: inherit;
+	}
+}
+
+/* Icon mask (material.css equivalent, self-contained for the HUD theme).
+   Must be declared after the body reset above so its background-color wins the cascade. */
+span.icon {
+	background-color: currentColor;
+	-webkit-mask-image: var(--url);
+	mask-image: var(--url);
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-position: center;
+	mask-position: center;
+	transition: background-color var(--time-duration);
+}
+
+a {
+	font-style: normal;
+	text-decoration: none;
+}
+
+/* Scanline */
+.hud-scanline {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 50;
+	background-image: linear-gradient(to bottom, transparent 0%, rgb(from var(--color-hud-accent) r g b / 12%) 50%, transparent 100%);
+	background-size: 100% 40vh;
+	background-repeat: no-repeat;
+	animation: hud-scan var(--time-scan-duration) linear infinite;
+	mix-blend-mode: screen;
+}
+
+@keyframes hud-scan {
+	from {
+		background-position: 0 -40vh;
+	}
+
+	to {
+		background-position: 0 100vh;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hud-scanline {
+		display: none;
+	}
+}
+
+/* Identity */
+p.hud-callsign {
+	font-family: var(--font-hud);
+	letter-spacing: 0.35em;
+	font-size: 1.1em;
+	color: var(--color-hud-accent);
+	text-transform: uppercase;
+}
+
+/* Panels */
+.hud-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(calc(14 * var(--size-standart)), 1fr));
+	align-items: start;
+}
+
+.hud-panel {
+	background-color: var(--color-hud-panel);
+	border: var(--size-separator) solid var(--color-hud-line);
+	border-radius: var(--size-gap);
+	padding: var(--size-gap);
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-gap);
+}
+
+.hud-panel-title {
+	font-family: var(--font-hud);
+	font-size: 0.8em;
+	letter-spacing: 0.25em;
+	text-transform: uppercase;
+	color: var(--color-hud-dim);
+	border-bottom: var(--size-separator) solid var(--color-hud-line);
+	padding-bottom: var(--size-small-gap);
+}
+
+.hud-panel-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-gap);
+}
+
+.awaiting-boot {
+	opacity: 0;
+	filter: brightness(2.5);
+	transform: translateY(var(--size-small-gap));
+	transition:
+		opacity calc(3 * var(--time-duration)) ease-out,
+		filter calc(3 * var(--time-duration)) ease-out,
+		transform calc(3 * var(--time-duration)) ease-out;
+}
+
+.booted {
+	opacity: 1;
+	filter: brightness(1);
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awaiting-boot {
+		opacity: 1;
+		filter: none;
+		transform: none;
+		transition: none;
+	}
+}
+
+/* Sensors */
+.hud-sensor-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(calc(7 * var(--size-standart)), 1fr));
+	gap: var(--size-gap);
+}
+
+.hud-sensor {
+	display: flex;
+	align-items: center;
+	gap: var(--size-small-gap);
+	padding: var(--size-small-gap) var(--size-gap);
+	border: var(--size-separator) solid var(--color-hud-line);
+	border-radius: var(--size-small-gap);
+	transition: border-color var(--time-duration);
+
+	&[data-status="connected"] {
+		border-color: rgb(from var(--color-hud-online) r g b / 50%);
+	}
+
+	&[data-status="delayed"] {
+		border-color: rgb(from var(--color-hud-delayed) r g b / 50%);
+	}
+
+	&[data-status="terminated"] {
+		border-color: rgb(from var(--color-hud-offline) r g b / 50%);
+	}
+}
+
+a.hud-sensor:hover {
+	border-color: var(--color-hud-accent);
+}
+
+span.sensor-light {
+	width: calc(var(--size-standart) / 3);
+	height: calc(var(--size-standart) / 3);
+	border-radius: 50%;
+	background-color: var(--color-hud-idle);
+	flex-shrink: 0;
+
+	&[data-status="connected"] {
+		background-color: var(--color-hud-online);
+		box-shadow: 0 0 var(--size-gap) rgb(from var(--color-hud-online) r g b / 80%);
+		animation: hud-pulse var(--pulse-duration, 2.4s) ease-in-out infinite;
+	}
+
+	&[data-status="delayed"] {
+		background-color: var(--color-hud-delayed);
+		box-shadow: 0 0 var(--size-gap) rgb(from var(--color-hud-delayed) r g b / 80%);
+		animation: hud-pulse var(--pulse-duration, 0.9s) ease-in-out infinite;
+	}
+
+	&[data-status="terminated"] {
+		background-color: var(--color-hud-offline);
+	}
+}
+
+@keyframes hud-pulse {
+
+	0%,
+	100% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.35;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	span.sensor-light {
+		animation: none !important;
+	}
+}
+
+span.hud-sensor-icon.icon {
+	width: var(--size-standart);
+	height: var(--size-standart);
+}
+
+span.hud-sensor-name {
+	font-size: 0.9em;
+}
+
+/* Telemetry */
+.hud-telemetry {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-small-gap);
+}
+
+.hud-readout-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: var(--size-gap);
+}
+
+.hud-readout-label {
+	color: var(--color-hud-dim);
+	font-size: 0.8em;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+}
+
+.hud-readout-value {
+	font-variant-numeric: tabular-nums;
+	font-size: 1.1em;
+	color: var(--color-hud-accent);
+}
+
+.hud-waveform {
+	display: flex;
+	align-items: flex-end;
+	gap: calc(var(--size-small-gap) / 2);
+	height: calc(3 * var(--size-standart));
+	padding-top: var(--size-gap);
+	border-top: var(--size-separator) solid var(--color-hud-line);
+}
+
+span.hud-waveform-bar {
+	flex: 1;
+	min-height: 2px;
+	height: calc(var(--value, 0) * 100%);
+	background-color: var(--color-hud-accent);
+	opacity: 0.7;
+	border-radius: 1px;
+}
+
+/* Nav console */
+.hud-node-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(calc(10 * var(--size-standart)), 1fr));
+	gap: var(--size-gap);
+}
+
+.hud-node {
+	display: grid;
+	grid-template:
+		'callsign		status' auto
+		'name			name' auto
+		'description	description' auto
+		/ 1fr auto;
+	gap: var(--size-small-gap);
+	padding: var(--size-gap);
+	border: var(--size-separator) solid var(--color-hud-line);
+	border-radius: var(--size-small-gap);
+	transition: border-color var(--time-duration);
+
+	&[data-status="online"] {
+		border-color: rgb(from var(--color-hud-online) r g b / 50%);
+	}
+
+	&[data-status="building"] {
+		border-color: rgb(from var(--color-hud-delayed) r g b / 50%);
+	}
+
+	&[data-status="planned"] {
+		opacity: 0.55;
+	}
+
+	&[aria-disabled="true"] {
+		pointer-events: none;
+	}
+}
+
+a.hud-node:hover {
+	border-color: var(--color-hud-accent);
+}
+
+.hud-node-callsign {
+	grid-area: callsign;
+	font-family: var(--font-hud);
+	color: var(--color-hud-accent);
+	font-size: 0.85em;
+	letter-spacing: 0.1em;
+}
+
+.hud-node-status {
+	grid-area: status;
+	font-size: 0.7em;
+	text-transform: uppercase;
+	color: var(--color-hud-dim);
+	justify-self: end;
+}
+
+strong.hud-node-name {
+	grid-area: name;
+}
+
+.hud-node-description {
+	grid-area: description;
+	color: var(--color-hud-dim);
+}

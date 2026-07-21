@@ -8,6 +8,7 @@ import { type VitePlugin } from "./environment/plugins/vite-plugin.js";
 
 const root: URL = new URL(import.meta.url);
 const inputs: URL[] = [
+	new URL("./index.html", root),
 	new URL("./feed/index.html", root),
 	new URL("./shortcuts/vscode-quartz/index.html", root),
 	new URL("./applications/209-birthdays/index.html", root),

@@ -1,0 +1,50 @@
+[
+	{
+		"callsign": "FEED-01",
+		"name": "Transmissions log",
+		"description": "Aggregated activity across every synchronized platform, updated automatically every 30 minutes.",
+		"href": "./feed/",
+		"kind": "section",
+		"status": "online"
+	},
+	{
+		"callsign": "PRJ-02",
+		"name": "Shipyard",
+		"description": "Docked projects with live build telemetry — under construction.",
+		"href": null,
+		"kind": "section",
+		"status": "building"
+	},
+	{
+		"callsign": "VIS-03",
+		"name": "Visualizer",
+		"description": "An independent vessel in the fleet — not yet commissioned to a subdomain.",
+		"href": null,
+		"kind": "external",
+		"status": "planned"
+	},
+	{
+		"callsign": "ARC-04",
+		"name": "Arcade bay",
+		"description": "Playable systems — not yet built.",
+		"href": null,
+		"kind": "section",
+		"status": "planned"
+	},
+	{
+		"callsign": "MOD-05",
+		"name": "209 birthdays",
+		"description": "Installed module — a birthday roster picker.",
+		"href": "./applications/209-birthdays/",
+		"kind": "miniapp",
+		"status": "online"
+	},
+	{
+		"callsign": "RDR-06",
+		"name": "Redirector",
+		"description": "Shortlink warp gate — not yet deployed.",
+		"href": null,
+		"kind": "external",
+		"status": "planned"
+	}
+]

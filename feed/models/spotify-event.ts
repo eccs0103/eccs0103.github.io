@@ -26,6 +26,33 @@ export class SpotifyToken extends Model {
 }
 //#endregion
 
+//#region Spotify authorization
+export interface SpotifyAuthorizationScheme {
+	access_token: string;
+	refresh_token: string;
+	token_type: string;
+	expires_in: number;
+	scope: string;
+}
+
+export class SpotifyAuthorization extends Model {
+	@Field(String, { name: "access_token" })
+	accessToken: string;
+
+	@Field(String, { name: "refresh_token" })
+	refreshToken: string;
+
+	@Field(String, { name: "token_type" })
+	tokenType: string;
+
+	@Field(Number, { name: "expires_in" })
+	expiresIn: number;
+
+	@Field(String, { name: "scope" })
+	scope: string;
+}
+//#endregion
+
 //#region Spotify token error
 export interface SpotifyTokenErrorScheme {
 	error: string;

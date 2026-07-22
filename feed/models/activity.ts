@@ -4,7 +4,7 @@ import "adaptive-extender/core";
 import { Deferred, Descendant, Field, Model, Nullable } from "adaptive-extender/core";
 
 //#region Activity
-export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator, TelegramActivityDiscriminator {
+export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator, TelegramActivityDiscriminator, NpmActivityDiscriminator, SoundCloudActivityDiscriminator {
 }
 
 export interface ActivityScheme {
@@ -36,6 +36,9 @@ export interface ActivityScheme {
 @Descendant(Deferred(_ => StackOverflowAnswerActivity))
 @Descendant(Deferred(_ => TelegramTextPostActivity))
 @Descendant(Deferred(_ => TelegramMediaPostActivity))
+@Descendant(Deferred(_ => NpmPublishActivity))
+@Descendant(Deferred(_ => SoundCloudUploadActivity))
+@Descendant(Deferred(_ => SoundCloudLikeActivity))
 export abstract class Activity extends Model {
 	@Field(String, { name: "platform" })
 	platform: string;
@@ -1104,6 +1107,161 @@ export class TelegramMediaPostActivity extends TelegramActivity {
 		this.fileName = fileName;
 		this.mediaType = mediaType;
 		this.description = description;
+	}
+}
+//#endregion
+
+//#region Npm activity
+export interface NpmActivityDiscriminator extends NpmPublishActivityDiscriminator {
+}
+
+export interface NpmActivityScheme extends ActivityScheme {
+	$type: keyof NpmActivityDiscriminator;
+}
+
+@Descendant(Deferred(_ => NpmPublishActivity))
+export abstract class NpmActivity extends Activity {
+	constructor();
+	constructor(platform: string, timestamp: Date);
+	constructor(platform?: string, timestamp?: Date) {
+		if (platform === undefined || timestamp === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp);
+		if (new.target === NpmActivity) throw new TypeError("Unable to create an instance of an abstract class");
+	}
+}
+//#endregion
+//#region Npm publish activity
+export interface NpmPublishActivityDiscriminator {
+	"NpmPublishActivity": NpmPublishActivity;
+}
+
+export interface NpmPublishActivityScheme extends NpmActivityScheme {
+	$type: keyof NpmPublishActivityDiscriminator;
+	package: string;
+	version: string;
+	description: string | null;
+	url: string;
+}
+
+export class NpmPublishActivity extends NpmActivity {
+	@Field(String, { name: "package" })
+	package: string;
+
+	@Field(String, { name: "version" })
+	version: string;
+
+	@Field(Nullable.Of(String), { name: "description" })
+	description: string | null;
+
+	@Field(String, { name: "url" })
+	url: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, name: string, version: string, description: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, name?: string, version?: string, description?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || name === undefined || version === undefined || description === undefined || url === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp);
+		this.package = name;
+		this.version = version;
+		this.description = description;
+		this.url = url;
+	}
+}
+//#endregion
+
+//#region SoundCloud activity
+export interface SoundCloudActivityDiscriminator extends SoundCloudUploadActivityDiscriminator, SoundCloudLikeActivityDiscriminator {
+}
+
+export interface SoundCloudActivityScheme extends ActivityScheme {
+	$type: keyof SoundCloudActivityDiscriminator;
+	title: string;
+	publisher: string;
+	artwork: string | null;
+	url: string;
+}
+
+@Descendant(Deferred(_ => SoundCloudUploadActivity))
+@Descendant(Deferred(_ => SoundCloudLikeActivity))
+export abstract class SoundCloudActivity extends Activity {
+	@Field(String, { name: "title" })
+	title: string;
+
+	@Field(String, { name: "publisher" })
+	publisher: string;
+
+	@Field(Nullable.Of(String), { name: "artwork" })
+	artwork: string | null;
+
+	@Field(String, { name: "url" })
+	url: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || url === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp);
+		if (new.target === SoundCloudActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.title = title;
+		this.publisher = publisher;
+		this.artwork = artwork;
+		this.url = url;
+	}
+}
+//#endregion
+//#region SoundCloud upload activity
+export interface SoundCloudUploadActivityDiscriminator {
+	"SoundCloudUploadActivity": SoundCloudUploadActivity;
+}
+
+export interface SoundCloudUploadActivityScheme extends SoundCloudActivityScheme {
+	$type: keyof SoundCloudUploadActivityDiscriminator;
+}
+
+export class SoundCloudUploadActivity extends SoundCloudActivity {
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || url === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, title, publisher, artwork, url);
+	}
+}
+//#endregion
+//#region SoundCloud like activity
+export interface SoundCloudLikeActivityDiscriminator {
+	"SoundCloudLikeActivity": SoundCloudLikeActivity;
+}
+
+export interface SoundCloudLikeActivityScheme extends SoundCloudActivityScheme {
+	$type: keyof SoundCloudLikeActivityDiscriminator;
+}
+
+export class SoundCloudLikeActivity extends SoundCloudActivity {
+	constructor();
+	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || url === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, title, publisher, artwork, url);
 	}
 }
 //#endregion

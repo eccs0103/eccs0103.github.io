@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { Controller, Timespan } from "adaptive-extender/web";
-import { Activity, GitHubActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity, TelegramActivity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
+import { Activity, GitHubActivity, NpmActivity, SoundCloudActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity, TelegramActivity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { Configuration, type Platform } from "../models/configuration.js";
 import { ActivityBuilder } from "./view-builders.js";
@@ -13,6 +13,8 @@ import { ActivityCollector, type TypeOf } from "../services/activity-collector.j
 import { type DataTable } from "../services/data-table.js";
 import { StackOverflowRenderStrategy } from "./stack-overflow-render-strategy.js";
 import { TelegramRenderStrategy } from "./telegram-render-strategy.js";
+import { NpmRenderStrategy } from "./npm-render-strategy.js";
+import { SoundCloudRenderStrategy } from "./soundcloud-render-strategy.js";
 import { analytics } from "../../environment/services/analytics-service.js";
 import { FeedBatchLoaded } from "../models/feed-batch-loaded.js";
 import { FeedCompleted } from "../models/feed-completed.js";
@@ -124,6 +126,8 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy());
 		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy());
 		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(urlProxy), { gap: Timespan.newZero });
+		this.registerStrategy(NpmActivity, new NpmRenderStrategy());
+		this.registerStrategy(SoundCloudActivity, new SoundCloudRenderStrategy());
 
 		const outro = configuration.outro;
 		const batch = options.batch ?? 10;

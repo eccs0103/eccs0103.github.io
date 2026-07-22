@@ -14,6 +14,8 @@ import { PinterestWalker } from "../services/pinterest-walker.js";
 import { SteamWalker } from "../services/steam-walker.js";
 import { StackOverflowWalker } from "../services/stack-overflow-walker.js";
 import { TelegramWalker } from "../services/telegram-walker.js";
+import { NpmWalker } from "../services/npm-walker.js";
+import { SoundCloudWalker } from "../services/soundcloud-walker.js";
 import { Configuration } from "../models/configuration.js";
 import { type Bridge } from "../services/bridge.js";
 import { type ActivityWalker } from "../services/activity-walker.js";
@@ -29,6 +31,8 @@ const { pinterestClientId, pinterestClientSecret, pinterestToken } = environment
 const { steamId, steamApiKey } = environment;
 const { stackOverflowId, stackOverflowApiKey } = environment;
 const { telegramChannelId, telegramApiId, telegramApiHash, telegramSession } = environment;
+const { npmUsername } = environment;
+const { soundCloudClientId, soundCloudClientSecret, soundCloudUser } = environment;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -79,6 +83,8 @@ class ActivityController extends Controller {
 			new SteamWalker(steamId, steamApiKey),
 			new StackOverflowWalker(stackOverflowId, stackOverflowApiKey),
 			new TelegramWalker(telegramChannelId, telegramApiId, telegramApiHash, telegramSession),
+			new NpmWalker(npmUsername),
+			new SoundCloudWalker(soundCloudClientId, soundCloudClientSecret, soundCloudUser),
 		];
 		console.log("Starting feed update...");
 		await ActivityDispatcher.launch(activities, origin, walkers, configuration.platforms, this.#reporter);

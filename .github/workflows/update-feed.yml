@@ -58,12 +58,14 @@ jobs:
 
                 SOUND_CLOUD_CLIENT_ID: ${{ vars.CLIENT_ID_SOUND_CLOUD }}
                 SOUND_CLOUD_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SOUND_CLOUD }}
-                SOUND_CLOUD_TOKEN: ${{ secrets.TOKEN_SOUND_CLOUD }}
+                SOUND_CLOUD_USER: ${{ vars.USER_SOUND_CLOUD }}
 
                 TELEGRAM_CHANNEL_ID: ${{ vars.CHANNEL_ID_TELEGRAM }}
                 TELEGRAM_API_ID: ${{ secrets.API_ID_TELEGRAM }}
                 TELEGRAM_API_HASH: ${{ secrets.API_HASH_TELEGRAM }}
                 TELEGRAM_SESSION: ${{ secrets.SESSION_TELEGRAM }}
+
+                NPM_USERNAME: ${{ vars.USERNAME_NPM }}
 
             run: npm run walk
 

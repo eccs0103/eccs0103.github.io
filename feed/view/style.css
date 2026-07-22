@@ -101,7 +101,8 @@ body {
 					}
 				}
 
-				& img.spotify-cover {
+				& img.spotify-cover,
+				& img.soundcloud-cover {
 					width: calc(3 * var(--size-standart));
 					aspect-ratio: 1;
 				}

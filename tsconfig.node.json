@@ -24,6 +24,8 @@
 		"feed/services/pinterest-walker.ts",
 		"feed/services/steam-walker.ts",
 		"feed/services/stack-overflow-walker.ts",
-		"feed/services/telegram-walker.ts"
+		"feed/services/telegram-walker.ts",
+		"feed/services/npm-walker.ts",
+		"feed/services/soundcloud-walker.ts"
 	]
 }

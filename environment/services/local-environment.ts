@@ -69,8 +69,11 @@ class LocalEnviroment extends Model {
 	@Field(String, { name: "SOUND_CLOUD_CLIENT_SECRET" })
 	soundCloudClientSecret: string;
 
-	@Field(String, { name: "SOUND_CLOUD_TOKEN" })
-	soundCloudToken: string;
+	@Field(String, { name: "SOUND_CLOUD_USER" })
+	soundCloudUser: string;
+
+	@Field(String, { name: "NPM_USERNAME" })
+	npmUsername: string;
 
 	@Field(Number, { name: "TELEGRAM_CHANNEL_ID" })
 	telegramChannelId: number;

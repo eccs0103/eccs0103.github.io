@@ -158,5 +158,25 @@
 		"platform": "GitHub",
 		"timestamp": 1784713632000,
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"number": 1,
+		"title": "Spotify authorization expired — re-authorization required",
+		"issue_url": "https://github.com/eccs0103/eccs0103.github.io/issues/1",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"platform": "GitHub",
+		"timestamp": 1784713988000,
+		"$type": "GitHubIssueCloseActivity"
+	},
+	{
+		"sha": "17412bac71246dbeb52c64d9b02e25ba9a138019",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/eccs0103.github.io",
+		"repository": "eccs0103.github.io",
+		"platform": "GitHub",
+		"timestamp": 1784737192000,
+		"$type": "GitHubPushActivity"
 	}
 ]

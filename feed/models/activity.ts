@@ -21,6 +21,12 @@ export interface ActivityScheme {
 @Descendant(Deferred(_ => GitHubCreateRepositoryActivity))
 @Descendant(Deferred(_ => GitHubDeleteTagActivity))
 @Descendant(Deferred(_ => GitHubDeleteBranchActivity))
+@Descendant(Deferred(_ => GitHubForkActivity))
+@Descendant(Deferred(_ => GitHubIssueOpenActivity))
+@Descendant(Deferred(_ => GitHubIssueCloseActivity))
+@Descendant(Deferred(_ => GitHubPullRequestOpenActivity))
+@Descendant(Deferred(_ => GitHubPullRequestMergeActivity))
+@Descendant(Deferred(_ => GitHubPullRequestCloseActivity))
 @Descendant(Deferred(_ => SpotifyLikeActivity))
 @Descendant(Deferred(_ => PinterestImagePinActivity))
 @Descendant(Deferred(_ => PinterestVideoPinActivity))
@@ -64,7 +70,7 @@ export abstract class Activity extends Model {
 //#endregion
 
 //#region GitHub activity
-export interface GitHubActivityDiscriminator extends GitHubPushActivityDiscriminator, GitHubReleaseActivityDiscriminator, GitHubWatchActivityDiscriminator, GitHubCreateActivityDiscriminator, GitHubDeleteActivityDiscriminator {
+export interface GitHubActivityDiscriminator extends GitHubPushActivityDiscriminator, GitHubReleaseActivityDiscriminator, GitHubWatchActivityDiscriminator, GitHubCreateActivityDiscriminator, GitHubDeleteActivityDiscriminator, GitHubForkActivityDiscriminator, GitHubIssueActivityDiscriminator, GitHubPullRequestActivityDiscriminator {
 }
 
 export interface GitHubActivityScheme extends ActivityScheme {
@@ -82,6 +88,12 @@ export interface GitHubActivityScheme extends ActivityScheme {
 @Descendant(Deferred(_ => GitHubCreateRepositoryActivity))
 @Descendant(Deferred(_ => GitHubDeleteTagActivity))
 @Descendant(Deferred(_ => GitHubDeleteBranchActivity))
+@Descendant(Deferred(_ => GitHubForkActivity))
+@Descendant(Deferred(_ => GitHubIssueOpenActivity))
+@Descendant(Deferred(_ => GitHubIssueCloseActivity))
+@Descendant(Deferred(_ => GitHubPullRequestOpenActivity))
+@Descendant(Deferred(_ => GitHubPullRequestMergeActivity))
+@Descendant(Deferred(_ => GitHubPullRequestCloseActivity))
 export abstract class GitHubActivity extends Activity {
 	@Field(String, { name: "username" })
 	username: string;
@@ -360,6 +372,227 @@ export class GitHubDeleteBranchActivity extends GitHubDeleteActivity {
 		}
 
 		super(platform, timestamp, username, url, repository, name);
+	}
+}
+//#endregion
+//#region GitHub fork activity
+export interface GitHubForkActivityDiscriminator {
+	"GitHubForkActivity": GitHubForkActivity;
+}
+
+export interface GitHubForkActivityScheme extends GitHubActivityScheme {
+	$type: keyof GitHubForkActivityDiscriminator;
+	fork_url: string;
+	fork_name: string;
+}
+
+export class GitHubForkActivity extends GitHubActivity {
+	@Field(String, { name: "fork_url" })
+	forkUrl: string;
+
+	@Field(String, { name: "fork_name" })
+	forkName: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, forkUrl: string, forkName: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, forkUrl?: string, forkName?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || forkUrl === undefined || forkName === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository);
+		this.forkUrl = forkUrl;
+		this.forkName = forkName;
+	}
+}
+//#endregion
+//#region GitHub issue activity
+export interface GitHubIssueActivityDiscriminator extends GitHubIssueOpenActivityDiscriminator, GitHubIssueCloseActivityDiscriminator {
+}
+
+export interface GitHubIssueActivityScheme extends GitHubActivityScheme {
+	$type: keyof GitHubIssueActivityDiscriminator;
+	number: number;
+	title: string;
+	issue_url: string;
+}
+
+@Descendant(Deferred(_ => GitHubIssueOpenActivity))
+@Descendant(Deferred(_ => GitHubIssueCloseActivity))
+export abstract class GitHubIssueActivity extends GitHubActivity {
+	@Field(Number, { name: "number" })
+	number: number;
+
+	@Field(String, { name: "title" })
+	title: string;
+
+	@Field(String, { name: "issue_url" })
+	issueUrl: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, number: number, title: string, issueUrl: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, number?: number, title?: string, issueUrl?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || number === undefined || title === undefined || issueUrl === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository);
+		if (new.target === GitHubIssueActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.number = number;
+		this.title = title;
+		this.issueUrl = issueUrl;
+	}
+}
+//#endregion
+//#region GitHub issue open activity
+export interface GitHubIssueOpenActivityDiscriminator {
+	"GitHubIssueOpenActivity": GitHubIssueOpenActivity;
+}
+
+export interface GitHubIssueOpenActivityScheme extends GitHubIssueActivityScheme {
+	$type: keyof GitHubIssueOpenActivityDiscriminator;
+}
+
+export class GitHubIssueOpenActivity extends GitHubIssueActivity {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, number: number, title: string, issueUrl: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, number?: number, title?: string, issueUrl?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || number === undefined || title === undefined || issueUrl === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository, number, title, issueUrl);
+	}
+}
+//#endregion
+//#region GitHub issue close activity
+export interface GitHubIssueCloseActivityDiscriminator {
+	"GitHubIssueCloseActivity": GitHubIssueCloseActivity;
+}
+
+export interface GitHubIssueCloseActivityScheme extends GitHubIssueActivityScheme {
+	$type: keyof GitHubIssueCloseActivityDiscriminator;
+}
+
+export class GitHubIssueCloseActivity extends GitHubIssueActivity {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, number: number, title: string, issueUrl: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, number?: number, title?: string, issueUrl?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || number === undefined || title === undefined || issueUrl === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository, number, title, issueUrl);
+	}
+}
+//#endregion
+//#region GitHub pull request activity
+export interface GitHubPullRequestActivityDiscriminator extends GitHubPullRequestOpenActivityDiscriminator, GitHubPullRequestMergeActivityDiscriminator, GitHubPullRequestCloseActivityDiscriminator {
+}
+
+export interface GitHubPullRequestActivityScheme extends GitHubActivityScheme {
+	$type: keyof GitHubPullRequestActivityDiscriminator;
+	number: number;
+	title: string;
+	request_url: string;
+}
+
+@Descendant(Deferred(_ => GitHubPullRequestOpenActivity))
+@Descendant(Deferred(_ => GitHubPullRequestMergeActivity))
+@Descendant(Deferred(_ => GitHubPullRequestCloseActivity))
+export abstract class GitHubPullRequestActivity extends GitHubActivity {
+	@Field(Number, { name: "number" })
+	number: number;
+
+	@Field(String, { name: "title" })
+	title: string;
+
+	@Field(String, { name: "request_url" })
+	requestUrl: string;
+
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, number: number, title: string, requestUrl: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, number?: number, title?: string, requestUrl?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || number === undefined || title === undefined || requestUrl === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository);
+		if (new.target === GitHubPullRequestActivity) throw new TypeError("Unable to create an instance of an abstract class");
+		this.number = number;
+		this.title = title;
+		this.requestUrl = requestUrl;
+	}
+}
+//#endregion
+//#region GitHub pull request open activity
+export interface GitHubPullRequestOpenActivityDiscriminator {
+	"GitHubPullRequestOpenActivity": GitHubPullRequestOpenActivity;
+}
+
+export interface GitHubPullRequestOpenActivityScheme extends GitHubPullRequestActivityScheme {
+	$type: keyof GitHubPullRequestOpenActivityDiscriminator;
+}
+
+export class GitHubPullRequestOpenActivity extends GitHubPullRequestActivity {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, number: number, title: string, requestUrl: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, number?: number, title?: string, requestUrl?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || number === undefined || title === undefined || requestUrl === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository, number, title, requestUrl);
+	}
+}
+//#endregion
+//#region GitHub pull request merge activity
+export interface GitHubPullRequestMergeActivityDiscriminator {
+	"GitHubPullRequestMergeActivity": GitHubPullRequestMergeActivity;
+}
+
+export interface GitHubPullRequestMergeActivityScheme extends GitHubPullRequestActivityScheme {
+	$type: keyof GitHubPullRequestMergeActivityDiscriminator;
+}
+
+export class GitHubPullRequestMergeActivity extends GitHubPullRequestActivity {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, number: number, title: string, requestUrl: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, number?: number, title?: string, requestUrl?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || number === undefined || title === undefined || requestUrl === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository, number, title, requestUrl);
+	}
+}
+//#endregion
+//#region GitHub pull request close activity
+export interface GitHubPullRequestCloseActivityDiscriminator {
+	"GitHubPullRequestCloseActivity": GitHubPullRequestCloseActivity;
+}
+
+export interface GitHubPullRequestCloseActivityScheme extends GitHubPullRequestActivityScheme {
+	$type: keyof GitHubPullRequestCloseActivityDiscriminator;
+}
+
+export class GitHubPullRequestCloseActivity extends GitHubPullRequestActivity {
+	constructor();
+	constructor(platform: string, timestamp: Date, username: string, url: string, repository: string, number: number, title: string, requestUrl: string);
+	constructor(platform?: string, timestamp?: Date, username?: string, url?: string, repository?: string, number?: number, title?: string, requestUrl?: string) {
+		if (platform === undefined || timestamp === undefined || username === undefined || url === undefined || repository === undefined || number === undefined || title === undefined || requestUrl === undefined) {
+			super();
+			return;
+		}
+
+		super(platform, timestamp, username, url, repository, number, title, requestUrl);
 	}
 }
 //#endregion

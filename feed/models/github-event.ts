@@ -208,11 +208,121 @@ export class GitHubDeleteEventPayload extends Model {
 }
 //#endregion
 
-//#region GitHub event payload
-export interface GitHubEventPayloadDiscriminator extends GitHubPushEventPayloadDiscriminator, GitHubReleaseEventPayloadDiscriminator, GitHubWatchEventPayloadDiscriminator, GitHubCreateEventPayloadDiscriminator, GitHubDeleteEventPayloadDiscriminator {
-	"ForkEvent": any;
+//#region GitHub event issue
+export interface GitHubEventIssueScheme {
+	html_url: string;
+	number: number;
+	title: string;
+}
+
+export class GitHubEventIssue extends Model {
+	@Field(String, { name: "html_url" })
+	htmlUrl: string;
+
+	@Field(Number, { name: "number" })
+	number: number;
+
+	@Field(String, { name: "title" })
+	title: string;
+}
+//#endregion
+
+//#region GitHub event forkee
+export interface GitHubEventForkeeScheme {
+	html_url: string;
+	full_name: string;
+}
+
+export class GitHubEventForkee extends Model {
+	@Field(String, { name: "html_url" })
+	htmlUrl: string;
+
+	@Field(String, { name: "full_name" })
+	fullName: string;
+}
+//#endregion
+
+//#region GitHub event pull request
+export interface GitHubEventPullRequestScheme {
+	html_url: string;
+	number: number;
+	title: string;
+	merged: boolean;
+}
+
+export class GitHubEventPullRequest extends Model {
+	@Field(String, { name: "html_url" })
+	htmlUrl: string;
+
+	@Field(Number, { name: "number" })
+	number: number;
+
+	@Field(String, { name: "title" })
+	title: string;
+
+	@Field(Boolean, { name: "merged" })
+	merged: boolean;
+}
+//#endregion
+
+//#region GitHub issues event payload
+export interface GitHubIssuesEventPayloadDiscriminator {
 	"IssuesEvent": any;
+}
+
+export interface GitHubIssuesEventPayloadScheme {
+	$type: keyof GitHubIssuesEventPayloadDiscriminator;
+	action: string;
+	issue: GitHubEventIssueScheme;
+}
+
+export class GitHubIssuesEventPayload extends Model {
+	@Field(String, { name: "action" })
+	action: string;
+
+	@Field(GitHubEventIssue, { name: "issue" })
+	issue: GitHubEventIssue;
+}
+//#endregion
+
+//#region GitHub fork event payload
+export interface GitHubForkEventPayloadDiscriminator {
+	"ForkEvent": any;
+}
+
+export interface GitHubForkEventPayloadScheme {
+	$type: keyof GitHubForkEventPayloadDiscriminator;
+	forkee: GitHubEventForkeeScheme;
+}
+
+export class GitHubForkEventPayload extends Model {
+	@Field(GitHubEventForkee, { name: "forkee" })
+	forkee: GitHubEventForkee;
+}
+//#endregion
+
+//#region GitHub pull request event payload
+export interface GitHubPullRequestEventPayloadDiscriminator {
 	"PullRequestEvent": any;
+}
+
+export interface GitHubPullRequestEventPayloadScheme {
+	$type: keyof GitHubPullRequestEventPayloadDiscriminator;
+	action: string;
+	pull_request: GitHubEventPullRequestScheme;
+}
+
+export class GitHubPullRequestEventPayload extends Model {
+	@Field(String, { name: "action" })
+	action: string;
+
+	@Field(GitHubEventPullRequest, { name: "pull_request" })
+	pullRequest: GitHubEventPullRequest;
+}
+//#endregion
+
+//#region GitHub event payload
+export interface GitHubEventPayloadDiscriminator extends GitHubPushEventPayloadDiscriminator, GitHubReleaseEventPayloadDiscriminator, GitHubWatchEventPayloadDiscriminator, GitHubCreateEventPayloadDiscriminator, GitHubDeleteEventPayloadDiscriminator, GitHubIssuesEventPayloadDiscriminator, GitHubForkEventPayloadDiscriminator, GitHubPullRequestEventPayloadDiscriminator {
 }
 
 export interface GitHubEventPayloadScheme {
@@ -224,6 +334,9 @@ export interface GitHubEventPayloadScheme {
 @Descendant(Deferred(_ => GitHubWatchEventPayload), { discriminator: "WatchEvent" })
 @Descendant(Deferred(_ => GitHubCreateEventPayload), { discriminator: "CreateEvent" })
 @Descendant(Deferred(_ => GitHubDeleteEventPayload), { discriminator: "DeleteEvent" })
+@Descendant(Deferred(_ => GitHubIssuesEventPayload), { discriminator: "IssuesEvent" })
+@Descendant(Deferred(_ => GitHubForkEventPayload), { discriminator: "ForkEvent" })
+@Descendant(Deferred(_ => GitHubPullRequestEventPayload), { discriminator: "PullRequestEvent" })
 export abstract class GitHubEventPayload extends Model {
 }
 //#endregion

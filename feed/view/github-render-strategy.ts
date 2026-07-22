@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
-import { GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity } from "../models/activity.js";
+import { GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubForkActivity, GitHubIssueCloseActivity, GitHubIssueOpenActivity, GitHubPullRequestCloseActivity, GitHubPullRequestMergeActivity, GitHubPullRequestOpenActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity } from "../models/activity.js";
 import { TextExpert } from "../services/text-expert.js";
 import { DOMBuilder } from "./view-builders.js";
 import { GitHubSummaryExpert, type LinkerFunction, type PrinterFunction } from "../services/github-summary-expert.js";
@@ -77,6 +77,60 @@ export class GitHubRenderStrategy implements ActivityRenderStrategy<GitHubActivi
 		itemContainer.appendChild(DOMBuilder.newText("."));
 	}
 
+	#renderFork(itemContainer: HTMLElement, activity: GitHubForkActivity): void {
+		const { url, repository, forkUrl, forkName } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Forked "));
+		itemContainer.appendChild(DOMBuilder.newLink(new URL(url), { text: repository }));
+		itemContainer.appendChild(DOMBuilder.newText(" into "));
+		itemContainer.appendChild(DOMBuilder.newLink(new URL(forkUrl), { text: forkName }));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderIssueOpen(itemContainer: HTMLElement, activity: GitHubIssueOpenActivity): void {
+		const { title, issueUrl, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Flagged a new issue "));
+		itemContainer.appendChild(DOMBuilder.newLink(new URL(issueUrl), { text: title }));
+		itemContainer.appendChild(DOMBuilder.newText(" in "));
+		itemContainer.appendChild(DOMBuilder.newText(repository));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderIssueClose(itemContainer: HTMLElement, activity: GitHubIssueCloseActivity): void {
+		const { title, issueUrl, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Resolved issue "));
+		itemContainer.appendChild(DOMBuilder.newLink(new URL(issueUrl), { text: title, disabled: false }));
+		itemContainer.appendChild(DOMBuilder.newText(" in "));
+		itemContainer.appendChild(DOMBuilder.newText(repository));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderPullRequestOpen(itemContainer: HTMLElement, activity: GitHubPullRequestOpenActivity): void {
+		const { title, requestUrl, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Opened pull request "));
+		itemContainer.appendChild(DOMBuilder.newLink(new URL(requestUrl), { text: title }));
+		itemContainer.appendChild(DOMBuilder.newText(" for "));
+		itemContainer.appendChild(DOMBuilder.newText(repository));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderPullRequestMerge(itemContainer: HTMLElement, activity: GitHubPullRequestMergeActivity): void {
+		const { title, requestUrl, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Merged pull request "));
+		itemContainer.appendChild(DOMBuilder.newLink(new URL(requestUrl), { text: title, disabled: false }));
+		itemContainer.appendChild(DOMBuilder.newText(" into "));
+		itemContainer.appendChild(DOMBuilder.newText(repository));
+		itemContainer.appendChild(DOMBuilder.newText("."));
+	}
+
+	#renderPullRequestClose(itemContainer: HTMLElement, activity: GitHubPullRequestCloseActivity): void {
+		const { title, requestUrl, repository } = activity;
+		itemContainer.appendChild(DOMBuilder.newText("Closed pull request "));
+		itemContainer.appendChild(DOMBuilder.newLink(new URL(requestUrl), { text: title, disabled: false }));
+		itemContainer.appendChild(DOMBuilder.newText(" for "));
+		itemContainer.appendChild(DOMBuilder.newText(repository));
+		itemContainer.appendChild(DOMBuilder.newText(" without merging."));
+	}
+
 	#renderSingle(itemContainer: HTMLElement, activity: GitHubActivity): void {
 		if (activity instanceof GitHubPushActivity) return this.#renderPush(itemContainer, activity, 1);
 		if (activity instanceof GitHubReleaseActivity) return this.#renderRelease(itemContainer, activity);
@@ -86,6 +140,12 @@ export class GitHubRenderStrategy implements ActivityRenderStrategy<GitHubActivi
 		if (activity instanceof GitHubCreateRepositoryActivity) return this.#renderCreateRepository(itemContainer, activity);
 		if (activity instanceof GitHubDeleteBranchActivity) return this.#renderDeleteBranch(itemContainer, activity);
 		if (activity instanceof GitHubDeleteTagActivity) return this.#renderDeleteTag(itemContainer, activity);
+		if (activity instanceof GitHubForkActivity) return this.#renderFork(itemContainer, activity);
+		if (activity instanceof GitHubIssueOpenActivity) return this.#renderIssueOpen(itemContainer, activity);
+		if (activity instanceof GitHubIssueCloseActivity) return this.#renderIssueClose(itemContainer, activity);
+		if (activity instanceof GitHubPullRequestOpenActivity) return this.#renderPullRequestOpen(itemContainer, activity);
+		if (activity instanceof GitHubPullRequestMergeActivity) return this.#renderPullRequestMerge(itemContainer, activity);
+		if (activity instanceof GitHubPullRequestCloseActivity) return this.#renderPullRequestClose(itemContainer, activity);
 	}
 
 	#renderCollection(itemContainer: HTMLElement, activities: readonly GitHubActivity[]): void {

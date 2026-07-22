@@ -2,8 +2,8 @@
 
 import "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
-import { GitHubCreateEventPayload, GitHubDeleteEventPayload, GitHubEvent, GitHubPushEventPayload, GitHubReleaseEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
-import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity } from "../models/activity.js";
+import { GitHubCreateEventPayload, GitHubDeleteEventPayload, GitHubEvent, GitHubForkEventPayload, GitHubIssuesEventPayload, GitHubPullRequestEventPayload, GitHubPushEventPayload, GitHubReleaseEventPayload, GitHubWatchEventPayload } from "../models/github-event.js";
+import { Activity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubForkActivity, GitHubIssueCloseActivity, GitHubIssueOpenActivity, GitHubPullRequestCloseActivity, GitHubPullRequestMergeActivity, GitHubPullRequestOpenActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity } from "../models/activity.js";
 
 //#region GitHub walker
 export class GitHubWalker extends ActivityWalker {
@@ -34,17 +34,18 @@ export class GitHubWalker extends ActivityWalker {
 		const chunk = 100;
 		let page = 1;
 		while (true) {
-			let index = 0;
+			let count = 0;
 			for await (const item of this.#fetchPaginated(page, chunk)) {
+				count++;
 				try {
-					const event = GitHubEvent.import(item, `github_events[${index++}]`);
+					const event = GitHubEvent.import(item, `github_events[${count - 1}]`);
 					if (event.createdAt < since) return;
 					yield event;
 				} catch (reason) {
 					console.error(reason);
 				}
 			}
-			if (index < chunk) return;
+			if (count < chunk) return;
 			page++;
 		}
 	}
@@ -86,6 +87,32 @@ export class GitHubWalker extends ActivityWalker {
 				case "tag": yield new GitHubDeleteTagActivity(platform, timestamp, username, url, repository, name); break;
 				case "branch": yield new GitHubDeleteBranchActivity(platform, timestamp, username, url, repository, name); break;
 				default: throw new Error(`Invalid '${refType}' refType for GitHubDeleteEventPayload`);
+				}
+			}
+			if (payload instanceof GitHubForkEventPayload) {
+				const { htmlUrl: forkUrl, fullName: forkName } = payload.forkee;
+				yield new GitHubForkActivity(platform, timestamp, username, url, repository, forkUrl, forkName);
+			}
+			if (payload instanceof GitHubIssuesEventPayload) {
+				const { action, issue } = payload;
+				const { number, title, htmlUrl: issueUrl } = issue;
+				switch (action) {
+				case "opened":
+				case "reopened": yield new GitHubIssueOpenActivity(platform, timestamp, username, url, repository, number, title, issueUrl); break;
+				case "closed": yield new GitHubIssueCloseActivity(platform, timestamp, username, url, repository, number, title, issueUrl); break;
+				}
+			}
+			if (payload instanceof GitHubPullRequestEventPayload) {
+				const { action, pullRequest } = payload;
+				const { number, title, htmlUrl: requestUrl, merged } = pullRequest;
+				switch (action) {
+				case "opened":
+				case "reopened": yield new GitHubPullRequestOpenActivity(platform, timestamp, username, url, repository, number, title, requestUrl); break;
+				case "closed":
+					yield merged
+						? new GitHubPullRequestMergeActivity(platform, timestamp, username, url, repository, number, title, requestUrl)
+						: new GitHubPullRequestCloseActivity(platform, timestamp, username, url, repository, number, title, requestUrl);
+					break;
 				}
 			}
 		}

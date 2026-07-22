@@ -24,6 +24,12 @@ export class TelegramWalker extends ActivityWalker {
 		["image/webp", "webp"],
 		["application/pdf", "pdf"],
 		["application/zip", "zip"],
+		["text/plain", "txt"],
+		["text/x-ini", "ini"],
+		["application/msword", "doc"],
+		["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx"],
+		["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlsx"],
+		["application/vnd.openxmlformats-officedocument.presentationml.presentation", "pptx"],
 	]);
 
 	#channelId: number;

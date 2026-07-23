@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { Deferred, Descendant, Field, Model, Nullable } from "adaptive-extender/core";
+import { Deferred, Descendant, Field, Model, Nullable, Version } from "adaptive-extender/core";
 
 //#region Activity
 export interface ActivityDiscriminator extends GitHubActivityDiscriminator, SpotifyActivityDiscriminator, PinterestActivityDiscriminator, SteamActivityDiscriminator, StackOverflowActivityDiscriminator, TelegramActivityDiscriminator, NpmActivityDiscriminator, SoundCloudActivityDiscriminator {
@@ -1151,8 +1151,8 @@ export class NpmPublishActivity extends NpmActivity {
 	@Field(String, { name: "package" })
 	package: string;
 
-	@Field(String, { name: "version" })
-	version: string;
+	@Field(Version, { name: "version" })
+	version: Version;
 
 	@Field(Nullable.Of(String), { name: "description" })
 	description: string | null;
@@ -1161,8 +1161,8 @@ export class NpmPublishActivity extends NpmActivity {
 	url: string;
 
 	constructor();
-	constructor(platform: string, timestamp: Date, name: string, version: string, description: string | null, url: string);
-	constructor(platform?: string, timestamp?: Date, name?: string, version?: string, description?: string | null, url?: string) {
+	constructor(platform: string, timestamp: Date, name: string, version: Version, description: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, name?: string, version?: Version, description?: string | null, url?: string) {
 		if (platform === undefined || timestamp === undefined || name === undefined || version === undefined || description === undefined || url === undefined) {
 			super();
 			return;

@@ -39,6 +39,7 @@ interface RenderContext {
 
 export interface StrategyOptions {
 	gap: Timespan;
+	passThrough: boolean;
 }
 
 export interface ActivitiesRendererOptions {
@@ -73,6 +74,10 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 		let rendered = 0;
 		while (cursor.inRange && rendered < batch) {
 			const index = cursor.index;
+			if (collector.isConsumed(cursor.current)) {
+				cursor.index++;
+				continue;
+			}
 			const root = collector.findRoot(cursor.current);
 			if (root === null) {
 				cursor.index++;
@@ -120,13 +125,13 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 
 	async run(itemContainer: HTMLElement, urlProxy: URL, activities: DataTable<typeof Activity>, configuration: Configuration, options: Partial<ActivitiesRendererOptions> = {}): Promise<void> {
 		this.#attachMediaController(itemContainer);
-		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy());
+		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy(), { passThrough: true });
 		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy());
 		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy());
 		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy());
 		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy());
 		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(urlProxy), { gap: Timespan.newZero });
-		this.registerStrategy(NpmActivity, new NpmRenderStrategy());
+		this.registerStrategy(NpmActivity, new NpmRenderStrategy(), { passThrough: true });
 		this.registerStrategy(SoundCloudActivity, new SoundCloudRenderStrategy());
 
 		const outro = configuration.outro;
@@ -134,9 +139,9 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 		const platforms = new Map(configuration.platforms.map(platform => [platform.name, platform]));
 		const cursor = new ArrayCursor(activities);
 
-		const collector = new ActivityCollector();
-		for (const [root, [, { gap }]] of this.#strategies) {
-			collector.register(root, { gap });
+		const collector = new ActivityCollector(activities);
+		for (const [root, [, options]] of this.#strategies) {
+			collector.register(root, options);
 		}
 
 		const observerAnimatedReveal = new IntersectionObserver((entries) => {

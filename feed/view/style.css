@@ -102,6 +102,43 @@ body {
 					}
 				}
 
+				& details.npm-collection {
+					& ul.collection-content > li:not(:last-child) {
+						margin-bottom: var(--size-gap);
+					}
+
+					& div.title-row {
+						align-items: center;
+					}
+
+					& a.package-name {
+						font-weight: bold;
+					}
+
+					& a.version-badge {
+						width: fit-content;
+						padding: 0.1em 0.5em;
+						border-radius: var(--size-small-gap);
+						font-family: "Cascadia Code", monospace;
+						font-size: 0.8em;
+
+						&.bump-major {
+							color: var(--color-error);
+							background-color: rgb(from var(--color-error) r g b / 15%);
+						}
+
+						&.bump-minor {
+							color: var(--color-warn);
+							background-color: rgb(from var(--color-warn) r g b / 15%);
+						}
+
+						&.bump-patch {
+							color: var(--color-highlight);
+							background-color: rgb(from var(--color-highlight) r g b / 15%);
+						}
+					}
+				}
+
 				& img.spotify-cover,
 				& img.soundcloud-cover {
 					width: calc(3 * var(--size-standart));

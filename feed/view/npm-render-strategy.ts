@@ -1,25 +1,41 @@
 "use strict";
 
 import "adaptive-extender/web";
+import { Version } from "adaptive-extender/web";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
 import { NpmActivity, NpmPublishActivity } from "../models/activity.js";
 import { DOMBuilder } from "./view-builders.js";
+import { TextExpert } from "../services/text-expert.js";
 
 //#region Npm render strategy
 export class NpmRenderStrategy implements ActivityRenderStrategy<NpmActivity> {
-	#renderVersion(itemContainer: HTMLElement, activity: NpmPublishActivity): void {
-		const { version, description, url } = activity;
+	static #getBump(version: Version): string {
+		if (version.patch !== 0) return "patch";
+		if (version.minor !== 0) return "minor";
+		return "major";
+	}
 
-		const divVersion = itemContainer.appendChild(document.createElement("div"));
-		divVersion.classList.add("flex", "column");
+	#renderPackage(ulContent: HTMLElement, name: string, entries: readonly NpmPublishActivity[]): void {
+		const liItem = ulContent.appendChild(document.createElement("li"));
+		liItem.classList.add("flex", "column", "with-gap", "small-gap");
 
-		const spanVersion = divVersion.appendChild(document.createElement("span"));
-		spanVersion.textContent = version;
+		const divTitle = liItem.appendChild(document.createElement("div"));
+		divTitle.classList.add("title-row", "flex", "wrap", "with-gap", "small-gap");
 
-		if (description !== null) divVersion.appendChild(DOMBuilder.newDescription(description));
+		const aName = divTitle.appendChild(DOMBuilder.newLink(new URL(`https://www.npmjs.com/package/${name}`), { text: name }));
+		aName.classList.add("package-name");
 
-		const aLink = divVersion.appendChild(DOMBuilder.newLink(new URL(url), { text: "View on npm" }));
-		aLink.classList.add("with-block-padding", "font-smaller-3");
+		const sorted = entries.toSorted((left, right) => Version.compare(left.version, right.version));
+
+		let description: string | null = null;
+		for (const entry of sorted) {
+			const aBadge = divTitle.appendChild(DOMBuilder.newLink(new URL(entry.url), { text: entry.version.toString() }));
+			aBadge.classList.add("version-badge");
+			aBadge.classList.add(`bump-${NpmRenderStrategy.#getBump(entry.version)}`);
+			if (entry.description !== null) description = entry.description;
+		}
+
+		if (description !== null) liItem.appendChild(DOMBuilder.newDescription(description));
 	}
 
 	#renderCollection(itemContainer: HTMLElement, activities: readonly NpmPublishActivity[]): void {
@@ -27,27 +43,21 @@ export class NpmRenderStrategy implements ActivityRenderStrategy<NpmActivity> {
 		details.classList.add("npm-collection");
 		details.open = true;
 
+		const groups: Map<string, NpmPublishActivity[]> = new Map();
+		for (const activity of activities) {
+			const group = groups.get(activity.package);
+			if (group === undefined) groups.set(activity.package, [activity]);
+			else group.push(activity);
+		}
+
 		const summary = details.appendChild(document.createElement("summary"));
-		summary.textContent = "Published new package versions";
+		summary.textContent = `Updated ${groups.size} package${TextExpert.getPluralSuffix(groups.size)}`;
 
 		const ulContent = details.appendChild(document.createElement("ul"));
 		ulContent.classList.add("collection-content");
 
-		for (let index = 0; index < activities.length; index++) {
-			const activity = activities[index];
-			const liItem = ulContent.appendChild(document.createElement("li"));
-
-			const strongHeader = liItem.appendChild(document.createElement("strong"));
-			strongHeader.textContent = activity.package;
-
-			const divVersions = liItem.appendChild(document.createElement("div"));
-			divVersions.classList.add("flex", "column", "with-gap");
-
-			this.#renderVersion(divVersions, activity);
-			while (index + 1 < activities.length && activities[index + 1].package === activity.package) {
-				index++;
-				this.#renderVersion(divVersions, activities[index]);
-			}
+		for (const [name, entries] of groups) {
+			this.#renderPackage(ulContent, name, entries);
 		}
 	}
 

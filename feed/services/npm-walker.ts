@@ -1,6 +1,7 @@
 "use strict";
 
 import "adaptive-extender/node";
+import { Version } from "adaptive-extender/node";
 import { ActivityWalker } from "./activity-walker.js";
 import { NpmPackument, NpmSearchResult } from "../models/npm-event.js";
 import { Activity, NpmPublishActivity } from "../models/activity.js";
@@ -45,7 +46,7 @@ export class NpmWalker extends ActivityWalker {
 					const details = versions.get(version);
 					const description = details !== undefined ? details.description : packageDescription;
 					const url = `https://www.npmjs.com/package/${name}/v/${version}`;
-					yield new NpmPublishActivity(platform, timestamp, name, version, description, url);
+					yield new NpmPublishActivity(platform, timestamp, name, Version.parse(version), description, url);
 				}
 			} catch (reason) {
 				console.error(reason);

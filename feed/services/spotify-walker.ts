@@ -35,10 +35,11 @@ export class SpotifyWalker extends ActivityWalker {
 			["Authorization"]: `Basic ${auth}`,
 			["Content-Type"]: "application/x-www-form-urlencoded"
 		};
-		const body = new URLSearchParams({
-			grant_type: "refresh_token",
-			refresh_token: this.#refreshToken
-		});
+		const query: Record<string, string> = {
+			["grant_type"]: "refresh_token",
+			["refresh_token"]: this.#refreshToken
+		};
+		const body = new URLSearchParams(query);
 		const response = await fetch(url, { method, headers, body });
 		const data = await response.json();
 		if (!response.ok) {

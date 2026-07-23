@@ -1,13 +1,14 @@
 "use strict";
 
 import "adaptive-extender/core";
-import { Field, Model, Nullable } from "adaptive-extender/core";
+import { Field, Model, Nullable, Optional } from "adaptive-extender/core";
 
 //#region SoundCloud token
 export interface SoundCloudTokenScheme {
 	access_token: string;
 	token_type: string;
 	expires_in: number;
+	refresh_token?: string;
 }
 
 export class SoundCloudToken extends Model {
@@ -19,6 +20,51 @@ export class SoundCloudToken extends Model {
 
 	@Field(Number, { name: "expires_in" })
 	expiresIn: number;
+
+	@Field(Optional.Of(String), { name: "refresh_token" })
+	refreshToken: string | undefined;
+}
+//#endregion
+
+//#region SoundCloud authorization
+export interface SoundCloudAuthorizationScheme {
+	access_token: string;
+	refresh_token: string;
+	token_type: string;
+	expires_in: number;
+	scope: string;
+}
+
+export class SoundCloudAuthorization extends Model {
+	@Field(String, { name: "access_token" })
+	accessToken: string;
+
+	@Field(String, { name: "refresh_token" })
+	refreshToken: string;
+
+	@Field(String, { name: "token_type" })
+	tokenType: string;
+
+	@Field(Number, { name: "expires_in" })
+	expiresIn: number;
+
+	@Field(String, { name: "scope" })
+	scope: string;
+}
+//#endregion
+
+//#region SoundCloud token error
+export interface SoundCloudTokenErrorScheme {
+	error: string;
+	error_description: string;
+}
+
+export class SoundCloudTokenError extends Model {
+	@Field(String, { name: "error" })
+	error: string;
+
+	@Field(String, { name: "error_description" })
+	errorDescription: string;
 }
 //#endregion
 

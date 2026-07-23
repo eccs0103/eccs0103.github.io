@@ -19,14 +19,17 @@
 		"feed/services/search-provider.ts",
 		"feed/services/death-detection-system.ts",
 		"feed/controllers/spotify-authorization-controller.ts",
+		"feed/controllers/soundcloud-authorization-controller.ts",
 		"feed/services/github-walker.ts",
 		"feed/services/spotify-walker.ts",
 		"feed/services/spotify-authorizer.ts",
+		"feed/services/soundcloud-authorizer.ts",
 		"feed/services/pinterest-walker.ts",
 		"feed/services/steam-walker.ts",
 		"feed/services/stack-overflow-walker.ts",
 		"feed/services/telegram-walker.ts",
 		"feed/services/npm-walker.ts",
-		"feed/services/soundcloud-walker.ts"
+		"feed/services/soundcloud-walker.ts",
+		"feed/services/soundcloud-token-store.ts"
 	]
 }

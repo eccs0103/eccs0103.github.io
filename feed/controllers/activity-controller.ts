@@ -21,9 +21,7 @@ import { type Bridge } from "../services/bridge.js";
 import { type ActivityWalker } from "../services/activity-walker.js";
 
 const meta = import.meta;
-
 const { specialDictionary } = environment;
-
 const { origin } = environment;
 const { githubUsername, githubRepository, githubToken, githubIssuesToken } = environment;
 const { spotifyClientId, spotifyClientSecret, spotifyToken } = environment;
@@ -32,7 +30,7 @@ const { steamId, steamApiKey } = environment;
 const { stackOverflowId, stackOverflowApiKey } = environment;
 const { telegramChannelId, telegramApiId, telegramApiHash, telegramSession } = environment;
 const { npmUsername } = environment;
-const { soundCloudClientId, soundCloudClientSecret, soundCloudUser } = environment;
+const { soundCloudClientId, soundCloudClientSecret, soundCloudToken, soundCloudTokenKey, soundCloudUsername } = environment;
 
 //#region Activity controller
 class ActivityController extends Controller {
@@ -84,7 +82,7 @@ class ActivityController extends Controller {
 			new StackOverflowWalker(stackOverflowId, stackOverflowApiKey),
 			new TelegramWalker(telegramChannelId, telegramApiId, telegramApiHash, telegramSession),
 			new NpmWalker(npmUsername),
-			new SoundCloudWalker(soundCloudClientId, soundCloudClientSecret, soundCloudUser),
+			new SoundCloudWalker(soundCloudClientId, soundCloudClientSecret, soundCloudTokenKey, soundCloudToken, soundCloudUsername),
 		];
 		console.log("Starting feed update...");
 		await ActivityDispatcher.launch(activities, origin, walkers, configuration.platforms, this.#reporter);

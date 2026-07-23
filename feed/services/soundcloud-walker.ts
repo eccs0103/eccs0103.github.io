@@ -2,36 +2,58 @@
 
 import "adaptive-extender/node";
 import { Nullable } from "adaptive-extender/node";
-import { ActivityWalker } from "./activity-walker.js";
-import { SoundCloudToken, SoundCloudTrack, SoundCloudTrackCollection, SoundCloudUser } from "../models/soundcloud-event.js";
+import { ActivityWalker, AuthorizationExpiredError } from "./activity-walker.js";
+import { SoundCloudTokenStore } from "./soundcloud-token-store.js";
+import { SoundCloudToken, SoundCloudTokenError, SoundCloudTrack, SoundCloudTrackCollection, SoundCloudUser } from "../models/soundcloud-event.js";
 import { Activity, SoundCloudLikeActivity, SoundCloudUploadActivity } from "../models/activity.js";
+
+const meta = import.meta;
 
 //#region SoundCloud walker
 export class SoundCloudWalker extends ActivityWalker {
 	#clientId: string;
 	#clientSecret: string;
 	#username: string;
+	#store: SoundCloudTokenStore;
 
-	constructor(clientId: string, clientSecret: string, username: string) {
+	constructor(clientId: string, clientSecret: string, key: string, token: string, username: string) {
 		super("SoundCloud");
 		this.#clientId = clientId;
 		this.#clientSecret = clientSecret;
+		this.#store = new SoundCloudTokenStore(new URL("../../resources/data/soundcloud-token.json", meta.url), key, token);
 		this.#username = username;
 	}
 
-	async #authenticate(): Promise<SoundCloudToken> {
+	static async #isInvalidGrant(data: unknown): Promise<boolean> {
+		try {
+			const error = SoundCloudTokenError.import(data, "soundcloud_token_error");
+			return error.error === "invalid_grant";
+		} catch {
+			return false;
+		}
+	}
+
+	async #authenticate(refreshToken: string): Promise<SoundCloudToken> {
 		const url = new URL("https://secure.soundcloud.com/oauth/token");
 		const method = "POST";
-		const auth = Buffer.from(`${this.#clientId}:${this.#clientSecret}`).toString("base64");
 		const headers: Record<string, string> = {
-			["Authorization"]: `Basic ${auth}`,
 			["Content-Type"]: "application/x-www-form-urlencoded",
 			["Accept"]: "application/json; charset=utf-8"
 		};
-		const body = new URLSearchParams({ ["grant_type"]: "client_credentials" });
+		const query: Record<string, string> = {
+			["grant_type"]: "refresh_token",
+			["client_id"]: this.#clientId,
+			["client_secret"]: this.#clientSecret,
+			["refresh_token"]: refreshToken
+		};
+		const body = new URLSearchParams(query);
 		const response = await fetch(url, { method, headers, body });
-		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
-		return SoundCloudToken.import(await response.json(), "soundcloud_token");
+		const data = await response.json();
+		if (!response.ok) {
+			if (await SoundCloudWalker.#isInvalidGrant(data)) throw new AuthorizationExpiredError(this.name, "the refresh token was rejected (invalid_grant); re-authorization is required");
+			throw new Error(`${response.status}: ${response.statusText}`);
+		}
+		return SoundCloudToken.import(data, "soundcloud_token");
 	}
 
 	async #resolveUserId(token: SoundCloudToken): Promise<number> {
@@ -71,7 +93,10 @@ export class SoundCloudWalker extends ActivityWalker {
 	}
 
 	async *crawl(since: Date): AsyncIterable<Activity> {
-		const token = await this.#authenticate();
+		const store = this.#store;
+		const refreshToken = await store.read();
+		const token = await this.#authenticate(refreshToken);
+		if (token.refreshToken !== undefined && token.refreshToken !== refreshToken) await store.write(token.refreshToken);
 		const id = await this.#resolveUserId(token);
 		const platform = this.name;
 

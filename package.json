@@ -15,6 +15,7 @@
 		"deploy": "vite build && wrangler deploy",
 		"walk": "tsx feed/controllers/activity-controller.ts",
 		"authorize:spotify": "tsx feed/controllers/spotify-authorization-controller.ts",
+		"authorize:soundcloud": "tsx feed/controllers/soundcloud-authorization-controller.ts",
 		"deploy:telegram-proxy": "wrangler deploy --config environment/workers/telegram-proxy/wrangler.jsonc"
 	},
 	"devDependencies": {

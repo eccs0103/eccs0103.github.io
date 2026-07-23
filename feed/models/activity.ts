@@ -1186,6 +1186,7 @@ export interface SoundCloudActivityScheme extends ActivityScheme {
 	title: string;
 	publisher: string;
 	artwork: string | null;
+	avatar: string | null;
 	url: string;
 }
 
@@ -1201,13 +1202,16 @@ export abstract class SoundCloudActivity extends Activity {
 	@Field(Nullable.Of(String), { name: "artwork" })
 	artwork: string | null;
 
+	@Field(Nullable.Of(String), { name: "avatar" })
+	avatar: string | null;
+
 	@Field(String, { name: "url" })
 	url: string;
 
 	constructor();
-	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, url: string);
-	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, url?: string) {
-		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || url === undefined) {
+	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, avatar: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, avatar?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || avatar === undefined || url === undefined) {
 			super();
 			return;
 		}
@@ -1217,6 +1221,7 @@ export abstract class SoundCloudActivity extends Activity {
 		this.title = title;
 		this.publisher = publisher;
 		this.artwork = artwork;
+		this.avatar = avatar;
 		this.url = url;
 	}
 }
@@ -1232,14 +1237,14 @@ export interface SoundCloudUploadActivityScheme extends SoundCloudActivityScheme
 
 export class SoundCloudUploadActivity extends SoundCloudActivity {
 	constructor();
-	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, url: string);
-	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, url?: string) {
-		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || url === undefined) {
+	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, avatar: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, avatar?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || avatar === undefined || url === undefined) {
 			super();
 			return;
 		}
 
-		super(platform, timestamp, title, publisher, artwork, url);
+		super(platform, timestamp, title, publisher, artwork, avatar, url);
 	}
 }
 //#endregion
@@ -1254,14 +1259,14 @@ export interface SoundCloudLikeActivityScheme extends SoundCloudActivityScheme {
 
 export class SoundCloudLikeActivity extends SoundCloudActivity {
 	constructor();
-	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, url: string);
-	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, url?: string) {
-		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || url === undefined) {
+	constructor(platform: string, timestamp: Date, title: string, publisher: string, artwork: string | null, avatar: string | null, url: string);
+	constructor(platform?: string, timestamp?: Date, title?: string, publisher?: string, artwork?: string | null, avatar?: string | null, url?: string) {
+		if (platform === undefined || timestamp === undefined || title === undefined || publisher === undefined || artwork === undefined || avatar === undefined || url === undefined) {
 			super();
 			return;
 		}
 
-		super(platform, timestamp, title, publisher, artwork, url);
+		super(platform, timestamp, title, publisher, artwork, avatar, url);
 	}
 }
 //#endregion

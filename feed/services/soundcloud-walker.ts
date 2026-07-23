@@ -101,13 +101,13 @@ export class SoundCloudWalker extends ActivityWalker {
 		const platform = this.name;
 
 		for await (const track of this.#fetchTracks(token, id, "tracks", since)) {
-			const { title, permalinkUrl: url, artworkUrl: artwork, createdAt: timestamp, user: { username: publisher } } = track;
-			yield new SoundCloudUploadActivity(platform, timestamp, title, publisher, artwork, url);
+			const { title, permalinkUrl: url, artworkUrl: artwork, createdAt: timestamp, user: { username: publisher, avatarUrl: avatar } } = track;
+			yield new SoundCloudUploadActivity(platform, timestamp, title, publisher, artwork, avatar, url);
 		}
 
 		for await (const track of this.#fetchTracks(token, id, "likes/tracks", since)) {
-			const { title, permalinkUrl: url, artworkUrl: artwork, createdAt: timestamp, user: { username: publisher } } = track;
-			yield new SoundCloudLikeActivity(platform, timestamp, title, publisher, artwork, url);
+			const { title, permalinkUrl: url, artworkUrl: artwork, createdAt: timestamp, user: { username: publisher, avatarUrl: avatar } } = track;
+			yield new SoundCloudLikeActivity(platform, timestamp, title, publisher, artwork, avatar, url);
 		}
 	}
 }

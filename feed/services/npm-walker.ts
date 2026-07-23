@@ -10,7 +10,7 @@ export class NpmWalker extends ActivityWalker {
 	#username: string;
 
 	constructor(username: string) {
-		super("NPM");
+		super("npm");
 		this.#username = username;
 	}
 

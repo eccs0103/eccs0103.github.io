@@ -7,17 +7,28 @@ import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
 
 //#region SoundCloud render strategy
 export class SoundCloudRenderStrategy implements ActivityRenderStrategy<SoundCloudActivity> {
+	static #patternUpsizeQuery: RegExp = /-large(?=\.\w+$)/;
+
+	static #upsize(query: string): string {
+		return query.replace(SoundCloudRenderStrategy.#patternUpsizeQuery, "-t500x500");
+	}
+
 	#renderTrack(itemContainer: HTMLElement, activity: SoundCloudActivity, message: string): void {
-		const { title, publisher, artwork, url } = activity;
+		const { title, publisher, artwork, avatar, url } = activity;
 
 		itemContainer.appendChild(DOMBuilder.newTextbox(message));
 
 		const divWrapper = itemContainer.appendChild(document.createElement("div"));
 		divWrapper.classList.add("flex", "with-gap");
 
-		if (artwork !== null) {
-			const imgArtwork = divWrapper.appendChild(DOMBuilder.newImage(new URL(artwork), `'${title}' artwork`));
+		const image = artwork ?? avatar;
+		if (image !== null) {
+			const imgArtwork = divWrapper.appendChild(DOMBuilder.newImage(new URL(SoundCloudRenderStrategy.#upsize(image)), `'${title}' artwork`));
 			imgArtwork.classList.add("rounded", "soundcloud-cover");
+		} else {
+			const divPlaceholder = divWrapper.appendChild(document.createElement("div"));
+			divPlaceholder.classList.add("depth", "rounded", "soundcloud-cover", "placeholder", "flex", "center");
+			divPlaceholder.textContent = "♪";
 		}
 
 		const divInformation = divWrapper.appendChild(document.createElement("div"));
@@ -28,15 +39,15 @@ export class SoundCloudRenderStrategy implements ActivityRenderStrategy<SoundClo
 
 		divInformation.appendChild(DOMBuilder.newDescription(publisher));
 
-		const aLink = divInformation.appendChild(DOMBuilder.newLink(new URL(url), { text: "Listen on SoundCloud" }));
+		const aLink = divInformation.appendChild(DOMBuilder.newLink(new URL(url), { text: "Listen on SoundCloud " }));
 		aLink.classList.add("with-block-padding", "font-smaller-3");
 
 		ActivityBuilder.newExternalIcon(aLink);
 	}
 
 	#renderSingle(itemContainer: HTMLElement, activity: SoundCloudActivity): void {
-		if (activity instanceof SoundCloudUploadActivity) return this.#renderTrack(itemContainer, activity, "Published a new track");
-		if (activity instanceof SoundCloudLikeActivity) return this.#renderTrack(itemContainer, activity, "Added to music collection");
+		if (activity instanceof SoundCloudUploadActivity) return this.#renderTrack(itemContainer, activity, "Published new track");
+		if (activity instanceof SoundCloudLikeActivity) return this.#renderTrack(itemContainer, activity, "Published track, that has been added to music collection");
 	}
 
 	render(itemContainer: HTMLElement, buffer: readonly SoundCloudActivity[]): void {

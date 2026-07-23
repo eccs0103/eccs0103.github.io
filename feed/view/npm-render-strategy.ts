@@ -3,39 +3,61 @@
 import "adaptive-extender/web";
 import { type ActivityRenderStrategy } from "./activities-renderer.js";
 import { NpmActivity, NpmPublishActivity } from "../models/activity.js";
-import { ActivityBuilder, DOMBuilder } from "./view-builders.js";
+import { DOMBuilder } from "./view-builders.js";
 
 //#region Npm render strategy
 export class NpmRenderStrategy implements ActivityRenderStrategy<NpmActivity> {
-	#renderPublish(itemContainer: HTMLElement, activity: NpmPublishActivity): void {
-		const { package: name, version, description, url } = activity;
+	#renderVersion(itemContainer: HTMLElement, activity: NpmPublishActivity): void {
+		const { version, description, url } = activity;
 
-		const divWrapper = itemContainer.appendChild(document.createElement("div"));
-		divWrapper.classList.add("flex", "column");
+		const divVersion = itemContainer.appendChild(document.createElement("div"));
+		divVersion.classList.add("flex", "column");
 
-		const strongHeader = divWrapper.appendChild(document.createElement("strong"));
-		strongHeader.textContent = `${name}@${version}`;
+		const spanVersion = divVersion.appendChild(document.createElement("span"));
+		spanVersion.textContent = version;
 
-		if (description !== null) divWrapper.appendChild(DOMBuilder.newDescription(description));
+		if (description !== null) divVersion.appendChild(DOMBuilder.newDescription(description));
 
-		const aLink = divWrapper.appendChild(DOMBuilder.newLink(new URL(url), { text: "View on npm" }));
+		const aLink = divVersion.appendChild(DOMBuilder.newLink(new URL(url), { text: "View on npm" }));
 		aLink.classList.add("with-block-padding", "font-smaller-3");
-
-		ActivityBuilder.newExternalIcon(aLink);
 	}
 
-	#renderSingle(itemContainer: HTMLElement, activity: NpmActivity): void {
-		if (activity instanceof NpmPublishActivity) return this.#renderPublish(itemContainer, activity);
+	#renderCollection(itemContainer: HTMLElement, activities: readonly NpmPublishActivity[]): void {
+		const details = itemContainer.appendChild(document.createElement("details"));
+		details.classList.add("npm-collection");
+		details.open = true;
+
+		const summary = details.appendChild(document.createElement("summary"));
+		summary.textContent = "Published new package versions";
+
+		const ulContent = details.appendChild(document.createElement("ul"));
+		ulContent.classList.add("collection-content");
+
+		for (let index = 0; index < activities.length; index++) {
+			const activity = activities[index];
+			const liItem = ulContent.appendChild(document.createElement("li"));
+
+			const strongHeader = liItem.appendChild(document.createElement("strong"));
+			strongHeader.textContent = activity.package;
+
+			const divVersions = liItem.appendChild(document.createElement("div"));
+			divVersions.classList.add("flex", "column", "with-gap");
+
+			this.#renderVersion(divVersions, activity);
+			while (index + 1 < activities.length && activities[index + 1].package === activity.package) {
+				index++;
+				this.#renderVersion(divVersions, activities[index]);
+			}
+		}
 	}
 
 	render(itemContainer: HTMLElement, buffer: readonly NpmActivity[]): void {
-		itemContainer.classList.add("flex", "column", "with-gap");
-
-		itemContainer.appendChild(DOMBuilder.newTextbox("Published a new package version"));
-
+		const publishes: NpmPublishActivity[] = [];
 		for (const activity of buffer) {
-			this.#renderSingle(itemContainer, activity);
+			if (activity instanceof NpmPublishActivity) publishes.push(activity);
 		}
+
+		this.#renderCollection(itemContainer, publishes);
 	}
 }
 //#endregion

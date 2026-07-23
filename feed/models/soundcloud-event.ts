@@ -73,6 +73,7 @@ export interface SoundCloudUserScheme {
 	id: number;
 	username: string;
 	permalink_url: string;
+	avatar_url: string | null;
 }
 
 export class SoundCloudUser extends Model {
@@ -84,6 +85,9 @@ export class SoundCloudUser extends Model {
 
 	@Field(String, { name: "permalink_url" })
 	permalinkUrl: string;
+
+	@Field(Nullable.Of(String), { name: "avatar_url" })
+	avatarUrl: string | null;
 }
 //#endregion
 

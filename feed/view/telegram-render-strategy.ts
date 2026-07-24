@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { type ActivityRenderStrategy } from "./activities-renderer.js";
+import { type ActivityRenderStrategy } from "../services/activity-registry.js";
 import { TelegramActivity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
 import { DOMBuilder, type ImageCreationOptions } from "./view-builders.js";
 

@@ -1,11 +1,11 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller } from "adaptive-extender/web";
+import { Controller, Timespan } from "adaptive-extender/web";
 import { ActivitiesRenderer } from "../view/activities-renderer.js";
 import { ClientBridge } from "../services/client-bridge.js";
 import { DataTable } from "../services/data-table.js";
-import { Activity } from "../models/activity.js";
+import { Activity, GitHubActivity, NpmActivity, SoundCloudActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity, TelegramActivity } from "../models/activity.js";
 import { FooterRenderer } from "../view/footer-renderer.js";
 import { HeaderRenderer } from "../view/header-renderer.js";
 import { Configuration } from "../models/configuration.js";
@@ -16,6 +16,14 @@ import { ChangelogService } from "../services/changelog-service.js";
 import { ChangelogRenderer } from "../view/changelog-renderer.js";
 import { AnalyticsController } from "../../environment/controllers/analytics-controller.js";
 import { MetadataController } from "./metadata-controller.js";
+import { ActivityRegistry } from "../services/activity-registry.js";
+import { GitHubRenderStrategy } from "../view/github-render-strategy.js";
+import { SpotifyRenderStrategy } from "../view/spotify-render-strategy.js";
+import { SteamRenderStrategy } from "../view/steam-render-strategy.js";
+import { StackOverflowRenderStrategy } from "../view/stack-overflow-render-strategy.js";
+import { TelegramRenderStrategy } from "../view/telegram-render-strategy.js";
+import { NpmRenderStrategy } from "../view/npm-render-strategy.js";
+import { SoundCloudRenderStrategy } from "../view/soundcloud-render-strategy.js";
 
 const { baseURI, body } = document;
 
@@ -39,6 +47,19 @@ class WebpageController extends Controller {
 		return Array.Of<ChangelogEntry, ChangelogEntryScheme>(ChangelogEntry).import(object, "changelog");
 	}
 
+	#newRegistry(urlProxy: Readonly<URL>): ActivityRegistry {
+		const registry = new ActivityRegistry();
+		registry.register(GitHubActivity, new GitHubRenderStrategy(), { passThrough: true });
+		registry.register(SpotifyActivity, new SpotifyRenderStrategy());
+		registry.register(SteamAchievementActivity, new SteamRenderStrategy());
+		registry.register(SteamScreenshotActivity, new SteamRenderStrategy());
+		registry.register(StackOverflowActivity, new StackOverflowRenderStrategy());
+		registry.register(TelegramActivity, new TelegramRenderStrategy(urlProxy), { gap: Timespan.newZero });
+		registry.register(NpmActivity, new NpmRenderStrategy(), { passThrough: true });
+		registry.register(SoundCloudActivity, new SoundCloudRenderStrategy());
+		return registry;
+	}
+
 	async run(): Promise<void> {
 		const configuration = await this.#readConfiguration(new URL("../data/feed-configuration.json", baseURI));
 		const { platforms } = configuration;
@@ -48,9 +69,10 @@ class WebpageController extends Controller {
 		const footer = await body.getElementAsync(HTMLElement, "footer");
 		const dataChangelog = await this.#readChangelog(new URL("../data/feed-changelog.json", baseURI));
 		const changelog = new ChangelogService(dataChangelog);
+		const registry = this.#newRegistry(new URL(configuration.urlProxy));
 
 		const promiseHeader = HeaderRenderer.launch(body, settings, platforms);
-		const promiseActivities = ActivitiesRenderer.launch(main, new URL(configuration.urlProxy), activities, configuration);
+		const promiseActivities = ActivitiesRenderer.launch(main, activities, configuration, registry);
 		const promiseFooter = FooterRenderer.launch(footer);
 		const promiseChangelog = ChangelogRenderer.launch(body, changelog);
 		const promiseMetadata = MetadataController.launch(platforms);

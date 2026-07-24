@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { type ActivityRenderStrategy } from "./activities-renderer.js";
+import { type ActivityRenderStrategy } from "../services/activity-registry.js";
 import { GitHubActivity, GitHubCreateBranchActivity, GitHubCreateRepositoryActivity, GitHubCreateTagActivity, GitHubDeleteBranchActivity, GitHubDeleteTagActivity, GitHubForkActivity, GitHubIssueCloseActivity, GitHubIssueOpenActivity, GitHubPullRequestCloseActivity, GitHubPullRequestMergeActivity, GitHubPullRequestOpenActivity, GitHubPushActivity, GitHubReleaseActivity, GitHubWatchActivity } from "../models/activity.js";
 import { TextExpert } from "../services/text-expert.js";
 import { DOMBuilder } from "./view-builders.js";

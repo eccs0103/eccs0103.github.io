@@ -1,33 +1,24 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { Controller, Timespan } from "adaptive-extender/web";
-import { Activity, GitHubActivity, NpmActivity, SoundCloudActivity, SpotifyActivity, StackOverflowActivity, SteamAchievementActivity, SteamScreenshotActivity, TelegramActivity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
+import { Controller } from "adaptive-extender/web";
+import { Activity } from "../models/activity.js";
 import { ArrayCursor } from "../services/array-cursor.js";
 import { Configuration, type Platform } from "../models/configuration.js";
 import { ActivityBuilder } from "./view-builders.js";
-import { GitHubRenderStrategy } from "./github-render-strategy.js";
-import { SpotifyRenderStrategy } from "./spotify-render-strategy.js";
-import { SteamRenderStrategy } from "./steam-render-strategy.js";
-import { ActivityCollector, type TypeOf } from "../services/activity-collector.js";
+import { type ActivityRegistry } from "../services/activity-registry.js";
+import { type ActivityCollector } from "../services/activity-collector.js";
 import { type DataTable } from "../services/data-table.js";
-import { StackOverflowRenderStrategy } from "./stack-overflow-render-strategy.js";
-import { TelegramRenderStrategy } from "./telegram-render-strategy.js";
-import { NpmRenderStrategy } from "./npm-render-strategy.js";
-import { SoundCloudRenderStrategy } from "./soundcloud-render-strategy.js";
 import { analytics } from "../../environment/services/analytics-service.js";
 import { FeedBatchLoaded } from "../models/feed-batch-loaded.js";
 import { FeedCompleted } from "../models/feed-completed.js";
 import { MediaPlay } from "../models/media-play.js";
 
 //#region Activities renderer
-export interface ActivityRenderStrategy<T extends Activity> {
-	render(itemContainer: HTMLElement, buffer: readonly T[]): void;
-}
-
 interface RenderContext {
 	cursor: ArrayCursor<Activity>;
 	collector: ActivityCollector;
+	registry: ActivityRegistry;
 	platforms: Map<string, Platform>;
 	outro: string;
 	batch: number;
@@ -37,17 +28,11 @@ interface RenderContext {
 	activities: DataTable<typeof Activity>;
 }
 
-export interface StrategyOptions {
-	gap: Timespan;
-	passThrough: boolean;
-}
-
 export interface ActivitiesRendererOptions {
 	batch: number;
 }
 
-export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<typeof Activity>, Configuration]> {
-	#strategies: Map<TypeOf<Activity>, [ActivityRenderStrategy<Activity>, Partial<StrategyOptions>]> = new Map();
+export class ActivitiesRenderer extends Controller<[HTMLElement, DataTable<typeof Activity>, Configuration, ActivityRegistry]> {
 	#isSentinelIntersecting: boolean = true;
 	#page: number = 0;
 	#isLoading: boolean = false;
@@ -64,13 +49,7 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 		}, true);
 	}
 
-	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>): void;
-	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>, options: Partial<StrategyOptions>): void;
-	registerStrategy<T extends Activity>(root: TypeOf<T>, strategy: ActivityRenderStrategy<T>, options: Partial<StrategyOptions> = {}): void {
-		this.#strategies.set(root, [strategy, options]);
-	}
-
-	#renderChunk(itemContainer: HTMLElement, cursor: ArrayCursor<Activity>, collector: ActivityCollector, platforms: Map<string, Platform>, batch: number, observerAnimatedReveal: IntersectionObserver, isFinal: boolean): boolean {
+	#renderChunk(itemContainer: HTMLElement, cursor: ArrayCursor<Activity>, collector: ActivityCollector, registry: ActivityRegistry, platforms: Map<string, Platform>, batch: number, observerAnimatedReveal: IntersectionObserver, isFinal: boolean): boolean {
 		let rendered = 0;
 		while (cursor.inRange && rendered < batch) {
 			const index = cursor.index;
@@ -92,9 +71,8 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 				cursor.index = index;
 				return false;
 			}
-			const entry = this.#strategies.get(root);
-			if (entry === undefined) continue;
-			const [strategy] = entry;
+			const strategy = registry.findStrategy(root);
+			if (strategy === null) continue;
 			const activity = ActivityBuilder.newContainer(itemContainer, platforms, buffer[0], observerAnimatedReveal);
 			strategy.render(activity, buffer);
 			rendered++;
@@ -104,8 +82,8 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 
 	async #render(itemContainer: HTMLElement, context: RenderContext): Promise<unknown> {
 		if (!this.#isSentinelIntersecting) return;
-		const { cursor, collector, platforms, outro, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities } = context;
-		const hasMore = this.#renderChunk(itemContainer, cursor, collector, platforms, batch, observerAnimatedReveal, false);
+		const { cursor, collector, registry, platforms, outro, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities } = context;
+		const hasMore = this.#renderChunk(itemContainer, cursor, collector, registry, platforms, batch, observerAnimatedReveal, false);
 		if (hasMore) return requestAnimationFrame(this.#render.bind(this, itemContainer, context));
 
 		if (this.#isLoading) return;
@@ -118,31 +96,19 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 		}
 
 		analytics.dispatch("feed_completed", new FeedCompleted(this.#page));
-		this.#renderChunk(itemContainer, cursor, collector, platforms, batch, observerAnimatedReveal, true);
+		this.#renderChunk(itemContainer, cursor, collector, registry, platforms, batch, observerAnimatedReveal, true);
 		observerDynamicLoad.disconnect();
 		ActivityBuilder.newOutro(itemContainer, itemSentinel, outro);
 	}
 
-	async run(itemContainer: HTMLElement, urlProxy: URL, activities: DataTable<typeof Activity>, configuration: Configuration, options: Partial<ActivitiesRendererOptions> = {}): Promise<void> {
+	async run(itemContainer: HTMLElement, activities: DataTable<typeof Activity>, configuration: Configuration, registry: ActivityRegistry, options: Partial<ActivitiesRendererOptions> = {}): Promise<void> {
 		this.#attachMediaController(itemContainer);
-		this.registerStrategy(GitHubActivity, new GitHubRenderStrategy(), { passThrough: true });
-		this.registerStrategy(SpotifyActivity, new SpotifyRenderStrategy());
-		this.registerStrategy(SteamAchievementActivity, new SteamRenderStrategy());
-		this.registerStrategy(SteamScreenshotActivity, new SteamRenderStrategy());
-		this.registerStrategy(StackOverflowActivity, new StackOverflowRenderStrategy());
-		this.registerStrategy(TelegramActivity, new TelegramRenderStrategy(urlProxy), { gap: Timespan.newZero });
-		this.registerStrategy(NpmActivity, new NpmRenderStrategy(), { passThrough: true });
-		this.registerStrategy(SoundCloudActivity, new SoundCloudRenderStrategy());
 
 		const outro = configuration.outro;
 		const batch = options.batch ?? 10;
 		const platforms = new Map(configuration.platforms.map(platform => [platform.name, platform]));
 		const cursor = new ArrayCursor(activities);
-
-		const collector = new ActivityCollector(activities);
-		for (const [root, [, options]] of this.#strategies) {
-			collector.register(root, options);
-		}
+		const collector = registry.newCollector(activities);
 
 		const observerAnimatedReveal = new IntersectionObserver((entries) => {
 			for (const { isIntersecting, target } of entries) {
@@ -159,7 +125,7 @@ export class ActivitiesRenderer extends Controller<[HTMLElement, URL, DataTable<
 			this.#isSentinelIntersecting = entry.isIntersecting;
 			this.#render(itemContainer, context);
 		}, { rootMargin: "200px" });
-		const context: RenderContext = { cursor, collector, platforms, outro, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities };
+		const context: RenderContext = { cursor, collector, registry, platforms, outro, batch, observerAnimatedReveal, observerDynamicLoad, itemSentinel, activities };
 		observerDynamicLoad.observe(itemSentinel);
 		this.#render(itemContainer, context);
 	}

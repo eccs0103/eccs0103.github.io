@@ -2,7 +2,7 @@
 
 import "adaptive-extender/web";
 import { Version } from "adaptive-extender/web";
-import { type ActivityRenderStrategy } from "./activities-renderer.js";
+import { type ActivityRenderStrategy } from "../services/activity-registry.js";
 import { NpmActivity, NpmPublishActivity } from "../models/activity.js";
 import { DOMBuilder } from "./view-builders.js";
 import { TextExpert } from "../services/text-expert.js";

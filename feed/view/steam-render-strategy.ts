@@ -3,7 +3,7 @@
 import "adaptive-extender/web";
 import { DOMBuilder } from "./view-builders.js";
 import { SteamAchievementActivity, SteamActivity, SteamScreenshotActivity } from "../models/activity.js";
-import { type ActivityRenderStrategy } from "./activities-renderer.js";
+import { type ActivityRenderStrategy } from "../services/activity-registry.js";
 import { TextExpert } from "../services/text-expert.js";
 
 //#region Steam render strategy

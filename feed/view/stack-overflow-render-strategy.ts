@@ -1,7 +1,7 @@
 "use strict";
 
 import "adaptive-extender/web";
-import { type ActivityRenderStrategy } from "./activities-renderer.js";
+import { type ActivityRenderStrategy } from "../services/activity-registry.js";
 import { StackOverflowActivity, StackOverflowAnswerActivity, StackOverflowQuestionActivity } from "../models/activity.js";
 import { DOMBuilder } from "./view-builders.js";
 

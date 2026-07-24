@@ -1,5 +1,24 @@
 [
 	{
+		"date": "2026-07-23",
+		"changes": [
+			"npm activity connected — newly published packages and versions now show up in the feed automatically, grouped by package with a color-coded version badge.",
+			"SoundCloud activity connected — uploaded and liked tracks now show up in the feed automatically."
+		]
+	},
+	{
+		"date": "2026-07-22",
+		"changes": [
+			"GitHub activity now covers more actions — forked repositories, opened and closed issues, and opened, merged, and closed pull requests all appear in the feed."
+		]
+	},
+	{
+		"date": "2026-07-17",
+		"changes": [
+			"Site is now available at eccs.dev."
+		]
+	},
+	{
 		"date": "2026-04-12",
 		"changes": [
 			"Feed page now loads noticeably faster — all renderers and analytics now start in parallel instead of one after another."

@@ -90,7 +90,8 @@ export class ViteConfig {
 
 	#buildServer(): ServerOptions {
 		const strictPort: boolean = true;
-		return { strictPort };
+		const open: boolean = true;
+		return { strictPort, open };
 	}
 
 	#buildESBuild(): ESBuildOptions {

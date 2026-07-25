@@ -833,5 +833,38 @@
 		"platform": "Steam",
 		"timestamp": 1784939018000,
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/75ed51b33ff7c7ae4d1a3bea7ffbe8f00cdbe7d6.jpg",
+		"title": "So Vein",
+		"description": "Fully upgrade your health.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784987358000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/dbd9f632df76ab9b83c9ebc231785777aeb5d72b.jpg",
+		"title": "Hopeless Melomaniac",
+		"description": "Find all vinyl records.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784989315000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/61d321a59c9d28acb44b90c471f2fe9fbcbac098.jpg",
+		"title": "Bookworm",
+		"description": "Find all pages of The Maremanto.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784989813000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

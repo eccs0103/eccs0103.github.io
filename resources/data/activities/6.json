@@ -866,5 +866,49 @@
 		"platform": "Steam",
 		"timestamp": 1784989813000,
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/e3b9c9977b60e790b771525d42d35e3e764149b0.jpg",
+		"title": "Into the Abyss",
+		"description": "Complete chapter III on any difficulty.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784991181000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/73f571e5879e747f90d61a21e97a3309e86853bb.jpg",
+		"title": "Army of One",
+		"description": "Find all weapons.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784991233000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/7c1a9ab3a9b7a24681ba24bb9bdddcd98281a711.jpg",
+		"title": "Warlord",
+		"description": "Fully upgrade all weapons.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784991867000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/c2616c156fa2d2d09cc52978d30dcc547db792a7.jpg",
+		"title": "Sanguinomancer",
+		"description": "Unlock all skills.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784992464000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

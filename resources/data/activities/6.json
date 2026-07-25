@@ -800,5 +800,38 @@
 		"platform": "GitHub",
 		"timestamp": 1784933540000,
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/d022fe953c111c3d76fa52fed23c3c2cef81a21a.jpg",
+		"title": "Chipped Away",
+		"description": "Defeat an enemy with the knife.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784937622000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/7a4f20750cb661847cf5ae2872957ca4aabeba55.jpg",
+		"title": "Feeling Clucky, Punk?",
+		"description": "Absorb 30 chickens.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784938031000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/670a16815838378142f8df786b1d6256a4734c7b.jpg",
+		"title": "Two for One",
+		"description": "Defeat two enemies with one shot.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784939018000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

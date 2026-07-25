@@ -910,5 +910,16 @@
 		"platform": "Steam",
 		"timestamp": 1784992464000,
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1790930/6c3824c0065357f7a3ba57211b1d1341d5452e44.jpg",
+		"title": "A New Dawn",
+		"description": "Complete the final chapter on any difficulty.",
+		"url": "https://steamcommunity.com/stats/1790930/achievements",
+		"game": "Crisol: Theater of Idols",
+		"webpage": "https://store.steampowered.com/app/1790930",
+		"platform": "Steam",
+		"timestamp": 1784993318000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

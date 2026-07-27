@@ -28,6 +28,13 @@ jobs:
           - name: Install dependencies
             run: npm ci
 
+          - name: Restore SoundCloud token
+            uses: actions/cache/restore@v4
+            with:
+                path: resources/data/soundcloud-token.json
+                key: soundcloud-token-${{ github.run_id }}
+                restore-keys: soundcloud-token-
+
           - name: Run collector script
             env:
                 GOOGLE_SEARCH_ID: ${{ vars.GOOGLE_SEARCH_ID }}
@@ -72,6 +79,13 @@ jobs:
                 NPM_USERNAME: ${{ vars.NPM_USERNAME }}
 
             run: npm run walk
+
+          - name: Save SoundCloud token
+            if: always()
+            uses: actions/cache/save@v4
+            with:
+                path: resources/data/soundcloud-token.json
+                key: soundcloud-token-${{ github.run_id }}
 
           - name: Get Version
             run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV

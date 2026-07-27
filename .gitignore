@@ -14,6 +14,7 @@ dist-ssr
 
 # Environment files
 .env
+resources/**/soundcloud-token.json
 
 # Editors / IDE
 .vscode/*

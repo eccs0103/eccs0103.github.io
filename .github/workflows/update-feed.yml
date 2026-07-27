@@ -29,7 +29,7 @@ jobs:
             run: npm ci
 
           - name: Restore SoundCloud token
-            uses: actions/cache/restore@v4
+            uses: actions/cache/restore@v5
             with:
                 path: resources/data/soundcloud-token.json
                 key: soundcloud-token-${{ github.run_id }}
@@ -82,7 +82,7 @@ jobs:
 
           - name: Save SoundCloud token
             if: always()
-            uses: actions/cache/save@v4
+            uses: actions/cache/save@v5
             with:
                 path: resources/data/soundcloud-token.json
                 key: soundcloud-token-${{ github.run_id }}

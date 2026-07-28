@@ -1,16 +1,5 @@
 [
 	{
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/d95dcdab2f99033b769175db94392a19d124aa39.jpg",
-		"title": "Slaughterhouse 3",
-		"description": "Complete all the Circles of Slaughter.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"platform": "Steam",
-		"timestamp": 1780264016000,
-		"$type": "SteamAchievementActivity"
-	},
-	{
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/6093cc3f69497239090da29be67d5c4a344ebf69.jpg",
 		"title": "Getting A Little On The Side",
 		"description": "Complete all Side Missions.",
@@ -957,5 +946,14 @@
 		"platform": "GitHub",
 		"timestamp": 1782050138000,
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"package": "adaptive-extender",
+		"version": "0.11.2",
+		"description": "Adaptive library for JS/TS development environments",
+		"url": "https://www.npmjs.com/package/adaptive-extender/v/0.11.2",
+		"platform": "npm",
+		"timestamp": 1782061820824,
+		"$type": "NpmPublishActivity"
 	}
 ]

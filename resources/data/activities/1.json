@@ -1,16 +1,5 @@
 [
 	{
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/ef5e5994a5f289c27fc5d2e8ee88cdfcaca80fff.jpg",
-		"title": "Florida Man",
-		"description": null,
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"platform": "Steam",
-		"timestamp": 1768680150000,
-		"$type": "SteamAchievementActivity"
-	},
-	{
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/b240a30e93e20ac89a6662dda5693ab6d05ad8e5.jpg",
 		"title": "Damn, Gina",
 		"description": null,
@@ -1066,6 +1055,17 @@
 		"webpage": "https://store.steampowered.com/app/739630",
 		"platform": "Steam",
 		"timestamp": 1773600396000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/18723e066c3829fb9d98d5bfbbccd3b081dd14e3.jpg",
+		"title": "Cash Cow",
+		"description": "Spend $50,000",
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"platform": "Steam",
+		"timestamp": 1773686510000,
 		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -1,16 +1,5 @@
 [
 	{
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/41dc56c51263bf0d9f09cf016e3b3443b20990e1.jpg",
-		"title": "Shoe Money Tonight",
-		"description": "Get a 21 in the blackjack minigame.",
-		"url": "https://steamcommunity.com/stats/397540/achievements",
-		"game": "Borderlands 3",
-		"webpage": "https://store.steampowered.com/app/397540",
-		"platform": "Steam",
-		"timestamp": 1777219926000,
-		"$type": "SteamAchievementActivity"
-	},
-	{
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/236713a46691022704a749c5587084ed2e476b9f.jpg",
 		"title": "The Twins Discovered",
 		"description": "Successfully identify The Twins for the first time",
@@ -961,6 +950,17 @@
 		"webpage": "https://store.steampowered.com/app/397540",
 		"platform": "Steam",
 		"timestamp": 1780234931000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/397540/d95dcdab2f99033b769175db94392a19d124aa39.jpg",
+		"title": "Slaughterhouse 3",
+		"description": "Complete all the Circles of Slaughter.",
+		"url": "https://steamcommunity.com/stats/397540/achievements",
+		"game": "Borderlands 3",
+		"webpage": "https://store.steampowered.com/app/397540",
+		"platform": "Steam",
+		"timestamp": 1780264016000,
 		"$type": "SteamAchievementActivity"
 	}
 ]

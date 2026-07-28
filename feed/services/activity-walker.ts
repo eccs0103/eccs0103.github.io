@@ -1,6 +1,7 @@
 "use strict";
 
 import "adaptive-extender/core";
+import { type ActivitySource } from "./activity-source.js";
 import { Activity } from "../models/activity.js";
 
 //#region Authorization expired error
@@ -23,6 +24,8 @@ export class ActivityWalker {
 
 	constructor(name: string) {
 		if (new.target === ActivityWalker) throw new TypeError("Unable to create an instance of an abstract class");
+		if (this.crawl !== ActivityWalker.prototype.crawl) throw new TypeError(`Unable to override sealed member 'crawl' in '${typename(this)}'`);
+		if (this.sources === ActivityWalker.prototype.sources) throw new TypeError(`Member 'sources' is not implemented in '${typename(this)}'`);
 		this.#name = name;
 	}
 
@@ -35,8 +38,14 @@ export class ActivityWalker {
 		return since;
 	}
 
+	async *sources(): AsyncIterable<ActivitySource<unknown, unknown>> {
+		throw new TypeError(`Member 'sources' is not implemented in '${typename(this)}'`);
+	}
+
 	async *crawl(since: Date): AsyncIterable<Activity> {
-		void since;
+		for await (const source of this.sources()) {
+			yield* source.walk(since);
+		}
 	}
 }
 //#endregion

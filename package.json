@@ -13,6 +13,7 @@
 		"build": "vite build",
 		"preview": "npm run build && vite preview",
 		"deploy": "vite build && wrangler deploy",
+		"typecheck": "tsc -p tsconfig.node.json && tsc -p tsconfig.web.json && tsc -p tsconfig.worker.json",
 		"walk": "tsx feed/controllers/activity-controller.ts",
 		"authorize:spotify": "tsx feed/controllers/spotify-authorization-controller.ts",
 		"authorize:soundcloud": "tsx feed/controllers/soundcloud-authorization-controller.ts",

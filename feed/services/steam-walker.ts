@@ -2,22 +2,43 @@
 
 import "adaptive-extender/node";
 import { Optional } from "adaptive-extender/node";
+import { ActivitySource } from "./activity-source.js";
 import { ActivityWalker } from "./activity-walker.js";
 import { SteamGame, SteamAchievement, SteamOwnedGamesContainer, SteamPlayerStatsContainer, SteamGameSchemaContainer, SteamUserFilesResponseContainer, SteamPublishedFile, SteamGameSchemaStatsAchievement } from "../models/steam-event.js";
 import { Activity, SteamAchievementActivity, SteamScreenshotActivity } from "../models/activity.js";
 
-//#region Steam walker
-export class SteamWalker extends ActivityWalker {
+//#region Steam unlock
+class SteamUnlock {
+	appId: number;
+	game: string;
+	achievement: SteamAchievement;
+	schema: SteamGameSchemaStatsAchievement | undefined;
+	icon: string | null;
+
+	constructor(appId: number, game: string, achievement: SteamAchievement, schema: SteamGameSchemaStatsAchievement | undefined, icon: string | null) {
+		this.appId = appId;
+		this.game = game;
+		this.achievement = achievement;
+		this.schema = schema;
+		this.icon = icon;
+	}
+}
+//#endregion
+
+//#region Steam unlock source
+class SteamUnlockSource extends ActivitySource<SteamUnlock, SteamUnlock> {
 	#id: string;
 	#apiKey: string;
+	#games: Map<number, string>;
 
-	constructor(id: string, apiKey: string) {
-		super("Steam");
+	constructor(platform: string, id: string, apiKey: string, games: Map<number, string>) {
+		super(platform);
 		this.#id = id;
 		this.#apiKey = apiKey;
+		this.#games = games;
 	}
 
-	async #fetchApi($interface: string, method: string, version: string, params: Record<string, string>): Promise<any> {
+	async #fetchApi($interface: string, method: string, version: string, params: Record<string, string>): Promise<unknown> {
 		const url = new URL(`https://api.steampowered.com/${$interface}/${method}/${version}/`);
 		url.searchParams.set("key", this.#apiKey);
 		url.searchParams.set("format", "json");
@@ -44,7 +65,7 @@ export class SteamWalker extends ActivityWalker {
 		yield* games;
 	}
 
-	async *#fetchAchievementsMapping(appId: number): AsyncIterable<[string, SteamGameSchemaStatsAchievement]> {
+	async *#fetchAchievementsMapping(appId: number): AsyncIterable<readonly [string, SteamGameSchemaStatsAchievement]> {
 		const data = await this.#fetchApi("ISteamUserStats", "GetSchemaForGame", "v2", {
 			["appid"]: String(appId),
 			["l"]: "english"
@@ -72,6 +93,78 @@ export class SteamWalker extends ActivityWalker {
 		yield* achievements;
 	}
 
+	async *fetch(): AsyncIterable<SteamUnlock> {
+		const since = this.since;
+		for await (const game of this.#fetchOwnedGames()) {
+			const { appId, name } = game;
+			this.#games.set(appId, name);
+			if (game.playtimeForever < 120) continue;
+			if (game.rtimeLastPlayed < since) continue;
+			const { imgIconUrl, hasCommunityVisibleStats } = game;
+			if (hasCommunityVisibleStats === undefined || !hasCommunityVisibleStats) continue;
+			const mapping = new Map(await Array.fromAsync(this.#fetchAchievementsMapping(appId)));
+			for await (const achievement of this.#fetchPlayerAchievements(appId)) {
+				if (achievement.achieved !== 1) continue;
+				const schema = mapping.get(achievement.apiName);
+				const icon =
+					schema?.icon ??
+					Optional.map(imgIconUrl, url => `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${url}.jpg`) ??
+					null;
+				yield new SteamUnlock(appId, name, achievement, schema, icon);
+			}
+		}
+	}
+
+	parse(source: SteamUnlock, name: string): SteamUnlock {
+		void name;
+		return source;
+	}
+
+	stamp(event: SteamUnlock): Date {
+		return event.achievement.unlockTime;
+	}
+
+	get sorted(): boolean {
+		return false;
+	}
+
+	*map(event: SteamUnlock): Iterable<Activity> {
+		const platform = this.platform;
+		const { appId, game, achievement, schema, icon } = event;
+		const webpage = `https://store.steampowered.com/app/${appId}`;
+		const title = achievement.name?.insteadWhitespace(null) ?? schema?.displayName?.insteadWhitespace(null) ?? achievement.apiName;
+		const description = achievement.description?.insteadWhitespace(null) ?? schema?.description?.insteadWhitespace(null) ?? null;
+		const url = `https://steamcommunity.com/stats/${appId}/achievements`;
+		yield new SteamAchievementActivity(platform, achievement.unlockTime, game, webpage, icon, title, description, url);
+	}
+}
+//#endregion
+
+//#region Steam screenshot source
+class SteamScreenshotSource extends ActivitySource<SteamPublishedFile, SteamPublishedFile> {
+	#id: string;
+	#apiKey: string;
+	#games: ReadonlyMap<number, string>;
+
+	constructor(platform: string, id: string, apiKey: string, games: ReadonlyMap<number, string>) {
+		super(platform);
+		this.#id = id;
+		this.#apiKey = apiKey;
+		this.#games = games;
+	}
+
+	async #fetchApi($interface: string, method: string, version: string, params: Record<string, string>): Promise<unknown> {
+		const url = new URL(`https://api.steampowered.com/${$interface}/${method}/${version}/`);
+		url.searchParams.set("key", this.#apiKey);
+		url.searchParams.set("format", "json");
+		for (const [key, value] of Object.entries(params)) {
+			url.searchParams.set(key, value);
+		}
+		const response = await fetch(url);
+		if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`);
+		return await response.json();
+	}
+
 	async *#fetchPaginatedFiles(page: number, count: number): AsyncIterable<SteamPublishedFile> {
 		const data = await this.#fetchApi("IPublishedFileService", "GetUserFiles", "v1", {
 			["steamid"]: this.#id,
@@ -86,14 +179,13 @@ export class SteamWalker extends ActivityWalker {
 		yield* publishedFileDetails;
 	}
 
-	async *#fetchScreenshots(since: Date): AsyncIterable<SteamPublishedFile> {
+	async *fetch(): AsyncIterable<SteamPublishedFile> {
 		const chunk = 100;
 		let page = 1;
 		while (true) {
 			let index = 0;
 			for await (const file of this.#fetchPaginatedFiles(page, chunk)) {
 				index++;
-				if (file.timeCreated < since) continue;
 				yield file;
 			}
 			if (index < chunk) return;
@@ -101,45 +193,48 @@ export class SteamWalker extends ActivityWalker {
 		}
 	}
 
-	async *crawl(since: Date): AsyncIterable<Activity> {
+	parse(source: SteamPublishedFile, name: string): SteamPublishedFile {
+		void name;
+		return source;
+	}
+
+	stamp(event: SteamPublishedFile): Date {
+		return event.timeCreated;
+	}
+
+	get sorted(): boolean { return false; }
+
+	*map(event: SteamPublishedFile): Iterable<Activity> {
+		if (event.banned || event.visibility !== 0) return;
+		const url = event.fileUrl ?? event.previewUrl;
+		if (url === undefined) return;
+		const timestamp = event.timeCreated;
+		const { consumerAppId } = event;
+		const game = this.#games.get(consumerAppId);
+		if (game === undefined) return;
+		const webpage = `https://store.steampowered.com/app/${consumerAppId}`;
+		const title = event.shortDescription.insteadWhitespace(null);
+		yield new SteamScreenshotActivity(this.platform, timestamp, game, webpage, url, title);
+	}
+}
+//#endregion
+
+//#region Steam walker
+export class SteamWalker extends ActivityWalker {
+	#id: string;
+	#apiKey: string;
+
+	constructor(id: string, apiKey: string) {
+		super("Steam");
+		this.#id = id;
+		this.#apiKey = apiKey;
+	}
+
+	async *sources(): AsyncIterable<ActivitySource<unknown, unknown>> {
 		const games: Map<number, string> = new Map();
 		const platform = this.name;
-		for await (const game of this.#fetchOwnedGames()) {
-			const { appId, name } = game;
-			games.add(appId, name);
-			if (game.playtimeForever < 120) continue;
-			if (game.rtimeLastPlayed < since) continue;
-			const { imgIconUrl, hasCommunityVisibleStats } = game;
-			if (hasCommunityVisibleStats === undefined || !hasCommunityVisibleStats) continue;
-			const mapping = new Map(await Array.fromAsync(this.#fetchAchievementsMapping(appId)));
-			for await (const achievement of this.#fetchPlayerAchievements(appId)) {
-				if (achievement.achieved !== 1) continue;
-				const { unlockTime, apiName } = achievement;
-				if (unlockTime < since) continue;
-				const webpage = `https://store.steampowered.com/app/${appId}`;
-				const schema = mapping.get(apiName);
-				const icon =
-					schema?.icon ??
-					Optional.map(imgIconUrl, url => `http://media.steampowered.com/steamcommunity/public/images/apps/${appId}/${url}.jpg`) ??
-					null;
-				const title = achievement.name?.insteadWhitespace(null) ?? schema?.displayName?.insteadWhitespace(null) ?? apiName;
-				const description = achievement.description?.insteadWhitespace(null) ?? schema?.description?.insteadWhitespace(null) ?? null;
-				const url = `https://steamcommunity.com/stats/${appId}/achievements`;
-				yield new SteamAchievementActivity(platform, unlockTime, name, webpage, icon, title, description, url);
-			}
-		}
-		for await (const file of this.#fetchScreenshots(since)) {
-			if (file.banned || file.visibility !== 0) continue;
-			const url = file.fileUrl ?? file.previewUrl;
-			if (url === undefined) continue;
-			const timestamp = file.timeCreated;
-			const { consumerAppId } = file;
-			const game = games.get(consumerAppId);
-			if (game === undefined) continue;
-			const webpage = `https://store.steampowered.com/app/${consumerAppId}`;
-			const title = file.shortDescription.insteadWhitespace(null);
-			yield new SteamScreenshotActivity(platform, timestamp, game, webpage, url, title);
-		}
+		yield new SteamUnlockSource(platform, this.#id, this.#apiKey, games);
+		yield new SteamScreenshotSource(platform, this.#id, this.#apiKey, games);
 	}
 }
 //#endregion

@@ -7,8 +7,7 @@
 		"environment/models/**/*.ts",
 		"environment/controllers/**/*.ts",
 		"environment/services/**/*.ts",
-		"feed/**/*.ts",
-		"applications/**/*.ts"
+		"feed/**/*.ts"
 	],
 	"exclude": [
 		"environment/services/local-environment.ts",

@@ -1,1 +1,3 @@
 / /feed/ 301
+/applications/* https://applications.eccs.dev/:splat 301
+/shortcuts/* https://from.eccs.dev/to/:splat 301

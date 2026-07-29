@@ -2,37 +2,13 @@
 
 import "adaptive-extender/node";
 import { TelegramClient, MemoryStorage, Photo, Video, Audio, Voice, RawDocument, Message } from "@mtcute/node";
+import { MimeRegistry } from "../../environment/services/mime-registry.js";
 import { ActivitySource } from "./activity-source.js";
 import { ActivityWalker } from "./activity-walker.js";
 import { Activity, TelegramMediaPostActivity, TelegramTextPostActivity } from "../models/activity.js";
 
 //#region Telegram post source
 class TelegramPostSource extends ActivitySource<Message, Message> {
-	static #MIME_EXTENSIONS: ReadonlyMap<string, string> = new Map([
-		["audio/mpeg", "mp3"],
-		["audio/ogg", "ogg"],
-		["audio/mp4", "m4a"],
-		["audio/aac", "aac"],
-		["audio/flac", "flac"],
-		["audio/wav", "wav"],
-		["video/mp4", "mp4"],
-		["video/webm", "webm"],
-		["video/quicktime", "mov"],
-		["video/x-matroska", "mkv"],
-		["image/jpeg", "jpg"],
-		["image/png", "png"],
-		["image/gif", "gif"],
-		["image/webp", "webp"],
-		["application/pdf", "pdf"],
-		["application/zip", "zip"],
-		["text/plain", "txt"],
-		["text/x-ini", "ini"],
-		["application/msword", "doc"],
-		["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx"],
-		["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlsx"],
-		["application/vnd.openxmlformats-officedocument.presentationml.presentation", "pptx"],
-	]);
-
 	#channelId: number;
 	#apiId: number;
 	#apiHash: string;
@@ -44,15 +20,6 @@ class TelegramPostSource extends ActivitySource<Message, Message> {
 		this.#apiId = apiId;
 		this.#apiHash = apiHash;
 		this.#session = session;
-	}
-
-	static #extensionFor(mimeType: string): string | null {
-		let extension = TelegramPostSource.#MIME_EXTENSIONS.get(mimeType);
-		if (extension !== undefined) return extension;
-		extension = mimeType.split("/").at(-1);
-		if (extension === undefined) return null;
-		console.warn(`Unknown MIME type '${mimeType}' successfully resolved. Verify consistency before proceeding.`);
-		return extension;
 	}
 
 	async *fetch(): AsyncIterable<Message> {
@@ -95,24 +62,21 @@ class TelegramPostSource extends ActivitySource<Message, Message> {
 			return;
 		}
 		if (media instanceof Audio) {
-			const extension = TelegramPostSource.#extensionFor(media.mimeType);
-			if (extension === null) return;
+			const extension = MimeRegistry.extensionFor(media.mimeType);
 			const fileName = media.fileName ?? `${messageId}.${extension}`;
 			const description = text.insteadWhitespace(null);
 			yield new TelegramMediaPostActivity(platform, event.date, channelId, messageId, fileName, "audio", description);
 			return;
 		}
 		if (media instanceof Voice) {
-			const extension = TelegramPostSource.#extensionFor(media.mimeType);
-			if (extension === null) return;
+			const extension = MimeRegistry.extensionFor(media.mimeType);
 			const fileName = media.fileName ?? `${messageId}.${extension}`;
 			const description = text.insteadWhitespace(null);
 			yield new TelegramMediaPostActivity(platform, event.date, channelId, messageId, fileName, "audio", description);
 			return;
 		}
 		if (media instanceof Video) {
-			const extension = TelegramPostSource.#extensionFor(media.mimeType);
-			if (extension === null) return;
+			const extension = MimeRegistry.extensionFor(media.mimeType);
 			const fileName = media.fileName ?? `${messageId}.${extension}`;
 			const mediaType = media.isAnimation || media.isLegacyGif ? "animation" : "video";
 			const description = text.insteadWhitespace(null);
@@ -120,8 +84,7 @@ class TelegramPostSource extends ActivitySource<Message, Message> {
 			return;
 		}
 		if (media instanceof RawDocument) {
-			const extension = TelegramPostSource.#extensionFor(media.mimeType);
-			if (extension === null) return;
+			const extension = MimeRegistry.extensionFor(media.mimeType);
 			const fileName = media.fileName ?? `${messageId}.${extension}`;
 			const description = text.insteadWhitespace(null);
 			yield new TelegramMediaPostActivity(platform, event.date, channelId, messageId, fileName, "document", description);

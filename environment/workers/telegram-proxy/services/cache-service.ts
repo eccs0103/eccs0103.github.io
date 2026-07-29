@@ -5,9 +5,10 @@ import "adaptive-extender/core";
 //#region Cache service
 export class CacheService {
 	keyFor(request: Request): URL {
+		const url = new URL(request.url);
 		const range = request.headers.get("range");
-		if (range === null) return new URL(request.url);
-		return new URL(`${request.url}&_range=${encodeURIComponent(range)}`);
+		if (range !== null) url.searchParams.set("_range", range);
+		return url;
 	}
 
 	async tryMatch(key: URL): Promise<Response | null> {

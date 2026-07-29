@@ -7,7 +7,7 @@ import { type ResponseFactory } from "./response-factory.js";
 
 //#region Media proxy
 export class MediaProxy {
-	static #IDENTIFIER_PATTERN: RegExp = /^\d{1,15}$/;
+	static #PATH_PATTERN: RegExp = /^\/(\d{1,15})$/;
 	#channel: TelegramChannel;
 	#factory: ResponseFactory;
 
@@ -38,9 +38,9 @@ export class MediaProxy {
 		context.waitUntil(this.#awaitAndDisconnect(completion));
 	}
 
-	async #fetchMedia(messageId: number, fileName: string, context: ExecutionContext): Promise<TelegramMedia> {
+	async #fetchMedia(messageId: number, context: ExecutionContext): Promise<TelegramMedia> {
 		try {
-			return await this.#channel.fetchMedia(messageId, fileName);
+			return await this.#channel.fetchMedia(messageId);
 		} catch (reason) {
 			this.#scheduleDisconnect(context);
 			throw reason;
@@ -79,17 +79,15 @@ export class MediaProxy {
 
 	async handle(request: Request, context: ExecutionContext): Promise<Response> {
 		const { method, url, headers } = request;
-		const { searchParams } = new URL(url);
-		const identifier = searchParams.get("identifier");
-		const fileName = searchParams.get("filename") ?? String.empty;
+		const { pathname } = new URL(url);
 
 		if (method === "OPTIONS") return this.#factory.preflight();
 		if (method !== "GET" && method !== "HEAD") return this.#factory.error(405, "Method Not Allowed");
-		if (identifier === null) return this.#factory.error(400, "Missing required query parameter: identifier");
-		if (!MediaProxy.#IDENTIFIER_PATTERN.test(identifier)) return this.#factory.error(400, "Invalid identifier format");
+		const match = MediaProxy.#PATH_PATTERN.exec(pathname);
+		if (match === null) return this.#factory.error(404, "Not Found");
 
-		const messageId = Number.parseInt(identifier, 10);
-		const media = await this.#fetchMedia(messageId, fileName, context);
+		const messageId = Number.parseInt(match[1], 10);
+		const media = await this.#fetchMedia(messageId, context);
 		const rangeHeader = headers.get("range");
 		if (rangeHeader !== null) return this.#handleRange(rangeHeader, media, method, context);
 		return this.#handleFull(media, method, context);

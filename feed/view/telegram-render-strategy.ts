@@ -14,11 +14,8 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 		this.#urlProxy = urlProxy;
 	}
 
-	#buildMediaUrl(fileId: number, fileName: string): URL {
-		const url = new URL(this.#urlProxy);
-		url.searchParams.set("identifier", String(fileId));
-		url.searchParams.set("filename", fileName);
-		return url;
+	#buildMediaUrl(messageId: number): URL {
+		return new URL(String(messageId), this.#urlProxy);
 	}
 
 	#renderText(itemContainer: HTMLElement, activity: TelegramTextPostActivity): void {
@@ -29,8 +26,8 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	}
 
 	#renderPhotoSlide(photo: TelegramMediaPostActivity, isFirst: boolean): HTMLElement {
-		const { messageId, fileName, description } = photo;
-		const url = this.#buildMediaUrl(messageId, fileName);
+		const { messageId, description } = photo;
+		const url = this.#buildMediaUrl(messageId);
 
 		const aLink = DOMBuilder.newLink(new URL(url));
 		aLink.classList.add("telegram-photo-card");
@@ -60,12 +57,12 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	}
 
 	#renderAnimation(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
-		const { messageId, fileName, description } = activity;
+		const { messageId, description } = activity;
 
 		const figure = itemContainer.appendChild(document.createElement("figure"));
 		figure.classList.add("telegram-media");
 
-		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const mediaUrl = this.#buildMediaUrl(messageId);
 		const loop = true;
 		const muted = true;
 		const controls = false;
@@ -81,12 +78,12 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	}
 
 	#renderVideo(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
-		const { messageId, fileName, description } = activity;
+		const { messageId, description } = activity;
 
 		const figure = itemContainer.appendChild(document.createElement("figure"));
 		figure.classList.add("telegram-media");
 
-		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const mediaUrl = this.#buildMediaUrl(messageId);
 		const controls = true;
 		const video = figure.appendChild(DOMBuilder.newVideo(mediaUrl, { controls }));
 		video.classList.add("telegram-video");
@@ -98,9 +95,9 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	}
 
 	#renderAudio(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
-		const { messageId, fileName, description } = activity;
+		const { messageId, description } = activity;
 
-		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const mediaUrl = this.#buildMediaUrl(messageId);
 		const controls = true;
 		const audio = itemContainer.appendChild(DOMBuilder.newAudio(mediaUrl, { controls }));
 		audio.classList.add("telegram-audio");
@@ -111,7 +108,7 @@ export class TelegramRenderStrategy implements ActivityRenderStrategy<TelegramAc
 	#renderDocument(itemContainer: HTMLElement, activity: TelegramMediaPostActivity): void {
 		const { messageId, fileName, description } = activity;
 
-		const mediaUrl = this.#buildMediaUrl(messageId, fileName);
+		const mediaUrl = this.#buildMediaUrl(messageId);
 		const aLink = itemContainer.appendChild(DOMBuilder.newLink(mediaUrl));
 		aLink.download = fileName;
 		aLink.classList.add("telegram-document", "rounded", "with-padding", "flex", "with-gap", "alt-center", "depth");

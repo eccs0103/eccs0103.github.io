@@ -5,6 +5,7 @@
 		"types": [ "@cloudflare/workers-types" ]
 	},
 	"include": [
-		"environment/workers/**/*.ts"
+		"environment/workers/**/*.ts",
+		"environment/services/mime-registry.ts"
 	]
 }

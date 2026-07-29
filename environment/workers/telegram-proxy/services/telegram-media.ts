@@ -21,9 +21,7 @@ class DownloadSession implements UnderlyingSource<Uint8Array<ArrayBufferLike>> {
 		this.#limit = limit;
 	}
 
-	get completion(): Promise<void> {
-		return this.#deferred.promise;
-	}
+	get completion(): Promise<void> { return this.#deferred.promise; }
 
 	#finish(controller: ReadableStreamDefaultController<Uint8Array>): void {
 		controller.close();

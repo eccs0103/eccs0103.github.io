@@ -38,16 +38,17 @@ export class TelegramChannel {
 	}
 
 	async fetchMedia(messageId: number): Promise<TelegramMedia> {
-		const messages = await this.#client.getMessages(this.#channelId, [messageId]);
+		const client = this.#client;
+		const messages = await client.getMessages(this.#channelId, [messageId]);
 		const message = messages[0];
 		if (message === null) throw new ReferenceError("Message not found");
 		const { media } = message;
 		if (media === null) throw new ReferenceError("Message has no media");
 		if (!(media instanceof FileLocation)) throw new TypeError("Message media is not downloadable");
 		const mediaSize = media.fileSize ?? Number.POSITIVE_INFINITY;
-		if (!(media instanceof RawDocument)) return new TelegramMedia("image/jpeg", mediaSize, `${messageId}.jpg`, this.#client, media);
+		if (!(media instanceof RawDocument)) return new TelegramMedia("image/jpeg", mediaSize, `${messageId}.jpg`, client, media);
 		const fileName = this.#documentFileName(media, messageId);
-		return new TelegramMedia(media.mimeType, mediaSize, fileName, this.#client, media);
+		return new TelegramMedia(media.mimeType, mediaSize, fileName, client, media);
 	}
 
 	async disconnect(): Promise<void> {

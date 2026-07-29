@@ -38,6 +38,5 @@ class TelegramMediaProxyWorker extends CloudflareWorker {
 	}
 }
 
-const worker = new TelegramMediaProxyWorker();
-export default worker;
+export default new TelegramMediaProxyWorker();
 //#endregion

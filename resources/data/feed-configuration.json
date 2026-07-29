@@ -18,8 +18,8 @@
 			"name": "LinkedIn",
 			"icon": "./icons/linkedin.svg",
 			"webpage": "https://www.linkedin.com/in/eccs0103",
-			"note": null,
-			"status": null
+			"note": "Access denied by external platform. Reading my own posts requires partner approval that was never granted.",
+			"status": "terminated"
 		},
 		{
 			"name": "npm",
@@ -53,8 +53,8 @@
 			"name": "ВКонтакте",
 			"icon": "./icons/vk.svg",
 			"webpage": "https://vk.com/eccs0103",
-			"note": null,
-			"status": null
+			"note": "Account has been dormant since 2023. Everything it holds predates this system's origin point and cannot be synced.",
+			"status": "terminated"
 		},
 		{
 			"name": "Steam",
@@ -95,8 +95,8 @@
 			"name": "Facebook",
 			"icon": "./icons/facebook.svg",
 			"webpage": "https://www.facebook.com/eccs0103.arman",
-			"note": null,
-			"status": null
+			"note": "Access denied by external platform. Personal profile history is not exposed through any available interface.",
+			"status": "terminated"
 		}
 	],
 	"intro": "Content is generated automatically. In case of complaints, please contact the developer.",

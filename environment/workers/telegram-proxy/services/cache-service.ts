@@ -16,9 +16,7 @@ export class CacheService {
 			const cached = await caches.default.match(key);
 			if (cached === undefined) return null;
 			if (!this.#isValid(cached)) {
-				void caches.default.delete(key).catch((reason: unknown) =>
-					console.error(`Cache eviction failed:\n${Error.from(reason)}`)
-				);
+				void caches.default.delete(key).catch(reason => console.error(`Cache eviction failed:\n${Error.from(reason)}`));
 				return null;
 			}
 			return cached;
@@ -31,9 +29,7 @@ export class CacheService {
 	tryStore(key: URL, response: Response, context: ExecutionContext): void {
 		if (response.status !== 200 && response.status !== 206) return;
 		if (response.body === null) return;
-		context.waitUntil(caches.default.put(key, response.clone()).catch((reason: unknown) =>
-			console.error(`Cache store failed:\n${Error.from(reason)}`)
-		));
+		context.waitUntil(caches.default.put(key, response.clone()).catch(reason => console.error(`Cache store failed:\n${Error.from(reason)}`)));
 	}
 
 	#isValid(response: Response): boolean {

@@ -115,5 +115,16 @@
 		"platform": "GitHub",
 		"timestamp": 1785442444000,
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1091500/26d6c25c2ca7e5877b26347fc05f5eb2dd504bbf.jpg",
+		"title": "Two Heads, One Bullet",
+		"description": "Kill or incapacitate 2 enemies with the same sniper rifle shot.",
+		"url": "https://steamcommunity.com/stats/1091500/achievements",
+		"game": "Cyberpunk 2077",
+		"webpage": "https://store.steampowered.com/app/1091500",
+		"platform": "Steam",
+		"timestamp": 1785445539000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

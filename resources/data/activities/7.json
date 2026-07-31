@@ -207,5 +207,34 @@
 		"platform": "GitHub",
 		"timestamp": 1785539551000,
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "325d4b48c74137ed7875d3c8dfa3607cc0d17b38",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/personal-webpage",
+		"repository": "personal-webpage",
+		"platform": "GitHub",
+		"timestamp": 1785540453000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "8ef08c901114c1f57e45fc3e01c8049f7d3aff87",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785540486000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"title": "3.3.0",
+		"tag_name": "3.3.0",
+		"is_prerelease": false,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785540706000,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

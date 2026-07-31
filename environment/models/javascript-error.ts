@@ -1,7 +1,6 @@
 "use strict";
 
 import "adaptive-extender/core";
-
 import { Field, Model, Optional } from "adaptive-extender/core";
 
 //#region JavaScript error

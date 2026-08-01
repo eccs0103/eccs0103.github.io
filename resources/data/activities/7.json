@@ -236,5 +236,41 @@
 		"platform": "GitHub",
 		"timestamp": 1785540706000,
 		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"sha": "3d6857847cf3a9a88d016bcd429a494f2f26a4ad",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/personal-webpage",
+		"repository": "personal-webpage",
+		"platform": "GitHub",
+		"timestamp": 1785543433000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "5275e65a64fb5039c96baea3ec53fdb2a0f0f4ff",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785543453000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "4c6bc77c01274536e6f63d433f91003f81bc87f5",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785543458000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"name": "playlist-system",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785543471000,
+		"$type": "GitHubDeleteBranchActivity"
 	}
 ]

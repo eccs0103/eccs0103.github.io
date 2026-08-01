@@ -2,8 +2,9 @@
 
 import "adaptive-extender/node";
 import { type InputOption, type OutputOptions, type PreRenderedChunk, type RollupOptions } from "rollup";
-import { type AppType, type BuildEnvironmentOptions, type ESBuildOptions, type ServerOptions, type UserConfig } from "vite";
+import { type AppType, type BuildEnvironmentOptions, type ESBuildOptions, type PreviewOptions, type ServerOptions, type UserConfig } from "vite";
 import { VitePlugin } from "../plugins/vite-plugin.js";
+import { type OutgoingHttpHeaders } from "node:http";
 import { fileURLToPath } from "node:url";
 
 //#region Vite config
@@ -13,13 +14,15 @@ export class ViteConfig {
 	#pathEntries: readonly URL[];
 	#output: URL;
 	#plugins: readonly VitePlugin[];
+	#headers: Readonly<OutgoingHttpHeaders>;
 
-	constructor(inputs: readonly URL[], rootEntries: readonly URL[], pathEntries: readonly URL[], output: URL, plugins: readonly VitePlugin[]) {
+	constructor(inputs: readonly URL[], rootEntries: readonly URL[], pathEntries: readonly URL[], output: URL, plugins: readonly VitePlugin[], headers: Readonly<OutgoingHttpHeaders>) {
 		this.#inputs = inputs;
 		this.#rootEntries = rootEntries;
 		this.#pathEntries = pathEntries;
 		this.#output = output;
 		this.#plugins = plugins;
+		this.#headers = headers;
 	}
 
 	#normalizeInputs(): Record<string, string> {
@@ -89,9 +92,10 @@ export class ViteConfig {
 	}
 
 	#buildServer(): ServerOptions {
-		const strictPort: boolean = true;
 		const open: boolean = true;
-		return { strictPort, open };
+		const strictPort: boolean = true;
+		const headers: Readonly<OutgoingHttpHeaders> = this.#headers;
+		return { open, strictPort, headers };
 	}
 
 	#buildESBuild(): ESBuildOptions {
@@ -105,16 +109,22 @@ export class ViteConfig {
 		return { format };
 	}
 
+	#buildPreview(): PreviewOptions {
+		const headers: Readonly<OutgoingHttpHeaders> = this.#headers;
+		return { headers };
+	}
+
 	build(): UserConfig {
 		const base: string = "./";
 		const appType: AppType = "mpa";
 		const publicDir: string = "resources";
 		const build: BuildEnvironmentOptions = this.#buildEnvironment();
 		const server: ServerOptions = this.#buildServer();
+		const preview: PreviewOptions = this.#buildPreview();
 		const esbuild: ESBuildOptions = this.#buildESBuild();
 		const worker = this.#buildWorker();
 		const plugins = this.#plugins.map(plugin => plugin.build());
-		return { base, appType, publicDir, build, server, esbuild, worker, plugins };
+		return { base, appType, publicDir, build, server, preview, esbuild, worker, plugins };
 	}
 }
 //#endregion

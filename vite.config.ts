@@ -10,8 +10,10 @@ const root: URL = new URL(import.meta.url);
 const inputs: URL[] = [
 	new URL("./feed/index.html", root),
 ];
-const rootEntries: URL[] = [];
-const pathEntries: URL[] = [];
+const rootEntries: URL[] = [
+];
+const pathEntries: URL[] = [
+];
 const output: URL = new URL("./dist", root);
 const plugins: VitePlugin[] = [new CloudflareVitePlugin()];
 const config: ViteConfig = await MPAConfig.construct(inputs, rootEntries, pathEntries, output, plugins);

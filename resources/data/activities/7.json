@@ -272,5 +272,16 @@
 		"platform": "GitHub",
 		"timestamp": 1785543471000,
 		"$type": "GitHubDeleteBranchActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/905525e54d5e41dfcb58458aaa7161fd7efd3ec0.jpg",
+		"title": "Escape Artist",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/739630/achievements",
+		"game": "Phasmophobia",
+		"webpage": "https://store.steampowered.com/app/739630",
+		"platform": "Steam",
+		"timestamp": 1785708969000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

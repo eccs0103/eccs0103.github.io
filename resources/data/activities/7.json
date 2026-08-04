@@ -283,5 +283,23 @@
 		"platform": "Steam",
 		"timestamp": 1785708969000,
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"sha": "173d6949a2777d6763053c37637f80678c05c1b0",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/personal-webpage",
+		"repository": "personal-webpage",
+		"platform": "GitHub",
+		"timestamp": 1785865912000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "852e5e4d8cf045bad8b412eaa78537087089f07d",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"platform": "GitHub",
+		"timestamp": 1785866803000,
+		"$type": "GitHubPushActivity"
 	}
 ]

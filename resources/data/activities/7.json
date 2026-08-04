@@ -285,6 +285,15 @@
 		"$type": "SteamAchievementActivity"
 	},
 	{
+		"sha": "4b6ef43eb5ae903edc834d83c5751f92298ad09b",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/personal-webpage",
+		"repository": "personal-webpage",
+		"platform": "GitHub",
+		"timestamp": 1785865907000,
+		"$type": "GitHubPushActivity"
+	},
+	{
 		"sha": "173d6949a2777d6763053c37637f80678c05c1b0",
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/personal-webpage",
@@ -301,5 +310,126 @@
 		"platform": "GitHub",
 		"timestamp": 1785866803000,
 		"$type": "GitHubPushActivity"
+	},
+	{
+		"package": "adaptive-extender",
+		"version": "1.0.6",
+		"description": "Adaptive library for JS/TS development environments",
+		"url": "https://www.npmjs.com/package/adaptive-extender/v/1.0.6",
+		"platform": "npm",
+		"timestamp": 1785866957927,
+		"$type": "NpmPublishActivity"
+	},
+	{
+		"title": "1.0.6",
+		"tag_name": "1.0.6",
+		"is_prerelease": false,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/adaptive-extender",
+		"repository": "adaptive-extender",
+		"platform": "GitHub",
+		"timestamp": 1785866993000,
+		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"sha": "c8f8e90d2b0b99e548f7ae9fc6a3dc9a946346fd",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/personal-webpage",
+		"repository": "personal-webpage",
+		"platform": "GitHub",
+		"timestamp": 1785867535000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "efeab84cd555c04c0ea167ddb6497b8237975882",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868063000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "c3f49e544bee44fa11eca80b016ac910e2eb2824",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868068000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "01f58c2fbc03e3d5e5406c19d10ab76e9fea877e",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868073000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "7696339cb9c5a26a63c8f92a44578f63ef7874a9",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868078000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "e670b843f68cd6a205732a0da7853205c6be116c",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868083000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "ee2566a72fae87657a6deb7fb868b9ad03bbfff9",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868088000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "18b7936c8dd6c41283256413351a2f9516a6403e",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868093000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "5f20c6254ec28dd473010f9928c2071a8a714b0d",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868097000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"sha": "98964ace5af1b770e963dd3fe60c1d5593babc75",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868102000,
+		"$type": "GitHubPushActivity"
+	},
+	{
+		"title": "3.3.2",
+		"tag_name": "3.3.2",
+		"is_prerelease": false,
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1785868151000,
+		"$type": "GitHubReleaseActivity"
 	}
 ]

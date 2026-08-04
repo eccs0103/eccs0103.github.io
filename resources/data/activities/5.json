@@ -1,16 +1,5 @@
 [
 	{
-		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/ab7327d33ba2ab245e45d5ac8ffe196b56efef9e.jpg",
-		"title": "Familiar Faces",
-		"description": "Defeat your first marine.",
-		"url": "https://steamcommunity.com/stats/1605250/achievements",
-		"game": "Moros Protocol",
-		"webpage": "https://store.steampowered.com/app/1605250",
-		"platform": "Steam",
-		"timestamp": 1782063005000,
-		"$type": "SteamAchievementActivity"
-	},
-	{
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/14315aa379317587ce957f9969bfd83c9fa451ff.jpg",
 		"title": "Bug free",
 		"description": null,
@@ -950,5 +939,14 @@
 		"platform": "GitHub",
 		"timestamp": 1782952177000,
 		"$type": "GitHubReleaseActivity"
+	},
+	{
+		"sha": "ea64bcd0afdd46fa65cbdaa277da0cb25cc1cfe4",
+		"username": "eccs0103",
+		"url": "https://github.com/eccs0103/visualizer",
+		"repository": "visualizer",
+		"platform": "GitHub",
+		"timestamp": 1782982855000,
+		"$type": "GitHubPushActivity"
 	}
 ]

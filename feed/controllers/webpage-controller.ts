@@ -49,13 +49,13 @@ class WebpageController extends Controller {
 
 	#newRegistry(urlProxy: Readonly<URL>): ActivityRegistry {
 		const registry = new ActivityRegistry();
-		registry.register(GitHubActivity, new GitHubRenderStrategy(), { passThrough: true });
+		registry.register(GitHubActivity, new GitHubRenderStrategy());
 		registry.register(SpotifyActivity, new SpotifyRenderStrategy());
 		registry.register(SteamAchievementActivity, new SteamRenderStrategy());
 		registry.register(SteamScreenshotActivity, new SteamRenderStrategy());
 		registry.register(StackOverflowActivity, new StackOverflowRenderStrategy());
 		registry.register(TelegramActivity, new TelegramRenderStrategy(urlProxy), { gap: Timespan.newZero });
-		registry.register(NpmActivity, new NpmRenderStrategy(), { passThrough: true });
+		registry.register(NpmActivity, new NpmRenderStrategy());
 		registry.register(SoundCloudActivity, new SoundCloudRenderStrategy());
 		return registry;
 	}

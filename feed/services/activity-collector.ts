@@ -26,7 +26,7 @@ export class ActivityCollector {
 	register<T extends Activity>(root: TypeOf<T>, options: Partial<GroupingOptions>): void;
 	register<T extends Activity>(root: TypeOf<T>, options: Partial<GroupingOptions> = {}): void {
 		const gap = options.gap ?? Timespan.fromComponents(36, 0, 0);
-		const passThrough = options.passThrough ?? false;
+		const passThrough = options.passThrough ?? true;
 		this.#roots.set(root, { gap, passThrough });
 	}
 

@@ -265,6 +265,50 @@
 		"$type": "GitHubDeleteBranchActivity"
 	},
 	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1030300/42d64a86bb4d50c2574612892ccdde465a020a54.jpg",
+		"title": "Equipped",
+		"description": "Acquire your first Tool",
+		"url": "https://steamcommunity.com/stats/1030300/achievements",
+		"game": "Hollow Knight: Silksong",
+		"webpage": "https://store.steampowered.com/app/1030300",
+		"platform": "Steam",
+		"timestamp": 1785703302000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1030300/a34b4da6c1652ec31603b82de0e983173917b2ad.jpg",
+		"title": "Bound",
+		"description": "Bind your first Silk Skill",
+		"url": "https://steamcommunity.com/stats/1030300/achievements",
+		"game": "Hollow Knight: Silksong",
+		"webpage": "https://store.steampowered.com/app/1030300",
+		"platform": "Steam",
+		"timestamp": 1785703946000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1030300/a3806725642c2918243b8db87d3e99a49e1f16e4.jpg",
+		"title": "Liberated",
+		"description": "Defeat the Bell Beast",
+		"url": "https://steamcommunity.com/stats/1030300/achievements",
+		"game": "Hollow Knight: Silksong",
+		"webpage": "https://store.steampowered.com/app/1030300",
+		"platform": "Steam",
+		"timestamp": 1785704741000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1030300/4cae086731038d810d9df5af8977a24b4dc87a44.jpg",
+		"title": "Granted",
+		"description": "Grant your first wish",
+		"url": "https://steamcommunity.com/stats/1030300/achievements",
+		"game": "Hollow Knight: Silksong",
+		"webpage": "https://store.steampowered.com/app/1030300",
+		"platform": "Steam",
+		"timestamp": 1785705415000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
 		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/739630/905525e54d5e41dfcb58458aaa7161fd7efd3ec0.jpg",
 		"title": "Escape Artist",
 		"description": null,
@@ -512,5 +556,16 @@
 		"platform": "Steam",
 		"timestamp": 1785881946000,
 		"$type": "SteamScreenshotActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1030300/3851723da35a65dae364366513aaa32297ccb537.jpg",
+		"title": "Pharloom's Welcome",
+		"description": "Defeat Lace in Deep Docks",
+		"url": "https://steamcommunity.com/stats/1030300/achievements",
+		"game": "Hollow Knight: Silksong",
+		"webpage": "https://store.steampowered.com/app/1030300",
+		"platform": "Steam",
+		"timestamp": 1785963559000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

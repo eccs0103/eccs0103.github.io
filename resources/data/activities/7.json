@@ -567,5 +567,38 @@
 		"platform": "Steam",
 		"timestamp": 1785963559000,
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1030300/62d9be89e0362b89d4e63632cb00c4584970c098.jpg",
+		"title": "Servant",
+		"description": "Defeat Fourth Chorus",
+		"url": "https://steamcommunity.com/stats/1030300/achievements",
+		"game": "Hollow Knight: Silksong",
+		"webpage": "https://store.steampowered.com/app/1030300",
+		"platform": "Steam",
+		"timestamp": 1786047350000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/250900/1f05279f8a7d3d1049eacbfb7268bb9b4d3b7c3e.jpg",
+		"title": "Mystery Gift",
+		"description": "Unlocked a new item.",
+		"url": "https://steamcommunity.com/stats/250900/achievements",
+		"game": "The Binding of Isaac: Rebirth",
+		"webpage": "https://store.steampowered.com/app/250900",
+		"platform": "Steam",
+		"timestamp": 1786051616000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/250900/1f2ff88107aa3741580f91b488c2fc67833d047b.jpg",
+		"title": "Store Upgrade lv.2",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/250900/achievements",
+		"game": "The Binding of Isaac: Rebirth",
+		"webpage": "https://store.steampowered.com/app/250900",
+		"platform": "Steam",
+		"timestamp": 1786052295000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

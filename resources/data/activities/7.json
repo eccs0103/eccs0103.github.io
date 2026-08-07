@@ -459,6 +459,39 @@
 		"$type": "GitHubReleaseActivity"
 	},
 	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1328350/4ec3c928728e74479e25f398a1464c1f9ec7e98c.jpg",
+		"title": "First Blood",
+		"description": "Complete Syn",
+		"url": "https://steamcommunity.com/stats/1328350/achievements",
+		"game": "Turbo Overkill",
+		"webpage": "https://store.steampowered.com/app/1328350",
+		"platform": "Steam",
+		"timestamp": 1785870602000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1328350/4d02daad363822268cfbff85315e03ccbafbc11d.jpg",
+		"title": "Point Break",
+		"description": "Complete Emergence",
+		"url": "https://steamcommunity.com/stats/1328350/achievements",
+		"game": "Turbo Overkill",
+		"webpage": "https://store.steampowered.com/app/1328350",
+		"platform": "Steam",
+		"timestamp": 1785875765000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1328350/1c05b09f0df6c475191f47f97e748b38d648f5a1.jpg",
+		"title": "Overqualified",
+		"description": "Get denied entry to the No Chainsaws club in Battle Alley",
+		"url": "https://steamcommunity.com/stats/1328350/achievements",
+		"game": "Turbo Overkill",
+		"webpage": "https://store.steampowered.com/app/1328350",
+		"platform": "Steam",
+		"timestamp": 1785876222000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
 		"url": "https://images.steamusercontent.com/ugc/14369196718865137662/5AE65695836D66E9FCE781265132058014F410E2/",
 		"title": null,
 		"game": "Borderlands 3",
@@ -700,6 +733,17 @@
 		"webpage": "https://store.steampowered.com/app/250900",
 		"platform": "Steam",
 		"timestamp": 1786131736000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1328350/2a348a823b62a50bc715edcdcc31e48fbfc9a8b1.jpg",
+		"title": "Hard Boiled",
+		"description": "Complete Battle Alley",
+		"url": "https://steamcommunity.com/stats/1328350/achievements",
+		"game": "Turbo Overkill",
+		"webpage": "https://store.steampowered.com/app/1328350",
+		"platform": "Steam",
+		"timestamp": 1786144439000,
 		"$type": "SteamAchievementActivity"
 	}
 ]

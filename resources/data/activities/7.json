@@ -646,5 +646,16 @@
 		"platform": "Spotify",
 		"timestamp": 1786107496000,
 		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/250900/33658122e504ae8670bbb70686468e1276902cc4.jpg",
+		"title": "Cain",
+		"description": "Unlocked a new character.",
+		"url": "https://steamcommunity.com/stats/250900/achievements",
+		"game": "The Binding of Isaac: Rebirth",
+		"webpage": "https://store.steampowered.com/app/250900",
+		"platform": "Steam",
+		"timestamp": 1786123786000,
+		"$type": "SteamAchievementActivity"
 	}
 ]

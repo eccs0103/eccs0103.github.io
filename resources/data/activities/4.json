@@ -385,17 +385,6 @@
 		"$type": "SpotifyLikeActivity"
 	},
 	{
-		"title": "Ein Sof",
-		"artists": [
-			"Arkana"
-		],
-		"cover": "https://i.scdn.co/image/ab67616d0000b2732044687678a5ee5a46576be8",
-		"url": "https://open.spotify.com/track/5n61zg8XyBFQOYnWscosYZ",
-		"platform": "Spotify",
-		"timestamp": 1781168966000,
-		"$type": "SpotifyLikeActivity"
-	},
-	{
 		"title": "Дорога дальняя",
 		"artists": [
 			"Jakone"
@@ -954,6 +943,17 @@
 		"webpage": "https://store.steampowered.com/app/1605250",
 		"platform": "Steam",
 		"timestamp": 1782063005000,
+		"$type": "SteamAchievementActivity"
+	},
+	{
+		"icon": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/1605250/14315aa379317587ce957f9969bfd83c9fa451ff.jpg",
+		"title": "Bug free",
+		"description": null,
+		"url": "https://steamcommunity.com/stats/1605250/achievements",
+		"game": "Moros Protocol",
+		"webpage": "https://store.steampowered.com/app/1605250",
+		"platform": "Steam",
+		"timestamp": 1782065069000,
 		"$type": "SteamAchievementActivity"
 	}
 ]

@@ -1,14 +1,5 @@
 [
 	{
-		"sha": "5437f619af7775f6d9fce68aef1be2f2ae82f070",
-		"username": "eccs0103",
-		"url": "https://github.com/eccs0103/applications",
-		"repository": "applications",
-		"platform": "GitHub",
-		"timestamp": 1785327887000,
-		"$type": "GitHubPushActivity"
-	},
-	{
 		"sha": "5a80bdd67475325256a33931880b5fe5fe538b1f",
 		"username": "eccs0103",
 		"url": "https://github.com/eccs0103/shortcuts",
@@ -600,5 +591,60 @@
 		"platform": "Steam",
 		"timestamp": 1786052295000,
 		"$type": "SteamAchievementActivity"
+	},
+	{
+		"title": "Netzach",
+		"artists": [
+			"Arkana"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732044687678a5ee5a46576be8",
+		"url": "https://open.spotify.com/track/5E0E6zeJpCjKMSHsRNWJbO",
+		"platform": "Spotify",
+		"timestamp": 1786107484000,
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"title": "Malkuth",
+		"artists": [
+			"Arkana"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732044687678a5ee5a46576be8",
+		"url": "https://open.spotify.com/track/6eNtb9hxUhw2vP0SZyvRIE",
+		"platform": "Spotify",
+		"timestamp": 1786107488000,
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"title": "Tzimtzum",
+		"artists": [
+			"Arkana"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732044687678a5ee5a46576be8",
+		"url": "https://open.spotify.com/track/53dfOsseiIv1rNeTwQ6cr4",
+		"platform": "Spotify",
+		"timestamp": 1786107489000,
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"title": "Kether",
+		"artists": [
+			"Arkana"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732044687678a5ee5a46576be8",
+		"url": "https://open.spotify.com/track/1ORgE1zU7FHHP4pBYMihFc",
+		"platform": "Spotify",
+		"timestamp": 1786107490000,
+		"$type": "SpotifyLikeActivity"
+	},
+	{
+		"title": "Ein Sof",
+		"artists": [
+			"Arkana"
+		],
+		"cover": "https://i.scdn.co/image/ab67616d0000b2732044687678a5ee5a46576be8",
+		"url": "https://open.spotify.com/track/5n61zg8XyBFQOYnWscosYZ",
+		"platform": "Spotify",
+		"timestamp": 1786107496000,
+		"$type": "SpotifyLikeActivity"
 	}
 ]
